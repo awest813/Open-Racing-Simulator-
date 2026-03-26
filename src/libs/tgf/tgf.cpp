@@ -127,8 +127,9 @@ void _tgf_win_free(void * memblock)
 
 char * _tgf_win_strdup(const char * str)
 {
-	char * s = (char*)_tgf_win_malloc(strlen(str)+1);
-	strcpy(s,str);
+	size_t len = strlen(str) + 1;
+	char * s = (char*)_tgf_win_malloc(len);
+	snprintf(s, len, "%s", str);
 
 	return s;
 }
