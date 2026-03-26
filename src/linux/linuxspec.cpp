@@ -446,7 +446,12 @@ linuxModUnloadList(tModList **modlist)
 		
 		lastSlash = strrchr(curMod->sopath, '/');
 		snprintf(dname, sizeof(dname), "%s", lastSlash ? lastSlash+1 : curMod->sopath);
-		snprintf(&dname[strlen(dname) - 3], sizeof(dname) - strlen(dname) + 3, "Shut"); /* cut .so */
+		{
+			size_t dnLen = strlen(dname);
+			if (dnLen >= 3) {
+				snprintf(&dname[dnLen - 3], sizeof(dname) - dnLen + 3, "Shut"); /* cut .so */
+			}
+		}
 		if ((fModShut = (tfModShut)dlsym(curMod->handle, dname)) != NULL) {
 			GfOut("Call %s\n", dname);
 			fModShut();
