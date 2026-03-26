@@ -1973,7 +1973,7 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 		}
 		if  (texnofound==1) {
 			if (tmpob->texture!=NULL) {
-				strcpy(tex[texnum],tmpob->texture);
+				snprintf(tex[texnum], sizeof(tex[texnum]), "%s", tmpob->texture);
 				tex[texnum][13]='\0';
 				/*sprintf(tex[texnum],"%s",tmpob->texture);*/
 			}
@@ -2224,7 +2224,7 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 		}
 		if  (texnofound==1) {
 			if (tmpob->texture!=NULL) {
-				strcpy(tex[texnum],tmpob->texture);
+				snprintf(tex[texnum], sizeof(tex[texnum]), "%s", tmpob->texture);
 				tex[texnum][13]='\0';
 			}
 			texnum ++;
@@ -3513,7 +3513,7 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 			}
 			if  (texnofound==1) {
 				if (tmpob->texture!=NULL) {
-					strcpy(tex[texnum],tmpob->texture);
+					snprintf(tex[texnum], sizeof(tex[texnum]), "%s", tmpob->texture);
 					tex[texnum][13]='\0';
 					/*sprintf(tex[texnum],"%s",tmpob->texture);*/
 				}

@@ -327,7 +327,7 @@ void RmDriversSelect(void *vs)
 					} else {
 						sp++;
 					}
-					strcpy(dname, sp);
+					snprintf(dname, BUFSIZE, "%s", sp);
 					dname[strlen(dname) - strlen(DLLEXT) - 1] = 0; /* cut .so or .dll */
 					snprintf(buf, BUFSIZE, "%sdrivers/%s/%s.xml", GetLocalDir(), dname, dname);
 					robhdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
