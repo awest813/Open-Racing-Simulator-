@@ -66,7 +66,7 @@ static void rmrpUpdDist(void * /* dummy */)
 	val = GfuiEditboxGetString(scrHandle, rmrpDistId);
 	rmrpDistance = strtol(val, (char **)NULL, 0);
 	if (rmrpDistance == 0) {
-		strcpy(buf, "---");
+		snprintf(buf, BUFSIZE, "---");
 	} else {
 		snprintf(buf, BUFSIZE, "%d", rmrpDistance);
 		rmrpLaps = 0;
@@ -85,7 +85,7 @@ static void rmrpUpdLaps(void * /* dummy */)
 	val = GfuiEditboxGetString(scrHandle, rmrpLapsId);
 	rmrpLaps = strtol(val, (char **)NULL, 0);
 	if (rmrpLaps == 0) {
-		strcpy(buf, "---");
+		snprintf(buf, BUFSIZE, "---");
 	} else {
 		snprintf(buf, BUFSIZE, "%d", rmrpLaps);
 		rmrpDistance = 0;
@@ -155,7 +155,7 @@ void RmRaceParamMenu(void *vrp)
 		GfuiLabelCreate(scrHandle, "Race Distance (km):", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		rmrpDistance = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_DISTANCE, "km", 0);
 		if (rmrpDistance == 0) {
-			strcpy(buf, "---");
+			snprintf(buf, BUFSIZE, "---");
 			rmrpLaps = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_LAPS, NULL, 25);
 		} else {
 			snprintf(buf, BUFSIZE, "%d", rmrpDistance);
@@ -169,7 +169,7 @@ void RmRaceParamMenu(void *vrp)
 		y -= dy;
 		GfuiLabelCreate(scrHandle, "Laps:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		if (rmrpLaps == 0) {
-			strcpy(buf, "---");
+			snprintf(buf, BUFSIZE, "---");
 		} else {
 			snprintf(buf, BUFSIZE, "%d", rmrpLaps);
 		}
