@@ -448,7 +448,7 @@ int terrainSplitOb (ob_t **object)
 			tob->textarray[tob->vertexarray[j].indice*2]=tob->vertexarray[j].u;
 			tob->textarray[tob->vertexarray[j].indice*2+1]=tob->vertexarray[j].v;
 		}
-		tob->name=(char *) malloc(strlen((*object)->name)+10);
+		tob->name=(char *) malloc(strlen((*object)->name)+22);
 		if ((*object)->texture) {
 			tob->texture=strdup((*object)->texture);
 		} else {
@@ -459,7 +459,7 @@ int terrainSplitOb (ob_t **object)
 		} else {
 			tob->type = 0;
 		}
-		sprintf(tob->name,"%s__split__%d",(*object)->name,numob++);
+		snprintf(tob->name, strlen((*object)->name)+22, "%s__split__%d",(*object)->name,numob++);
 		tob->numsurf=numtri;
 		tob->numvert=n;
 		tob->numvertice=n;
@@ -682,13 +682,13 @@ int splitOb (ob_t **object)
 			tob->textarray[vatmp[j].indice*2]=vatmp[j].u;
 			tob->textarray[vatmp[j].indice*2+1]=vatmp[j].v;
 		}
-		tob->name=(char *) malloc(strlen((*object)->name)+10);
+		tob->name=(char *) malloc(strlen((*object)->name)+15);
 		if ((*object)->texture) {
 			tob->texture=strdup((*object)->texture);
 		} else {
 			tob->texture=0;
 		}
-		sprintf(tob->name,"%s_s_%d",(*object)->name,numob++);
+		snprintf(tob->name, strlen((*object)->name)+15, "%s_s_%d",(*object)->name,numob++);
 		tob->numsurf=numtri;
 		tob->numvert=n;
 		tob->numvertice=n;
@@ -747,8 +747,8 @@ int doKids(char *Line, ob_t *object, mat_t *material)
 		memcpy(object->next->surfrefs, tmpsurf,numrefs*sizeof(int));
 		object->next->numvertice=numvertice;
 		if ( (object->next->name)==NULL) {
-			object->next->name=(char *)malloc(sizeof(char)+strlen(tmpname)+5);
-			sprintf(object->next->name,"%s%d",tmpname,tmpIndice);
+			object->next->name=(char *)malloc(strlen(tmpname)+12);
+			snprintf(object->next->name, strlen(tmpname)+12, "%s%d",tmpname,tmpIndice);
 			tmpIndice++;
 		}
 		/* need to split this face in more face if there is common points with different texture */
@@ -2400,7 +2400,7 @@ void stripifyOb(ob_t *object,int writeit)
 	if (object->numsurf<3 && writeit==0)
 		return;
 	fprintf(stderr,"stripifying %s                    \n",object->name);
-	sprintf(filename, "temp.obj");
+	snprintf(filename, sizeof(filename), "temp.obj");
 	stripeout = fopen(filename, "w");
 	for (i=0; i<object->numvert; i++)
 		fprintf(stripeout, "v 0.0 0.0 0.0\n");
@@ -2413,18 +2413,18 @@ void stripifyOb(ob_t *object,int writeit)
 
 	fclose(stripeout);
 #ifdef WIN32
-	sprintf(command, "stripe.exe %s >shudup", filename);
+	snprintf(command, sizeof(command), "stripe.exe %s >shudup", filename);
 	system(command);
-	sprintf(command, "erase shudup");
+	snprintf(command, sizeof(command), "erase shudup");
 	system(command);
-	strcat(filename, "f");
+	snprintf(filename, sizeof(filename), "temp.objf");
 	stripein = fopen(filename,"r");
 #else
-	sprintf(command, "stripe %s >/dev/null", filename);
+	snprintf(command, sizeof(command), "stripe %s >/dev/null", filename);
 	system(command);
-	sprintf(command, "rm %s", filename);
+	snprintf(command, sizeof(command), "rm %s", filename);
 	system(command);
-	strcat(filename, "f");
+	snprintf(filename, sizeof(filename), "temp.objf");
 	stripein = fopen("temp.objf","r");
 #endif
 
@@ -3750,7 +3750,7 @@ int mergeSplitted (ob_t **object)
 		}
 		tobP=tob;
 		tob0=tob->next;
-		sprintf(nameS,"%s",tob->name);
+		snprintf(nameS, sizeof(nameS), "%s",tob->name);
 		if (isobjectacar) {
 			p=strstr(nameS,"_s_");
 		} else
