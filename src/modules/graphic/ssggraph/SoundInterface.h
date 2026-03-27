@@ -250,13 +250,13 @@ class PlibSoundInterface : public SoundInterface {
 	float global_gain;
  public:
 	PlibSoundInterface(float sampling_rate, int n_channels);
-	virtual ~PlibSoundInterface();
-	virtual void setNCars(int n_cars);
+	virtual ~PlibSoundInterface() override;
+	virtual void setNCars(int n_cars) override;
 	virtual slScheduler* getScheduler();
-	virtual TorcsSound* addSample (const char* filename, int flags = (ACTIVE_VOLUME|ACTIVE_PITCH), bool loop = false, bool static_pool = true);
-	virtual void update(CarSoundData** car_sound_data, int n_cars, sgVec3 p_obs, sgVec3 u_obs, sgVec3 c_obs = nullptr, sgVec3 a_obs = nullptr);
-	virtual float getGlobalGain() {return global_gain;}
-	virtual void setGlobalGain(float g)
+	virtual TorcsSound* addSample (const char* filename, int flags = (ACTIVE_VOLUME|ACTIVE_PITCH), bool loop = false, bool static_pool = true) override;
+	virtual void update(CarSoundData** car_sound_data, int n_cars, sgVec3 p_obs, sgVec3 u_obs, sgVec3 c_obs = nullptr, sgVec3 a_obs = nullptr) override;
+	virtual float getGlobalGain() override {return global_gain;}
+	virtual void setGlobalGain(float g) override
 	{
 		global_gain = 0.5f*g;
 		logmsg ("Setting gain to %f\n", global_gain);
@@ -293,16 +293,16 @@ class OpenalSoundInterface : public SoundInterface {
 
  public:
 	OpenalSoundInterface(float sampling_rate, int n_channels);
-	virtual ~OpenalSoundInterface();
-	virtual void setNCars(int n_cars);
+	virtual ~OpenalSoundInterface() override;
+	virtual void setNCars(int n_cars) override;
 	virtual TorcsSound* addSample (const char* filename,
 				       int flags = (ACTIVE_VOLUME|ACTIVE_PITCH),
-				       bool loop = false, bool static_pool = true);
-	virtual void update(CarSoundData** car_sound_data, int n_cars, sgVec3 p_obs, sgVec3 u_obs, sgVec3 c_obs, sgVec3 a_obs);
-	virtual void muteForMenu();
-	virtual float getGlobalGain() { return global_gain; }
-	virtual void initSharedSourcePool();
-	virtual void setGlobalGain(float g)
+				       bool loop = false, bool static_pool = true) override;
+	virtual void update(CarSoundData** car_sound_data, int n_cars, sgVec3 p_obs, sgVec3 u_obs, sgVec3 c_obs, sgVec3 a_obs) override;
+	virtual void muteForMenu() override;
+	virtual float getGlobalGain() override { return global_gain; }
+	virtual void initSharedSourcePool() override;
+	virtual void setGlobalGain(float g) override
 	{
 		global_gain = 0.5f*g;
 		logmsg ("Setting gain to %f\n", global_gain);
