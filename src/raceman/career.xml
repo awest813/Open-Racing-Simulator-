@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    file        : career.xml
+    description : Career Series race manager - 8-round single-make championship.
+                  The player competes against a fixed grid of AI opponents across
+                  8 varied road circuits.  Points are awarded to the top 8 finishers
+                  after each race.
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../libs/tgf/params.dtd">
+
+<params name="Career Series" type="param" mode="mw">
+
+    <section name="Header">
+        <attstr name="name"        val="Career Series"/>
+        <attstr name="description" val="Career Mode - Season Championship"/>
+        <!-- Lower priority number = listed before standard championships -->
+        <attnum name="priority"    val="5"/>
+        <attstr name="menu image"  val="data/img/splash-main.png"/>
+        <attstr name="run image"   val="data/img/splash-run-practice.png"/>
+        <attstr name="start image" val="data/img/splash-main.png"/>
+    </section>
+
+    <!-- 8-round season calendar -->
+    <section name="Tracks">
+        <attnum name="maximum number" val="8"/>
+
+        <section name="1">
+            <attstr name="name"     val="forza"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="2">
+            <attstr name="name"     val="corkscrew"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="3">
+            <attstr name="name"     val="brondehach"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="4">
+            <attstr name="name"     val="e-track-3"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="5">
+            <attstr name="name"     val="wheel-1"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="6">
+            <attstr name="name"     val="g-track-1"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="7">
+            <attstr name="name"     val="street-1"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="8">
+            <attstr name="name"     val="aalborg"/>
+            <attstr name="category" val="road"/>
+        </section>
+    </section>
+
+    <!-- One race session per round -->
+    <section name="Races">
+        <section name="1">
+            <attstr name="name" val="Career Race"/>
+        </section>
+    </section>
+
+    <section name="Career Race">
+        <attnum name="laps"            val="5"/>
+        <attstr name="type"            val="race"/>
+        <attstr name="starting order"  val="drivers list"/>
+        <attstr name="restart"         val="no"/>
+        <attnum name="maximum drivers" val="10"/>
+        <attstr name="splash menu"     val="yes"/>
+        <attstr name="display results" val="yes"/>
+
+        <section name="Starting Grid">
+            <attnum name="rows"                       val="2"/>
+            <attnum name="distance to start"          val="25"/>
+            <attnum name="distance between columns"   val="30"/>
+            <attnum name="offset within a column"     val="10"/>
+            <attnum name="initial speed"              val="0"/>
+            <attnum name="initial height"             val="0.2"/>
+        </section>
+
+        <!-- Points: 10-8-6-5-4-3-2-1 for the top 8 finishers -->
+        <section name="Points">
+            <section name="1"><attnum name="points" val="10"/></section>
+            <section name="2"><attnum name="points" val="8"/></section>
+            <section name="3"><attnum name="points" val="6"/></section>
+            <section name="4"><attnum name="points" val="5"/></section>
+            <section name="5"><attnum name="points" val="4"/></section>
+            <section name="6"><attnum name="points" val="3"/></section>
+            <section name="7"><attnum name="points" val="2"/></section>
+            <section name="8"><attnum name="points" val="1"/></section>
+        </section>
+    </section>
+
+    <!-- Pre-configured driver grid: human player + 7 AI opponents -->
+    <section name="Drivers">
+        <attnum name="maximum number" val="10"/>
+        <attstr name="focused module" val="human"/>
+        <attnum name="focused idx"    val="1"/>
+
+        <section name="1">
+            <attnum name="idx"    val="1"/>
+            <attstr name="module" val="human"/>
+        </section>
+        <section name="2">
+            <attnum name="idx"    val="6"/>
+            <attstr name="module" val="berniw"/>
+        </section>
+        <section name="3">
+            <attnum name="idx"    val="6"/>
+            <attstr name="module" val="olethros"/>
+        </section>
+        <section name="4">
+            <attnum name="idx"    val="8"/>
+            <attstr name="module" val="lliaw"/>
+        </section>
+        <section name="5">
+            <attnum name="idx"    val="9"/>
+            <attstr name="module" val="tita"/>
+        </section>
+        <section name="6">
+            <attnum name="idx"    val="3"/>
+            <attstr name="module" val="inferno"/>
+        </section>
+        <section name="7">
+            <attnum name="idx"    val="7"/>
+            <attstr name="module" val="damned"/>
+        </section>
+        <section name="8">
+            <attnum name="idx"    val="4"/>
+            <attstr name="module" val="bt"/>
+        </section>
+    </section>
+
+    <!-- No interactive configuration steps: the race manager menu appears
+         directly with New Race / Configure Race / Back buttons. -->
+    <section name="Configuration">
+    </section>
+
+</params>

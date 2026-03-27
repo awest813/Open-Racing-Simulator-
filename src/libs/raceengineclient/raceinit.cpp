@@ -156,6 +156,13 @@ static void reSelectRaceman(void *params)
 }
 
 
+/* Public entry point to launch a specific race manager by params handle */
+void ReLaunchRaceman(void *params)
+{
+	reSelectRaceman(params);
+}
+
+
 void ReRunRaceOnConsole(const char* raceconfig)
 {
 	ReInfo = (tRmInfo *)calloc(1, sizeof(tRmInfo));

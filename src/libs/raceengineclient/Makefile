@@ -20,14 +20,14 @@ SOLIBRARY    = libraceengine.so
 
 SOLIBDIR     = .
 
-SOURCES      = singleplayer.cpp raceinit.cpp racemain.cpp racemanmenu.cpp racestate.cpp racegl.cpp \
+SOURCES      = singleplayer.cpp careermenu.cpp raceinit.cpp racemain.cpp racemanmenu.cpp racestate.cpp racegl.cpp \
 	       raceengine.cpp raceresults.cpp
 
 SOLIBS      = -lracescreens -lrobottools
 
 EXPDIR       = include
 
-EXPORTS      = singleplayer.h raceinit.h
+EXPORTS      = singleplayer.h careermenu.h raceinit.h
 
 SHIPDIR      = config
 
