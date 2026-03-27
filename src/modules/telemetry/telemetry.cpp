@@ -28,6 +28,7 @@
 #include <telemetry.h>
 
 #include "tlm.h"
+#include <ctype.h>
 
 typedef struct Channel 
 {
@@ -115,6 +116,7 @@ TlmStartMonitoring(const char *filename)
 {
     const int BUFSIZE = 1024;
 	char	buf[BUFSIZE];
+	char	clean_filename[256];
     FILE	*fout;
     FILE	*fcmd;
     tChannel	*curChan;
@@ -122,13 +124,21 @@ TlmStartMonitoring(const char *filename)
     
     GfOut("Telemetry: start monitoring\n");
 
-    snprintf(buf, BUFSIZE, "telemetry/%s.cmd", filename);
+    strncpy(clean_filename, filename, sizeof(clean_filename) - 1);
+    clean_filename[sizeof(clean_filename) - 1] = '\0';
+    for (int j = 0; clean_filename[j] != '\0'; j++) {
+        if (!isalnum((unsigned char)clean_filename[j])) {
+            clean_filename[j] = '_';
+        }
+    }
+
+    snprintf(buf, BUFSIZE, "telemetry/%s.cmd", clean_filename);
     fcmd = fopen(buf, "w");
     if (fcmd == NULL) {
 	return;
     }
     fprintf(fcmd, "#!/bin/sh\n");
-    fprintf(fcmd, "gnuplot -persist > telemetry/%s.png <<!!\n", filename);
+    fprintf(fcmd, "gnuplot -persist > telemetry/%s.png <<!!\n", clean_filename);
     fprintf(fcmd, "#    set yrange [%f:%f]\n", TlmData.ymin, TlmData.ymax);
     fprintf(fcmd, "    set grid\n");
     fprintf(fcmd, "    set size 2.5,1.5\n");
@@ -140,7 +150,7 @@ TlmStartMonitoring(const char *filename)
 	do {
 	    curChan = curChan->next;
 	    if (i == 2) {
-		fprintf(fcmd, "plot 'telemetry/%s.dat' using %d title '%s'", filename, i, curChan->name);
+		fprintf(fcmd, "plot 'telemetry/%s.dat' using %d title '%s'", clean_filename, i, curChan->name);
 	    } else {
 		fprintf(fcmd, ", '' using %d title '%s'", i, curChan->name);
 	    }
@@ -153,7 +163,7 @@ TlmStartMonitoring(const char *filename)
     
     TlmData.cmdfile = strdup(buf);
     
-    snprintf(buf, BUFSIZE, "telemetry/%s.dat", filename);
+    snprintf(buf, BUFSIZE, "telemetry/%s.dat", clean_filename);
     fout = TlmData.file = fopen(buf, "w");
     if (fout == NULL) {
 	return;
