@@ -23,7 +23,7 @@
     @version $Id$
 */
 
-#include <stdio.h>
+#include <cstdio>
 #include <tgfclient.h>
 #include <robot.h>
 
@@ -60,7 +60,7 @@ void *RmTwoStateScreen(
 	GfuiScreenAddBgImg(twoStateHdle, "data/img/splash-quit.png");
 	GfuiMenuButtonCreate(twoStateHdle, label1, tip1, screen1, GfuiScreenActivate);
 	GfuiMenuButtonCreate(twoStateHdle, label2, tip2, screen2, GfuiScreenActivate);
-	GfuiAddKey(twoStateHdle, 27, tip2, screen2, GfuiScreenActivate, NULL);
+	GfuiAddKey(twoStateHdle, 27, tip2, screen2, GfuiScreenActivate, nullptr);
 	GfuiScreenActivate(twoStateHdle);
 
 	return twoStateHdle;
@@ -96,7 +96,7 @@ void *RmTriStateScreen(
 	GfuiMenuButtonCreate(triStateHdle, label1, tip1, screen1, GfuiScreenActivate);
 	GfuiMenuButtonCreate(triStateHdle, label2, tip2, screen2, GfuiScreenActivate);
 	GfuiMenuButtonCreate(triStateHdle, label3, tip3, screen3, GfuiScreenActivate);
-	GfuiAddKey(triStateHdle, 27, tip3, screen3, GfuiScreenActivate, NULL);
+	GfuiAddKey(triStateHdle, 27, tip3, screen3, GfuiScreenActivate, nullptr);
 	GfuiScreenActivate(triStateHdle);
 	
 	return triStateHdle;
@@ -137,7 +137,7 @@ void *RmFourStateScreen(
 	GfuiMenuButtonCreate(fourStateHdle, label2, tip2, screen2, GfuiScreenActivate);
 	GfuiMenuButtonCreate(fourStateHdle, label3, tip3, screen3, GfuiScreenActivate);
 	GfuiMenuButtonCreate(fourStateHdle, label4, tip4, screen4, GfuiScreenActivate);
-	GfuiAddKey(fourStateHdle, 27, tip4, screen4, GfuiScreenActivate, NULL);
+	GfuiAddKey(fourStateHdle, 27, tip4, screen4, GfuiScreenActivate, nullptr);
 	GfuiScreenActivate(fourStateHdle);
 	
 	return fourStateHdle;
@@ -173,7 +173,7 @@ void *RmNStateScreen(
 		GfuiMenuButtonCreate(nStateHandle, label[i], tip[i], screen[i], GfuiScreenActivate);
 	}
 
-	GfuiAddKey(nStateHandle, 27, tip[n-1], screen[n-1], GfuiScreenActivate, NULL);
+	GfuiAddKey(nStateHandle, 27, tip[n-1], screen[n-1], GfuiScreenActivate, nullptr);
 	GfuiScreenActivate(nStateHandle);
 
 	return nStateHandle;
@@ -236,7 +236,7 @@ rmDisplayStartRace(tRmInfo *info, void *startScr, void *abortScr, int start)
 	if (!strcmp(GfParmGetStr(params, race, RM_ATTR_DISP_START_GRID, RM_VAL_YES), RM_VAL_YES)) {
 		GfuiLabelCreate(rmScrHdle, "Starting Grid", GFUI_FONT_MEDIUM_C, 320, 420, GFUI_ALIGN_HC_VB, 0);
 		snprintf(path, BUFSIZE, "%s/%s", race, RM_SECT_STARTINGGRID);
-		rows = (int)GfParmGetNum(params, path, RM_ATTR_ROWS, (char*)NULL, 2);
+		rows = (int)GfParmGetNum(params, path, RM_ATTR_ROWS, nullptr, 2);
 		
 		dx = 0;
 		x = 40;
@@ -248,7 +248,7 @@ rmDisplayStartRace(tRmInfo *info, void *startScr, void *abortScr, int start)
 			/* Find starting driver's name */
 			snprintf(path, BUFSIZE, "%s/%d", RM_SECT_DRIVERS_RACING, i + 1);
 			const char* name = GfParmGetStr(info->params, path, RM_ATTR_MODULE, "");
-			robotIdx = (int)GfParmGetNum(info->params, path, RM_ATTR_IDX, NULL, 0);
+			robotIdx = (int)GfParmGetNum(info->params, path, RM_ATTR_IDX, nullptr, 0);
 			
 			snprintf(path, BUFSIZE, "%sdrivers/%s/%s.xml", GetLocalDir(), name, name);
 			robhdle = GfParmReadFile(path, GFPARM_RMODE_STD);
@@ -287,8 +287,8 @@ rmDisplayStartRace(tRmInfo *info, void *startScr, void *abortScr, int start)
 						"data/img/arrow-up.png", "data/img/arrow-up-pushed.png",
 						80, 40, GFUI_ALIGN_HL_VB, 1,
 						(void*)&prevStartRace, rmChgStartScreen,
-						NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-			GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous page", (void*)&prevStartRace, rmChgStartScreen, NULL);
+						nullptr, nullptr, nullptr);
+			GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous page", (void*)&prevStartRace, rmChgStartScreen, nullptr);
 		}
 		
 		if (i < nCars) {
@@ -300,8 +300,8 @@ rmDisplayStartRace(tRmInfo *info, void *startScr, void *abortScr, int start)
 						"data/img/arrow-down.png", "data/img/arrow-down-pushed.png",
 						540, 40, GFUI_ALIGN_HL_VB, 1,
 						(void*)&nextStartRace, rmChgStartScreen,
-						NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-			GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next page", (void*)&nextStartRace, rmChgStartScreen, NULL);
+						nullptr, nullptr, nullptr);
+			GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next page", (void*)&nextStartRace, rmChgStartScreen, nullptr);
 		}
 	}
 	
@@ -315,10 +315,10 @@ rmDisplayStartRace(tRmInfo *info, void *startScr, void *abortScr, int start)
 				0,
 				startScr,
 				GfuiScreenReplace,
-				NULL,
-				(tfuiCallback)NULL,
-				(tfuiCallback)NULL);
-	GfuiAddKey(rmScrHdle, (unsigned char)13, "Start",   startScr, GfuiScreenReplace, NULL);
+				nullptr,
+				nullptr,
+				nullptr);
+	GfuiAddKey(rmScrHdle, (unsigned char)13, "Start",   startScr, GfuiScreenReplace, nullptr);
 	
 	GfuiButtonCreate(rmScrHdle,
 				"Abandon",
@@ -330,12 +330,12 @@ rmDisplayStartRace(tRmInfo *info, void *startScr, void *abortScr, int start)
 				0,
 				abortScr,
 				GfuiScreenReplace,
-				NULL,
-				(tfuiCallback)NULL,
-				(tfuiCallback)NULL);
-	GfuiAddKey(rmScrHdle, (unsigned char)27, "Abandon", abortScr, GfuiScreenReplace, NULL);
+				nullptr,
+				nullptr,
+				nullptr);
+	GfuiAddKey(rmScrHdle, (unsigned char)27, "Abandon", abortScr, GfuiScreenReplace, nullptr);
 	
-	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
+	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
 	
 	GfuiScreenActivate(rmScrHdle);
 }

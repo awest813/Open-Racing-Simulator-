@@ -23,7 +23,7 @@
     @version $Id$
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -34,15 +34,15 @@
 #include <robottools.h>
 #include <vector>
 
-static void *scrHandle = NULL;
-static void	*prevHandle = NULL;
+static void *scrHandle = nullptr;
+static void	*prevHandle = nullptr;
 
-static void* rmCarHandle = NULL;
-static tCarPitSetup* rmSetup = NULL;
-static char* rmModName = NULL;
+static void* rmCarHandle = nullptr;
+static tCarPitSetup* rmSetup = nullptr;
+static char* rmModName = nullptr;
 static int rmIdx = 0;
-static char* rmTrack = NULL;
-static char* rmCarName = NULL;
+static char* rmTrack = nullptr;
+static char* rmCarName = nullptr;
 static int rmRaceType = RM_TYPE_PRACTICE;
 
 static void rmSet(void *vp);
@@ -132,24 +132,24 @@ class cGuiSetupValue {
 			const int minw = 30+4*(bw+sp);
 			if (w < minw) w = minw; // Minimal width;
 
-			id = GfuiEditboxCreate(scr, buf, font, x + 2*(bw+sp) + 5, y, w - 4*(bw+sp) - 10, len, this, (tfuiCallback)NULL, rmSet, 5);
+			id = GfuiEditboxCreate(scr, buf, font, x + 2*(bw+sp) + 5, y, w - 4*(bw+sp) - 10, len, this, nullptr, rmSet, 5);
 			GfuiEnable(scr, id, enable);
 
 			tdble bid;
 			bid = GfuiLeanButtonCreate(scr, "-", font, x+bw/2, y, bw, GFUI_ALIGN_HC_VB, 1,
-				this, rmUpdateMM, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				this, rmUpdateMM, nullptr, nullptr, nullptr);
 			GfuiEnable(scr, bid, enable);
 
 			bid = GfuiLeanButtonCreate(scr, "-", font, x+bw/2+bw+sp, y, bw, GFUI_ALIGN_HC_VB, 1,
-				this, rmUpdateM, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				this, rmUpdateM, nullptr, nullptr, nullptr);
 			GfuiEnable(scr, bid, enable);
 
 			bid = GfuiLeanButtonCreate(scr, "+", font, x+w-(bw+sp+bw/2), y, bw, GFUI_ALIGN_HC_VB, 1,
-				this, rmUpdateP, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				this, rmUpdateP, nullptr, nullptr, nullptr);
 			GfuiEnable(scr, bid, enable);
 
 			bid = GfuiLeanButtonCreate(scr, "+", font, x+w-bw/2, y, bw, GFUI_ALIGN_HC_VB, 1,
-				this, rmUpdatePP, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				this, rmUpdatePP, nullptr, nullptr, nullptr);
 			GfuiEnable(scr, bid, enable);
 		}
 	
@@ -192,7 +192,7 @@ static void onSave(void *vp)
 	rtCarPitSetupType* type = (rtCarPitSetupType*)vp;
 	void* carhandle = RtLoadOriginalCarSettings(rmCarName);
 	if (carhandle == 0) {
-		GfError("carhandle NULL in %s, line %d\n", __FILE__, __LINE__);
+		GfError("carhandle nullptr in %s, line %d\n", __FILE__, __LINE__);
 		return;
 	}
 
@@ -216,7 +216,7 @@ static void onSaveAndExit(void *vp)
 	rtCarPitSetupType type = (rmRaceType == RM_TYPE_PRACTICE) ? PRACTICE : QUALIFYING;
 	void* carhandle = RtLoadOriginalCarSettings(rmCarName);
 	if (carhandle == 0) {
-		GfError("carhandle NULL in %s, line %d\n", __FILE__, __LINE__);
+		GfError("carhandle nullptr in %s, line %d\n", __FILE__, __LINE__);
 		return;
 	}
 
@@ -231,7 +231,7 @@ static void onSaveAndExit(void *vp)
 	);
 
 	GfParmReleaseHandle(carhandle);
-	if (vp != NULL) {
+	if (vp != nullptr) {
 		GfuiScreenActivate(vp);
 	}
 }
@@ -345,7 +345,7 @@ void *RmCarSetupScreenInit(void *prevMenu, tCarElt *car, tRmInfo* reInfo)
 		values.clear();
 	}
 	
-	scrHandle = GfuiScreenCreateEx(NULL, NULL, onActivate, NULL, NULL, 1);
+	scrHandle = GfuiScreenCreateEx(nullptr, nullptr, onActivate, nullptr, nullptr, 1);
 	snprintf(buf, BUFSIZE, "Car Setup - %s - %s - %d", rmCarName, rmTrack, rmIdx);
 	GfuiLabelCreate(scrHandle, buf, GFUI_FONT_MEDIUM, 320, 460, GFUI_ALIGN_HC_VB, strlen(buf));
 	GfuiMenuDefaultKeysAdd(scrHandle);
@@ -414,7 +414,7 @@ void *RmCarSetupScreenInit(void *prevMenu, tCarElt *car, tRmInfo* reInfo)
 	
 	col = 1;
 	values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->steerLock), unitdeg, f52, font, x0 + xoff + xoff2, y + (col++ * dy), 102, 5));
-	values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->brakeRepartition), NULL, f43, font, x0 + xoff + xoff2, y + (col++ * dy), 102, 5));
+	values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->brakeRepartition), nullptr, f43, font, x0 + xoff + xoff2, y + (col++ * dy), 102, 5));
 	values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->brakePressure), unitkpa, d5, font, x0 + xoff + xoff2, y + (col++ * dy), 102, 5));
 	values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->wingangle[0]), unitdeg, f52, font, x0 + xoff + xoff2, y + (col++ * dy), 102, 5));
 	values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->wingangle[1]), unitdeg, f52, font, x0 + xoff + xoff2, y + (col++ * dy), 102, 5));
@@ -462,10 +462,10 @@ void *RmCarSetupScreenInit(void *prevMenu, tCarElt *car, tRmInfo* reInfo)
 		
 		GfuiLabelCreate(scrHandle, diffPos[i], font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), GFUI_ALIGN_HL_VB, 0);
 		GfuiLabelCreate(scrHandle, diffType[rmSetup->diffType[i]], font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), GFUI_ALIGN_HL_VB, 0);
-		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffratio[i]), NULL, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
-		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffmintqbias[i]), NULL, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
-		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffmaxtqbias[i]), NULL, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
-		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffslipbias[i]), NULL, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
+		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffratio[i]), nullptr, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
+		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffmintqbias[i]), nullptr, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
+		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffmaxtqbias[i]), nullptr, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
+		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->diffslipbias[i]), nullptr, f43, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
 		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->difflockinginputtq[i]), unitNm, d5, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
 		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->difflockinginputbraketq[i]), unitNm, d5, font, x0 + xoff*(i+1) + xoff2, y + (col++ * dy), 102, 5));
 	}
@@ -476,7 +476,7 @@ void *RmCarSetupScreenInit(void *prevMenu, tCarElt *car, tRmInfo* reInfo)
 	for (i = 0; i < 8; i++) {
 		snprintf(buf, BUFSIZE, "%d:", i + 1);
 		GfuiLabelCreate(scrHandle, buf, font, x0 + xoff*4 + xoff2, y + (col * dy), GFUI_ALIGN_HL_VB, 0);
-		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->gearsratio[i]), NULL, f43, font, x0 + xoff*4 + xoff2 + 12, y + (col++ * dy), 90, 5));
+		values.push_back(new cGuiSetupValue(scrHandle, &(rmSetup->gearsratio[i]), nullptr, f43, font, x0 + xoff*4 + xoff2 + 12, y + (col++ * dy), 90, 5));
 	}
 
 	// Save buttons
@@ -488,24 +488,24 @@ void *RmCarSetupScreenInit(void *prevMenu, tCarElt *car, tRmInfo* reInfo)
 	
 	for (j = 0; j < 6; j++) {
 		GfuiLeanButtonCreate(scrHandle, setuplabel[j], font, x, y + (dy*(j+1)), buttonwidth, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-			(void*) &setuptype[j], onSave, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			(void*) &setuptype[j], onSave, nullptr, nullptr, nullptr);
 	}	
 
 	// Load buttons
 	GfuiLabelCreate(scrHandle, "Load setup:", font, x0 + xoff + xoff2, y, GFUI_ALIGN_HL_VB, 0);
 	for (j = 0; j < 6; j++) {
 		loadbuttonid[j] = GfuiLeanButtonCreate(scrHandle, setuplabel[j], font, x + xoff + xoff2, y + (dy*(j+1)), buttonwidth, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-			(void*) &setuptype[j], onLoad, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			(void*) &setuptype[j], onLoad, nullptr, nullptr, nullptr);
 	}	
 
 	// Reload original car setup
 	GfuiLeanButtonCreate(scrHandle, "Car default", font, x + xoff + xoff2, y + (dy*7), buttonwidth, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-		NULL, onLoadDefault, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		nullptr, onLoadDefault, nullptr, nullptr, nullptr);
 
 
 	// Exit/Exit and save buttons
 	//GfuiButtonCreate(scrHandle, "Leave without saving", GFUI_FONT_MEDIUM, 447, 52, 306, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-	//	prevMenu, GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+	//	prevMenu, GfuiScreenActivate, NULL, nullptr, nullptr);
 
 	const char* savebuttontext;
 	if (rmRaceType == RM_TYPE_PRACTICE) {
@@ -514,7 +514,7 @@ void *RmCarSetupScreenInit(void *prevMenu, tCarElt *car, tRmInfo* reInfo)
 		savebuttontext = "Save qualifying setup and leave";
 	}
 	GfuiButtonCreate(scrHandle, savebuttontext, GFUI_FONT_MEDIUM, 447, 28, 306, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-		prevMenu, onSaveAndExit, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		prevMenu, onSaveAndExit, nullptr, nullptr, nullptr);
 		
 	return scrHandle;
 }

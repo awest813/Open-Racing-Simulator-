@@ -23,8 +23,8 @@
     @version	$Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <tgfclient.h>
 #include <raceman.h>
 #include <robot.h>
@@ -152,43 +152,43 @@ void ReInitRules(tRmInfo* ReInfo)
 	}
 
 	// Fuel consumption factor
-	tdble number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_FUEL_FACTOR, NULL, 1.0f);
+	tdble number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_FUEL_FACTOR, nullptr, 1.0f);
 	if (number < 0.0f) number = 0.0f;	// Avoid negative factor
 	ReInfo->raceRules.fuelFactor = number;
 
 	// Damage factor
-	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_DAMAGE_FACTOR, NULL, 1.0f);
+	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_DAMAGE_FACTOR, nullptr, 1.0f);
 	if (number < 0.0f) number = 0.0f;	// Avoid negative factor
 	ReInfo->raceRules.damageFactor = number;
 
 	// Tire model factor, for 0.0 the model is switched completely off
-	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_TIRE_FACTOR, NULL, 1.0f);
+	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_TIRE_FACTOR, nullptr, 1.0f);
 	if (number < 0.0f) number = 0.0f;	// Avoid negative factor
 	ReInfo->raceRules.tireFactor = number;
 
 	// Refuel fuel flow
-	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_REFUEL_FUEL_FLOW, NULL, 8.0f);
+	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_REFUEL_FUEL_FLOW, nullptr, 8.0f);
 	if (number < 1.0f) number = 1.0f;	// Avoid division by zero or negative pit times
 	ReInfo->raceRules.refuelFuelFlow = number;
 
 	// Damage repair factor
-	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_DAMAGE_REPAIR_FACTOR, NULL, 0.007f);
+	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_DAMAGE_REPAIR_FACTOR, nullptr, 0.007f);
 	if (number < 0.0f) number = 0.0f;	// Avoid negative pit times
 	ReInfo->raceRules.damageRepairFactor = number;
 
 	// Pit stop base time (time for a stop even if nothing is done)
-	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_PITSTOP_BASE_TIME, NULL, 2.0f);
+	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_PITSTOP_BASE_TIME, nullptr, 2.0f);
 	if (number < 0.0f) number = 0.0f;	// Avoid negative pit times
 	ReInfo->raceRules.pitstopBaseTime = number;
 
 	// Tire change time for all 4 tires
-	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_ALL_TIRES_CHANGE_TIME, NULL, 16.0f);
+	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_ALL_TIRES_CHANGE_TIME, nullptr, 16.0f);
 	if (number < 0.0f) number = 0.0f;	// Avoid negative tire change times
 	ReInfo->raceRules.allTiresChangeTime = number;
 
 	// Race specific pit speed limit, if available
 	number = ReInfo->track->pits.speedLimit;
-	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_PIT_SPEED_LIMIT, NULL, number);
+	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_PIT_SPEED_LIMIT, nullptr, number);
 	ReInfo->track->pits.speedLimit = number;
 }
 
@@ -206,13 +206,13 @@ int RePreRace(void)
 		return RM_QUIT;
 	}
 
-	dist = GfParmGetNum(params, raceName, RM_ATTR_DISTANCE, NULL, 0);
+	dist = GfParmGetNum(params, raceName, RM_ATTR_DISTANCE, nullptr, 0);
 	if (dist < 0.001) {
-		ReInfo->s->_totLaps = (int)GfParmGetNum(params, raceName, RM_ATTR_LAPS, NULL, 30);
+		ReInfo->s->_totLaps = (int)GfParmGetNum(params, raceName, RM_ATTR_LAPS, nullptr, 30);
 	} else {
 		ReInfo->s->_totLaps = ((int)(dist / ReInfo->track->length)) + 1;
 	}
-	ReInfo->s->_maxDammage = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DMG, NULL, 10000);
+	ReInfo->s->_maxDammage = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DMG, nullptr, 10000);
 
 	const char* raceType = GfParmGetStr(params, raceName, RM_ATTR_TYPE, RM_VAL_RACE);
 	if (!strcmp(raceType, RM_VAL_RACE)) {
@@ -279,7 +279,7 @@ static int reRaceRealStart(void)
 	}
 
 	if (!(ReInfo->s->_raceType == RM_TYPE_QUALIF) ||
-	((int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1) == 1))
+	((int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, nullptr, 1) == 1))
 	{
 		RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
 	}
@@ -382,7 +382,7 @@ int ReRaceStart(void)
 	/* Drivers starting order */
 	GfParmListClean(params, RM_SECT_DRIVERS_RACING);
 	if (ReInfo->s->_raceType == RM_TYPE_QUALIF) {
-		i = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);
+		i = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, nullptr, 1);
 		if (i == 1) {
 			RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
 			RmLoadingScreenSetText("Preparing Starting Grid...");
@@ -393,7 +393,7 @@ int ReRaceStart(void)
 		snprintf(path, BUFSIZE, "%s/%d", RM_SECT_DRIVERS, i);
 		snprintf(path2, BUFSIZE, "%s/%d", RM_SECT_DRIVERS_RACING, 1);
 		GfParmSetStr(params, path2, RM_ATTR_MODULE, GfParmGetStr(params, path, RM_ATTR_MODULE, ""));
-		GfParmSetNum(params, path2, RM_ATTR_IDX, NULL, GfParmGetNum(params, path, RM_ATTR_IDX, NULL, tModInfo::INVALID_INDEX));
+		GfParmSetNum(params, path2, RM_ATTR_IDX, nullptr, GfParmGetNum(params, path, RM_ATTR_IDX, nullptr, tModInfo::INVALID_INDEX));
 		GfParmSetStr(params, path2, RM_ATTR_DRVNAME, GfParmGetStr(params, path, RM_ATTR_DRVNAME, ""));
 	} else {
 		RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
@@ -403,7 +403,7 @@ int ReRaceStart(void)
 		if (!strcmp(gridType, RM_VAL_LAST_RACE_ORDER)) {
 			/* Starting grid in the arrival of the previous race */
 			nCars = GfParmGetEltNb(params, RM_SECT_DRIVERS);
-			maxCars = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DRV, NULL, 100);
+			maxCars = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DRV, nullptr, 100);
 			nCars = MIN(nCars, maxCars);
 			const char* prevRaceName = ReGetPrevRaceName();
 			if (!prevRaceName) {
@@ -413,13 +413,13 @@ int ReRaceStart(void)
 				snprintf(path, BUFSIZE, "%s/%s/%s/%s/%d", ReInfo->track->name, RE_SECT_RESULTS, prevRaceName, RE_SECT_RANK, i);
 				snprintf(path2, BUFSIZE, "%s/%d", RM_SECT_DRIVERS_RACING, i);
 				GfParmSetStr(params, path2, RM_ATTR_MODULE, GfParmGetStr(results, path, RE_ATTR_MODULE, ""));
-				GfParmSetNum(params, path2, RM_ATTR_IDX, NULL, GfParmGetNum(results, path, RE_ATTR_IDX, NULL, tModInfo::INVALID_INDEX));
+				GfParmSetNum(params, path2, RM_ATTR_IDX, nullptr, GfParmGetNum(results, path, RE_ATTR_IDX, nullptr, tModInfo::INVALID_INDEX));
 				GfParmSetStr(params, path2, RM_ATTR_DRVNAME, GfParmGetStr(params, path, RM_ATTR_DRVNAME, ""));
 			}
 		} else if (!strcmp(gridType, RM_VAL_LAST_RACE_RORDER)) {
 			/* Starting grid in the reversed arrival order of the previous race */
 			nCars = GfParmGetEltNb(params, RM_SECT_DRIVERS);
-			maxCars = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DRV, NULL, 100);
+			maxCars = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DRV, nullptr, 100);
 			nCars = MIN(nCars, maxCars);
 			const char* prevRaceName = ReGetPrevRaceName();
 			if (!prevRaceName) {
@@ -429,19 +429,19 @@ int ReRaceStart(void)
 				snprintf(path, BUFSIZE, "%s/%s/%s/%s/%d", ReInfo->track->name, RE_SECT_RESULTS, prevRaceName, RE_SECT_RANK, nCars - i + 1);
 				snprintf(path2, BUFSIZE, "%s/%d", RM_SECT_DRIVERS_RACING, i);
 				GfParmSetStr(params, path2, RM_ATTR_MODULE, GfParmGetStr(results, path, RE_ATTR_MODULE, ""));
-				GfParmSetNum(params, path2, RM_ATTR_IDX, NULL, GfParmGetNum(results, path, RE_ATTR_IDX, NULL, tModInfo::INVALID_INDEX));
+				GfParmSetNum(params, path2, RM_ATTR_IDX, nullptr, GfParmGetNum(results, path, RE_ATTR_IDX, nullptr, tModInfo::INVALID_INDEX));
 				GfParmSetStr(params, path2, RM_ATTR_DRVNAME, GfParmGetStr(params, path, RM_ATTR_DRVNAME, ""));
 			}
 		} else {
 			/* Starting grid in the drivers list order */
 			nCars = GfParmGetEltNb(params, RM_SECT_DRIVERS);
-			maxCars = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DRV, NULL, 100);
+			maxCars = (int)GfParmGetNum(params, raceName, RM_ATTR_MAX_DRV, nullptr, 100);
 			nCars = MIN(nCars, maxCars);
 			for (i = 1; i < nCars + 1; i++) {
 				snprintf(path, BUFSIZE, "%s/%d", RM_SECT_DRIVERS, i);
 				snprintf(path2, BUFSIZE, "%s/%d", RM_SECT_DRIVERS_RACING, i);
 				GfParmSetStr(params, path2, RM_ATTR_MODULE, GfParmGetStr(params, path, RM_ATTR_MODULE, ""));
-				GfParmSetNum(params, path2, RM_ATTR_IDX, NULL, GfParmGetNum(params, path, RM_ATTR_IDX, NULL, tModInfo::INVALID_INDEX));
+				GfParmSetNum(params, path2, RM_ATTR_IDX, nullptr, GfParmGetNum(params, path, RM_ATTR_IDX, nullptr, tModInfo::INVALID_INDEX));
 				GfParmSetStr(params, path2, RM_ATTR_DRVNAME, GfParmGetStr(params, path, RM_ATTR_DRVNAME, ""));
 			}
 		}
@@ -579,13 +579,13 @@ int ReRaceEnd(void)
 	ReRaceCleanup();
 
 	if (ReInfo->s->_raceType == RM_TYPE_QUALIF) {
-		curDrvIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);
+		curDrvIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, nullptr, 1);
 		curDrvIdx++;
 		if (curDrvIdx > GfParmGetEltNb(params, RM_SECT_DRIVERS)) {
-			GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);
+			GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, nullptr, 1);
 			return ReDisplayResults();
 		}
-		GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, curDrvIdx);
+		GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, nullptr, curDrvIdx);
 		return RM_SYNC | RM_NEXT_RACE;
 	}
 
@@ -599,17 +599,17 @@ int RePostRace(void)
 	void *results = ReInfo->results;
 	void *params = ReInfo->params;
 
-	curRaceIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, NULL, 1);
+	curRaceIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1);
 	if (curRaceIdx < GfParmGetEltNb(params, RM_SECT_RACES)) {
 		curRaceIdx++;
 		GfOut("Race Nb %d\n", curRaceIdx);
-		GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, NULL, curRaceIdx);
+		GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, curRaceIdx);
 		ReUpdateStandings();
 		return RM_SYNC | RM_NEXT_RACE;
 	}
 
 	ReUpdateStandings();
-	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, NULL, 1);
+	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1);
 	return RM_SYNC | RM_NEXT_STEP;
 }
 
@@ -629,8 +629,8 @@ int ReEventShutdown(void)
 		ReInfo->_reGraphicItf.shutdowntrack();
 	}
 
-	int curRaceIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, NULL, 1);
-	curTrkIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, NULL, 1);
+	int curRaceIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1);
+	curTrkIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1);
 
 	if (curRaceIdx == 1) {
 		if (curTrkIdx < nbTrk) {
@@ -642,7 +642,7 @@ int ReEventShutdown(void)
 		}
 	}
 
-	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, NULL, curTrkIdx);
+	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, curTrkIdx);
 
 	if (curTrkIdx != 1) {
 		ret =  RM_NEXT_RACE;

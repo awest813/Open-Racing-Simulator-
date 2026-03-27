@@ -13,10 +13,10 @@
 #ifndef ANN_H
 #define ANN_H
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 #include <learning/learn_debug.h>
 #include <learning/string_utils.h>
 #include <learning/List.h>

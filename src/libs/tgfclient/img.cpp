@@ -31,8 +31,8 @@
 #include "png.h"
 
 #include <tgfclient.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #ifdef WIN32
 #include <direct.h>
 #endif
@@ -48,7 +48,7 @@
     @param	heightp		height of the read image
     @param	screen_gamma	gamma correction value
     @return	Pointer on the buffer containing the image
-		<br>NULL Error
+		<br>nullptr Error
  */
 unsigned char *
 GfImgReadPng(const char *filename, int *widthp, int *heightp, float screen_gamma)
@@ -67,50 +67,50 @@ GfImgReadPng(const char *filename, int *widthp, int *heightp, float screen_gamma
 	png_uint_32 rowbytes;
 	png_uint_32 i;
 	
-	if ((fp = fopen(filename, "rb")) == NULL) {
+	if ((fp = fopen(filename, "rb")) == nullptr) {
 		GfTrace("Can't open file %s\n", filename);
-		return (unsigned char *)NULL;
+		return (unsigned char *)nullptr;
 	}
 	
 	if (fread(buf, 1, PNG_BYTES_TO_CHECK, fp) != PNG_BYTES_TO_CHECK) {
 		GfTrace("Can't read file %s\n", filename);
 		fclose(fp);
-		return (unsigned char *)NULL;
+		return (unsigned char *)nullptr;
 	}
 	
 	if (png_sig_cmp(buf, (png_size_t)0, PNG_BYTES_TO_CHECK) != 0) {
 		GfTrace("File %s not in png format\n", filename);
 		fclose(fp);
-		return (unsigned char *)NULL;
+		return (unsigned char *)nullptr;
 	}
 	
-	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, (png_error_ptr)NULL, (png_error_ptr)NULL);
-	if (png_ptr == NULL) {
+	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+	if (png_ptr == nullptr) {
 		GfTrace("Img Failed to create read_struct\n");
 		fclose(fp);
-		return (unsigned char *)NULL;
+		return (unsigned char *)nullptr;
 	}
 	
 	info_ptr = png_create_info_struct(png_ptr);
-	if (info_ptr == NULL) {
+	if (info_ptr == nullptr) {
 		fclose(fp);
-		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
-		return (unsigned char *)NULL;
+		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
+		return (unsigned char *)nullptr;
 	}
 	
 	if (setjmp(png_jmpbuf(png_ptr)))
 	{
 		/* Free all of the memory associated with the png_ptr and info_ptr */
-		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+		png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
 		fclose(fp);
 		/* If we get here, we had a problem reading the file */
-		return (unsigned char *)NULL;
+		return (unsigned char *)nullptr;
 	}
 	
 	png_init_io(png_ptr, fp);
 	png_set_sig_bytes(png_ptr, PNG_BYTES_TO_CHECK);
 	png_read_info(png_ptr, info_ptr);
-	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, NULL, NULL);
+	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, nullptr, nullptr);
 	*widthp = (int)width;
 	*heightp = (int)height;
 	
@@ -157,22 +157,22 @@ GfImgReadPng(const char *filename, int *widthp, int *heightp, float screen_gamma
 	if (rowbytes != (4 * width)) {
 		GfTrace("%s bad byte count... %lu instead of %lu\n", filename, (unsigned long) rowbytes, (unsigned long) (4 * width));
 		fclose(fp);
-		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
-		return (unsigned char *)NULL;
+		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
+		return (unsigned char *)nullptr;
 	}
 	
 	row_pointers = (png_bytep*)malloc(height * sizeof(png_bytep));
-	if (row_pointers == NULL) {
+	if (row_pointers == nullptr) {
 		fclose(fp);
-		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
-		return (unsigned char *)NULL;
+		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
+		return (unsigned char *)nullptr;
 	}
 	
 	image_ptr = (unsigned char *)malloc(height * rowbytes);
-	if (image_ptr == NULL) {
+	if (image_ptr == nullptr) {
 		fclose(fp);
-		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
-		return (unsigned char *)NULL;
+		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
+		return (unsigned char *)nullptr;
 	}
 	
 	for (i = 0, cur_ptr = image_ptr + (height - 1) * rowbytes ; i < height; i++, cur_ptr -= rowbytes) {
@@ -180,7 +180,7 @@ GfImgReadPng(const char *filename, int *widthp, int *heightp, float screen_gamma
 	}
 	
 	png_read_image(png_ptr, row_pointers);
-	png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+	png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
 	free(row_pointers);
 	
 	fclose(fp);
@@ -213,19 +213,19 @@ GfImgWritePng(unsigned char *img, const char *filename, int width, int height)
 	float		screen_gamma;
 	
 	fp = fopen(filename, "wb");
-	if (fp == NULL) {
+	if (fp == nullptr) {
 		GfTrace("Can't open file %s\n", filename);
 		return -1;
 	}
 	
-	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, (png_error_ptr)NULL, (png_error_ptr)NULL);
-	if (png_ptr == NULL) {
+	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+	if (png_ptr == nullptr) {
 		return -1;
 	}
 	
 	info_ptr = png_create_info_struct(png_ptr);
-	if (info_ptr == NULL) {
-		png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+	if (info_ptr == nullptr) {
+		png_destroy_write_struct(&png_ptr, nullptr);
 		return -1;
 	}
 	
@@ -240,7 +240,7 @@ GfImgWritePng(unsigned char *img, const char *filename, int width, int height)
 			PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 #if 0
     handle = GfParmReadFile(GFSCR_CONF_FILE, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
-    screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, (char*)NULL, 2.0);
+    screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, nullptr, 2.0);
     GfParmReleaseHandle(handle);
 #else
 	screen_gamma = 2.0;
@@ -253,7 +253,7 @@ GfImgWritePng(unsigned char *img, const char *filename, int width, int height)
 	rowbytes = width * 3;
 	row_pointers = (png_bytep*)malloc(height * sizeof(png_bytep));
 	
-	if (row_pointers == NULL) {
+	if (row_pointers == nullptr) {
 		fclose(fp);
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		return -1;
@@ -264,7 +264,7 @@ GfImgWritePng(unsigned char *img, const char *filename, int width, int height)
 	}
 	
 	png_write_image(png_ptr, row_pointers);
-	png_write_end(png_ptr, (png_infop)NULL);
+	png_write_end(png_ptr, nullptr);
 	png_destroy_write_struct(&png_ptr, &info_ptr);
 	fclose(fp);
 	free(row_pointers);
@@ -302,7 +302,7 @@ GfImgReadTex(char *filename)
 
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GFSCR_CONF_FILE);
 	handle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
-	screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, (char*)NULL, 2.0);
+	screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, nullptr, 2.0);
 	tex = (GLbyte*)GfImgReadPng(filename, &w, &h, screen_gamma);
 
 	if (!tex) {

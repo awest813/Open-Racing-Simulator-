@@ -15,16 +15,16 @@
 
 LIST* List(void)
 {
-	LIST* list = NULL;
+	LIST* list = nullptr;
 
-	if ((list = (LIST*) malloc(sizeof(LIST)))==NULL) {
+	if ((list = (LIST*) malloc(sizeof(LIST)))==nullptr) {
 		Serror("Failed to create list structure\n");
-		return NULL;
+		return nullptr;
 	}
 
-	list->head = NULL;
-	list->tail = NULL;
-	list->curr = NULL;
+	list->head = nullptr;
+	list->tail = nullptr;
+	list->curr = nullptr;
 	list->n = 0;
 	list->retrieve = &ListLinearSearchRetrieve;
 
@@ -32,12 +32,12 @@ LIST* List(void)
 }
 
 LISTITEM* ListAppend(LIST* list, void* p) {
-	return ListAppend (list, p, NULL);
+	return ListAppend (list, p, nullptr);
 }
 
 LISTITEM* ListAppend(LIST* list, void* p, void (*free_obj) (void* obj))
 {
-	LISTITEM* tmp = NULL;
+	LISTITEM* tmp = nullptr;
 	assert(list);
 
 	if (!p) {
@@ -70,7 +70,7 @@ LISTITEM* NextListItem(LIST* list)
 	assert(list);
   
 	if (!list->curr) 
-		return NULL;
+		return nullptr;
 
 	t = GetNextItem(list->curr);
 	if (t)
@@ -87,7 +87,7 @@ LISTITEM* FirstListItem(LIST* list)
 
 	if (!t) {
 		//    Swarning("No First Item\n");
-		return NULL;
+		return nullptr;
 	}
   
 	list->curr = t;
@@ -104,7 +104,7 @@ LISTITEM* LastListItem(LIST* list)
 
 	if (!t) {
 		//    Swarning("No Last Item\n");
-		return NULL;
+		return nullptr;
 	}
   
 	list->curr = t;
@@ -118,7 +118,7 @@ LISTITEM* GetNextItem(LISTITEM* ptr)
 		return ptr->next;
 	else {
 		Serror("Null pointer given to GetNextItem()\n");
-		return NULL;
+		return nullptr;
 	}
 
 }
@@ -129,20 +129,20 @@ LISTITEM* GetPrevItem(LISTITEM* ptr)
 		return ptr->prev;
 	else {
 		Serror("Null pointer given to GetPrevItem()\n");
-		return NULL;
+		return nullptr;
 	}
 }
 
 LISTITEM* LinkNext(LISTITEM* src, void* ptr, void (*free_obj) (void* obj))
 {
 	LISTITEM* tmp;
-	LISTITEM* dst = NULL;
+	LISTITEM* dst = nullptr;
 
 	assert(ptr);
 	assert(src);
   
-	if ((dst = ListItem(ptr, free_obj))==NULL) {
-		return NULL;
+	if ((dst = ListItem(ptr, free_obj))==nullptr) {
+		return nullptr;
 	}
 
 	if ((tmp = GetNextItem(src))) {
@@ -158,22 +158,22 @@ LISTITEM* LinkNext(LISTITEM* src, void* ptr, void (*free_obj) (void* obj))
 LISTITEM* LinkPrev(LISTITEM* src, void* ptr, void (*free_obj) (void* obj))
 {
 	Serror("Not implemented\n");
-	return NULL;
+	return nullptr;
 }
 
 LISTITEM* ListItem(void* ptr, void (*free_obj) (void* obj)) 
 {
-	LISTITEM* item = NULL;
+	LISTITEM* item = nullptr;
 
 	assert(ptr);
 
-	if ((item = (LISTITEM*) malloc(sizeof(LISTITEM)))==NULL) {
+	if ((item = (LISTITEM*) malloc(sizeof(LISTITEM)))==nullptr) {
 		Serror("Failed to allocate new listitem\n");
-		return NULL;
+		return nullptr;
 	}
   
-	item->prev = NULL;
-	item->next = NULL;
+	item->prev = nullptr;
+	item->next = nullptr;
 	item->obj = ptr;
 	item->free_obj = free_obj;
 	return item;
@@ -181,7 +181,7 @@ LISTITEM* ListItem(void* ptr, void (*free_obj) (void* obj))
 
 int FreeListItem(LIST* list, LISTITEM* ptr)
 {
-	if (ptr==NULL) {
+	if (ptr==nullptr) {
 		Serror("Null value for LISTITEM\n");
 		return -1;
 	}
@@ -212,7 +212,7 @@ int RemoveListItem(LIST* list, LISTITEM* ptr) {
 			Swarning("prev->next Sanity check failed on list\n");
 		}
 		prev->next = next;
-		if (next==NULL) {
+		if (next==nullptr) {
 			assert (list->tail == ptr);
 			list->tail = prev;
 			if (list->curr == ptr) {
@@ -226,7 +226,7 @@ int RemoveListItem(LIST* list, LISTITEM* ptr) {
 			Swarning("next->prev Sanity check failed on list\n");
 		}
 		next->prev = prev;
-		if (prev==NULL) {
+		if (prev==nullptr) {
 			assert (list->head == ptr);
 			list->head = next;
 			if (list->curr == ptr) {
@@ -235,11 +235,11 @@ int RemoveListItem(LIST* list, LISTITEM* ptr) {
 		}
 	}
 
-	if ((next==NULL)&&(prev==NULL)) {
+	if ((next==nullptr)&&(prev==nullptr)) {
 		assert (list->tail==list->head);
-		list->tail = NULL;
-		list->head = NULL;
-		list->curr = NULL;
+		list->tail = nullptr;
+		list->head = nullptr;
+		list->curr = nullptr;
 	}
 
 	free(ptr);
@@ -253,7 +253,7 @@ int PopItem(LIST* list) {
 
 	LISTITEM* head = list->head;
 
-	if (list->head==NULL) {
+	if (list->head==nullptr) {
 		Swarning("List already empty\n");
 		return -1;
 	}
@@ -263,18 +263,18 @@ int PopItem(LIST* list) {
 
 	list->n--;
 
-	if (list->head==NULL) {
+	if (list->head==nullptr) {
 		if (list->n) {
 			Swarning("List seems empty (%d items remaining?)",list->n);  
 		}
 	} else {
 		assert(list->curr);
 		assert(list->tail);
-		if (list->head==NULL) {
+		if (list->head==nullptr) {
 			Serror ("List already empty\n");
 		}
 		/* set tail to head if only one item is remaining */
-		if (list->head->next==NULL) {
+		if (list->head->next==nullptr) {
 			assert(list->n==1);
 			list->tail = list->head;
 		}
@@ -333,7 +333,7 @@ LISTITEM* ListLinearSearchRetrieve (struct List* list, void* ptr)
 		item = NextListItem (list);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -347,7 +347,7 @@ LISTITEM* GetItem (LIST* list, int n)
 	LISTITEM* item;
 
 	if (n>=ListSize (list)) {
-		return NULL;
+		return nullptr;
 	}
 	item = FirstListItem (list);
 	for (int i=0; i<n; i++) {

@@ -23,8 +23,8 @@
     @version	$Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <tgfclient.h>
 #include <raceman.h>
 
@@ -33,7 +33,7 @@
 #include "raceinit.h"
 #include "racestate.h"
 
-static void *singlePlayerHandle = NULL;
+static void *singlePlayerHandle = nullptr;
 
 /* Called when the menu is activated */
 static void
@@ -59,9 +59,9 @@ ReSinglePlayerInit(void *precMenu)
 {
     if (singlePlayerHandle) return singlePlayerHandle;
     
-    singlePlayerHandle = GfuiScreenCreateEx((float*)NULL, 
-					    NULL, singlePlayerMenuActivate, 
-					    NULL, (tfuiCallback)NULL, 
+    singlePlayerHandle = GfuiScreenCreateEx(nullptr, 
+					    nullptr, singlePlayerMenuActivate, 
+					    nullptr, nullptr, 
 					    1);
 
     GfuiTitleCreate(singlePlayerHandle, "SELECT RACE", 0);

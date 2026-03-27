@@ -21,8 +21,8 @@
 #define HAVE_CONFIG_H
 #endif
 #include <GL/glut.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <portability.h>
 
 #ifdef HAVE_CONFIG_H
@@ -209,7 +209,7 @@ int SplashScreen(void)
 	
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GFSCR_CONF_FILE);
 	handle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
-	screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, (char*)NULL, 2.0);	
+	screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, nullptr, 2.0);	
 	GLbyte *tex = (GLbyte*)GfImgReadPng(filename, &s_imgWidth, &s_imgHeight, screen_gamma);
 	GfParmReleaseHandle(handle);
 	if (!tex) {
@@ -226,7 +226,7 @@ int SplashScreen(void)
 	
 	glutDisplayFunc(splashDisplay);
 	glutKeyboardFunc(splashKey);
-	glutSpecialFunc((void (*)(int key, int x, int y))NULL);
+	glutSpecialFunc((void (*)(int key, int x, int y))nullptr);
 	glutTimerFunc(7000, splashTimer, 0);
 	glutMouseFunc(splashMouse);
     

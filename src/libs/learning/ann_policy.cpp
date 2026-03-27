@@ -23,7 +23,7 @@ ANN_Policy::ANN_Policy (int n_states, int n_actions, int n_hidden, real alpha, r
 	}	
 	if (separate_actions) {
 		message ("Separate actions");
-		J = NULL;
+		J = nullptr;
 		Ja = new ANN* [n_actions];
 		JQs = new real [n_actions];
 		for (int i=0; i<n_actions; i++) {
@@ -39,8 +39,8 @@ ANN_Policy::ANN_Policy (int n_states, int n_actions, int n_hidden, real alpha, r
 			ANN_SetLearningRate (Ja[i], alpha);
 		}
 	} else {
-		JQs = NULL;
-		Ja = NULL;
+		JQs = nullptr;
+		Ja = nullptr;
 		J = NewANN (n_states, n_actions);
 		if (n_hidden > 0) {
 			ANN_AddHiddenLayer (J, n_hidden);

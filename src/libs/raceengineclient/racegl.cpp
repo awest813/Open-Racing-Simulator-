@@ -22,8 +22,8 @@
     @author	<a href=mailto:eric.espie@torcs.org>Eric Espie</a>
     @version	$Id$
 */
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 #include <tgfclient.h>
 #include <raceman.h>
@@ -116,20 +116,20 @@ reMovieCapture(void * /* dummy */)
 static void
 reAddKeys(void)
 {
-    GfuiAddSKey(reScreenHandle, GLUT_KEY_F1,        "Help", reScreenHandle, GfuiHelpScreen, NULL);
-    GfuiAddSKey(reScreenHandle, GLUT_KEY_F12,       "Take a screenshot", NULL, GfuiScreenShot, NULL);
+    GfuiAddSKey(reScreenHandle, GLUT_KEY_F1,        "Help", reScreenHandle, GfuiHelpScreen, nullptr);
+    GfuiAddSKey(reScreenHandle, GLUT_KEY_F12,       "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
 
 
-    GfuiAddKey(reScreenHandle, '-', "Slow down time",     (void*)0, ReTimeMod, NULL);
-    GfuiAddKey(reScreenHandle, '+', "Speed up time",      (void*)1, ReTimeMod, NULL);
-    GfuiAddKey(reScreenHandle, '.', "Real-time speed",    (void*)2, ReTimeMod, NULL);
-    GfuiAddKey(reScreenHandle, 'p', "Pause race",         (void*)0, ReBoardInfo, NULL);
-    GfuiAddKey(reScreenHandle, 27,  "Stop current race",  (void*)RE_STATE_RACE_STOP, ReStateApply, NULL);
-    GfuiAddKey(reScreenHandle, ' ', "Skip pre-start",     (void*)0, reSkipPreStart, NULL);
+    GfuiAddKey(reScreenHandle, '-', "Slow down time",     (void*)0, ReTimeMod, nullptr);
+    GfuiAddKey(reScreenHandle, '+', "Speed up time",      (void*)1, ReTimeMod, nullptr);
+    GfuiAddKey(reScreenHandle, '.', "Real-time speed",    (void*)2, ReTimeMod, nullptr);
+    GfuiAddKey(reScreenHandle, 'p', "Pause race",         (void*)0, ReBoardInfo, nullptr);
+    GfuiAddKey(reScreenHandle, 27,  "Stop current race",  (void*)RE_STATE_RACE_STOP, ReStateApply, nullptr);
+    GfuiAddKey(reScreenHandle, ' ', "Skip pre-start",     (void*)0, reSkipPreStart, nullptr);
 #ifdef DEBUG
     //GfuiAddKey(reScreenHandle, '0', "One step simulation",    (void*)1, reOneStep, NULL);
 #endif
-    GfuiAddKey(reScreenHandle, 'c', "Toggle video capture", (void*)0, reMovieCapture, NULL);
+    GfuiAddKey(reScreenHandle, 'c', "Toggle video capture", (void*)0, reMovieCapture, nullptr);
     
 }
 
@@ -266,11 +266,11 @@ static int	reCurLine;
 static void
 reAddResKeys(void)
 {
-    GfuiAddSKey(reResScreenHdle, GLUT_KEY_F1,  "Help", reScreenHandle, GfuiHelpScreen, NULL);
-    GfuiAddSKey(reResScreenHdle, GLUT_KEY_F12, "Screen Shot", NULL, GfuiScreenShot, NULL);
+    GfuiAddSKey(reResScreenHdle, GLUT_KEY_F1,  "Help", reScreenHandle, GfuiHelpScreen, nullptr);
+    GfuiAddSKey(reResScreenHdle, GLUT_KEY_F12, "Screen Shot", nullptr, GfuiScreenShot, nullptr);
 
-    GfuiAddKey(reResScreenHdle, 27,  "Stop Current Race", (void*)RE_STATE_RACE_STOP, ReStateApply, NULL);
-    /* GfuiAddKey(reResScreenHdle, 'q', "Exit of TORCS",     (void*)RE_STATE_EXIT, ReStateApply, NULL); */
+    GfuiAddKey(reResScreenHdle, 27,  "Stop Current Race", (void*)RE_STATE_RACE_STOP, ReStateApply, nullptr);
+    /* GfuiAddKey(reResScreenHdle, 'q', "Exit of TORCS",     (void*)RE_STATE_EXIT, ReStateApply, nullptr); */
 }
 
 static void
@@ -431,10 +431,10 @@ ReResShowCont(void)
 		     320, 15, GFUI_BTNSZ,
 		     GFUI_ALIGN_HC_VB,
 		     0, 0, reResCont,
-		     NULL, (tfuiCallback)NULL,
-		     (tfuiCallback)NULL);
-    GfuiAddKey(reResScreenHdle, 13,  "Continue", 0, reResCont, NULL);
-    GfuiAddKey(reResScreenHdle, 27,  "Continue", 0, reResCont, NULL);
+		     nullptr, nullptr,
+		     nullptr);
+    GfuiAddKey(reResScreenHdle, 13,  "Continue", 0, reResCont, nullptr);
+    GfuiAddKey(reResScreenHdle, 27,  "Continue", 0, reResCont, nullptr);
 
     glutDisplayFunc(reContDisplay);
     glutPostRedisplay();

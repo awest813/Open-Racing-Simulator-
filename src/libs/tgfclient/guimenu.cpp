@@ -24,8 +24,8 @@
 */
 
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -54,14 +54,14 @@ gfMenuInit(void)
 void
 GfuiMenuDefaultKeysAdd(void *scr)
 {
-    GfuiAddKey(scr, 9, "Select Next Entry", NULL, gfuiSelectNext, NULL);
-    GfuiAddKey(scr, 13, "Perform Action", (void*)2, gfuiMouseAction, NULL);
-    GfuiAddSKey(scr, GLUT_KEY_UP, "Select Previous Entry", NULL, gfuiSelectPrev, NULL);
-    GfuiAddSKey(scr, GLUT_KEY_DOWN, "Select Next Entry", NULL, gfuiSelectNext, NULL);
-    GfuiAddSKey(scr, GLUT_KEY_PAGE_UP, "Select Previous Entry", NULL, gfuiSelectPrev, NULL);
-    GfuiAddSKey(scr, GLUT_KEY_PAGE_DOWN, "Select Next Entry", NULL, gfuiSelectNext, NULL);
-    GfuiAddSKey(scr, GLUT_KEY_F1, "Help", scr, GfuiHelpScreen, NULL);
-    GfuiAddSKey(scr, GLUT_KEY_F12, "Screen-Shot", NULL, GfuiScreenShot, NULL);
+    GfuiAddKey(scr, 9, "Select Next Entry", nullptr, gfuiSelectNext, nullptr);
+    GfuiAddKey(scr, 13, "Perform Action", (void*)2, gfuiMouseAction, nullptr);
+    GfuiAddSKey(scr, GLUT_KEY_UP, "Select Previous Entry", nullptr, gfuiSelectPrev, nullptr);
+    GfuiAddSKey(scr, GLUT_KEY_DOWN, "Select Next Entry", nullptr, gfuiSelectNext, nullptr);
+    GfuiAddSKey(scr, GLUT_KEY_PAGE_UP, "Select Previous Entry", nullptr, gfuiSelectPrev, nullptr);
+    GfuiAddSKey(scr, GLUT_KEY_PAGE_DOWN, "Select Next Entry", nullptr, gfuiSelectNext, nullptr);
+    GfuiAddSKey(scr, GLUT_KEY_F1, "Help", scr, GfuiHelpScreen, nullptr);
+    GfuiAddSKey(scr, GLUT_KEY_F12, "Screen-Shot", nullptr, GfuiScreenShot, nullptr);
     
 }
 
@@ -176,7 +176,7 @@ GfuiMenuBackQuitButtonCreate(void *scr, const char *text, const char *tip, void 
 			(void*)cbinfo, dispInfo,
 			remInfo);
 
-    GfuiAddKey(scr, (unsigned char)27, tip, userdata, onpush, NULL);
+    GfuiAddKey(scr, (unsigned char)27, tip, userdata, onpush, nullptr);
 
     return bId;
 }

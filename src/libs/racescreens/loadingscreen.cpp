@@ -23,14 +23,14 @@
     @version	$Id$
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
 #include <tgfclient.h>
 #include <car.h>
 
-static void *menuHandle = NULL;
+static void *menuHandle = nullptr;
 #define TEXTLINES 23
 static int rmTextId[TEXTLINES];
 static char *rmTextLines[TEXTLINES] = {0};
@@ -49,7 +49,7 @@ static void rmDeativate(void * /* dummy */)
 /** @brief Set up loading screen
  *  @ingroup racemantools
  *  @param title Screen title.
- *  @param bgimg Optionnal backgrounf image (NULL for no img).
+ *  @param bgimg Optionnal backgrounf image (nullptr for no img).
 */
 void RmLoadingScreenStart(const char *title, const char *bgimg)
 {
@@ -64,7 +64,7 @@ void RmLoadingScreenStart(const char *title, const char *bgimg)
 	if (menuHandle) {
 		GfuiScreenRelease(menuHandle);
 	}
-	menuHandle = GfuiScreenCreateEx(black, NULL, NULL, NULL, rmDeativate, 0);
+	menuHandle = GfuiScreenCreateEx(black, nullptr, nullptr, nullptr, rmDeativate, 0);
 	
 	GfuiTitleCreate(menuHandle, title, strlen(title));
 	
@@ -77,7 +77,7 @@ void RmLoadingScreenStart(const char *title, const char *bgimg)
 		if (rmTextLines[i]) {
 			/* free old text */
 			free(rmTextLines[i]);
-			rmTextLines[i] = NULL;
+			rmTextLines[i] = nullptr;
 		}
 	}
 	

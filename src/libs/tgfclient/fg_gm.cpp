@@ -44,9 +44,9 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 
 #include <tgfclient.h>
 #include "fg_gm.h"
@@ -134,7 +134,7 @@ static void fgInitialize(void)
 
 	// Have the display created.
 	fgDisplay.display = XOpenDisplay(displayName);
-	if(fgDisplay.display == NULL) {
+	if(fgDisplay.display == nullptr) {
 		// Failed to open a display. That's no good.
 		GfOut( "failed to open display '%s'", XDisplayName( displayName ) );
 	}
@@ -176,7 +176,7 @@ static void fghRememberState( void )
 		// Query the current display settings.
 #ifdef USE_RANDR_EXT
 		XRRScreenConfiguration *screenconfig = XRRGetScreenInfo(fgDisplay.display, fgDisplay.RootWindow);
-		if (screenconfig != NULL) {
+		if (screenconfig != nullptr) {
 			SizeID size = XRRConfigCurrentConfiguration (screenconfig, &fgDisplay.rotation);
 			int nsize;
 			XRRScreenSize *sizes = XRRConfigSizes(screenconfig, &nsize);
@@ -206,7 +206,7 @@ static void fghRestoreState( void )
 {
 #ifdef USE_RANDR_EXT
 	XRRScreenConfiguration *screenconfig = XRRGetScreenInfo(fgDisplay.display, fgDisplay.RootWindow);
-	if (screenconfig != NULL) {
+	if (screenconfig != nullptr) {
 		int nsize;
 		XRRScreenSize *sizes = XRRConfigSizes(screenconfig, &nsize);
 		// Search for the display resolution ID for the old video mode.
@@ -322,7 +322,7 @@ static int fghChangeDisplayMode( int /* haveToTest */ )
 {
 #ifdef USE_RANDR_EXT
 	XRRScreenConfiguration *screenconfig = XRRGetScreenInfo(fgDisplay.display, fgDisplay.RootWindow);
-	if (screenconfig != NULL) {
+	if (screenconfig != nullptr) {
 		int nsize;
 		XRRScreenSize *sizes = XRRConfigSizes(screenconfig, &nsize);
 		// Search for the requested display resolution.

@@ -25,8 +25,8 @@
 
 /* The Race Engine State Automaton */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <tgfclient.h>
 #include <raceman.h>
 #include <racescreens.h>

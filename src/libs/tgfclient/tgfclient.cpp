@@ -20,7 +20,7 @@
 #include <windows.h>
 #endif
 #include <tgfclient.h>
-#include <time.h>
+#include <ctime>
 
 #include "gui.h"
 

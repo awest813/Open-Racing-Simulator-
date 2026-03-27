@@ -22,8 +22,8 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <tgfclient.h>
 #include <raceinit.h>
 #include <graphic.h>
@@ -51,8 +51,8 @@ static int TextureSizeOptionId;
 static const int defaultTextSize = 64; // In case everything goes wrong.
 
 // gui screen handles.
-static void	*scrHandle = NULL;
-static void	*prevHandle = NULL;
+static void	*scrHandle = nullptr;
+static void	*prevHandle = nullptr;
 
 
 // Read OpenGL configuration.
@@ -80,7 +80,7 @@ static void readOpenGLCfg(void)
 	// Read texture sizing parameters.
 	int maxsizenb = 0;
 	int sizelimit = getGLTextureMaxSize();
-	int tsize = (int) GfParmGetNum(paramHandle, GR_SCT_GLFEATURES, GR_ATT_TEXTURESIZE, (char*)NULL, (tdble) sizelimit);
+	int tsize = (int) GfParmGetNum(paramHandle, GR_SCT_GLFEATURES, GR_ATT_TEXTURESIZE, nullptr, (tdble) sizelimit);
 	bool found = false;
 
 	for (i = 0; i < nbOptionsTextSize; i++) {
@@ -130,9 +130,9 @@ static void saveOpenGLOption(void *)
 	// Texture compression.
 	GfParmSetStr(paramHandle, GR_SCT_GLFEATURES, GR_ATT_TEXTURECOMPRESSION, textureCompressOptionList[curOptionTextComp]);
 	// Texture sizing.
-	GfParmSetNum(paramHandle, GR_SCT_GLFEATURES, GR_ATT_TEXTURESIZE, (char*)NULL, (tdble) textureSizeOptionList[curOptionTextSize]);
+	GfParmSetNum(paramHandle, GR_SCT_GLFEATURES, GR_ATT_TEXTURESIZE, nullptr, (tdble) textureSizeOptionList[curOptionTextSize]);
 
-	GfParmWriteFile(NULL, paramHandle, "graph");
+	GfParmWriteFile(nullptr, paramHandle, "graph");
 	GfParmReleaseHandle(paramHandle);
 
 	// Return to previous screen.
@@ -198,7 +198,7 @@ void * OpenGLMenuInit(void *prevMenu)
 
 	prevHandle = prevMenu;
 
-	scrHandle = GfuiScreenCreateEx((float*)NULL, NULL, onActivate, NULL, (tfuiCallback)NULL, 1);
+	scrHandle = GfuiScreenCreateEx(nullptr, nullptr, onActivate, nullptr, nullptr, 1);
 	GfuiTitleCreate(scrHandle, "OpenGL Configuration", 0);
 	GfuiScreenAddBgImg(scrHandle, "data/img/splash-simucfg.png");
 
@@ -219,13 +219,13 @@ void * OpenGLMenuInit(void *prevMenu)
 				"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 				xleft-width/2, y, GFUI_ALIGN_HC_VB, 1,
 				(void*)-1, changeTextureCompressState,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, nullptr, nullptr);
 
 		GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 				"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 				xleft+width/2, y, GFUI_ALIGN_HC_VB, 1,
 				(void*)1, changeTextureCompressState,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, nullptr, nullptr);
 
 		TextureCompressOptionId = GfuiLabelCreate(scrHandle, "", GFUI_FONT_LARGE_C, xleft, y, GFUI_ALIGN_HC_VB, 32);
 		GfuiLabelSetColor(scrHandle, TextureCompressOptionId, LabelColor);
@@ -241,29 +241,29 @@ void * OpenGLMenuInit(void *prevMenu)
 			"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 			xright-width/2, y, GFUI_ALIGN_HC_VB, 0,
 			(void*)-1, changeTextureSizeState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 			"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 			xright+width/2, y, GFUI_ALIGN_HC_VB, 0,
 			(void*)1, changeTextureSizeState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	TextureSizeOptionId = GfuiLabelCreate(scrHandle, "", GFUI_FONT_LARGE_C, xright, y, GFUI_ALIGN_HC_VB, 32);
 	GfuiLabelSetColor(scrHandle, TextureSizeOptionId, LabelColor);
 
 
 	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-	NULL, saveOpenGLOption, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+	nullptr, saveOpenGLOption, nullptr, nullptr, nullptr);
 
 	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-	prevMenu, GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+	prevMenu, GfuiScreenActivate, nullptr, nullptr, nullptr);
 
-	GfuiAddKey(scrHandle, 13, "Save", NULL, saveOpenGLOption, NULL);
-	GfuiAddKey(scrHandle, 27, "Cancel Selection", prevMenu, GfuiScreenActivate, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Screen-Shot", NULL, GfuiScreenShot, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous Option in list", (void*)0, changeTextureCompressState, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next Option in list", (void*)1, changeTextureCompressState, NULL);
+	GfuiAddKey(scrHandle, 13, "Save", nullptr, saveOpenGLOption, nullptr);
+	GfuiAddKey(scrHandle, 27, "Cancel Selection", prevMenu, GfuiScreenActivate, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Screen-Shot", nullptr, GfuiScreenShot, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous Option in list", (void*)0, changeTextureCompressState, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next Option in list", (void*)1, changeTextureCompressState, nullptr);
 
 	readOpenGLCfg();
 

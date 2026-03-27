@@ -17,7 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdio.h>
+#include <cstdio>
 #include <tgfclient.h>
 #include "optionmenu.h"
 #include <graphconfig.h>
@@ -25,7 +25,7 @@
 #include <soundconfig.h>
 #include <openglconfig.h>
 
-static void *optionHandle = NULL;
+static void *optionHandle = nullptr;
 
 void *
 TorcsOptionOptionInit(void *precMenu)

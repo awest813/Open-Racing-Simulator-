@@ -24,8 +24,8 @@
 */
 
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <sys/stat.h>
 #ifdef WIN32
 #include <windows.h>
@@ -33,10 +33,10 @@
 #include <tgfclient.h>
 #include <racescreens.h>
 
-static void *scrHandle = NULL;
+static void *scrHandle = nullptr;
 static int fileScrollList;
 static tRmFileSelect *rmFs;
-static tFList *FileList = NULL;
+static tFList *FileList = nullptr;
 static tFList *FileSelected;
 
 
@@ -55,18 +55,18 @@ static void rmSelect(void * /* dummy */ )
 {
 	if (FileList) {
 		rmFs->select(FileSelected->name);
-		GfDirFreeList(FileList, NULL, true, false);
-		FileList = NULL;
+		GfDirFreeList(FileList, nullptr, true, false);
+		FileList = nullptr;
 	} else {
-		rmFs->select(NULL);
+		rmFs->select(nullptr);
 	}
 }
 
 static void rmDeactivate(void * /* dummy */ )
 {
 	if (FileList) {
-		GfDirFreeList(FileList, NULL, true, false);
-		FileList = NULL;
+		GfDirFreeList(FileList, nullptr, true, false);
+		FileList = nullptr;
 	}
 	GfuiScreenActivate(rmFs->prevScreen);
 }
@@ -87,16 +87,16 @@ void RmFileSelect(void *vs)
 	if (scrHandle) {
 		GfuiScreenRelease(scrHandle);
 	}
-	scrHandle = GfuiScreenCreateEx((float*)NULL, NULL, rmActivate, NULL, (tfuiCallback)NULL, 1);
+	scrHandle = GfuiScreenCreateEx(nullptr, nullptr, rmActivate, nullptr, nullptr, 1);
 	GfuiScreenAddBgImg(scrHandle, "data/img/splash-filesel.png");
 	GfuiTitleCreate(scrHandle, rmFs->title, 0);
 
 	/* Scroll List containing the File list */
 	fileScrollList = GfuiScrollListCreate(scrHandle, GFUI_FONT_MEDIUM_C, 120, 80, GFUI_ALIGN_HC_VB,
-						400, 310, GFUI_SB_RIGHT, NULL, rmClickOnFile);
+						400, 310, GFUI_SB_RIGHT, nullptr, rmClickOnFile);
 
 	FileList = GfDirGetList(rmFs->path);
-	if (FileList == NULL) {
+	if (FileList == nullptr) {
 		GfuiScreenActivate(rmFs->prevScreen);
 		return;
 	}
@@ -110,10 +110,10 @@ void RmFileSelect(void *vs)
 
 	/* Bottom buttons */
 	GfuiButtonCreate(scrHandle, "Select", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				NULL, rmSelect, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, rmSelect, nullptr, nullptr, nullptr);
 
 	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				NULL, rmDeactivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, rmDeactivate, nullptr, nullptr, nullptr);
 
 	/* Default menu keyboard actions */
 	GfuiMenuDefaultKeysAdd(scrHandle);

@@ -20,7 +20,7 @@
 #include "musicplayer.h"
 
 #include <GL/glut.h>
-#include <string.h>
+#include <cstring>
 #include <tgf.h>
 #include <portability.h>
 

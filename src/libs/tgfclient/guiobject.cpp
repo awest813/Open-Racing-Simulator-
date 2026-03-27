@@ -167,30 +167,30 @@ GfuiUnSelectCurrent(void)
     tGfuiObject		*obj;
 
     obj = GfuiScreen->hasFocus;
-    if (obj == NULL) {
+    if (obj == nullptr) {
 	return;
     }
-    GfuiScreen->hasFocus = (tGfuiObject*)NULL;
+    GfuiScreen->hasFocus = nullptr;
     obj->focus = 0;
     switch (obj->widget) {
     case GFUI_BUTTON:
 	button = &(obj->u.button);
 	button->state = GFUI_BTN_RELEASED;
-	if (button->onFocusLost != NULL) {
+	if (button->onFocusLost != nullptr) {
 	    button->onFocusLost(button->userDataOnFocus);
 	}
 	break;
     case GFUI_GRBUTTON:
 	grbutton = &(obj->u.grbutton);
 	grbutton->state = GFUI_BTN_RELEASED;
-	if (grbutton->onFocusLost != NULL) {
+	if (grbutton->onFocusLost != nullptr) {
 	    grbutton->onFocusLost(grbutton->userDataOnFocus);
 	}
 	break;
     case GFUI_EDITBOX:
 	editbox = &(obj->u.editbox);
 	editbox->state = GFUI_BTN_RELEASED;	
-	if (editbox->onFocusLost != NULL) {
+	if (editbox->onFocusLost != nullptr) {
 	    editbox->onFocusLost(editbox->userDataOnFocus);
 	}
 	break;
@@ -208,27 +208,27 @@ gfuiLoseFocus(tGfuiObject *obj)
     tGfuiEditbox	*editbox;
     tGfuiGrButton	*grbutton;
 
-    GfuiScreen->hasFocus = (tGfuiObject*)NULL;
+    GfuiScreen->hasFocus = nullptr;
     obj->focus = 0;
     switch (obj->widget) {
     case GFUI_BUTTON:
 	button = &(obj->u.button);
 	button->state = GFUI_BTN_RELEASED;
-	if (button->onFocusLost != NULL) {
+	if (button->onFocusLost != nullptr) {
 	    button->onFocusLost(button->userDataOnFocus);
 	}
 	break;
     case GFUI_GRBUTTON:
 	grbutton = &(obj->u.grbutton);
 	grbutton->state = GFUI_BTN_RELEASED;
-	if (grbutton->onFocusLost != NULL) {
+	if (grbutton->onFocusLost != nullptr) {
 	    grbutton->onFocusLost(grbutton->userDataOnFocus);
 	}
 	break;
     case GFUI_EDITBOX:
 	editbox = &(obj->u.editbox);
 	editbox->state = GFUI_BTN_RELEASED;	
-	if (editbox->onFocusLost != NULL) {
+	if (editbox->onFocusLost != nullptr) {
 	    editbox->onFocusLost(editbox->userDataOnFocus);
 	}
 	break;
@@ -246,7 +246,7 @@ gfuiSetFocus(tGfuiObject *obj)
     tGfuiEditbox	*editbox;
     tGfuiGrButton	*grbutton;
     
-    if (GfuiScreen->hasFocus != NULL) {
+    if (GfuiScreen->hasFocus != nullptr) {
 	gfuiLoseFocus(GfuiScreen->hasFocus);
     }
     GfuiScreen->hasFocus = obj;
@@ -254,19 +254,19 @@ gfuiSetFocus(tGfuiObject *obj)
     switch (obj->widget) {
     case GFUI_BUTTON:
 	button = &(obj->u.button);
-	if (button->onFocus != NULL) {
+	if (button->onFocus != nullptr) {
 	    button->onFocus(button->userDataOnFocus);
 	}
 	break;
     case GFUI_GRBUTTON:
 	grbutton = &(obj->u.grbutton);
-	if (grbutton->onFocus != NULL) {
+	if (grbutton->onFocus != nullptr) {
 	    grbutton->onFocus(grbutton->userDataOnFocus);
 	}
 	break;
     case GFUI_EDITBOX:
 	editbox = &(obj->u.editbox);
-	if (editbox->onFocus != NULL) {
+	if (editbox->onFocus != nullptr) {
 	    editbox->onFocus(editbox->userDataOnFocus);
 	}
 	break;
@@ -279,19 +279,19 @@ gfuiUpdateFocus(void)
     tGfuiObject *curObject;
     
     curObject = GfuiScreen->hasFocus;
-    if (curObject != NULL) {
+    if (curObject != nullptr) {
 	if (gfuiMouseIn(curObject)) {
 	    return; /* focus has not changed */
 	}
 	if (curObject->focusMode != GFUI_FOCUS_MOUSE_CLICK) {
 	    gfuiLoseFocus(GfuiScreen->hasFocus);
-	    GfuiScreen->hasFocus = (tGfuiObject*)NULL;
+	    GfuiScreen->hasFocus = nullptr;
 	}
     }
     
     /* Search for a new focused object */
     curObject = GfuiScreen->objects;
-    if (curObject != NULL) {
+    if (curObject != nullptr) {
 	do {
 	    curObject = curObject->next;
 	    if ((curObject->visible == 0) ||
@@ -314,10 +314,10 @@ gfuiSelectNext(void * /* dummy */)
     tGfuiObject *curObject;
     
     startObject = GfuiScreen->hasFocus;
-    if (startObject == NULL) {
+    if (startObject == nullptr) {
 	startObject = GfuiScreen->objects;
     }
-    if (startObject == NULL) {
+    if (startObject == nullptr) {
 	return;
     }
     curObject = startObject;
@@ -347,9 +347,9 @@ gfuiSelectPrev(void * /* dummy */)
     tGfuiObject *curObject;
     
     startObject = GfuiScreen->hasFocus;
-    if (startObject == NULL) {
+    if (startObject == nullptr) {
 	startObject = GfuiScreen->objects;
-	if (startObject == NULL) {
+	if (startObject == nullptr) {
 	    return;
 	}
 	startObject = startObject->next;
@@ -381,7 +381,7 @@ gfuiSelectId(void *scr, int id)
     tGfuiScreen	*screen = (tGfuiScreen*)scr;
     
     curObject = screen->objects;
-    if (curObject != NULL) {
+    if (curObject != nullptr) {
 	do {
 	    curObject = curObject->next;
 	    if (curObject->id == id) {
@@ -406,7 +406,7 @@ GfuiVisibilitySet(void *scr, int id, int visible)
     tGfuiObject *curObject;
     
     curObject = gfuiGetObject(scr, id);
-    if (curObject == NULL) {
+    if (curObject == nullptr) {
 	return -1;
     }
     switch(visible) {
@@ -436,7 +436,7 @@ GfuiEnable(void *scr, int id, int flag)
     tGfuiObject *curObject;
 
     curObject = gfuiGetObject(scr, id);
-    if (curObject == NULL) {
+    if (curObject == nullptr) {
 	return -1;
     }
     switch(flag) {
@@ -459,7 +459,7 @@ gfuiMouseAction(void *vaction)
     long	action = (long)vaction;
 
     curObject = GfuiScreen->hasFocus;
-    if (curObject != NULL) {
+    if (curObject != nullptr) {
 		if (curObject->state == GFUI_DISABLE) {
 			return;
 		}
@@ -484,7 +484,7 @@ gfuiMouseAction(void *vaction)
 void
 gfuiAddObject(tGfuiScreen *screen, tGfuiObject *object)
 {
-    if (screen->objects == NULL) {
+    if (screen->objects == nullptr) {
 	screen->objects = object;
 	object->next = object;
 	object->prev = object;
@@ -504,7 +504,7 @@ gfuiGetObject(void *scr, int id)
     tGfuiScreen	*screen = (tGfuiScreen*)scr;
     
     curObject = screen->objects;
-    if (curObject != NULL) {
+    if (curObject != nullptr) {
 	do {
 	    curObject = curObject->next;
 	    if (curObject->id == id) {
@@ -512,7 +512,7 @@ gfuiGetObject(void *scr, int id)
 	    }
 	} while (curObject != screen->objects);
     }
-    return (tGfuiObject *)NULL;
+    return nullptr;
 }
 
 

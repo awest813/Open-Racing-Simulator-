@@ -22,8 +22,8 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <tgfclient.h>
 #include <raceinit.h>
 #include <graphic.h>
@@ -59,8 +59,8 @@ static float VolumeValue = 100.0f;
 //static int VolumeValueId;
 
 // gui screen handles.
-static void	*scrHandle = NULL;
-static void	*prevHandle = NULL;
+static void	*scrHandle = nullptr;
+static void	*prevHandle = nullptr;
 
 
 // Read sound configuration.
@@ -122,14 +122,14 @@ static void saveSoundOption(void *)
 	void *paramHandle = GfParmReadFile(buf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
 	GfParmSetStr(paramHandle, GR_SCT_SOUND, GR_ATT_SOUND_STATE, soundOptionList[curOption]);
 	GfParmSetNum(paramHandle, GR_SCT_SOUND, GR_ATT_SOUND_VOLUME, "%", VolumeValue);
-	GfParmWriteFile(NULL, paramHandle, "sound");
+	GfParmWriteFile(nullptr, paramHandle, "sound");
 	GfParmReleaseHandle(paramHandle);
 
 	// Write Menu music optons
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), MM_SOUND_PARM_CFG);
 	paramHandle = GfParmReadFile(buf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
 	GfParmSetStr(paramHandle, MM_SCT_SOUND, MM_ATT_SOUND_ENABLE, menuMusicList[curOptionMenuMusic]);
-	GfParmWriteFile(NULL, paramHandle, "sound");
+	GfParmWriteFile(nullptr, paramHandle, "sound");
 	GfParmReleaseHandle(paramHandle);
 	
 	if (curOptionMenuMusic == 1) {
@@ -209,7 +209,7 @@ void * SoundMenuInit(void *prevMenu)
 
 	prevHandle = prevMenu;
 
-	scrHandle = GfuiScreenCreateEx((float*)NULL, NULL, onActivate, NULL, (tfuiCallback)NULL, 1);
+	scrHandle = GfuiScreenCreateEx(nullptr, nullptr, onActivate, nullptr, nullptr, 1);
 	GfuiTitleCreate(scrHandle, "Sound Configuration", 0);
 	GfuiScreenAddBgImg(scrHandle, "data/img/splash-qrdrv.png");
 
@@ -227,13 +227,13 @@ void * SoundMenuInit(void *prevMenu)
 			"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 			x2, y-5, GFUI_ALIGN_HL_VB, 1,
 			(void*)-1, changeSoundState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 			"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 			x3, y-5, GFUI_ALIGN_HR_VB, 1,
 			(void*)1, changeSoundState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	SoundOptionId = GfuiLabelCreate(scrHandle, "", GFUI_FONT_MEDIUM_C, x4, y, GFUI_ALIGN_HC_VB, 32);
 	GfuiLabelSetColor(scrHandle, SoundOptionId, LabelColor);
@@ -245,13 +245,13 @@ void * SoundMenuInit(void *prevMenu)
 			"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 			x2, y-5, GFUI_ALIGN_HL_VB, 1,
 			(void*)-1, changeMenuMusicState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 			"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 			x3, y-5, GFUI_ALIGN_HR_VB, 1,
 			(void*)1, changeMenuMusicState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	MenuMusicOptionId = GfuiLabelCreate(scrHandle, "", GFUI_FONT_MEDIUM_C, x4, y, GFUI_ALIGN_HC_VB, 32);
 	GfuiLabelSetColor(scrHandle, MenuMusicOptionId, LabelColor);
@@ -263,21 +263,21 @@ void * SoundMenuInit(void *prevMenu)
 	
     snprintf(buf, "%f", VolumeValue);
     VolumeValueId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
-				    x2+10, y+2, x4-x2+20, 16, NULL, (tfuiCallback)NULL, changeVolume);
+				    x2+10, y+2, x4-x2+20, 16, nullptr, nullptr, changeVolume);
 
 
 */
 	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-	NULL, saveSoundOption, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+	nullptr, saveSoundOption, nullptr, nullptr, nullptr);
 
 	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-	prevMenu, GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+	prevMenu, GfuiScreenActivate, nullptr, nullptr, nullptr);
 
-	GfuiAddKey(scrHandle, 13, "Save settings", NULL, saveSoundOption, NULL);
-	GfuiAddKey(scrHandle, 27, "Cancel changes", prevMenu, GfuiScreenActivate, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous option", (void*)0, changeSoundState, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next option", (void*)1, changeSoundState, NULL);
+	GfuiAddKey(scrHandle, 13, "Save settings", nullptr, saveSoundOption, nullptr);
+	GfuiAddKey(scrHandle, 27, "Cancel changes", prevMenu, GfuiScreenActivate, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous option", (void*)0, changeSoundState, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next option", (void*)1, changeSoundState, nullptr);
 
 	readSoundCfg();
 

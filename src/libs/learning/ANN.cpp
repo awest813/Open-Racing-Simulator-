@@ -24,18 +24,18 @@
 /// Create a new ANN
 ANN *NewANN(int n_inputs, int n_outputs)
 {
-	ANN *ann = NULL;
+	ANN *ann = nullptr;
 
 	if (!(ann = AllocM(ANN, 1))) {
 		Serror("Could not allocate ANN\n");
-		return NULL;
+		return nullptr;
 	}
-	ann->x = NULL;
-	ann->y = NULL;
-	ann->t = NULL;
-	ann->d = NULL;
-	ann->error = NULL;
-	ann->c = NULL;
+	ann->x = nullptr;
+	ann->y = nullptr;
+	ann->t = nullptr;
+	ann->d = nullptr;
+	ann->error = nullptr;
+	ann->c = nullptr;
 	ann->a = 0.1f;
 	ann->lambda = 0.9f;
 	ann->zeta = 0.9f;
@@ -49,19 +49,19 @@ ANN *NewANN(int n_inputs, int n_outputs)
 	if (!(ann->error = AllocM(real, n_outputs))) {
 		Serror("Could not allocate errors\n");
 		DeleteANN(ann);
-		return NULL;
+		return nullptr;
 	}
 
 	if (!(ann->d = AllocM(real, n_outputs))) {
 		Serror("Could not allocate derivatives\n");
 		DeleteANN(ann);
-		return NULL;
+		return nullptr;
 	}
 
 	if (!(ann->c = List())) {
 		Serror("Could not allocate list\n");
 		DeleteANN(ann);
-		return NULL;
+		return nullptr;
 	}
 #ifdef ANN_DBUG
 	message("Creating ANN with %d inputs and %d outputs", n_inputs,
@@ -77,7 +77,7 @@ ANN *NewANN(int n_inputs, int n_outputs)
 int DeleteANN(ANN * ann)
 {
 	if (!ann) {
-		Swarning("Attempting to delete NULL ANN\n");
+		Swarning("Attempting to delete nullptr ANN\n");
 		return DEC_ARG_INVALID;
 	}
 
@@ -96,7 +96,7 @@ int DeleteANN(ANN * ann)
 	/* We must clear all allocations in the list */
 	if (ann->c) {
 		ClearList(ann->c);
-		ann->c = NULL;
+		ann->c = nullptr;
 	}
 
 	FreeM(ann);
@@ -151,8 +151,8 @@ int ANN_AddRBFHiddenLayer(ANN * ann, int n_nodes)
 /// Low-level code to add a weighted sum layer
 Layer *ANN_AddLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 {
-	Layer *l = NULL;
-	if ((x == NULL) && (ann->c->n)) {
+	Layer *l = nullptr;
+	if ((x == nullptr) && (ann->c->n)) {
 		Swarning
 		    ("Layer connects to null but layer list is not empty\n");
 	}
@@ -160,7 +160,7 @@ Layer *ANN_AddLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 
 	if (!(l = AllocM(Layer, 1))) {
 		Serror("Could not allocate layer structure\n");
-		return NULL;
+		return nullptr;
 	}
 
 	assert(n_inputs > 0);
@@ -182,7 +182,7 @@ Layer *ANN_AddLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 	if (!(l->y = AllocM(real, n_outputs))) {
 		Serror("Could not allocate layer outputs\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 	int i;
 	for (i=0; i<n_outputs; i++) {
@@ -192,7 +192,7 @@ Layer *ANN_AddLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 	if (!(l->z = AllocM(real, n_outputs))) {
 		Serror("Could not allocate layer activations\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 	for (i=0; i<n_outputs; i++) {
 		l->z[i] = 0.0;
@@ -200,7 +200,7 @@ Layer *ANN_AddLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 	if (!(l->d = AllocM(real, n_inputs + 1 /*bias */ ))) {
 		Serror("Could not allocate layer outputs\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 	for (i=0; i<n_inputs+1; i++) {
 		l->d[i] = 0.0;
@@ -211,10 +211,10 @@ Layer *ANN_AddLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 	     AllocM(Connection, (n_inputs + 1 /*bias */ ) * n_outputs))) {
 		Serror("Could not allocate connections\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 
-	l->rbf = NULL;
+	l->rbf = nullptr;
 
 	real bound = 2.0f / sqrt((real) n_inputs);
 	for (i = 0; i < n_inputs + 1 /*bias */ ; i++) {
@@ -239,15 +239,15 @@ Layer *ANN_AddLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 /// Low-level code to add an RBF layer
 Layer *ANN_AddRBFLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 {
-	Layer *l = NULL;
-	if ((x == NULL) && (ann->c->n)) {
+	Layer *l = nullptr;
+	if ((x == nullptr) && (ann->c->n)) {
 		Swarning
 		    ("Layer connects to null and layer list not empty\n");
 	}
 
 	if (!(l = AllocM(Layer, 1))) {
 		Serror("Could not allocate layer structure\n");
-		return NULL;
+		return nullptr;
 	}
 
 	assert(n_inputs > 0);
@@ -266,19 +266,19 @@ Layer *ANN_AddRBFLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 	if (!(l->y = AllocM(real, n_outputs))) {
 		Serror("Could not allocate layer outputs\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 
 	if (!(l->z = AllocM(real, n_outputs))) {
 		Serror("Could not allocate layer activations\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 
 	if (!(l->d = AllocM(real, n_inputs + 1 /*bias */ ))) {
 		Serror("Could not allocate layer outputs\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 
 	if (!
@@ -287,10 +287,10 @@ Layer *ANN_AddRBFLayer(ANN * ann, int n_inputs, int n_outputs, real * x)
 		    (n_inputs + 1 /*bias */ ) * n_outputs))) {
 		Serror("Could not allocate connections\n");
 		ANN_FreeLayer(l);
-		return NULL;
+		return nullptr;
 	}
 
-	l->c = NULL;
+	l->c = nullptr;
 
 	real bound = 2.0f / sqrt((real) n_inputs);
 	for (int i = 0; i < n_inputs + 1 /*bias */ ; i++) {
@@ -347,7 +347,7 @@ int ANN_Init(ANN * ann)
 {
 	// Add output layer
 	LISTITEM *item = LastListItem(ann->c);
-	Layer *l = NULL;
+	Layer *l = nullptr;
 #ifdef ANN_DBUG
 	message("Initialising");
 #endif
@@ -358,7 +358,7 @@ int ANN_Init(ANN * ann)
 		l = ANN_AddLayer(ann, ann->n_inputs, ann->n_outputs,
 				 ann->x);
 	}
-	if (l == NULL) {
+	if (l == nullptr) {
 		Serror("Could not create final layer\n");
 		DeleteANN(ann);
 		return -1;
@@ -614,7 +614,7 @@ real ANN_Backpropagate(LISTITEM * p, real * d, bool use_eligibility, real TD)
 	real a;
 	Layer *l = (Layer *) p->obj;
 	LISTITEM *back = p->prev;
-	Layer *back_layer = NULL;
+	Layer *back_layer = nullptr;
 	a = l->a;
 	//  message ("backing with in: %d",l->x);
 	if (back) {
@@ -731,7 +731,7 @@ real ANN_RBFBackpropagate(LISTITEM * p, real * d, bool use_eligibility, real TD)
 	real a;
 	Layer *l = (Layer *) p->obj;
 	LISTITEM *back = p->prev;
-	Layer *back_layer = NULL;
+	Layer *back_layer = nullptr;
 	a = l->a;
 
 	if (back) {
@@ -1149,7 +1149,7 @@ static inline bool CheckMatchingToken (const char* tag, StringBuffer* buf, FILE*
 {
 	int l = 1+strlen(tag);
 	buf = SetStringBufferLength (buf, l);
-	if (buf==NULL) {
+	if (buf==nullptr) {
 		return false;
 	}
 	fread(buf->c, sizeof(char), l, f);
@@ -1176,7 +1176,7 @@ ANN* LoadANN(char* filename)
 		fclose (f);
 		return ann;
 	}
-	return NULL;
+	return nullptr;
 }
 /// Save the ANN to a filename.
 int SaveANN(ANN* ann, char* filename)
@@ -1193,8 +1193,8 @@ int SaveANN(ANN* ann, char* filename)
 /// Load the ANN from a C file handle.
 ANN* LoadANN(FILE* f)
 {
-	if (f==NULL) {
-		return NULL;
+	if (f==nullptr) {
+		return nullptr;
 	}
 	StringBuffer* rtag = NewStringBuffer (256);
 	CheckMatchingToken("VSOUND_ANN", rtag, f);
@@ -1248,7 +1248,7 @@ ANN* LoadANN(FILE* f)
 /// Save the ANN to a C file handle.
 int SaveANN(ANN* ann, FILE* f)
 {
-	if (f==NULL) {
+	if (f==nullptr) {
 		return -1;
 	}
 	

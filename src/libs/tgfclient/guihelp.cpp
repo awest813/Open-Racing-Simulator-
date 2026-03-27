@@ -23,7 +23,7 @@
     @ingroup	gui
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -71,23 +71,23 @@ GfuiHelpScreen(void *prevScreen)
     curSKey = pscr->userSpecKeys;
     curKey = pscr->userKeys;
     do {
-	if (curSKey != NULL) {
+	if (curSKey != nullptr) {
 	    curSKey = curSKey->next;
 	    GfuiLabelCreateEx(scrHandle, curSKey->name, fgColor1, GFUI_FONT_SMALL_C, x, y, GFUI_ALIGN_HL_VB, 0);
 	    GfuiLabelCreateEx(scrHandle, curSKey->descr, fgColor2, GFUI_FONT_SMALL_C, x + dx, y, GFUI_ALIGN_HL_VB, 0);
 	}
 
-	if (curKey != NULL) {
+	if (curKey != nullptr) {
 	    curKey = curKey->next;
 	    GfuiLabelCreateEx(scrHandle, curKey->name, fgColor1, GFUI_FONT_SMALL_C, x2, y, GFUI_ALIGN_HL_VB, 0);
 	    GfuiLabelCreateEx(scrHandle, curKey->descr, fgColor2, GFUI_FONT_SMALL_C, x2 + dx, y, GFUI_ALIGN_HL_VB, 0);
 	}
 	y -= 12;
 	
-	if (curKey == pscr->userKeys) curKey = (tGfuiKey*)NULL;
-	if (curSKey == pscr->userSpecKeys) curSKey = (tGfuiKey*)NULL;
+	if (curKey == pscr->userKeys) curKey = nullptr;
+	if (curSKey == pscr->userSpecKeys) curSKey = nullptr;
 
-    } while ((curKey != NULL) || (curSKey != NULL));
+    } while ((curKey != nullptr) || (curSKey != nullptr));
     
 
     GfuiButtonCreate(scrHandle,
@@ -100,13 +100,13 @@ GfuiHelpScreen(void *prevScreen)
 		     0,
 		     prevScreen,
 		     GfuiScreenActivate,
-		     NULL,
-		     (tfuiCallback)NULL,
-		     (tfuiCallback)NULL);
+		     nullptr,
+		     nullptr,
+		     nullptr);
 
-    GfuiAddKey(scrHandle, (unsigned char)27, "", prevScreen, GfuiScreenReplace, NULL);
-    GfuiAddSKey(scrHandle, GLUT_KEY_F1, "", prevScreen, GfuiScreenReplace, NULL);
-    GfuiAddKey(scrHandle, (unsigned char)13, "", prevScreen, GfuiScreenReplace, NULL);
+    GfuiAddKey(scrHandle, (unsigned char)27, "", prevScreen, GfuiScreenReplace, nullptr);
+    GfuiAddSKey(scrHandle, GLUT_KEY_F1, "", prevScreen, GfuiScreenReplace, nullptr);
+    GfuiAddKey(scrHandle, (unsigned char)13, "", prevScreen, GfuiScreenReplace, nullptr);
 
     GfuiMenuDefaultKeysAdd(scrHandle);
 

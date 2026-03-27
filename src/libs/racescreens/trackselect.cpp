@@ -22,8 +22,8 @@
 */
 
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -58,7 +58,7 @@ static void rmtsActivate(void * /* dummy */)
 
 static void rmtsFreeLists(void *vl)
 {
-	GfDirFreeList((tFList*)vl, NULL, true, true);
+	GfDirFreeList((tFList*)vl, nullptr, true, true);
 }
 
 
@@ -102,7 +102,7 @@ static void rmUpdateTrackInfo(void)
 	GfuiLabelSetText(scrHandle, DescId, GfParmGetStr(trackHandle, TRK_SECT_HDR, TRK_ATT_DESCR, ""));
 	GfuiLabelSetText(scrHandle, AuthorId, GfParmGetStr(trackHandle, TRK_SECT_HDR, TRK_ATT_AUTHOR, ""));
 
-	tmp = GfParmGetNum(trackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, NULL, 0);
+	tmp = GfParmGetNum(trackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, nullptr, 0);
 	snprintf(buf, BUFSIZE, "%.2f m", tmp);
 	GfuiLabelSetText(scrHandle, WidthId, buf);
 	tmp = trk->length;
@@ -162,7 +162,7 @@ void rmtsSelect(void * /* dummy */)
 	const int BUFSIZE = 1024;
 	char path[BUFSIZE];
 
-	curTrkIdx = (int)GfParmGetNum(ts->param, RM_SECT_TRACKS, RE_ATTR_CUR_TRACK, NULL, 1);
+	curTrkIdx = (int)GfParmGetNum(ts->param, RM_SECT_TRACKS, RE_ATTR_CUR_TRACK, nullptr, 1);
 	snprintf(path, BUFSIZE, "%s/%d", RM_SECT_TRACKS, curTrkIdx);
 	GfParmSetStr(ts->param, path, RM_ATTR_CATEGORY, CategoryList->name);
 	GfParmSetStr(ts->param, path, RM_ATTR_NAME, ((tFList*)CategoryList->userData)->name);
@@ -173,13 +173,13 @@ void rmtsSelect(void * /* dummy */)
 
 static void rmtsAddKeys(void)
 {
-	GfuiAddKey(scrHandle, 13, "Select track", NULL, rmtsSelect, NULL);
-	GfuiAddKey(scrHandle, 27, "Cancel selection", ts->prevScreen, rmtsDeactivate, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous track", (void*)0, rmtsPrevNext, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next track", (void*)1, rmtsPrevNext, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_UP, "Previous track category", (void*)0, rmCatPrevNext, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_DOWN, "Next track category", (void*)1, rmCatPrevNext, NULL);
+	GfuiAddKey(scrHandle, 13, "Select track", nullptr, rmtsSelect, nullptr);
+	GfuiAddKey(scrHandle, 27, "Cancel selection", ts->prevScreen, rmtsDeactivate, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous track", (void*)0, rmtsPrevNext, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next track", (void*)1, rmtsPrevNext, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_UP, "Previous track category", (void*)0, rmCatPrevNext, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_DOWN, "Next track category", (void*)1, rmCatPrevNext, nullptr);
 }
 
 
@@ -263,7 +263,7 @@ void RmTrackSelect(void *vs)
 
 	/* Get the list of categories directories */
 	CategoryList = GfDirGetList("tracks");
-	if (CategoryList == NULL) {
+	if (CategoryList == nullptr) {
 		GfTrace("RmTrackSelect: No track category available\n");
 		return;
 	}
@@ -279,7 +279,7 @@ void RmTrackSelect(void *vs)
 		/* get the tracks in the category directory */
 		snprintf(buf, BUFSIZE, "tracks/%s", CatCur->name);
 		TrList = GfDirGetList(buf);
-		if (TrList == NULL) {
+		if (TrList == nullptr) {
 			GfTrace("RmTrackSelect: No track for category %s available\n", CatCur->name);
 			return;
 		}
@@ -298,7 +298,7 @@ void RmTrackSelect(void *vs)
 		CatCur = CatCur->next;
 	} while (CatCur != CategoryList);
 
-	curTrkIdx = (int)GfParmGetNum(ts->param, RM_SECT_TRACKS, RE_ATTR_CUR_TRACK, NULL, 1);
+	curTrkIdx = (int)GfParmGetNum(ts->param, RM_SECT_TRACKS, RE_ATTR_CUR_TRACK, nullptr, 1);
 	snprintf(path, BUFSIZE, "%s/%d", RM_SECT_TRACKS, curTrkIdx);
 	defaultCategory = GfParmGetStr(ts->param, path, RM_ATTR_CATEGORY, CategoryList->name);
 	/* XXX coherency check */
@@ -321,7 +321,7 @@ void RmTrackSelect(void *vs)
 	CatCur = CatCur->next;
 	} while (CatCur != CategoryList);
 
-	scrHandle = GfuiScreenCreateEx((float*)NULL, NULL, rmtsActivate, NULL, (tfuiCallback)NULL, 1);
+	scrHandle = GfuiScreenCreateEx(nullptr, nullptr, rmtsActivate, nullptr, nullptr, 1);
 	GfuiScreenAddBgImg(scrHandle, "data/img/splash-qrtrk.png");
 
 	rmtsAddKeys();
@@ -335,7 +335,7 @@ void RmTrackSelect(void *vs)
 			"data/img/arrow-left-pushed.png",
 			80, 400, GFUI_ALIGN_HC_VB, 0,
 			(void*)0, rmCatPrevNext,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 
 	CatLabelId = GfuiLabelCreate(scrHandle,
@@ -351,7 +351,7 @@ void RmTrackSelect(void *vs)
 			"data/img/arrow-right-pushed.png",
 			540, 400, GFUI_ALIGN_HC_VB, 0,
 			(void*)1, rmCatPrevNext,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	GfuiGrButtonCreate(scrHandle,
 			"data/img/arrow-left.png",
@@ -360,7 +360,7 @@ void RmTrackSelect(void *vs)
 			"data/img/arrow-left-pushed.png",
 			80, 370, GFUI_ALIGN_HC_VB, 0,
 			(void*)0, rmtsPrevNext,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 
 	TrackLabelId = GfuiLabelCreate(scrHandle,
@@ -376,7 +376,7 @@ void RmTrackSelect(void *vs)
 			"data/img/arrow-right-pushed.png",
 			540, 370, GFUI_ALIGN_HC_VB, 0,
 			(void*)1, rmtsPrevNext,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 	int scrw, scrh, vw, vh;
 	GfScrGetSize(&scrw, &scrh, &vw, &vh);
@@ -385,10 +385,10 @@ void RmTrackSelect(void *vs)
 				rmGetMapName(buf, BUFSIZE));
 
 	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-			NULL, rmtsSelect, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, rmtsSelect, nullptr, nullptr, nullptr);
 
 	GfuiButtonCreate(scrHandle, "Back", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-			ts->prevScreen, rmtsDeactivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			ts->prevScreen, rmtsDeactivate, nullptr, nullptr, nullptr);
 
 	Xpos = 20;
 	Ypos = 320;

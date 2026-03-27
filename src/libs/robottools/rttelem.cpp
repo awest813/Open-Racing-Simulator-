@@ -47,7 +47,7 @@
 
 #if 0
 static tTelemItf	tlm;
-static tModList		*modlist = (tModList*)NULL;
+static tModList		*modlist = nullptr;
 #endif
 
 /** Initialization of a telemetry session.

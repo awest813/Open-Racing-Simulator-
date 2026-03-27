@@ -23,8 +23,8 @@
     @version $Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -36,7 +36,7 @@
 #include <portability.h>
 
 static int	rmSaveId;
-static void	*rmScrHdle = NULL;
+static void	*rmScrHdle = nullptr;
 
 static void rmPracticeResults(void *prevHdle, tRmInfo *info, int start);
 static void rmRaceResults(void *prevHdle, tRmInfo *info, int start);
@@ -128,23 +128,23 @@ static void rmPracticeResults(void *prevHdle, tRmInfo *info, int start)
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C, x1, y, GFUI_ALIGN_HC_VB, 0);
 
 		/* Time */
-		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_TIME, NULL, 0), 0);
+		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_TIME, nullptr, 0), 0);
 		GfuiLabelCreate(rmScrHdle, timefmt, GFUI_FONT_MEDIUM_C, x2, y, GFUI_ALIGN_HL_VB, 0);
 
 		/* Best Lap Time */
-		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, 0), 0);
+		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, 0), 0);
 		GfuiLabelCreate(rmScrHdle, timefmt, GFUI_FONT_MEDIUM_C, x3, y, GFUI_ALIGN_HL_VB, 0);
 
 		/* Top Spd */
-		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_TOP_SPEED, NULL, 0) * 3.6));
+		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_TOP_SPEED, nullptr, 0) * 3.6));
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C, x4, y, GFUI_ALIGN_HC_VB, 0);
 
 		/* Min Spd */
-		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_BOT_SPEED, NULL, 0) * 3.6));
+		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_BOT_SPEED, nullptr, 0) * 3.6));
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C, x5, y, GFUI_ALIGN_HC_VB, 0);
 
 		/* Damages */
-		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_DAMMAGES, NULL, 0)));
+		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_DAMMAGES, nullptr, 0)));
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C, x6, y, GFUI_ALIGN_HC_VB, 0);
 
 		y -= 15;
@@ -158,8 +158,8 @@ static void rmPracticeResults(void *prevHdle, tRmInfo *info, int start)
 				"data/img/arrow-up.png", "data/img/arrow-up-pushed.png",
 				80, 40, GFUI_ALIGN_HL_VB, 1,
 				(void*)&RmPrevRace, rmChgPracticeScreen,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgPracticeScreen, NULL);
+				nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgPracticeScreen, nullptr);
 	}
 	
 	GfuiButtonCreate(rmScrHdle,
@@ -172,9 +172,9 @@ static void rmPracticeResults(void *prevHdle, tRmInfo *info, int start)
 			0,
 			prevHdle,
 			GfuiScreenReplace,
-			NULL,
-			(tfuiCallback)NULL,
-			(tfuiCallback)NULL);
+			nullptr,
+			nullptr,
+			nullptr);
 
 	if (i < totLaps) {
 		RmNextRace.prevHdle = prevHdle;
@@ -184,13 +184,13 @@ static void rmPracticeResults(void *prevHdle, tRmInfo *info, int start)
 				"data/img/arrow-down.png", "data/img/arrow-down-pushed.png",
 				540, 40, GFUI_ALIGN_HL_VB, 1,
 				(void*)&RmNextRace, rmChgPracticeScreen,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgPracticeScreen, NULL);
+				nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgPracticeScreen, nullptr);
 	}
 
-	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
+	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
 
 	GfuiScreenActivate(rmScrHdle);
 }
@@ -255,14 +255,14 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 	y -= 20;
 	
 	snprintf(path, BUFSIZE, "%s/%s/%s", info->track->name, RE_SECT_RESULTS, race);
-	totLaps = (int)GfParmGetNum(results, path, RE_ATTR_LAPS, NULL, 0);
+	totLaps = (int)GfParmGetNum(results, path, RE_ATTR_LAPS, nullptr, 0);
 	snprintf(path, BUFSIZE, "%s/%s/%s/%s/%d", info->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK, 1);
-	refTime = GfParmGetNum(results, path, RE_ATTR_TIME, NULL, 0);
+	refTime = GfParmGetNum(results, path, RE_ATTR_TIME, nullptr, 0);
 	snprintf(path, BUFSIZE, "%s/%s/%s/%s", info->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK);
 	nbCars = (int)GfParmGetEltNb(results, path);
 	for (i = start; i < MIN(start + MAX_LINES, nbCars); i++) {
 		snprintf(path, BUFSIZE, "%s/%s/%s/%s/%d", info->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK, i + 1);
-		laps = (int)GfParmGetNum(results, path, RE_ATTR_LAPS, NULL, 0);
+		laps = (int)GfParmGetNum(results, path, RE_ATTR_LAPS, nullptr, 0);
 
 		snprintf(buf, BUFSIZE, "%d", i+1);
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C,
@@ -273,9 +273,9 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 
 		if (laps == totLaps) {
 			if (i == 0) {
-				GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_TIME, NULL, 0), 0);
+				GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_TIME, nullptr, 0), 0);
 			} else {
-				GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_TIME, NULL, 0) - refTime, 1);
+				GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_TIME, nullptr, 0) - refTime, 1);
 			}
 			GfuiLabelCreate(rmScrHdle, timefmt, GFUI_FONT_MEDIUM_C, x3, y, GFUI_ALIGN_HR_VB, 0);
 		} else {
@@ -289,7 +289,7 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 
 		}
 
-		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, 0), 0);
+		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, 0), 0);
 		GfuiLabelCreate(rmScrHdle, timefmt, GFUI_FONT_MEDIUM_C,
 				x4, y, GFUI_ALIGN_HR_VB, 0);
 
@@ -297,19 +297,19 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C,
 				x5, y, GFUI_ALIGN_HC_VB, 0);
 
-		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_TOP_SPEED, NULL, 0) * 3.6));
+		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_TOP_SPEED, nullptr, 0) * 3.6));
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C,
 				x6, y, GFUI_ALIGN_HC_VB, 0);
 
-		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_DAMMAGES, NULL, 0)));
+		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_DAMMAGES, nullptr, 0)));
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C,
 				x7, y, GFUI_ALIGN_HC_VB, 0);
 
-		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_NB_PIT_STOPS, NULL, 0)));
+		snprintf(buf, BUFSIZE, "%d", (int)(GfParmGetNum(results, path, RE_ATTR_NB_PIT_STOPS, nullptr, 0)));
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C,
 				x8, y, GFUI_ALIGN_HC_VB, 0);
 
-		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_PENALTYTIME, NULL, 0), 0);
+		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_PENALTYTIME, nullptr, 0), 0);
 		GfuiLabelCreate(rmScrHdle, timefmt, GFUI_FONT_MEDIUM_C, x9, y, GFUI_ALIGN_HR_VB, 0);
 
 		y -= 15;
@@ -323,8 +323,8 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 				"data/img/arrow-up.png", "data/img/arrow-up-pushed.png",
 				80, 40, GFUI_ALIGN_HL_VB, 1,
 				(void*)&RmPrevRace, rmChgRaceScreen,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgRaceScreen, NULL);
+				nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgRaceScreen, nullptr);
 	}
 
 	GfuiButtonCreate(rmScrHdle,
@@ -338,9 +338,9 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 			0,
 			prevHdle,
 			GfuiScreenReplace,
-			NULL,
-			(tfuiCallback)NULL,
-			(tfuiCallback)NULL);
+			nullptr,
+			nullptr,
+			nullptr);
 
 	if (i < nbCars) {
 		RmNextRace.prevHdle = prevHdle;
@@ -350,13 +350,13 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 				"data/img/arrow-down.png", "data/img/arrow-down-pushed.png",
 				540, 40, GFUI_ALIGN_HL_VB, 1,
 				(void*)&RmNextRace, rmChgRaceScreen,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgRaceScreen, NULL);
+				nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgRaceScreen, nullptr);
 	}
 
-	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
+	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
 
 	GfuiScreenActivate(rmScrHdle);
 }
@@ -420,7 +420,7 @@ static void rmQualifResults(void *prevHdle, tRmInfo *info, int start)
 		GfuiLabelCreate(rmScrHdle, GfParmGetStr(results, path, RE_ATTR_NAME, ""), GFUI_FONT_MEDIUM_C,
 				x2, y, GFUI_ALIGN_HL_VB, 0);
 
-		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, 0), 0);
+		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, 0), 0);
 		GfuiLabelCreate(rmScrHdle, timefmt, GFUI_FONT_MEDIUM_C,
 				x3, y, GFUI_ALIGN_HR_VB, 0);
 		y -= 15;
@@ -435,8 +435,8 @@ static void rmQualifResults(void *prevHdle, tRmInfo *info, int start)
 				"data/img/arrow-up.png", "data/img/arrow-up-pushed.png",
 				80, 40, GFUI_ALIGN_HL_VB, 1,
 				(void*)&RmPrevRace, rmChgQualifScreen,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgQualifScreen, NULL);
+				nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgQualifScreen, nullptr);
 	}
 
 	GfuiButtonCreate(rmScrHdle,
@@ -449,9 +449,9 @@ static void rmQualifResults(void *prevHdle, tRmInfo *info, int start)
 			0,
 			prevHdle,
 			GfuiScreenReplace,
-			NULL,
-			(tfuiCallback)NULL,
-			(tfuiCallback)NULL);
+			nullptr,
+			nullptr,
+			nullptr);
 
 	if (i < nbCars) {
 		RmNextRace.prevHdle = prevHdle;
@@ -461,13 +461,13 @@ static void rmQualifResults(void *prevHdle, tRmInfo *info, int start)
 				"data/img/arrow-down.png", "data/img/arrow-down-pushed.png",
 				540, 40, GFUI_ALIGN_HL_VB, 1,
 				(void*)&RmNextRace, rmChgQualifScreen,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgQualifScreen, NULL);
+				nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgQualifScreen, nullptr);
 	}
 
-	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
+	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
 
 	GfuiScreenActivate(rmScrHdle);
 }
@@ -525,7 +525,7 @@ static void rmShowStandings(void *prevHdle, tRmInfo *info, int start)
 		GfuiLabelCreate(rmScrHdle, GfParmGetStr(results, path, RE_ATTR_NAME, ""), GFUI_FONT_MEDIUM_C,
 				x2, y, GFUI_ALIGN_HL_VB, 0);
 		
-		snprintf(buf, BUFSIZE, "%d", (int)GfParmGetNum(results, path, RE_ATTR_POINTS, NULL, 0));
+		snprintf(buf, BUFSIZE, "%d", (int)GfParmGetNum(results, path, RE_ATTR_POINTS, nullptr, 0));
 		GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_MEDIUM_C,
 				x3, y, GFUI_ALIGN_HR_VB, 0);
 		y -= 15;
@@ -540,8 +540,8 @@ static void rmShowStandings(void *prevHdle, tRmInfo *info, int start)
 					"data/img/arrow-up.png", "data/img/arrow-up-pushed.png",
 					80, 40, GFUI_ALIGN_HL_VB, 1,
 					(void*)&RmPrevRace, rmChgStandingScreen,
-					NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgStandingScreen, NULL);
+					nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_UP,   "Previous Results", (void*)&RmPrevRace, rmChgStandingScreen, nullptr);
 	}
 	
 	GfuiButtonCreate(rmScrHdle,
@@ -554,9 +554,9 @@ static void rmShowStandings(void *prevHdle, tRmInfo *info, int start)
 				0,
 				prevHdle,
 				GfuiScreenReplace,
-				NULL,
-				(tfuiCallback)NULL,
-				(tfuiCallback)NULL);
+				nullptr,
+				nullptr,
+				nullptr);
 	
 	rmSaveId = GfuiButtonCreate(rmScrHdle,
 				"Save",
@@ -568,9 +568,9 @@ static void rmShowStandings(void *prevHdle, tRmInfo *info, int start)
 				0,
 				info,
 				rmSaveRes,
-				NULL,
-				(tfuiCallback)NULL,
-				(tfuiCallback)NULL);
+				nullptr,
+				nullptr,
+				nullptr);
 	
 	if (i < nbCars) {
 		RmNextRace.prevHdle = prevHdle;
@@ -580,13 +580,13 @@ static void rmShowStandings(void *prevHdle, tRmInfo *info, int start)
 					"data/img/arrow-down.png", "data/img/arrow-down-pushed.png",
 					540, 40, GFUI_ALIGN_HL_VB, 1,
 					(void*)&RmNextRace, rmChgStandingScreen,
-					NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgStandingScreen, NULL);
+					nullptr, nullptr, nullptr);
+		GfuiAddSKey(rmScrHdle, GLUT_KEY_PAGE_DOWN, "Next Results", (void*)&RmNextRace, rmChgStandingScreen, nullptr);
 	}
 	
-	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, NULL);
-	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
+	GfuiAddKey(rmScrHdle, (unsigned char)27, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddKey(rmScrHdle, (unsigned char)13, "", prevHdle, GfuiScreenReplace, nullptr);
+	GfuiAddSKey(rmScrHdle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
 	
 	GfuiScreenActivate(rmScrHdle);
 }

@@ -22,12 +22,12 @@
     @version $Id$
 */
 
-#include <stdio.h>
+#include <cstdio>
 #ifdef WIN32
 #include <windows.h>
 #endif
 #include <GL/glut.h>
-#include <math.h>
+#include <cmath>
 #ifndef WIN32
 #include <unistd.h>
 #else
@@ -62,7 +62,7 @@ static int GfViewHeight;
 static int GfScrCenX;
 static int GfScrCenY;
 
-static void	*scrHandle = NULL;
+static void	*scrHandle = nullptr;
 
 static int usedGM = 0;
 #if !defined(FREEGLUT) && !defined(WIN32)
@@ -70,7 +70,7 @@ static int usedFG = 0;
 #endif
 
 #ifdef USE_RANDR_EXT
-static char	**Res = NULL;
+static char	**Res = nullptr;
 static int nbRes = 0;
 #else // USE_RANDR_EXT
 static char	*Res[] = {"640x480", "800x600", "1024x768", "1152x768", "1152x864", "1200x854", "1200x960", "1280x720", "1280x1024", "1400x900", "1600x900", "1600x1200", "1680x1050", "1920x1200", "320x200"};
@@ -110,19 +110,19 @@ gfScreenInit(void)
 #ifdef USE_RANDR_EXT
 	// Get display, screen and root window handles.
 	const char *displayname = getenv("DISPLAY");
-	if (displayname == NULL) {
+	if (displayname == nullptr) {
 		displayname = strdup(":0.0");
 	}
 
 	Display *display = XOpenDisplay(displayname);
 
-	if( display != NULL) {
+	if( display != nullptr) {
 		// If we have a display fill in the resolutions advertised by Xrandr.
 		int screen = DefaultScreen(display);
     	Window root = RootWindow(display, screen);
 
 		XRRScreenConfiguration *screenconfig = XRRGetScreenInfo (display, root);
-		if (screenconfig != NULL) {
+		if (screenconfig != nullptr) {
 			int i, j, nsize;
 			XRRScreenSize *sizes = XRRConfigSizes(screenconfig, &nsize);
 
@@ -203,7 +203,7 @@ gfScreenInit(void)
 		XCloseDisplay(display);
 	}
 
-	if (Res == NULL || nbRes == 0) {
+	if (Res == nullptr || nbRes == 0) {
 		// We failed to get a handle to the display, so fill in some defaults.
 		GfOut("Failed to initialize resolutions for display '%s'", XDisplayName(displayname));
 		nbRes = 8;
@@ -249,12 +249,12 @@ void GfScrInit(int argc, char *argv[])
 	
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GFSCR_CONF_FILE);
 	handle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
-	xw = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_X, (char*)NULL, 640);
-	yw = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_Y, (char*)NULL, 480);
-	winX = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_X, (char*)NULL, xw);
-	winY = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_Y, (char*)NULL, yw);
-	depth = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_BPP, (char*)NULL, 32);
-	maxfreq = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_MAXREFRESH, (char*)NULL, 160);
+	xw = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_X, nullptr, 640);
+	yw = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_Y, nullptr, 480);
+	winX = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_X, nullptr, xw);
+	winY = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_Y, nullptr, yw);
+	depth = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_BPP, nullptr, 32);
+	maxfreq = (int)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_MAXREFRESH, nullptr, 160);
 	GfViewWidth = xw;
 	GfViewHeight = yw;
 	GfScrCenX = xw / 2;
@@ -466,12 +466,12 @@ saveParams(void)
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GFSCR_CONF_FILE);
 	void *paramHdle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 
-	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_X, (char*)NULL, x);
-	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_Y, (char*)NULL, y);
-	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_X, (char*)NULL, x);
-	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_Y, (char*)NULL, y);
-	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_BPP, (char*)NULL, bpp);
-	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_MAXREFRESH, (char*)NULL, curMaxFreq);
+	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_X, nullptr, x);
+	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_Y, nullptr, y);
+	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_X, nullptr, x);
+	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_WIN_Y, nullptr, y);
+	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_BPP, nullptr, bpp);
+	GfParmSetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_MAXREFRESH, nullptr, curMaxFreq);
 
 	GfParmSetStr(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_VINIT, VInit[curVInit]);
 
@@ -480,7 +480,7 @@ saveParams(void)
 	} else {
 		GfParmSetStr(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_FSCR, "no");
 	}
-	GfParmWriteFile(NULL, paramHdle, "Screen");
+	GfParmWriteFile(nullptr, paramHdle, "Screen");
 	GfParmReleaseHandle(paramHdle);
 }
 
@@ -504,7 +504,7 @@ GfScrReinit(void * /* dummy */)
 #ifdef WIN32
 	snprintf(cmd, CMDSIZE, "%swtorcs.exe", GetLibDir());
     int i;
-	for (i = 0; i < CMDSIZE && cmd[i] != NULL; i++) {
+	for (i = 0; i < CMDSIZE && cmd[i] != nullptr; i++) {
 		if (cmd[i] == '/') {
 			cmd[i] = '\\';
 		}
@@ -512,13 +512,13 @@ GfScrReinit(void * /* dummy */)
 	
 	char cmdarg[CMDSIZE];
 	snprintf(cmdarg, CMDSIZE, "\"%swtorcs.exe\"", GetLibDir());
-	for (i = 0; i < CMDSIZE && cmdarg[i] != NULL; i++) {
+	for (i = 0; i < CMDSIZE && cmdarg[i] != nullptr; i++) {
 		if (cmdarg[i] == '/') {
 			cmdarg[i] = '\\';
 		}
 	}
 
-	retcode = execlp(cmd, cmdarg, (const char *)NULL);
+	retcode = execlp(cmd, cmdarg, (const char *)nullptr);
 #else
 	GfScrShutdown();
 	
@@ -546,31 +546,31 @@ GfScrReinit(void * /* dummy */)
 	
 	switch (curArg) {
 		case 0:
-			retcode = execlp (cmd, cmd, (const char *)NULL);
+			retcode = execlp (cmd, cmd, (const char *)nullptr);
 			break;
 		case 1:
-			retcode = execlp (cmd, cmd, arg[0], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], (const char *)nullptr);
 			break;
 		case 2:
-			retcode = execlp (cmd, cmd, arg[0], arg[1], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], arg[1], (const char *)nullptr);
 			break;
 		case 3:
-			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], (const char *)nullptr);
 			break;
 		case 4:
-			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], (const char *)nullptr);
 			break;
 		case 5:
-			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], (const char *)nullptr);
 			break;
 		case 6:
-			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], (const char *)nullptr);
 			break;
 		case 7:
-			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], (const char *)nullptr);
 			break;
 		case 8:
-			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], (const char *)NULL);
+			retcode = execlp (cmd, cmd, arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6], arg[7], (const char *)nullptr);
 			break;
 	}
 
@@ -674,8 +674,8 @@ initFromConf(void)
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GFSCR_CONF_FILE);
 	void *paramHdle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 
-	x = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_X, NULL, 640);
-	y = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_Y, NULL, 480);
+	x = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_X, nullptr, 640);
+	y = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_Y, nullptr, 480);
 
 	snprintf(buf, BUFSIZE, "%dx%d", x, y);
 	for (i = 0; i < nbRes; i++) {
@@ -700,7 +700,7 @@ initFromConf(void)
 		}
 	}
 
-	bpp = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_BPP, NULL, 24);
+	bpp = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_BPP, nullptr, 24);
 	snprintf(buf, BUFSIZE, "%d", bpp);
 	for (i = 0; i < nbDepth; i++) {
 		if (!strcmp(buf, Depthlist[i])) {
@@ -709,7 +709,7 @@ initFromConf(void)
 		}
 	}
 
-	curMaxFreq = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_MAXREFRESH, NULL, curMaxFreq);
+	curMaxFreq = (int)GfParmGetNum(paramHdle, GFSCR_SECT_PROP, GFSCR_ATT_MAXREFRESH, nullptr, curMaxFreq);
 	GfParmReleaseHandle(paramHdle);
 }
 
@@ -722,7 +722,7 @@ ChangeMaxFreq(void * /* dummy */)
 	char buf[BUFSIZE];
     
     val = GfuiEditboxGetString(scrHandle, MaxFreqId);
-    curMaxFreq = (int)strtol(val, (char **)NULL, 0);
+    curMaxFreq = (int)strtol(val, nullptr, 0);
     snprintf(buf, BUFSIZE, "%d", curMaxFreq);
     GfuiEditboxSetString(scrHandle, MaxFreqId, buf);
 }
@@ -753,7 +753,7 @@ GfScrMenuInit(void *precMenu)
 
     if (scrHandle) return scrHandle;
 
-    scrHandle = GfuiScreenCreateEx((float*)NULL, NULL, onActivate, NULL, (tfuiCallback)NULL, 1);
+    scrHandle = GfuiScreenCreateEx(nullptr, nullptr, onActivate, nullptr, nullptr, 1);
     GfuiTitleCreate(scrHandle, "Display Configuration", 0);
     GfuiScreenAddBgImg(scrHandle, "data/img/splash-graphic.png");
 
@@ -774,8 +774,8 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-left-pushed.png",
 		       x1, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)-1, ResPrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-    GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous Resolution", (void*)-1, ResPrevNext, NULL);
+		       nullptr, nullptr, nullptr);
+    GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous Resolution", (void*)-1, ResPrevNext, nullptr);
 
     ResLabelId = GfuiLabelCreate(scrHandle,
 				 "",
@@ -791,8 +791,8 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-right-pushed.png",
 		       x2, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)1, ResPrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-    GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next Resolution", (void*)1, ResPrevNext, NULL);
+		       nullptr, nullptr, nullptr);
+    GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next Resolution", (void*)1, ResPrevNext, nullptr);
 
     y -= yoffset2; //60;
     GfuiLabelCreate(scrHandle,
@@ -808,7 +808,7 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-left-pushed.png",
 		       x1, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)-1, DepthPrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		       nullptr, nullptr, nullptr);
 
     DepthLabelId = GfuiLabelCreate(scrHandle,
 				   "",
@@ -824,7 +824,7 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-right-pushed.png",
 		       x2, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)1, DepthPrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		       nullptr, nullptr, nullptr);
 
     y -= yoffset2; //60;
     GfuiLabelCreate(scrHandle,
@@ -841,7 +841,7 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-left-pushed.png",
 		       x1, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)-1, ModePrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		       nullptr, nullptr, nullptr);
 
     ModeLabelId = GfuiLabelCreate(scrHandle,
 				  "",
@@ -857,8 +857,8 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-right-pushed.png",
 		       x2, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)1, ModePrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
-    GfuiAddKey(scrHandle, 'f', "Display Mode", (void*)1, ModePrevNext, NULL);
+		       nullptr, nullptr, nullptr);
+    GfuiAddKey(scrHandle, 'f', "Display Mode", (void*)1, ModePrevNext, nullptr);
 
 #ifdef WIN32
     y -= yoffset2; //60;
@@ -869,7 +869,7 @@ GfScrMenuInit(void *precMenu)
 		    0);
     y -= yoffset1; //30;
     MaxFreqId = GfuiEditboxCreate(scrHandle, "", GFUI_FONT_MEDIUM_C,
-				   275, y, 0, 8, NULL, (tfuiCallback)NULL, ChangeMaxFreq);
+				   275, y, 0, 8, nullptr, nullptr, ChangeMaxFreq);
 #endif
 
 	y -= yoffset2; //60;
@@ -886,7 +886,7 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-left-pushed.png",
 		       x1, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)-1, VInitPrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		       nullptr, nullptr, nullptr);
 
     VInitLabelId = GfuiLabelCreate(scrHandle,
 				  "",
@@ -902,16 +902,16 @@ GfScrMenuInit(void *precMenu)
 		       "data/img/arrow-right-pushed.png",
 		       x2, y, GFUI_ALIGN_HC_VB, 0,
 		       (void*)1, VInitPrevNext,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		       nullptr, nullptr, nullptr);
 
 
-    GfuiAddKey(scrHandle, 13, "Apply Mode", NULL, GfScrReinit, NULL);
+    GfuiAddKey(scrHandle, 13, "Apply Mode", nullptr, GfScrReinit, nullptr);
     GfuiButtonCreate(scrHandle, "Apply", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-		     NULL, GfScrReinit, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		     nullptr, GfScrReinit, nullptr, nullptr, nullptr);
 
-    GfuiAddKey(scrHandle, 27, "Cancel", precMenu, GfuiScreenActivate, NULL);
+    GfuiAddKey(scrHandle, 27, "Cancel", precMenu, GfuiScreenActivate, nullptr);
     GfuiButtonCreate(scrHandle, "Back", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-		     precMenu, GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		     precMenu, GfuiScreenActivate, nullptr, nullptr, nullptr);
 
     return scrHandle;
 }

@@ -16,8 +16,8 @@
 #ifndef STRING_UTILS_INC
 #define STRING_UTILS_INC
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <learning/learn_debug.h>
 
 /** 

@@ -23,12 +23,12 @@
  
 
 
-#define ReadFile(f,fs) ((fs=fopen(f,"rb"))!=NULL)
-#define WriteFile(f,fs) ((fs=fopen(f,"wb"))!=NULL)
-#define CloseFile(f) {assert(f); fclose(f); f = NULL;}
+#define ReadFile(f,fs) ((fs=fopen(f,"rb"))!=nullptr)
+#define WriteFile(f,fs) ((fs=fopen(f,"wb"))!=nullptr)
+#define CloseFile(f) {assert(f); fclose(f); f = nullptr;}
 
 #define AllocM(type,x) ((type *) malloc (sizeof(type)*(x)))
-#define FreeM(address) if (address) {free(address); address = NULL;} else fprintf(stderr,"ERROR: pointer already freed\n");
+#define FreeM(address) if (address) {free(address); address = nullptr;} else fprintf(stderr,"ERROR: pointer already freed\n");
 
 #define ObjCopy(new_obj,cl_nam) (memcpy (new_obj, &cl_nam ## _class, sizeof(cl_nam)))
 

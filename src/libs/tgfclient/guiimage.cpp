@@ -24,7 +24,7 @@
     @ingroup	gui
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -90,7 +90,7 @@ void GfuiStaticImageSet(void *scr, int id, char *name)
 	tGfuiImage *image;
 
 	curObject = screen->objects;
-	if (curObject != NULL) {
+	if (curObject != nullptr) {
 		do {
 			curObject = curObject->next;
 			if (curObject->id == id) {

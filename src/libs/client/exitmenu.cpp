@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include <stdio.h>
+#include <cstdio>
 #include <tgfclient.h>
 #include "exitmenu.h"
 #include "mainmenu.h"
@@ -33,8 +33,8 @@ endofprog(void * /* dummy */)
     exit(0);
 }
 
-static void *exitmenuHandle = NULL;
-static void *exitMainMenuHandle = NULL;
+static void *exitmenuHandle = nullptr;
+static void *exitMainMenuHandle = nullptr;
 
 
 void * exitMenuInit(void *menu, void *menuHandle)
@@ -55,10 +55,10 @@ void * exitMenuInit(void *menu, void *menuHandle)
     GfuiMenuButtonCreate(menuHandle,
 		      "Yes, Exit",
 		      "Exit the game",
-		      NULL,
+		      nullptr,
 		      endofprog);
 
-    GfuiAddKey(menuHandle, (unsigned char)27, "Return to the game", menu, GfuiScreenActivate, NULL);
+    GfuiAddKey(menuHandle, (unsigned char)27, "Return to the game", menu, GfuiScreenActivate, nullptr);
     return menuHandle;
 }
 
