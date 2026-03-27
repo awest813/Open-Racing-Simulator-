@@ -192,7 +192,7 @@ static void onSave(void *vp)
 	rtCarPitSetupType* type = (rtCarPitSetupType*)vp;
 	void* carhandle = RtLoadOriginalCarSettings(rmCarName);
 	if (carhandle == 0) {
-		GfError("carhandle nullptr in %s, line %d\n", __FILE__, __LINE__);
+		GfError("carhandle NULL in %s, line %d\n", __FILE__, __LINE__);
 		return;
 	}
 
@@ -216,7 +216,7 @@ static void onSaveAndExit(void *vp)
 	rtCarPitSetupType type = (rmRaceType == RM_TYPE_PRACTICE) ? PRACTICE : QUALIFYING;
 	void* carhandle = RtLoadOriginalCarSettings(rmCarName);
 	if (carhandle == 0) {
-		GfError("carhandle nullptr in %s, line %d\n", __FILE__, __LINE__);
+		GfError("carhandle NULL in %s, line %d\n", __FILE__, __LINE__);
 		return;
 	}
 

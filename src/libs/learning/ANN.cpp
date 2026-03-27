@@ -77,7 +77,7 @@ ANN *NewANN(int n_inputs, int n_outputs)
 int DeleteANN(ANN * ann)
 {
 	if (!ann) {
-		Swarning("Attempting to delete nullptr ANN\n");
+		Swarning("Attempting to delete NULL ANN\n");
 		return DEC_ARG_INVALID;
 	}
 

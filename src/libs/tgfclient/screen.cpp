@@ -504,7 +504,7 @@ GfScrReinit(void * /* dummy */)
 #ifdef WIN32
 	snprintf(cmd, CMDSIZE, "%swtorcs.exe", GetLibDir());
     int i;
-	for (i = 0; i < CMDSIZE && cmd[i] != nullptr; i++) {
+	for (i = 0; i < CMDSIZE && cmd[i] != '\0'; i++) {
 		if (cmd[i] == '/') {
 			cmd[i] = '\\';
 		}
@@ -512,7 +512,7 @@ GfScrReinit(void * /* dummy */)
 	
 	char cmdarg[CMDSIZE];
 	snprintf(cmdarg, CMDSIZE, "\"%swtorcs.exe\"", GetLibDir());
-	for (i = 0; i < CMDSIZE && cmdarg[i] != nullptr; i++) {
+	for (i = 0; i < CMDSIZE && cmdarg[i] != '\0'; i++) {
 		if (cmdarg[i] == '/') {
 			cmdarg[i] = '\\';
 		}
