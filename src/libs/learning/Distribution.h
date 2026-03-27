@@ -48,9 +48,9 @@ public:
 	DiscreteDistribution();
 	/// Make a discrete distribution with N outcomes
 	DiscreteDistribution(int N); 
-	virtual ~DiscreteDistribution();
-	virtual real generate();
-	virtual real pdf(real x);
+	virtual ~DiscreteDistribution() override;
+	virtual real generate() override;
+	virtual real pdf(real x) override;
 };
 
 /// Gaussian probability distribution
@@ -68,12 +68,12 @@ public:
 		setMean (mean);
 		setVariance (std*std);
 	}
-	virtual ~NormalDistribution() { }
-	virtual real generate();
-	virtual real pdf(real x);
-	virtual void setVariance (real var) 
+	virtual ~NormalDistribution() override { }
+	virtual real generate() override;
+	virtual real pdf(real x) override;
+	virtual void setVariance (real var) override
 	{s = sqrt(var);} 
-	virtual void setMean (real mean)
+	virtual void setMean (real mean) override
 	{m = mean;}
 };
 
@@ -89,12 +89,12 @@ public:
 		setMean (mean);
 		setVariance (std*std);
 	}
-	virtual ~UniformDistribution() {}
-	virtual real generate();
-	virtual real pdf(real x);
-	virtual void setVariance (real var) 
+	virtual ~UniformDistribution() override {}
+	virtual real generate() override;
+	virtual real pdf(real x) override;
+	virtual void setVariance (real var) override
 	{s = sqrt(12.0 * var);} 
-	virtual void setMean (real mean)
+	virtual void setMean (real mean) override
 	{m = mean;}
 };
 
@@ -116,12 +116,12 @@ public:
 		setMean (mean);
 		setVariance (var);
 	}
-	virtual ~LaplacianDistribution() {}
-	virtual real generate();
-	virtual real pdf(real x);
-	virtual void setVariance (real var)
+	virtual ~LaplacianDistribution() override {}
+	virtual real generate() override;
+	virtual real pdf(real x) override;
+	virtual void setVariance (real var) override
 	{l = sqrt(0.5 / var);}
-	virtual void setMean (real mean)
+	virtual void setMean (real mean) override
 	{m = mean;}
 };
 
@@ -141,12 +141,12 @@ public:
 		setMean(mean);
 		setVariance(var);
 	}
-	virtual ~ExponentialDistribution() {}
-	virtual real generate();
-	virtual real pdf(real x);
-	virtual void setVariance (real var)
+	virtual ~ExponentialDistribution() override {}
+	virtual real generate() override;
+	virtual real pdf(real x) override;
+	virtual void setVariance (real var) override
 	{l = sqrt(1.0 / var);}
-	virtual void setMean (real mean)
+	virtual void setMean (real mean) override
 	{m = mean;}
 };
 
@@ -160,9 +160,9 @@ public:
 	{
 		this->d = d;
 	}
-	virtual ~MultinomialGaussian() {}
-	virtual real generate();
-	virtual real pdf(real x);
+	virtual ~MultinomialGaussian() override {}
+	virtual real generate() override;
+	virtual real pdf(real x) override;
 };
 
 

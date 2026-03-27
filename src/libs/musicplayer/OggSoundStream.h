@@ -31,15 +31,15 @@ class OggSoundStream : public SoundStream
 {
 	public:
 		OggSoundStream(char* path);
-		virtual ~OggSoundStream();
+		virtual ~OggSoundStream() override;
 		
-		virtual int getRateInHz() { return rateInHz; }
-		virtual SoundFormat getSoundFormat() { return format; }
+		virtual int getRateInHz() override { return rateInHz; }
+		virtual SoundFormat getSoundFormat() override { return format; }
 		
-		virtual bool read(char* buffer, const int bufferSize, int* resultSize, const char** error);
-		virtual void rewind();
-		virtual void display();
-		virtual bool isValid() { return valid; }
+		virtual bool read(char* buffer, const int bufferSize, int* resultSize, const char** error) override;
+		virtual void rewind() override;
+		virtual void display() override;
+		virtual bool isValid() override { return valid; }
 
 	protected:
 		

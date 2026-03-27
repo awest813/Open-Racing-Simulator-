@@ -46,16 +46,16 @@ protected:
 public:
 	/// Make a new policy
 	ANN_Policy (int n_states, int n_actions, int n_hidden = 0, real alpha=0.1, real gamma=0.8, real lambda=0.8, bool eligibility = false, bool softmax = false, real randomness=0.1, real init_eval=0.0, bool separate_actions = false);
-	virtual ~ANN_Policy();
+	virtual ~ANN_Policy() override;
 	/// Select an action, given a vector of real numbers which
 	/// represents the state.
-	virtual int SelectAction(real* s, real r, int forced_a=-1);
+	virtual int SelectAction(real* s, real r, int forced_a=-1) override;
 	/// Reset eligibility traces.
-	virtual void Reset();
+	virtual void Reset() override;
 	/// Return the last action value.
-	virtual real getLastActionValue () {return J_ps_pa;} 
+	virtual real getLastActionValue () override {return J_ps_pa;} 
 	/// \deprecated Get the probabilities of all actions - call after SelectAction().
-	virtual real* getActionProbabilities () {
+	virtual real* getActionProbabilities () override {
 		real sum = 0.0;
 		int i;
 		for (i=0; i<n_actions; i++) {
@@ -66,7 +66,7 @@ public:
 		}
 		return eval;
 	}
-	virtual bool useConfidenceEstimates(bool confidence, real zeta=0.01);
+	virtual bool useConfidenceEstimates(bool confidence, real zeta=0.01) override;
 };
 
 
