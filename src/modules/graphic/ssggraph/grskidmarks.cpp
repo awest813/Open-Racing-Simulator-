@@ -64,11 +64,11 @@ void grInitSkidmarks(tCarElt *car)
 	sgVec3 nrm;
 
 	grSkidMaxStripByWheel = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXSTRIPBYWHEEL,
-							(char*)nullptr, MAXSTRIP_BYWHEEL);
+							nullptr, MAXSTRIP_BYWHEEL);
 	grSkidMaxPointByStrip = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXPOINTBYSTRIP,
-							(char*)nullptr, MAXPOINT_BY_STRIP);
+							nullptr, MAXPOINT_BY_STRIP);
 	grSkidDeltaT = (double)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SKIDDELTAT,
-					(char*)nullptr, DELTATSTRIP);
+					nullptr, DELTATSTRIP);
 
 	if (!grSkidMaxStripByWheel) {
 		return;

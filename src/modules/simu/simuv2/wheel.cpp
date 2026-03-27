@@ -32,25 +32,25 @@ void SimWheelConfig(tCar *car, int index)
 	tdble rimdiam, tirewidth, tireratio, pressure;
 	tdble x0, Ca, RFactor, EFactor, patchLen;
 
-	pressure              = GfParmGetNum(hdle, WheelSect[index], PRM_PRESSURE, (char*)nullptr, 275600);
-	rimdiam               = GfParmGetNum(hdle, WheelSect[index], PRM_RIMDIAM, (char*)nullptr, 0.33f);
-	tirewidth             = GfParmGetNum(hdle, WheelSect[index], PRM_TIREWIDTH, (char*)nullptr, 0.145f);
-	tireratio             = GfParmGetNum(hdle, WheelSect[index], PRM_TIRERATIO, (char*)nullptr, 0.75f);
-	wheel->mu             = GfParmGetNum(hdle, WheelSect[index], PRM_MU, (char*)nullptr, 1.0f);
-	wheel->I              = GfParmGetNum(hdle, WheelSect[index], PRM_INERTIA, (char*)nullptr, 1.5f);
+	pressure              = GfParmGetNum(hdle, WheelSect[index], PRM_PRESSURE, nullptr, 275600);
+	rimdiam               = GfParmGetNum(hdle, WheelSect[index], PRM_RIMDIAM, nullptr, 0.33f);
+	tirewidth             = GfParmGetNum(hdle, WheelSect[index], PRM_TIREWIDTH, nullptr, 0.145f);
+	tireratio             = GfParmGetNum(hdle, WheelSect[index], PRM_TIRERATIO, nullptr, 0.75f);
+	wheel->mu             = GfParmGetNum(hdle, WheelSect[index], PRM_MU, nullptr, 1.0f);
+	wheel->I              = GfParmGetNum(hdle, WheelSect[index], PRM_INERTIA, nullptr, 1.5f);
 	wheel->I += wheel->brake.I; // add brake inertia
-	wheel->staticPos.y    = GfParmGetNum(hdle, WheelSect[index], PRM_YPOS, (char*)nullptr, 0.0f);
-	x0                    = GfParmGetNum(hdle, WheelSect[index], PRM_RIDEHEIGHT, (char*)nullptr, 0.20f);
-	wheel->staticPos.az   = GfParmGetNum(hdle, WheelSect[index], PRM_TOE, (char*)nullptr, 0.0f);
-	wheel->staticPos.ax   = GfParmGetNum(hdle, WheelSect[index], PRM_CAMBER, (char*)nullptr, 0.0f);
-	wheel->staticPos.ay   = GfParmGetNum(hdle, WheelSect[index], PRM_CASTER, (char*)nullptr, 0.0f);
-	Ca                    = GfParmGetNum(hdle, WheelSect[index], PRM_CA, (char*)nullptr, 30.0f);
-	RFactor               = GfParmGetNum(hdle, WheelSect[index], PRM_RFACTOR, (char*)nullptr, 0.8f);
-	EFactor               = GfParmGetNum(hdle, WheelSect[index], PRM_EFACTOR, (char*)nullptr, 0.7f);
-	wheel->lfMax          = GfParmGetNum(hdle, WheelSect[index], PRM_LOADFMAX, (char*)nullptr, 1.6f);
-	wheel->lfMin          = GfParmGetNum(hdle, WheelSect[index], PRM_LOADFMIN, (char*)nullptr, 0.8f);
-	wheel->opLoad         = GfParmGetNum(hdle, WheelSect[index], PRM_OPLOAD, (char*)nullptr, wheel->weight0 * 1.2f);
-	wheel->mass           = GfParmGetNum(hdle, WheelSect[index], PRM_MASS, (char*)nullptr, 20.0f);
+	wheel->staticPos.y    = GfParmGetNum(hdle, WheelSect[index], PRM_YPOS, nullptr, 0.0f);
+	x0                    = GfParmGetNum(hdle, WheelSect[index], PRM_RIDEHEIGHT, nullptr, 0.20f);
+	wheel->staticPos.az   = GfParmGetNum(hdle, WheelSect[index], PRM_TOE, nullptr, 0.0f);
+	wheel->staticPos.ax   = GfParmGetNum(hdle, WheelSect[index], PRM_CAMBER, nullptr, 0.0f);
+	wheel->staticPos.ay   = GfParmGetNum(hdle, WheelSect[index], PRM_CASTER, nullptr, 0.0f);
+	Ca                    = GfParmGetNum(hdle, WheelSect[index], PRM_CA, nullptr, 30.0f);
+	RFactor               = GfParmGetNum(hdle, WheelSect[index], PRM_RFACTOR, nullptr, 0.8f);
+	EFactor               = GfParmGetNum(hdle, WheelSect[index], PRM_EFACTOR, nullptr, 0.7f);
+	wheel->lfMax          = GfParmGetNum(hdle, WheelSect[index], PRM_LOADFMAX, nullptr, 1.6f);
+	wheel->lfMin          = GfParmGetNum(hdle, WheelSect[index], PRM_LOADFMIN, nullptr, 0.8f);
+	wheel->opLoad         = GfParmGetNum(hdle, WheelSect[index], PRM_OPLOAD, nullptr, wheel->weight0 * 1.2f);
+	wheel->mass           = GfParmGetNum(hdle, WheelSect[index], PRM_MASS, nullptr, 20.0f);
 	
 	wheel->lfMin = MIN(0.8f, wheel->lfMin);
 	wheel->lfMax = MAX(1.6f, wheel->lfMax);
@@ -98,11 +98,11 @@ void SimWheelConfig(tCar *car, int index)
 	wheel->rel_vel = 0.0f;
 
 	// Additional parameters for the tire wear model
-	wheel->treadThinkness	= GfParmGetNum(hdle, WheelSect[index], PRM_TREADTHICKNESS, (char*)nullptr, 0.005f);		// default 5 [mm]
-	tdble rimmass = GfParmGetNum(hdle, WheelSect[index], PRM_RIMMASS, (char*)nullptr, 7.0f);							// default 7 [kg]
-	wheel->hysteresisFactor = GfParmGetNum(hdle, WheelSect[index], PRM_HYSTERESIS, (char*)nullptr, 1.0f);				// default 1.0 [-]
-	wheel->wearFactor = GfParmGetNum(hdle, WheelSect[index], PRM_WEAR, (char*)nullptr, 1.0f);							// default 1.0 [-]
-	wheel->idealTemperature = GfParmGetNum(hdle, WheelSect[index], PRM_IDEALTEMP, (char*)nullptr, 95.0f + 273.15f);	// default 95°C
+	wheel->treadThinkness	= GfParmGetNum(hdle, WheelSect[index], PRM_TREADTHICKNESS, nullptr, 0.005f);		// default 5 [mm]
+	tdble rimmass = GfParmGetNum(hdle, WheelSect[index], PRM_RIMMASS, nullptr, 7.0f);							// default 7 [kg]
+	wheel->hysteresisFactor = GfParmGetNum(hdle, WheelSect[index], PRM_HYSTERESIS, nullptr, 1.0f);				// default 1.0 [-]
+	wheel->wearFactor = GfParmGetNum(hdle, WheelSect[index], PRM_WEAR, nullptr, 1.0f);							// default 1.0 [-]
+	wheel->idealTemperature = GfParmGetNum(hdle, WheelSect[index], PRM_IDEALTEMP, nullptr, 95.0f + 273.15f);	// default 95°C
 
 	carElt->info.wheel[index].idealTemperature = wheel->idealTemperature;
 	

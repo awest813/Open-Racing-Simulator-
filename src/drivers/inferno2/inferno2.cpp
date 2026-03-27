@@ -273,18 +273,18 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	ConsFactor[idx] = 0.0007 * DmTrack->length;
 	fuel = ConsFactor[idx] * (s->_totLaps + 1);
 			
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, fuel);
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, nullptr, fuel);
 		
 	VM = track->pits.speedLimit;
 		
-	Gmax = GfParmGetNum(*carParmHandle, SECT_FRNTRGTWHEEL, PRM_MU, (char*)nullptr, 1.0);
-	tmpMu = GfParmGetNum(*carParmHandle, SECT_FRNTLFTWHEEL, PRM_MU, (char*)nullptr, 1.0);
+	Gmax = GfParmGetNum(*carParmHandle, SECT_FRNTRGTWHEEL, PRM_MU, nullptr, 1.0);
+	tmpMu = GfParmGetNum(*carParmHandle, SECT_FRNTLFTWHEEL, PRM_MU, nullptr, 1.0);
 	Gmax = MIN(Gmax, tmpMu);
-	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARRGTWHEEL, PRM_MU, (char*)nullptr, 1.0);
+	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARRGTWHEEL, PRM_MU, nullptr, 1.0);
 	Gmax = MIN(Gmax, tmpMu);
-	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARLFTWHEEL, PRM_MU, (char*)nullptr, 1.0);
+	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARLFTWHEEL, PRM_MU, nullptr, 1.0);
 	Gmax = MIN(Gmax, tmpMu);
-	/*     Gmax = Gmax * GfParmGetNum(*carParmHandle, SECT_CAR, PRM_MASS, (char*)nullptr, 1000.0); */
+	/*     Gmax = Gmax * GfParmGetNum(*carParmHandle, SECT_CAR, PRM_MASS, nullptr, 1000.0); */
 		
 	snprintf(buf, BUFSIZE, "drivers/inferno2/%d/tracksdata/%s", index, str);
 	hdle = GfParmReadFile(buf, GFPARM_RMODE_REREAD);

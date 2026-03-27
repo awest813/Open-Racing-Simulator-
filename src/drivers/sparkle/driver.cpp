@@ -90,11 +90,11 @@ void Driver::initTrack(tTrack* t, void *carHandle, void **carParmHandle, tSituat
 		*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
     }
 
-	float fuel = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_FUELPERLAP, (char*)nullptr, 5.0);
+	float fuel = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_FUELPERLAP, nullptr, 5.0);
 	fuel *= (s->_totLaps + 1.0);
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, MIN(fuel, 100.0));
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, nullptr, MIN(fuel, 100.0));
 
-	MU_FACTOR = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_MUFACTOR, (char*)nullptr, 0.69);
+	MU_FACTOR = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_MUFACTOR, nullptr, 0.69);
 }
 
 

@@ -135,7 +135,7 @@ void cGrPerspCamera::loadDefaults(char *attr)
 	char path[BUFSIZE];
 	
 	snprintf(path, BUFSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
-	fovy = (float)GfParmGetNum(grHandle, path, attr, (char*)nullptr, fovydflt);
+	fovy = (float)GfParmGetNum(grHandle, path, attr, nullptr, fovydflt);
 	limitFov();
 }
 
@@ -207,7 +207,7 @@ void cGrPerspCamera::setZoom(int cmd)
 
 	snprintf(buf, BUFSIZE, "%s-%d-%d", GR_ATT_FOVY, screen->getCurCamHead(), getId());
 	snprintf(path, PATHSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
-	GfParmSetNum(grHandle, path, buf, (char*)nullptr, (tdble)fovy);
+	GfParmSetNum(grHandle, path, buf, nullptr, (tdble)fovy);
 	GfParmWriteFile(nullptr, grHandle, "Graph");
 }
 
@@ -751,7 +751,7 @@ class cGrCarCamCenter : public cGrPerspCamera
 		char path[PATHSIZE];
 
 		snprintf(path, PATHSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
-		locfovy = (float)GfParmGetNum(grHandle, path, attr, (char*)nullptr, fovydflt);
+		locfovy = (float)GfParmGetNum(grHandle, path, attr, nullptr, fovydflt);
     }
 
     void setZoom(int cmd) {
@@ -1049,7 +1049,7 @@ class cGrCarCamRoadZoom : public cGrPerspCamera
 
 	snprintf(path, PATHSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
 	locfovy = (float)GfParmGetNum(grHandle, path,
-				   attr, (char*)nullptr, fovydflt);
+				   attr, nullptr, fovydflt);
     }
 
     void setZoom(int cmd) {
@@ -1154,9 +1154,9 @@ class cGrCarCamRoadZoomTVD : public cGrCarCamRoadZoom
 
 	current = -1;
 
-	camChangeInterval = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_CHGCAMINT, (char*)nullptr, 10.0);
-	camEventInterval  = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_EVTINT, (char*)nullptr, 1.0);
-	proximityThld     = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_PROXTHLD, (char*)nullptr, 10.0);
+	camChangeInterval = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_CHGCAMINT, nullptr, 10.0);
+	camEventInterval  = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_EVTINT, nullptr, 1.0);
+	proximityThld     = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_PROXTHLD, nullptr, 10.0);
     }
 
     ~cGrCarCamRoadZoomTVD() { free(schedView); }

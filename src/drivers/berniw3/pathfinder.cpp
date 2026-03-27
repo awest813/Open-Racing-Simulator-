@@ -52,9 +52,9 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 	if (isPitAvailable()) {
 		initPit(car);
 		s1 = track->getPitEntryStartId();
-		s1 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, (char*)nullptr, (float) s1);
+		s1 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, nullptr, (float) s1);
 		e3 = track->getPitExitEndId();
-		e3 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, (char*)nullptr, (float) e3);
+		e3 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, nullptr, (float) e3);
 		pitspeedsqrlimit = t->pits.speedLimit - 0.5;
 		pitspeedsqrlimit *= pitspeedsqrlimit;
 		/* get memory for the pit points */

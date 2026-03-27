@@ -23,8 +23,8 @@ void SimSteerConfig(tCar *car)
 {
 	void *hdle = car->params;
 
-	car->steer.steerLock = GfParmGetNum(hdle, SECT_STEER, PRM_STEERLOCK, (char*)nullptr, 0.43f);
-	car->steer.maxSpeed  = GfParmGetNum(hdle, SECT_STEER, PRM_STEERSPD, (char*)nullptr, 1.0f);
+	car->steer.steerLock = GfParmGetNum(hdle, SECT_STEER, PRM_STEERLOCK, nullptr, 0.43f);
+	car->steer.maxSpeed  = GfParmGetNum(hdle, SECT_STEER, PRM_STEERSPD, nullptr, 1.0f);
 	car->carElt->_steerLock = car->steer.steerLock;
 }
 

@@ -563,9 +563,9 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 	double rlOffset = 0.0;
 
 	if (raceline) {
-		double SideDistExt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLEXT, (char*)nullptr, 2.0);
-		double SideDistInt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLINT, (char*)nullptr, 2.0);
-		rlWidthScale = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLWIDTHSCALE, (char*)nullptr, 1.0);
+		double SideDistExt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLEXT, nullptr, 2.0);
+		double SideDistInt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLINT, nullptr, 2.0);
+		rlWidthScale = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLWIDTHSCALE, nullptr, 1.0);
 		rlOffset = (1.0 - 1.0/rlWidthScale)/2.0;
 
 		generateRaceLine(Track, SideDistExt, SideDistInt);

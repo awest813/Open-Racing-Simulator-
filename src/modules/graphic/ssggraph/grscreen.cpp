@@ -223,14 +223,14 @@ void cGrScreen::selectCamera(long cam)
 
 	snprintf(path, BUFSIZE, "%s/%d", GR_SCT_DISPMODE, id);
 	GfParmSetStr(grHandle, path, GR_ATT_CUR_DRV, curCar->_name);
-	GfParmSetNum(grHandle, path, GR_ATT_CAM, (char*)nullptr, (tdble)curCam->getId());
-	GfParmSetNum(grHandle, path, GR_ATT_CAM_HEAD, (char*)nullptr, (tdble)curCamHead);
+	GfParmSetNum(grHandle, path, GR_ATT_CAM, nullptr, (tdble)curCam->getId());
+	GfParmSetNum(grHandle, path, GR_ATT_CAM_HEAD, nullptr, (tdble)curCamHead);
 	
 	/* save also as user's preference if human */
 	if (curCar->_driverType == RM_DRV_HUMAN) {
 		snprintf(path2, BUFSIZE, "%s/%s", GR_SCT_DISPMODE, curCar->_name);
-		GfParmSetNum(grHandle, path2, GR_ATT_CAM, (char*)nullptr, (tdble)curCam->getId());
-		GfParmSetNum(grHandle, path2, GR_ATT_CAM_HEAD, (char*)nullptr, (tdble)curCamHead);
+		GfParmSetNum(grHandle, path2, GR_ATT_CAM, nullptr, (tdble)curCam->getId());
+		GfParmSetNum(grHandle, path2, GR_ATT_CAM_HEAD, nullptr, (tdble)curCamHead);
 	}
 	
 	snprintf(buf, BUFSIZE, "%s-%d-%d", GR_ATT_FOVY, curCamHead, curCam->getId());
@@ -456,8 +456,8 @@ void cGrScreen::initCams(tSituation *s)
 	tdble fovFactor;
 	int i;
 	
-	fovFactor = GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_FOVFACT, (char*)nullptr, 1.0);
-	fovFactor *= GfParmGetNum(grTrackHandle, TRK_SECT_GRAPH, TRK_ATT_FOVFACT, (char*)nullptr, 1.0);
+	fovFactor = GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_FOVFACT, nullptr, 1.0);
+	fovFactor *= GfParmGetNum(grTrackHandle, TRK_SECT_GRAPH, TRK_ATT_FOVFACT, nullptr, 1.0);
 	
 	if (boardCam == nullptr) {
 		boardCam = new cGrOrthoCamera(this,0, grWinw*600/grWinh, 0, 600);
