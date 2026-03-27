@@ -29,10 +29,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="{PC_COLOR_USERNAME}">
 			<td class="filledlist">
-				Username:
+				<label for="register_username">Username:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="register_username" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_USERNAME}"/>
+				<input type="text" id="register_username" name="register_username" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_USERNAME}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_USERNAME}
@@ -41,10 +41,10 @@
 
 		<tr bgcolor="{PC_COLOR_FIRSTNAME}">
 			<td class="filledlist">
-				First name:
+				<label for="register_firstname">First name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="register_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}"/>
+				<input type="text" id="register_firstname" name="register_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_FIRSTNAME}
@@ -53,10 +53,10 @@
 
 		<tr bgcolor="{PC_COLOR_LASTNAME}">
 			<td class="filledlist">
-				Last name:
+				<label for="register_lastname">Last name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="register_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}"/>
+				<input type="text" id="register_lastname" name="register_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_LASTNAME}
@@ -65,10 +65,10 @@
 
 		<tr bgcolor="{PC_COLOR_PASSWORD}">
 			<td class="filledlist">
-				Password:
+				<label for="register_password">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" name="register_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}"/>
+				<input type="password" id="register_password" name="register_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD}
@@ -77,10 +77,10 @@
 
 		<tr bgcolor="{PC_COLOR_PASSWORD2}">
 			<td class="filledlist">
-				Password:
+				<label for="register_password2">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" name="register_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}"/>
+				<input type="password" id="register_password2" name="register_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD2}
@@ -89,10 +89,10 @@
 
 		<tr bgcolor="{PC_COLOR_EMAIL}">
 			<td class="filledlist">
-				E-mail:
+				<label for="register_email">E-mail:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="register_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}"/>
+				<input type="text" id="register_email" name="register_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_EMAIL}
