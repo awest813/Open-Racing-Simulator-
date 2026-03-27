@@ -128,30 +128,30 @@ void HmReadPrefs(int index)
 		GfOut("%s -> %s\n", cmdCtrl[cmd].name, prm);
 
 		if (cmdCtrl[cmd].minName) {
-			cmdCtrl[cmd].min = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].minName, (char*)nullptr, cmdCtrl[cmd].min);
-			cmdCtrl[cmd].min = cmdCtrl[cmd].minVal = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].minName, (char*)nullptr, cmdCtrl[cmd].min);
+			cmdCtrl[cmd].min = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].minName, nullptr, cmdCtrl[cmd].min);
+			cmdCtrl[cmd].min = cmdCtrl[cmd].minVal = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].minName, nullptr, cmdCtrl[cmd].min);
 		}
 		if (cmdCtrl[cmd].maxName) {
-			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].maxName, (char*)nullptr, cmdCtrl[cmd].max);
-			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].maxName, (char*)nullptr, cmdCtrl[cmd].max);
+			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].maxName, nullptr, cmdCtrl[cmd].max);
+			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].maxName, nullptr, cmdCtrl[cmd].max);
 		}	
 		if (cmdCtrl[cmd].sensName) {
-			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].sensName, (char*)nullptr, cmdCtrl[cmd].sens);
-			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].sensName, (char*)nullptr, cmdCtrl[cmd].sens);
+			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].sensName, nullptr, cmdCtrl[cmd].sens);
+			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].sensName, nullptr, cmdCtrl[cmd].sens);
 			cmdCtrl[cmd].sens = 1.0f / cmdCtrl[cmd].sens;
 		}	
 		if (cmdCtrl[cmd].powName) {
-			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].powName, (char*)nullptr, cmdCtrl[cmd].pow);
-			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].powName, (char*)nullptr, cmdCtrl[cmd].pow);
+			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].powName, nullptr, cmdCtrl[cmd].pow);
+			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].powName, nullptr, cmdCtrl[cmd].pow);
 		}
 		if (cmdCtrl[cmd].spdSensName) {
-			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].spdSensName, (char*)nullptr, cmdCtrl[cmd].spdSens);
-			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].spdSensName, (char*)nullptr, cmdCtrl[cmd].spdSens);
+			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].spdSensName, nullptr, cmdCtrl[cmd].spdSens);
+			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].spdSensName, nullptr, cmdCtrl[cmd].spdSens);
 			cmdCtrl[cmd].spdSens = cmdCtrl[cmd].spdSens / 100.0;
 		}
 		if (cmdCtrl[cmd].deadZoneName) {
-			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].deadZoneName, (char*)nullptr, cmdCtrl[cmd].deadZone);
-			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].deadZoneName, (char*)nullptr, cmdCtrl[cmd].deadZone);
+			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].deadZoneName, nullptr, cmdCtrl[cmd].deadZone);
+			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].deadZoneName, nullptr, cmdCtrl[cmd].deadZone);
 		}
 		if (cmdCtrl[cmd].min > cmdCtrl[cmd].max) {
 			tmp = cmdCtrl[cmd].min;

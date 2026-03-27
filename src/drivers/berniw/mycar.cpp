@@ -57,8 +57,8 @@ const double MyCar::LOOKAHEAD_FACTOR = 1.0/3.0; /* [-] */
 
 MyCar::MyCar(TrackDesc* track, tCarElt* car, tSituation *situation)
 {
-    AEROMAGIC = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_AMAGIC, (char*)nullptr, 1.6f);
-	CFRICTION = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FMAGIC, (char*)nullptr, 1.0f);
+    AEROMAGIC = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_AMAGIC, nullptr, 1.6f);
+	CFRICTION = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FMAGIC, nullptr, 1.0f);
 
 	/* init pointer to car data */
 	setCarPtr(car);
@@ -96,8 +96,8 @@ MyCar::MyCar(TrackDesc* track, tCarElt* car, tSituation *situation)
 
 	updateCa();
 
-	double cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*)nullptr, 0.0);
-	double frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*)nullptr, 0.0);
+	double cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, nullptr, 0.0);
+	double frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, nullptr, 0.0);
 	cw = 0.625*cx*frontarea;
 
 	cgcorr_b = 0.46;
@@ -220,13 +220,13 @@ void MyCar::loadBehaviour(int id) {
 void MyCar::updateCa()
 {
 	const char *WheelSect[4] = {SECT_FRNTRGTWHEEL, SECT_FRNTLFTWHEEL, SECT_REARRGTWHEEL, SECT_REARLFTWHEEL};
-	double rearwingarea = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*)nullptr, 0);
-    double rearwingangle = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*)nullptr, 0);
+	double rearwingarea = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGAREA, nullptr, 0);
+    double rearwingangle = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGANGLE, nullptr, 0);
     double wingca = 1.23*rearwingarea*sin(rearwingangle);
-	double cl = GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*)nullptr, 0.0) + GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_RCL, (char*)nullptr, 0.0);
+	double cl = GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_FCL, nullptr, 0.0) + GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_RCL, nullptr, 0.0);
 	double h = 0.0;
 
-	for (int i = 0; i < 4; i++) h += GfParmGetNum(me->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, (char*)nullptr, 0.20f);
+	for (int i = 0; i < 4; i++) h += GfParmGetNum(me->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, nullptr, 0.20f);
 	h*= 1.5; h = h*h; h = h*h; h = 2.0 * exp(-3.0*h);
 	ca = AEROMAGIC*(h*cl + 4.0*wingca);
 }

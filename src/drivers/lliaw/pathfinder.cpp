@@ -76,9 +76,9 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 		initPit(car);
 		// The values in the setup file must be for trackres == 1.0.
 		s1 = track->getPitEntryStartId();
-		s1 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, (char*)nullptr, s1*TRACKRES)/TRACKRES);
+		s1 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, nullptr, s1*TRACKRES)/TRACKRES);
 		e3 = track->getPitExitEndId();
-		e3 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, (char*)nullptr, e3*TRACKRES)/TRACKRES);
+		e3 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, nullptr, e3*TRACKRES)/TRACKRES);
 		pitspeedsqrlimit = t->pits.speedLimit - 0.5;
 		pitspeedsqrlimit *= pitspeedsqrlimit;
 		pspit = new PathSegPit(countSegments(s1, e3), nPathSeg, s1, e3, psopt);

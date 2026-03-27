@@ -107,27 +107,27 @@ cGrBoard::selectBoard(int val)
 	switch (val) {
 		case 0:
 			boardFlag = (boardFlag + 1) % NB_BOARDS;
-			GfParmSetNum(grHandle, path, GR_ATT_BOARD, (char*)nullptr, (tdble)boardFlag);
+			GfParmSetNum(grHandle, path, GR_ATT_BOARD, nullptr, (tdble)boardFlag);
 			break;
 		case 1:
 			counterFlag = (counterFlag + 1) % NB_BOARDS;
-			GfParmSetNum(grHandle, path, GR_ATT_COUNTER, (char*)nullptr, (tdble)counterFlag);
+			GfParmSetNum(grHandle, path, GR_ATT_COUNTER, nullptr, (tdble)counterFlag);
 			break;
 		case 2:
 			leaderFlag = (leaderFlag + 1) % NB_LBOARDS;
-			GfParmSetNum(grHandle, path, GR_ATT_LEADER, (char*)nullptr, (tdble)leaderFlag);
+			GfParmSetNum(grHandle, path, GR_ATT_LEADER, nullptr, (tdble)leaderFlag);
 			break;
 		case 3:
 			debugFlag = 1 - debugFlag;
-			GfParmSetNum(grHandle, path, GR_ATT_DEBUG, (char*)nullptr, (tdble)debugFlag);
+			GfParmSetNum(grHandle, path, GR_ATT_DEBUG, nullptr, (tdble)debugFlag);
 			break;	
 		case 4:
 			GFlag = 1 - GFlag;
-			GfParmSetNum(grHandle, path, GR_ATT_GGRAPH, (char*)nullptr, (tdble)GFlag);
+			GfParmSetNum(grHandle, path, GR_ATT_GGRAPH, nullptr, (tdble)GFlag);
 			break;	
 		case 5:
 			arcadeFlag = 1 - arcadeFlag;
-			GfParmSetNum(grHandle, path, GR_ATT_ARCADE, (char*)nullptr, (tdble)arcadeFlag);
+			GfParmSetNum(grHandle, path, GR_ATT_ARCADE, nullptr, (tdble)arcadeFlag);
 			break;	
 	}
 	GfParmWriteFile(nullptr, grHandle, "graph");
@@ -945,18 +945,18 @@ void grInitBoardCar(tCarElt *car)
 	free(grFilePath);
 	
 	/* Load the intrument placement */
-	xSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XSZ, (char*)nullptr, 128);
-	ySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YSZ, (char*)nullptr, 128);
-	xpos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XPOS, (char*)nullptr, Winw / 2.0 - xSz);
-	ypos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YPOS, (char*)nullptr, 0);
-	needlexSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_NDLXSZ, (char*)nullptr, 50);
-	needleySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_NDLYSZ, (char*)nullptr, 2);
-	curInst->needleXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XCENTER, (char*)nullptr, xSz / 2.0) + xpos;
-	curInst->needleYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YCENTER, (char*)nullptr, ySz / 2.0) + ypos;
-	curInst->digitXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XDIGITCENTER, (char*)nullptr, xSz / 2.0) + xpos;
-	curInst->digitYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YDIGITCENTER, (char*)nullptr, 16) + ypos;
-	curInst->minValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_MINVAL, (char*)nullptr, 0);
-	curInst->maxValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_MAXVAL, (char*)nullptr, RPM2RADS(10000)) - curInst->minValue;
+	xSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XSZ, nullptr, 128);
+	ySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YSZ, nullptr, 128);
+	xpos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XPOS, nullptr, Winw / 2.0 - xSz);
+	ypos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YPOS, nullptr, 0);
+	needlexSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_NDLXSZ, nullptr, 50);
+	needleySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_NDLYSZ, nullptr, 2);
+	curInst->needleXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XCENTER, nullptr, xSz / 2.0) + xpos;
+	curInst->needleYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YCENTER, nullptr, ySz / 2.0) + ypos;
+	curInst->digitXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_XDIGITCENTER, nullptr, xSz / 2.0) + xpos;
+	curInst->digitYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_YDIGITCENTER, nullptr, 16) + ypos;
+	curInst->minValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_MINVAL, nullptr, 0);
+	curInst->maxValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_MAXVAL, nullptr, RPM2RADS(10000)) - curInst->minValue;
 	curInst->minAngle = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_MINANG, "deg", 225);
 	curInst->maxAngle = GfParmGetNum(handle, SECT_GROBJECTS, PRM_TACHO_MAXANG, "deg", -45) - curInst->minAngle;
 	curInst->monitored = &(car->_enginerpm);
@@ -1001,18 +1001,18 @@ void grInitBoardCar(tCarElt *car)
 	free(grFilePath);
 	
 	/* Load the intrument placement */
-	xSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XSZ, (char*)nullptr, 128);
-	ySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YSZ, (char*)nullptr, 128);
-	xpos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XPOS, (char*)nullptr, Winw / 2.0);
-	ypos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YPOS, (char*)nullptr, 0);
-	needlexSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_NDLXSZ, (char*)nullptr, 50);
-	needleySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_NDLYSZ, (char*)nullptr, 2);
-	curInst->needleXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XCENTER, (char*)nullptr, xSz / 2.0) + xpos;
-	curInst->needleYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YCENTER, (char*)nullptr, ySz / 2.0) + ypos;
-	curInst->digitXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XDIGITCENTER, (char*)nullptr, xSz / 2.0) + xpos;
-	curInst->digitYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YDIGITCENTER, (char*)nullptr, 10) + ypos; 
-	curInst->minValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_MINVAL, (char*)nullptr, 0);
-	curInst->maxValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_MAXVAL, (char*)nullptr, 100) - curInst->minValue;
+	xSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XSZ, nullptr, 128);
+	ySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YSZ, nullptr, 128);
+	xpos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XPOS, nullptr, Winw / 2.0);
+	ypos = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YPOS, nullptr, 0);
+	needlexSz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_NDLXSZ, nullptr, 50);
+	needleySz = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_NDLYSZ, nullptr, 2);
+	curInst->needleXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XCENTER, nullptr, xSz / 2.0) + xpos;
+	curInst->needleYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YCENTER, nullptr, ySz / 2.0) + ypos;
+	curInst->digitXCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_XDIGITCENTER, nullptr, xSz / 2.0) + xpos;
+	curInst->digitYCenter = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_YDIGITCENTER, nullptr, 10) + ypos; 
+	curInst->minValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_MINVAL, nullptr, 0);
+	curInst->maxValue = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_MAXVAL, nullptr, 100) - curInst->minValue;
 	curInst->minAngle = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_MINANG, "deg", 225);
 	curInst->maxAngle = GfParmGetNum(handle, SECT_GROBJECTS, PRM_SPEEDO_MAXANG, "deg", -45) - curInst->minAngle;
 	curInst->monitored = &(car->_speed_x);

@@ -217,7 +217,7 @@ namespace olethros {
 	strategy->setFuelAtRaceStart(t, carParmHandle, s);
 
 	// Load and set parameters.
-	MU_FACTOR = GfParmGetNum(*carParmHandle, OLETHROS_SECT_PRIV, OLETHROS_ATT_MUFACTOR, (char*)nullptr, 0.69f);
+	MU_FACTOR = GfParmGetNum(*carParmHandle, OLETHROS_SECT_PRIV, OLETHROS_ATT_MUFACTOR, nullptr, 0.69f);
 
     }
 

@@ -383,9 +383,9 @@ initCars(tSituation *s)
 		index = elt->index;
 		hdle = elt->_paramsHandle;
 		snprintf(idx, IDXSIZE, "Robots/index/%d", elt->_driverIndex);
-		grCarInfo[index].iconColor[0] = GfParmGetNum(hdle, idx, "red",   (char*)nullptr, 0);
-		grCarInfo[index].iconColor[1] = GfParmGetNum(hdle, idx, "green", (char*)nullptr, 0);
-		grCarInfo[index].iconColor[2] = GfParmGetNum(hdle, idx, "blue",  (char*)nullptr, 0);
+		grCarInfo[index].iconColor[0] = GfParmGetNum(hdle, idx, "red",   nullptr, 0);
+		grCarInfo[index].iconColor[1] = GfParmGetNum(hdle, idx, "green", nullptr, 0);
+		grCarInfo[index].iconColor[2] = GfParmGetNum(hdle, idx, "blue",  nullptr, 0);
 		grCarInfo[index].iconColor[3] = 1.0;
 		grInitCar(elt);
 		if ((elt->_driverType == RM_DRV_HUMAN) && (grNbScreen < GR_NB_MAX_SCREEN)) {

@@ -23,12 +23,12 @@ void SimBrakeConfig(void *hdle, const char *section, tBrake *brake)
 {
 	tdble diam, area, mu;
 
-	diam     = GfParmGetNum(hdle, section, PRM_BRKDIAM, (char*)nullptr, 0.2f);
-	area     = GfParmGetNum(hdle, section, PRM_BRKAREA, (char*)nullptr, 0.002f);
-	mu       = GfParmGetNum(hdle, section, PRM_MU, (char*)nullptr, 0.30f);
+	diam     = GfParmGetNum(hdle, section, PRM_BRKDIAM, nullptr, 0.2f);
+	area     = GfParmGetNum(hdle, section, PRM_BRKAREA, nullptr, 0.002f);
+	mu       = GfParmGetNum(hdle, section, PRM_MU, nullptr, 0.30f);
 	brake->coeff = diam * 0.5 * area * mu;
 
-	brake->I = GfParmGetNum(hdle, section, PRM_INERTIA, (char*)nullptr, 0.13f);
+	brake->I = GfParmGetNum(hdle, section, PRM_INERTIA, nullptr, 0.13f);
 	brake->radius = diam/2.0f;
 }
 
@@ -48,8 +48,8 @@ void SimBrakeSystemConfig(tCar *car)
 {
 	void *hdle = car->params;
 
-	car->brkSyst.rep   = GfParmGetNum(hdle, SECT_BRKSYST, PRM_BRKREP, (char*)nullptr, 0.5);
-	car->brkSyst.coeff = GfParmGetNum(hdle, SECT_BRKSYST, PRM_BRKPRESS, (char*)nullptr, 1000000);    
+	car->brkSyst.rep   = GfParmGetNum(hdle, SECT_BRKSYST, PRM_BRKREP, nullptr, 0.5);
+	car->brkSyst.coeff = GfParmGetNum(hdle, SECT_BRKSYST, PRM_BRKPRESS, nullptr, 1000000);    
 }
 
 

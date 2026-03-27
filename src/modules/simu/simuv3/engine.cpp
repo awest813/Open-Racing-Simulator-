@@ -59,14 +59,14 @@ SimEngineConfig(tCar *car)
     } *edesc;
 
 
-    car->engine.revsLimiter = GfParmGetNum(hdle, SECT_ENGINE, PRM_REVSLIM, (char*)nullptr, 800);
+    car->engine.revsLimiter = GfParmGetNum(hdle, SECT_ENGINE, PRM_REVSLIM, nullptr, 800);
     car->carElt->_enginerpmRedLine = car->engine.revsLimiter;
-    car->engine.revsMax     = GfParmGetNum(hdle, SECT_ENGINE, PRM_REVSMAX, (char*)nullptr, 1000);
+    car->engine.revsMax     = GfParmGetNum(hdle, SECT_ENGINE, PRM_REVSMAX, nullptr, 1000);
     car->carElt->_enginerpmMax = car->engine.revsMax;
-    car->engine.tickover    = GfParmGetNum(hdle, SECT_ENGINE, PRM_TICKOVER, (char*)nullptr, 150);
-    car->engine.I           = GfParmGetNum(hdle, SECT_ENGINE, PRM_INERTIA, (char*)nullptr, 0.2423);
-    car->engine.fuelcons    = GfParmGetNum(hdle, SECT_ENGINE, PRM_FUELCONS, (char*)nullptr, 0.0622);
-    car->engine.brakeCoeff  = GfParmGetNum(hdle, SECT_ENGINE, PRM_ENGBRKCOEFF, (char*)nullptr, 0.33);
+    car->engine.tickover    = GfParmGetNum(hdle, SECT_ENGINE, PRM_TICKOVER, nullptr, 150);
+    car->engine.I           = GfParmGetNum(hdle, SECT_ENGINE, PRM_INERTIA, nullptr, 0.2423);
+    car->engine.fuelcons    = GfParmGetNum(hdle, SECT_ENGINE, PRM_FUELCONS, nullptr, 0.0622);
+    car->engine.brakeCoeff  = GfParmGetNum(hdle, SECT_ENGINE, PRM_ENGBRKCOEFF, nullptr, 0.33);
 	car->engine.jointI = car->engine.I;
 	car->engine.pressure = 0.0f;
 	car->engine.exhaust_pressure = 0.0f;
@@ -79,8 +79,8 @@ SimEngineConfig(tCar *car)
     
     for (i = 0; i < car->engine.curve.nbPts; i++) {
 		snprintf(idx, IDXSIZE, "%s/%s/%d", SECT_ENGINE, ARR_DATAPTS, i+1);
-		edesc[i].rpm = GfParmGetNum(hdle, idx, PRM_RPM, (char*)nullptr, car->engine.revsMax);
-		edesc[i].tq  = GfParmGetNum(hdle, idx, PRM_TQ, (char*)nullptr, 0);
+		edesc[i].rpm = GfParmGetNum(hdle, idx, PRM_RPM, nullptr, car->engine.revsMax);
+		edesc[i].tq  = GfParmGetNum(hdle, idx, PRM_TQ, nullptr, 0);
     }
     edesc[i].rpm = edesc[i - 1].rpm;
     edesc[i].tq  = edesc[i].tq;

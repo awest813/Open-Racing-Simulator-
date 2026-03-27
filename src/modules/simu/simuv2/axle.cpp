@@ -28,18 +28,18 @@ void SimAxleConfig(tCar *car, int index)
 	
 	tAxle *axle = &(car->axle[index]);
 	
-	axle->xpos = GfParmGetNum(hdle, AxleSect[index], PRM_XPOS, (char*)nullptr, 0.0f);
-	axle->I    = GfParmGetNum(hdle, AxleSect[index], PRM_INERTIA, (char*)nullptr, 0.15f);
-	rollCenter = GfParmGetNum(hdle, AxleSect[index], PRM_ROLLCENTER, (char*)nullptr, 0.15f);
+	axle->xpos = GfParmGetNum(hdle, AxleSect[index], PRM_XPOS, nullptr, 0.0f);
+	axle->I    = GfParmGetNum(hdle, AxleSect[index], PRM_INERTIA, nullptr, 0.15f);
+	rollCenter = GfParmGetNum(hdle, AxleSect[index], PRM_ROLLCENTER, nullptr, 0.15f);
 	car->wheel[index*2].rollCenter = car->wheel[index*2+1].rollCenter = rollCenter;
 	
-	tdble x0 = GfParmGetNum(hdle, AxleSect[index], PRM_SUSPCOURSE, (char*)nullptr, 0.0f);
+	tdble x0 = GfParmGetNum(hdle, AxleSect[index], PRM_SUSPCOURSE, nullptr, 0.0f);
 	SimSuspConfig(hdle, AxleSect[index], &(axle->thirdSusp), 0.0f, x0);
 
 	if (index == 0) {
-		axle->arbSuspSpringK = GfParmGetNum(hdle, SECT_FRNTARB, PRM_SPR, (char*)nullptr, 0.0f);
+		axle->arbSuspSpringK = GfParmGetNum(hdle, SECT_FRNTARB, PRM_SPR, nullptr, 0.0f);
 	} else {
-		axle->arbSuspSpringK = GfParmGetNum(hdle, SECT_REARARB, PRM_SPR, (char*)nullptr, 0.0f);
+		axle->arbSuspSpringK = GfParmGetNum(hdle, SECT_REARARB, PRM_SPR, nullptr, 0.0f);
 	}
 	
 	car->wheel[index*2].feedBack.I += axle->I / 2.0;

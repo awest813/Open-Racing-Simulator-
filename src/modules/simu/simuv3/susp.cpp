@@ -177,14 +177,14 @@ SimSuspUpdate(tSuspension *susp)
 void
 SimSuspConfig(void *hdle, const char *section, tSuspension *susp, tdble F0, tdble X0)
 {
-    susp->spring.K          = GfParmGetNum(hdle, section, PRM_SPR, (char*)nullptr, 175000);
-    susp->spring.xMax       = GfParmGetNum(hdle, section, PRM_SUSPCOURSE, (char*)nullptr, 0.5);
-    susp->spring.bellcrank  = GfParmGetNum(hdle, section, PRM_BELLCRANK, (char*)nullptr, 1.0);
-    susp->spring.packers    = GfParmGetNum(hdle, section, PRM_PACKERS, (char*)nullptr, 0);
-    susp->damper.bump.C1    = GfParmGetNum(hdle, section, PRM_SLOWBUMP, (char*)nullptr, 0);
-    susp->damper.rebound.C1 = GfParmGetNum(hdle, section, PRM_SLOWREBOUND, (char*)nullptr, 0);
-    susp->damper.bump.C2    = GfParmGetNum(hdle, section, PRM_FASTBUMP, (char*)nullptr, 0);
-    susp->damper.rebound.C2 = GfParmGetNum(hdle, section, PRM_FASTREBOUND, (char*)nullptr, 0);
+    susp->spring.K          = GfParmGetNum(hdle, section, PRM_SPR, nullptr, 175000);
+    susp->spring.xMax       = GfParmGetNum(hdle, section, PRM_SUSPCOURSE, nullptr, 0.5);
+    susp->spring.bellcrank  = GfParmGetNum(hdle, section, PRM_BELLCRANK, nullptr, 1.0);
+    susp->spring.packers    = GfParmGetNum(hdle, section, PRM_PACKERS, nullptr, 0);
+    susp->damper.bump.C1    = GfParmGetNum(hdle, section, PRM_SLOWBUMP, nullptr, 0);
+    susp->damper.rebound.C1 = GfParmGetNum(hdle, section, PRM_SLOWREBOUND, nullptr, 0);
+    susp->damper.bump.C2    = GfParmGetNum(hdle, section, PRM_FASTBUMP, nullptr, 0);
+    susp->damper.rebound.C2 = GfParmGetNum(hdle, section, PRM_FASTREBOUND, nullptr, 0);
 	susp->damper.efficiency = 1.0;
 
 	const char* suspension_type = GfParmGetStr(hdle, section, PRM_SUSPENSION_TYPE, "Ideal");

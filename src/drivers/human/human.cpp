@@ -298,14 +298,14 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 
 	if (curTrack->pits.type != TR_PIT_NONE) {
 		snprintf(sstring, BUFSIZE, "%s/%s/%d", HM_SECT_PREF, HM_LIST_DRV, index);
-		HCtx[idx]->NbPitStopProg = (int)GfParmGetNum(PrefHdle, sstring, HM_ATT_NBPITS, (char*)nullptr, 0);
+		HCtx[idx]->NbPitStopProg = (int)GfParmGetNum(PrefHdle, sstring, HM_ATT_NBPITS, nullptr, 0);
 		GfOut("Player: index %d , Pits stops %d\n", index, HCtx[idx]->NbPitStopProg);
 	} else {
 		HCtx[idx]->NbPitStopProg = 0;
 	}
 	fuel = 0.0008 * curTrack->length * (s->_totLaps + 1) / (1.0 + ((tdble)HCtx[idx]->NbPitStopProg)) + 20.0;
 	if (*carParmHandle) {
-		GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, fuel);
+		GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, nullptr, fuel);
 	}
 	Vtarget = curTrack->pits.speedLimit;
 	if (DrvInfo != nullptr) {

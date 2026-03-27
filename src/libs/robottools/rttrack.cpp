@@ -759,7 +759,7 @@ RtDistToPit(struct CarElt *car, tTrack *track, tdble *dL, tdble *dW)
 static void RtReadCarPitSetupEntry(tCarPitSetupValue* v, const char* path, const char* key, void *hdle, bool minmaxonly)
 {
 	if (!minmaxonly) {
-		v->value = GfParmGetNum(hdle, path, key, (char*)nullptr, 0.0f);
+		v->value = GfParmGetNum(hdle, path, key, nullptr, 0.0f);
 	}
 	GfParmGetNumBoundaries(hdle, path, key, &v->min, &v->max);
 }

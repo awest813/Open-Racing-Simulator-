@@ -117,7 +117,7 @@ void Driver::initTrack(tTrack* t, void *carHandle, void **carParmHandle, tSituat
 	strategy->setFuelAtRaceStart(t, carParmHandle, s, INDEX);
 
 	// Load and set parameters.
-	MU_FACTOR = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_MUFACTOR, (char*)nullptr, 0.69f);
+	MU_FACTOR = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_MUFACTOR, nullptr, 0.69f);
 }
 
 

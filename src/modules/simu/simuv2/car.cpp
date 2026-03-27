@@ -37,27 +37,27 @@ SimCarConfig(tCar *car)
 	int		i;
 	tCarElt	*carElt = car->carElt;
 	
-	car->dimension.x = GfParmGetNum(hdle, SECT_CAR, PRM_LEN, (char*)nullptr, 4.7f);
-	car->dimension.y = GfParmGetNum(hdle, SECT_CAR, PRM_WIDTH, (char*)nullptr, 1.9f);
-	overallwidth     = GfParmGetNum(hdle, SECT_CAR, PRM_OVERALLWIDTH, (char*)nullptr, car->dimension.y);
-	car->dimension.z = GfParmGetNum(hdle, SECT_CAR, PRM_HEIGHT, (char*)nullptr, 1.2f);
-	car->mass        = GfParmGetNum(hdle, SECT_CAR, PRM_MASS, (char*)nullptr, 1500);
+	car->dimension.x = GfParmGetNum(hdle, SECT_CAR, PRM_LEN, nullptr, 4.7f);
+	car->dimension.y = GfParmGetNum(hdle, SECT_CAR, PRM_WIDTH, nullptr, 1.9f);
+	overallwidth     = GfParmGetNum(hdle, SECT_CAR, PRM_OVERALLWIDTH, nullptr, car->dimension.y);
+	car->dimension.z = GfParmGetNum(hdle, SECT_CAR, PRM_HEIGHT, nullptr, 1.2f);
+	car->mass        = GfParmGetNum(hdle, SECT_CAR, PRM_MASS, nullptr, 1500);
 	car->Minv        = 1.0 / car->mass;
-	gcfr             = GfParmGetNum(hdle, SECT_CAR, PRM_FRWEIGHTREP, (char*)nullptr, .5);
-	gcfrl            = GfParmGetNum(hdle, SECT_CAR, PRM_FRLWEIGHTREP, (char*)nullptr, .5);
-	gcrrl            = GfParmGetNum(hdle, SECT_CAR, PRM_RRLWEIGHTREP, (char*)nullptr, .5);
+	gcfr             = GfParmGetNum(hdle, SECT_CAR, PRM_FRWEIGHTREP, nullptr, .5);
+	gcfrl            = GfParmGetNum(hdle, SECT_CAR, PRM_FRLWEIGHTREP, nullptr, .5);
+	gcrrl            = GfParmGetNum(hdle, SECT_CAR, PRM_RRLWEIGHTREP, nullptr, .5);
 	car->statGC.y    = - (gcfr * gcfrl + (1 - gcfr) * gcrrl) * car->dimension.y + car->dimension.y / 2.0;
-	car->statGC.z    = GfParmGetNum(hdle, SECT_CAR, PRM_GCHEIGHT, (char*)nullptr, .5);
+	car->statGC.z    = GfParmGetNum(hdle, SECT_CAR, PRM_GCHEIGHT, nullptr, .5);
 	
-	car->tank        = GfParmGetNum(hdle, SECT_CAR, PRM_TANK, (char*)nullptr, 80);
-	car->fuel        = GfParmGetNum(hdle, SECT_CAR, PRM_FUEL, (char*)nullptr, 80);
-	k                = GfParmGetNum(hdle, SECT_CAR, PRM_CENTR, (char*)nullptr, 1.0);
-	carElt->_drvPos_x = GfParmGetNum(hdle, SECT_DRIVER, PRM_XPOS, (char*)nullptr, 0.0);
-	carElt->_drvPos_y = GfParmGetNum(hdle, SECT_DRIVER, PRM_YPOS, (char*)nullptr, 0.0);
-	carElt->_drvPos_z = GfParmGetNum(hdle, SECT_DRIVER, PRM_ZPOS, (char*)nullptr, 0.0);
-	carElt->_bonnetPos_x = GfParmGetNum(hdle, SECT_BONNET, PRM_XPOS, (char*)nullptr, carElt->_drvPos_x);
-	carElt->_bonnetPos_y = GfParmGetNum(hdle, SECT_BONNET, PRM_YPOS, (char*)nullptr, carElt->_drvPos_y);
-	carElt->_bonnetPos_z = GfParmGetNum(hdle, SECT_BONNET, PRM_ZPOS, (char*)nullptr, carElt->_drvPos_z);
+	car->tank        = GfParmGetNum(hdle, SECT_CAR, PRM_TANK, nullptr, 80);
+	car->fuel        = GfParmGetNum(hdle, SECT_CAR, PRM_FUEL, nullptr, 80);
+	k                = GfParmGetNum(hdle, SECT_CAR, PRM_CENTR, nullptr, 1.0);
+	carElt->_drvPos_x = GfParmGetNum(hdle, SECT_DRIVER, PRM_XPOS, nullptr, 0.0);
+	carElt->_drvPos_y = GfParmGetNum(hdle, SECT_DRIVER, PRM_YPOS, nullptr, 0.0);
+	carElt->_drvPos_z = GfParmGetNum(hdle, SECT_DRIVER, PRM_ZPOS, nullptr, 0.0);
+	carElt->_bonnetPos_x = GfParmGetNum(hdle, SECT_BONNET, PRM_XPOS, nullptr, carElt->_drvPos_x);
+	carElt->_bonnetPos_y = GfParmGetNum(hdle, SECT_BONNET, PRM_YPOS, nullptr, carElt->_drvPos_y);
+	carElt->_bonnetPos_z = GfParmGetNum(hdle, SECT_BONNET, PRM_ZPOS, nullptr, carElt->_drvPos_z);
 	
 	if (car->fuel > car->tank) {
 		car->fuel = car->tank;

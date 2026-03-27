@@ -130,13 +130,13 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 
 	// Load and set parameters.
 	float fuel = GfParmGetNum(*carParmHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FUELPERLAP,
-		(char*)nullptr, track->length*MyCar::MAX_FUEL_PER_METER);
+		nullptr, track->length*MyCar::MAX_FUEL_PER_METER);
 	//printf("fuelperlap: %f\n", fuel);
 
 	float fuelmargin = (situation->_raceType == RM_TYPE_RACE) ? 1.0 : 0.0;
 
 	fuel *= (situation->_totLaps + fuelmargin);
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, MIN(fuel, 100.0));
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, nullptr, MIN(fuel, 100.0));
 }
 
 

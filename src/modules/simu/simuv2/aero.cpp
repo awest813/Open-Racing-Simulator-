@@ -26,10 +26,10 @@ void SimAeroConfig(tCar *car)
 	void *hdle = car->params;
 	tdble Cx, FrntArea;
 
-	Cx       = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_CX, (char*)nullptr, 0.4f);
-	FrntArea = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*)nullptr, 2.5f);
-	car->aero.Clift[0] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)nullptr, 0.0f);
-	car->aero.Clift[1] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)nullptr, 0.0f);
+	Cx       = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_CX, nullptr, 0.4f);
+	FrntArea = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FRNTAREA, nullptr, 2.5f);
+	car->aero.Clift[0] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, nullptr, 0.0f);
+	car->aero.Clift[1] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, nullptr, 0.0f);
 	car->aero.SCx2 = 0.645f * Cx * FrntArea;
 	car->aero.Cd += car->aero.SCx2;
 }
@@ -114,10 +114,10 @@ void SimWingConfig(tCar *car, int index)
 	tWing *wing = &(car->wing[index]);
 	tdble area;
 
-	area              = GfParmGetNum(hdle, WingSect[index], PRM_WINGAREA, (char*)nullptr, 0);
-	wing->angle       = GfParmGetNum(hdle, WingSect[index], PRM_WINGANGLE, (char*)nullptr, 0);
-	wing->staticPos.x = GfParmGetNum(hdle, WingSect[index], PRM_XPOS, (char*)nullptr, 0);
-	wing->staticPos.z = GfParmGetNum(hdle, WingSect[index], PRM_ZPOS, (char*)nullptr, 0);
+	area              = GfParmGetNum(hdle, WingSect[index], PRM_WINGAREA, nullptr, 0);
+	wing->angle       = GfParmGetNum(hdle, WingSect[index], PRM_WINGANGLE, nullptr, 0);
+	wing->staticPos.x = GfParmGetNum(hdle, WingSect[index], PRM_XPOS, nullptr, 0);
+	wing->staticPos.z = GfParmGetNum(hdle, WingSect[index], PRM_ZPOS, nullptr, 0);
 	wing->staticPos.x -= car->statGC.x;
 	
 	wing->Kx = -1.23f * area;
