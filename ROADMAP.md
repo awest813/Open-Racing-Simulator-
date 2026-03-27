@@ -134,12 +134,12 @@ Suggested replacements retained from the historical backlog:
 
 Goal: reduce maintenance cost without destabilizing the simulation.
 
-- [ ] Migrate away from pre-C++11 idioms where changes are low-risk
+- [x] Migrate away from pre-C++11 idioms where changes are low-risk
 - [ ] Replace raw allocation patterns with RAII-based ownership
 - [ ] Reduce C-style casts and narrow unsafe conversions
 - [ ] Replace `printf`-style diagnostics with a structured logging approach
 - [ ] Replace remaining fragile string handling with safer abstractions
-- [ ] Add an initial automated test suite for utility and parsing code
+- [x] Add an initial automated test suite for utility and parsing code
 - [ ] Remove the circular dependency between `raceman.h` and `simu.h`
 - [ ] Move reusable spline code into a shared math library
 - [ ] Eliminate `glGet*` usage in simulation-time paths
@@ -197,4 +197,4 @@ The roadmap is working if the project becomes easier to build, easier to
 understand, safer to redistribute, and still useful for both players and
 research-focused users.
 
-*Last updated: 2026-03-27*
+*Last updated: 2026-03-27 (second pass)*
