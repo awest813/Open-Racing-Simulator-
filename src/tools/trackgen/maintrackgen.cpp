@@ -22,9 +22,9 @@
     @author	<a href=mailto:torcs@free.fr>Eric Espie</a>
     @version	$Id$
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #ifndef WIN32
 #include <unistd.h>
 #endif
@@ -34,7 +34,7 @@
 #ifndef WIN32
 #include <getopt.h>
 #endif
-#include <math.h>
+#include <cmath>
 #include <plib/ul.h>
 #include <plib/ssg.h>
 #include <GL/glut.h>
@@ -80,7 +80,7 @@ int MergeTerrain;
 char *OutTrackName;
 char *OutMeshName;
 
-tModList *modlist = NULL;
+tModList *modlist = nullptr;
 
 int saveElevation;
 char *ElevationFile;
@@ -125,11 +125,11 @@ void init_args(int argc, char **argv)
 	JustCalculate = 0;
     MergeAll = 1;
     MergeTerrain = 1;
-    TrackName = NULL;
-    TrackCategory = NULL;
+    TrackName = nullptr;
+    TrackCategory = nullptr;
     saveElevation = -1;
-	TrackXMLFilePath = NULL;
-	TrackACFilePath = NULL;
+	TrackXMLFilePath = nullptr;
+	TrackACFilePath = nullptr;
 
 #ifndef WIN32
 	const int BUFSIZE = 1024;
@@ -168,7 +168,7 @@ void init_args(int argc, char **argv)
 			exit(0);
 			break;
 		case 'H':
-			HeightSteps = strtol(optarg, NULL, 0);
+			HeightSteps = strtol(optarg, nullptr, 0);
 			break;
 		case 'v':
 			printf("Terrain generator for tracks $Revision$ \n");
@@ -207,7 +207,7 @@ void init_args(int argc, char **argv)
 			TrackACFilePath = strdup(optarg);
 			break;
 		case 'E':
-			saveElevation = strtol(optarg, NULL, 0);;
+			saveElevation = strtol(optarg, nullptr, 0);;
 			TrackOnly = 0;
 			break;
 		case 'B':
@@ -259,7 +259,7 @@ void init_args(int argc, char **argv)
 			}
 		} else if (strncmp(argv[i], "-E", 2) == 0) {
 			if (i + 1 < argc) {
-				saveElevation = strtol(argv[++i], NULL, 0);
+				saveElevation = strtol(argv[++i], nullptr, 0);
 			} else {
 				usage();
 				exit(0);
@@ -288,7 +288,7 @@ void init_args(int argc, char **argv)
 			}
 		} else if (strncmp(argv[i], "-H", 2) == 0) {
 			if (i + 1 < argc) {
-				HeightSteps = strtol(argv[++i], NULL, 0);
+				HeightSteps = strtol(argv[++i], nullptr, 0);
 			} else {
 				usage();
 				exit(0);
@@ -343,7 +343,7 @@ static void Generate(void)
 {
 	const char *trackdllname;
 	const char *extName;
-	FILE *outfd = NULL;
+	FILE *outfd = nullptr;
 	const int BUFSIZE = 1024;
 	char buf[BUFSIZE];
 	char buf2[BUFSIZE];
@@ -364,7 +364,7 @@ static void Generate(void)
 	}
 
 	// This is the track definition.
-	if (TrackXMLFilePath == NULL) {
+	if (TrackXMLFilePath == nullptr) {
 		snprintf(trackdef, BUFSIZE, "tracks/%s/%s/%s.xml", TrackCategory, TrackName, TrackName);
 	} else {
 		snprintf(trackdef, BUFSIZE, "%s/%s.xml", TrackXMLFilePath, TrackName);
@@ -381,7 +381,7 @@ static void Generate(void)
 
 	if (!JustCalculate) {
 		// Get the output file radix.
-		if (TrackACFilePath == NULL) {
+		if (TrackACFilePath == nullptr) {
 			snprintf(buf2, BUFSIZE, "tracks/%s/%s/%s", Track->category, Track->internalname, Track->internalname);
 		} else {
 			snprintf(buf2, BUFSIZE, "%s/%s", TrackACFilePath, Track->internalname);

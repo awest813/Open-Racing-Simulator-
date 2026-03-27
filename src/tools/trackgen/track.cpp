@@ -23,13 +23,13 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #ifndef WIN32
 #include <unistd.h>
 #endif
-#include <math.h>
+#include <cmath>
 
 #include <tgfclient.h>
 #include <track.h>
@@ -87,7 +87,7 @@ static tdble TrackStep;
 static void initPits(tTrackPitInfo *pits)
 {
 	tTrackSeg *curMainSeg;
-	tTrackSeg *curPitSeg = NULL;
+	tTrackSeg *curPitSeg = nullptr;
 	tdble toStart = 0;
 	tdble offset = 0;
 	tTrkLocPos curPos;
@@ -179,7 +179,7 @@ void setTexture(tTexElt **texList, tTexElt **curTexElt, unsigned int &curTexId, 
 	*curTexElt = *texList;
 
 	// First time, create first texture
-	if (*curTexElt == NULL) {
+	if (*curTexElt == nullptr) {
 		*curTexElt = (tTexElt *)calloc(1, sizeof(tTexElt));
 		(*curTexElt)->next = *curTexElt;
 		*texList = *curTexElt;
@@ -227,7 +227,7 @@ void newDispList(int texchange, int bump, int nbvert, int &startNeeded, const ch
 	tDispElt *aDispElt;
 
 	if (!bump || (*(curTexElt->namebump) != 0)) {
-		if (*theCurDispElt != NULL) {
+		if (*theCurDispElt != nullptr) {
 			startNeeded = texchange;
 			if ((*theCurDispElt)->start != nbvert) {
 				(*theCurDispElt)->nb = nbvert - (*theCurDispElt)->start;
@@ -310,7 +310,7 @@ void checkDispList(
 			curTexType = 1;
 			curTexLink = 1;
 			curTexOffset = -off;
-			curTexSize = GfParmGetNum(TrackHandle, path_, TRK_ATT_BUMPSIZE, (char *)NULL, 20.0);
+			curTexSize = GfParmGetNum(TrackHandle, path_, TRK_ATT_BUMPSIZE, (char *)nullptr, 20.0);
 		} else {
 			textype = GfParmGetStr(TrackHandle, path_, TRK_ATT_TEXTYPE, "continuous");
 			if (strcmp(textype, "continuous") == 0) {
@@ -333,7 +333,7 @@ void checkDispList(
 				curTexOffset = 0;
 			}
 
-			curTexSize = GfParmGetNum(TrackHandle, path_, TRK_ATT_TEXSIZE, (char *)NULL, 20.0);
+			curTexSize = GfParmGetNum(TrackHandle, path_, TRK_ATT_TEXSIZE, (char *)nullptr, 20.0);
 		}
 
 		prevTexId = curTexId;
@@ -509,8 +509,8 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 	tdble curTexSeg;
 	tdble curTexSize = 0;
 	tdble curHeight;
-	tTexElt *texList = (tTexElt *)NULL;
-	tTexElt *curTexElt = NULL;
+	tTexElt *texList = (tTexElt *)nullptr;
+	tTexElt *curTexElt = nullptr;
 	tTrackBarrier *curBarrier;
 	tdble texLen;
 	tdble texStep;
@@ -523,7 +523,7 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 	tdble tmVSpace = Track->graphic.turnMarksInfo.vSpace;
 	tdble tmHSpace = Track->graphic.turnMarksInfo.hSpace;
 	int hasBorder;
-	tDispElt *theCurDispElt = NULL;
+	tDispElt *theCurDispElt = nullptr;
 	const int BUFSIZE = 256;
 	char sname[BUFSIZE];
 	char buf[BUFSIZE];
@@ -563,9 +563,9 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 	double rlOffset = 0.0;
 
 	if (raceline) {
-		double SideDistExt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLEXT, (char*)NULL, 2.0);
-		double SideDistInt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLINT, (char*)NULL, 2.0);
-		rlWidthScale = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLWIDTHSCALE, (char*)NULL, 1.0);
+		double SideDistExt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLEXT, (char*)nullptr, 2.0);
+		double SideDistInt = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLINT, (char*)nullptr, 2.0);
+		rlWidthScale = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_RLWIDTHSCALE, (char*)nullptr, 1.0);
 		rlOffset = (1.0 - 1.0/rlWidthScale)/2.0;
 
 		generateRaceLine(Track, SideDistExt, SideDistInt);
@@ -750,7 +750,7 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 		runninglentgh = 0;
 		snprintf(sname, BUFSIZE, "t%dRB", j);
 		for (i = 0, mseg = Track->seg->next; i < Track->nseg; i++, mseg = mseg->next) {
-			if ((mseg->rside != NULL) && (mseg->rside->type2 == TR_RBORDER)) {
+			if ((mseg->rside != nullptr) && (mseg->rside->type2 == TR_RBORDER)) {
 				seg = mseg->rside;
 				checkDispList(Track, TrackHandle, seg->surface->material, sname, i, mseg->lgfromstart, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded, curTexType, curTexLink, curTexOffset, curTexSize);
 				if (!curTexLink) {
@@ -1143,10 +1143,10 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 	runninglentgh = 0;
 	hasBorder = 0;
 	for (i = 0, mseg = Track->seg->next; i < Track->nseg; i++, mseg = mseg->next) {
-		if ((mseg->rside != NULL) &&
-		        ((mseg->rside->type2 == TR_RSIDE) || (mseg->rside->rside != NULL))) {
+		if ((mseg->rside != nullptr) &&
+		        ((mseg->rside->type2 == TR_RSIDE) || (mseg->rside->rside != nullptr))) {
 			seg = mseg->rside;
-			if (seg->rside != NULL) {
+			if (seg->rside != nullptr) {
 				seg = seg->rside;
 				if (hasBorder == 0) {
 					startNeeded = 1;
@@ -1293,7 +1293,7 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 		runninglentgh = 0;
 		snprintf(sname, BUFSIZE, "t%dLB", j);
 		for (i = 0, mseg = Track->seg->next; i < Track->nseg; i++, mseg = mseg->next) {
-			if ((mseg->lside != NULL) && (mseg->lside->type2 == TR_LBORDER)) {
+			if ((mseg->lside != nullptr) && (mseg->lside->type2 == TR_LBORDER)) {
 				seg = mseg->lside;
 				checkDispList(Track, TrackHandle, seg->surface->material, sname, i, mseg->lgfromstart, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded, curTexType, curTexLink, curTexOffset, curTexSize);
 
@@ -1681,8 +1681,8 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 	runninglentgh = 0;
 	hasBorder = 0;
 	for (i = 0, mseg = Track->seg->next; i < Track->nseg; i++, mseg = mseg->next) {
-		if ((mseg->lside != NULL) &&
-		        ((mseg->lside->type2 == TR_LSIDE) || (mseg->lside->lside != NULL))) {
+		if ((mseg->lside != nullptr) &&
+		        ((mseg->lside->type2 == TR_LSIDE) || (mseg->lside->lside != nullptr))) {
 			seg = mseg->lside;
 			if (seg->lside) {
 				seg = seg->lside;
@@ -1830,7 +1830,7 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 		runninglentgh = 0;
 		snprintf(sname, BUFSIZE, "B%dRt", j);
 		for (i = 0, mseg = Track->seg->next; i < Track->nseg; i++, mseg = mseg->next) {
-			if ((mseg->rside != NULL) && (mseg->rside->raceInfo & TR_PIT)) {
+			if ((mseg->rside != nullptr) && (mseg->rside->raceInfo & TR_PIT)) {
 				runninglentgh = 0;
 				newDispList(1, bump, nbvert, startNeeded, sname, i, &theCurDispElt, curTexElt);
 			} else {
@@ -2101,7 +2101,7 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 		runninglentgh = 0;
 		snprintf(sname, BUFSIZE, "B%dLt", j);
 		for (i = 0, mseg = Track->seg->next; i < Track->nseg; i++, mseg = mseg->next) {
-			if ((mseg->lside != NULL) && (mseg->lside->raceInfo & TR_PIT)) {
+			if ((mseg->lside != nullptr) && (mseg->lside->raceInfo & TR_PIT)) {
 				runninglentgh = 0;
 				newDispList(1, bump, nbvert, startNeeded, sname, i, &theCurDispElt, curTexElt);
 			} else {
@@ -2808,7 +2808,7 @@ SaveMainTrack(FILE *curFd, int bump, int raceline)
 */
 void CalculateTrack(tTrack *Track, void *TrackHandle)
 {
-	TrackStep = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_TSTEP, NULL, TrackStep);
+	TrackStep = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_TSTEP, nullptr, TrackStep);
 	GfOut("Track step: %.2f ", TrackStep);
 	InitScene(Track, TrackHandle, 0, 0);
 	printf("Calculation finished\n");
@@ -2827,7 +2827,7 @@ GenerateTrack(tTrack *Track, void *TrackHandle, char *outFile, FILE *AllFd, int 
 {
 	FILE *curFd;
 
-	TrackStep = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_TSTEP, NULL, TrackStep);
+	TrackStep = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_TSTEP, nullptr, TrackStep);
 	GfOut("Track step: %.2f ", TrackStep);
 
 	InitScene(Track, TrackHandle, bump, raceline);

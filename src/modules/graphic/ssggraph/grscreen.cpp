@@ -41,13 +41,13 @@
 cGrScreen::cGrScreen(int myid)
 {
 	id = myid;
-	curCar = NULL;
-	curCam = NULL;
-	mirrorCam = NULL;
-	dispCam = NULL;
-	boardCam = NULL;
-	bgCam = NULL;
-	board = NULL;
+	curCar = nullptr;
+	curCam = nullptr;
+	mirrorCam = nullptr;
+	dispCam = nullptr;
+	boardCam = nullptr;
+	bgCam = nullptr;
+	board = nullptr;
 	curCamHead = 0;
 	drawCurrent = 0;
 	active = 0;
@@ -75,15 +75,15 @@ cGrScreen::~cGrScreen()
 	delete mirrorCam;
 	delete bgCam;
 	
-	if (board != NULL) {
+	if (board != nullptr) {
 		board->shutdown ();
 	}
 	
 	FREEZ(cars);
 	
-	if (board != NULL) {
+	if (board != nullptr) {
 		delete board;
-		board = NULL;
+		board = nullptr;
 	}
 }
 
@@ -167,13 +167,13 @@ void cGrScreen::selectTrackMap()
 	viewmode = board->getTrackMap()->getViewMode();
 	
 	snprintf(path, BUFSIZE, "%s/%d", GR_SCT_DISPMODE, id);
-	GfParmSetNum(grHandle, path, GR_ATT_MAP, NULL, (tdble)viewmode);
+	GfParmSetNum(grHandle, path, GR_ATT_MAP, nullptr, (tdble)viewmode);
 	/* save also as user's preference if human */
 	if (curCar->_driverType == RM_DRV_HUMAN) {
 		snprintf(path2, BUFSIZE, "%s/%s", GR_SCT_DISPMODE, curCar->_name);
-		GfParmSetNum(grHandle, path2, GR_ATT_MAP, NULL, (tdble)viewmode);
+		GfParmSetNum(grHandle, path2, GR_ATT_MAP, nullptr, (tdble)viewmode);
 	}
-	GfParmWriteFile(NULL, grHandle, "Graph");
+	GfParmWriteFile(nullptr, grHandle, "Graph");
 }
 
 void cGrScreen::switchMirror(void)
@@ -184,13 +184,13 @@ void cGrScreen::switchMirror(void)
 
 	mirrorFlag = 1 - mirrorFlag;
 	snprintf(path, BUFSIZE, "%s/%d", GR_SCT_DISPMODE, id);
-	GfParmSetNum(grHandle, path, GR_ATT_MIRROR, NULL, (tdble)mirrorFlag);
+	GfParmSetNum(grHandle, path, GR_ATT_MIRROR, nullptr, (tdble)mirrorFlag);
 	/* save also as user's preference if human */
 	if (curCar->_driverType == RM_DRV_HUMAN) {
 		snprintf(path2, BUFSIZE, "%s/%s", GR_SCT_DISPMODE, curCar->_name);
-		GfParmSetNum(grHandle, path, GR_ATT_MIRROR, NULL, (tdble)mirrorFlag);
+		GfParmSetNum(grHandle, path, GR_ATT_MIRROR, nullptr, (tdble)mirrorFlag);
 	}
-	GfParmWriteFile(NULL, grHandle, "Graph");
+	GfParmWriteFile(nullptr, grHandle, "Graph");
 }
 
 
@@ -215,7 +215,7 @@ void cGrScreen::selectCamera(long cam)
 		curCam = (cGrPerspCamera*)GF_TAILQ_FIRST(&cams[cam]);
 	}
 
-	if (curCam == NULL) {
+	if (curCam == nullptr) {
 		/* back to default camera */
 		curCamHead = 0;
 		curCam = (cGrPerspCamera*)GF_TAILQ_FIRST(&cams[curCamHead]);
@@ -223,21 +223,21 @@ void cGrScreen::selectCamera(long cam)
 
 	snprintf(path, BUFSIZE, "%s/%d", GR_SCT_DISPMODE, id);
 	GfParmSetStr(grHandle, path, GR_ATT_CUR_DRV, curCar->_name);
-	GfParmSetNum(grHandle, path, GR_ATT_CAM, (char*)NULL, (tdble)curCam->getId());
-	GfParmSetNum(grHandle, path, GR_ATT_CAM_HEAD, (char*)NULL, (tdble)curCamHead);
+	GfParmSetNum(grHandle, path, GR_ATT_CAM, (char*)nullptr, (tdble)curCam->getId());
+	GfParmSetNum(grHandle, path, GR_ATT_CAM_HEAD, (char*)nullptr, (tdble)curCamHead);
 	
 	/* save also as user's preference if human */
 	if (curCar->_driverType == RM_DRV_HUMAN) {
 		snprintf(path2, BUFSIZE, "%s/%s", GR_SCT_DISPMODE, curCar->_name);
-		GfParmSetNum(grHandle, path2, GR_ATT_CAM, (char*)NULL, (tdble)curCam->getId());
-		GfParmSetNum(grHandle, path2, GR_ATT_CAM_HEAD, (char*)NULL, (tdble)curCamHead);
+		GfParmSetNum(grHandle, path2, GR_ATT_CAM, (char*)nullptr, (tdble)curCam->getId());
+		GfParmSetNum(grHandle, path2, GR_ATT_CAM_HEAD, (char*)nullptr, (tdble)curCamHead);
 	}
 	
 	snprintf(buf, BUFSIZE, "%s-%d-%d", GR_ATT_FOVY, curCamHead, curCam->getId());
 	curCam->loadDefaults(buf);
 	drawCurrent = curCam->getDrawCurrent();
 	curCam->limitFov ();
-	GfParmWriteFile(NULL, grHandle, "Graph");
+	GfParmWriteFile(nullptr, grHandle, "Graph");
 }
 
 static class cGrPerspCamera *ThedispCam;	/* the display camera */
@@ -340,7 +340,7 @@ void cGrScreen::update(tSituation *s, float Fps)
 		snprintf(buf, BUFSIZE, "%s/%d", GR_SCT_DISPMODE, id);
 		GfParmSetStr(grHandle, buf, GR_ATT_CUR_DRV, curCar->_name);
 		loadParams (s);
-		GfParmWriteFile(NULL, grHandle, "Graph");
+		GfParmWriteFile(nullptr, grHandle, "Graph");
 		curCam->onSelect(curCar, s);
 	}
 	
@@ -418,15 +418,15 @@ void cGrScreen::loadParams(tSituation *s)
 	}
 	snprintf(path2, BUFSIZE, "%s/%s", GR_SCT_DISPMODE, curCar->_name);
 	
-	curCamHead	= (int)GfParmGetNum(grHandle, path, GR_ATT_CAM_HEAD, NULL, 9);
-	camNum	= (int)GfParmGetNum(grHandle, path, GR_ATT_CAM, NULL, 0);
-	mirrorFlag	= (int)GfParmGetNum(grHandle, path, GR_ATT_MIRROR, NULL, (tdble)mirrorFlag);
-	curCamHead	= (int)GfParmGetNum(grHandle, path2, GR_ATT_CAM_HEAD, NULL, (tdble)curCamHead);
-	camNum	= (int)GfParmGetNum(grHandle, path2, GR_ATT_CAM, NULL, (tdble)camNum);
-	mirrorFlag	= (int)GfParmGetNum(grHandle, path2, GR_ATT_MIRROR, NULL, (tdble)mirrorFlag);
+	curCamHead	= (int)GfParmGetNum(grHandle, path, GR_ATT_CAM_HEAD, nullptr, 9);
+	camNum	= (int)GfParmGetNum(grHandle, path, GR_ATT_CAM, nullptr, 0);
+	mirrorFlag	= (int)GfParmGetNum(grHandle, path, GR_ATT_MIRROR, nullptr, (tdble)mirrorFlag);
+	curCamHead	= (int)GfParmGetNum(grHandle, path2, GR_ATT_CAM_HEAD, nullptr, (tdble)curCamHead);
+	camNum	= (int)GfParmGetNum(grHandle, path2, GR_ATT_CAM, nullptr, (tdble)camNum);
+	mirrorFlag	= (int)GfParmGetNum(grHandle, path2, GR_ATT_MIRROR, nullptr, (tdble)mirrorFlag);
 	
 	cam = GF_TAILQ_FIRST(&cams[curCamHead]);
-	curCam = NULL;
+	curCam = nullptr;
 	while (cam) {
 		if (cam->getId() == camNum) {
 			curCam = (cGrPerspCamera*)cam;
@@ -435,12 +435,12 @@ void cGrScreen::loadParams(tSituation *s)
 		cam = cam->next();
 	}
 
-	if (curCam == NULL) {
+	if (curCam == nullptr) {
 		// back to default camera
 		curCamHead = 0;
 		curCam = (cGrPerspCamera*)GF_TAILQ_FIRST(&cams[curCamHead]);
-		GfParmSetNum(grHandle, path, GR_ATT_CAM, NULL, (tdble)curCam->getId());
-		GfParmSetNum(grHandle, path, GR_ATT_CAM_HEAD, NULL, (tdble)curCamHead);
+		GfParmSetNum(grHandle, path, GR_ATT_CAM, nullptr, (tdble)curCam->getId());
+		GfParmSetNum(grHandle, path, GR_ATT_CAM_HEAD, nullptr, (tdble)curCamHead);
 	}
 	
 	snprintf(buf, BUFSIZE, "%s-%d-%d", GR_ATT_FOVY, curCamHead, curCam->getId());
@@ -456,18 +456,18 @@ void cGrScreen::initCams(tSituation *s)
 	tdble fovFactor;
 	int i;
 	
-	fovFactor = GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_FOVFACT, (char*)NULL, 1.0);
-	fovFactor *= GfParmGetNum(grTrackHandle, TRK_SECT_GRAPH, TRK_ATT_FOVFACT, (char*)NULL, 1.0);
+	fovFactor = GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_FOVFACT, (char*)nullptr, 1.0);
+	fovFactor *= GfParmGetNum(grTrackHandle, TRK_SECT_GRAPH, TRK_ATT_FOVFACT, (char*)nullptr, 1.0);
 	
-	if (boardCam == NULL) {
+	if (boardCam == nullptr) {
 		boardCam = new cGrOrthoCamera(this,0, grWinw*600/grWinh, 0, 600);
 	}
 	
-	if (bgCam == NULL) {
+	if (bgCam == nullptr) {
 		bgCam = new cGrBackgroundCam(this);
 	}
 	
-	if (mirrorCam == NULL) {
+	if (mirrorCam == nullptr) {
 		mirrorCam = new cGrCarCamMirror(
 			this,
 			-1,
@@ -506,7 +506,7 @@ void cGrScreen::initCams(tSituation *s)
 
 void cGrScreen::initBoard(void)
 {
-	if (board == NULL) {
+	if (board == nullptr) {
 		board = new cGrBoard (id);
 	}
 	board->initBoard ();

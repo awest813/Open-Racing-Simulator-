@@ -106,7 +106,7 @@ int myssgSaveAC ( const char *filename, ssgEntity *ent, const char *skinfilename
 {
   save_fd = fopen ( filename, "wa" ) ;
 
-  if ( save_fd == NULL )
+  if ( save_fd == nullptr )
   {
     ulSetError ( UL_WARNING, "ssgSaveAC: Failed to open '%s' for writing", filename ) ;
     return FALSE ;

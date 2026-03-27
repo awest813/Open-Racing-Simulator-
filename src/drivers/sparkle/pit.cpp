@@ -36,7 +36,7 @@ Pit::Pit(tSituation *s, Driver *driver)
 	lastpitfuel = 0.0;
 	lastfuel = car->priv.fuel;
 
-	if (mypit != NULL) {
+	if (mypit != nullptr) {
 		speedlimit = pitinfo->speedLimit - SPEED_LIMIT_MARGIN;
 		speedlimitsqr = speedlimit*speedlimit;
 		pitspeedlimitsqr = pitinfo->speedLimit*pitinfo->speedLimit;
@@ -78,7 +78,7 @@ Pit::Pit(tSituation *s, Driver *driver)
 
 Pit::~Pit()
 {
-	if (mypit != NULL) delete spline;
+	if (mypit != nullptr) delete spline;
 }
 
 
@@ -96,7 +96,7 @@ float Pit::toSplineCoord(float x)
 /* computes offset to track middle for trajectory */
 float Pit::getPitOffset(float offset, float fromstart)
 {
-	if (mypit != NULL) {
+	if (mypit != nullptr) {
 		if (getInPit() || (getPitstop() && isBetween(fromstart))) {
 			fromstart = toSplineCoord(fromstart);
 			return spline->evaluate(fromstart);
@@ -109,7 +109,7 @@ float Pit::getPitOffset(float offset, float fromstart)
 /* Sets the pitstop flag if we are not in the pit range */
 void Pit::setPitstop(bool pitstop)
 {
-	if (mypit == NULL) return;
+	if (mypit == nullptr) return;
 	float fromstart = car->_distFromStartLine;
 
 	if (!isBetween(fromstart)) {
@@ -144,7 +144,7 @@ bool Pit::isBetween(float fromstart)
 /* update pit data and strategy */
 void Pit::update()
 {
-	if (mypit != NULL) {
+	if (mypit != nullptr) {
 		if (isBetween(car->_distFromStartLine)) {
 			if (getPitstop()) {
 				setInPit(true);

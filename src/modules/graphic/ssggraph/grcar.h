@@ -76,12 +76,12 @@ class myLoaderOptions : public ssgLoaderOptions
 public:
 	virtual void makeModelPath ( char* path, const char *fname ) const
 	{
-		ulFindFile ( path, model_dir, fname, NULL ) ;
+		ulFindFile ( path, model_dir, fname, nullptr ) ;
 	}
 
 	virtual void makeTexturePath ( char* path, const char *fname ) const
 	{
-		ulFindFile ( path, texture_dir, fname, NULL ) ;
+		ulFindFile ( path, texture_dir, fname, nullptr ) ;
 	}
 } ;
 

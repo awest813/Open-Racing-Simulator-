@@ -20,11 +20,11 @@
 #ifndef _SIMFCT_H_
 #define _SIMFCT_H_
 
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 #include <cstring>
 #ifdef WIN32
-#include <float.h>
+#include <cfloat>
 #define isnan _isnan
 #endif
 

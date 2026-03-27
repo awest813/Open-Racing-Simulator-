@@ -31,20 +31,20 @@ const int OpenalSoundInterface::OSI_MIN_DYNAMIC_SOURCES = 4;
 
 OpenalSoundInterface::OpenalSoundInterface(float sampling_rate, int n_channels): SoundInterface (sampling_rate, n_channels)
 {
-	car_src = NULL;
+	car_src = nullptr;
 
 	ALfloat far_away[] = { 0.0f, 0.0f,  1000.0f };
 	ALfloat zeroes[] = { 0.0f, 0.0f,  0.0f };
 	ALfloat front[]  = { 0.0f, 0.0f,  1.0f, 0.0f, 1.0f, 0.0f };
-	dev = alcOpenDevice( NULL );
-	if( dev == NULL ) {
+	dev = alcOpenDevice( nullptr );
+	if( dev == nullptr ) {
 		throw ("Could not open device");
 	}
 	
 	// Last zero is termination of the array, I think the current official beat SDK ignores that.
 	// ALCint attr[] = { ALC_MONO_SOURCES, 1024, ALC_STEREO_SOURCES, 0, 0};
-	cc = alcCreateContext( dev, NULL);
-	if(cc == NULL) {
+	cc = alcCreateContext( dev, nullptr);
+	if(cc == nullptr) {
 		alcCloseDevice( dev );
 		throw ("Could not create context.");
 	}
@@ -131,7 +131,7 @@ OpenalSoundInterface::OpenalSoundInterface(float sampling_rate, int n_channels):
 		printf("OpenAL Error: %d alListenerfv\n", error);
 	}
 	
-	engpri = NULL;
+	engpri = nullptr;
 	global_gain = 1.0f;
 	
 	// initialise mappings

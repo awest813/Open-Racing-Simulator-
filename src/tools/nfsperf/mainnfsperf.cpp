@@ -29,15 +29,15 @@
 #include <io.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #ifndef WIN32
 #include <getopt.h>
 #endif
 
 #include <tgf.h>
 
-char	*catfile = NULL;
+char	*catfile = nullptr;
 const char	*infile = "carp.txt";
 const char	*outfile = "carp.xml";
 
@@ -186,7 +186,7 @@ int main (int argc, char **argv)
 	    exit (1);
 	}
 	
-	idx = strtol (s + 1, NULL, 0);
+	idx = strtol (s + 1, nullptr, 0);
 	switch (idx) {
 
 	case 2:			/* mass [kg] */
@@ -227,7 +227,7 @@ int main (int argc, char **argv)
 		    continue;
 		}
 		snprintf (path, sizeof(path), "Gearbox/gears/%s", gears [i++]);
-		GfParmSetNum (param, path, "ratio", NULL, valf);
+		GfParmSetNum (param, path, "ratio", nullptr, valf);
 		s = end;
 	    }
 	    break;
@@ -246,7 +246,7 @@ int main (int argc, char **argv)
 		}
 		sscanf (s, "%f", &valf);
 		snprintf (path, sizeof(path), "Gearbox/gears/%s", gears [i++]);
-		GfParmSetNum (param, path, "efficiency", NULL, valf);
+		GfParmSetNum (param, path, "efficiency", nullptr, valf);
 		s = end;
 	    }
 	    break;
@@ -277,7 +277,7 @@ int main (int argc, char **argv)
 		exit (1);
 	    }
 	    sscanf (buf, "%f", &valf);
-	    GfParmSetNum (param, "Rear Differential", "ratio", NULL, valf);
+	    GfParmSetNum (param, "Rear Differential", "ratio", nullptr, valf);
 	    break;
 
 	case 12:			/* engine minimum rpm */
@@ -309,17 +309,17 @@ int main (int argc, char **argv)
 		    GfParmSetStr (param, "Drivetrain", "type", "FWD");
 		    GfParmSetStr (param, "Rear Differential", "type", "NONE");
 		    GfParmSetStr (param, "Front Differential", "type", "FREE");
-		    GfParmSetNum (param, "Front Differential", "ratio", NULL, valf);
+		    GfParmSetNum (param, "Front Differential", "ratio", nullptr, valf);
 		} else {
 		    GfParmSetStr (param, "Drivetrain", "type", "4WD");
 		    GfParmSetStr (param, "Front Differential", "type", "FREE");
 		    GfParmSetStr (param, "Central Differential", "type", "VISCOUS COUPLER");
-		    GfParmSetNum (param, "Central Differential", "min torque bias", NULL, MAX (valf - 1.0f, 0.1f));
-		    GfParmSetNum (param, "Central Differential", "max torque bias", NULL, MIN (valf + 1.0f, 0.9f));
-		    valf = GfParmGetNum (param, "Rear Differential", "ratio", NULL, 3.5);
-		    GfParmSetNum (param, "Central Differential", "ratio", NULL, valf);
-		    GfParmSetNum (param, "Rear Differential", "ratio", NULL, 1.0);
-		    GfParmSetNum (param, "Front Differential", "ratio", NULL, 1.0);
+		    GfParmSetNum (param, "Central Differential", "min torque bias", nullptr, MAX (valf - 1.0f, 0.1f));
+		    GfParmSetNum (param, "Central Differential", "max torque bias", nullptr, MIN (valf + 1.0f, 0.9f));
+		    valf = GfParmGetNum (param, "Rear Differential", "ratio", nullptr, 3.5);
+		    GfParmSetNum (param, "Central Differential", "ratio", nullptr, valf);
+		    GfParmSetNum (param, "Rear Differential", "ratio", nullptr, 1.0);
+		    GfParmSetNum (param, "Front Differential", "ratio", nullptr, 1.0);
 		}
 	    }
 	    break;
@@ -329,7 +329,7 @@ int main (int argc, char **argv)
 		exit (1);
 	    }
 	    sscanf (buf, "%f", &valf);
-	    GfParmSetNum (param, "Brake System", "front-rear brake repartition", NULL, valf);
+	    GfParmSetNum (param, "Brake System", "front-rear brake repartition", nullptr, valf);
 	    break;
 
 	case 25:		/* front grip bias */
@@ -337,10 +337,10 @@ int main (int argc, char **argv)
 		exit (1);
 	    }
 	    sscanf (buf, "%f", &valf);
-	    GfParmSetNum (param, "Front Right Wheel", "mu", NULL, valf * 3.0f);
-	    GfParmSetNum (param, "Front Left Wheel", "mu", NULL, valf * 3.0f);
-	    GfParmSetNum (param, "Rear Right Wheel", "mu", NULL, (1.0f - valf) * 3.0f);
-	    GfParmSetNum (param, "Rear Left Wheel", "mu", NULL, (1.0f - valf) * 3.0f);
+	    GfParmSetNum (param, "Front Right Wheel", "mu", nullptr, valf * 3.0f);
+	    GfParmSetNum (param, "Front Left Wheel", "mu", nullptr, valf * 3.0f);
+	    GfParmSetNum (param, "Rear Right Wheel", "mu", nullptr, (1.0f - valf) * 3.0f);
+	    GfParmSetNum (param, "Rear Left Wheel", "mu", nullptr, (1.0f - valf) * 3.0f);
 	    break;
 
 	case 31:		/* aerodynamic downforce multiplier */
@@ -348,8 +348,8 @@ int main (int argc, char **argv)
 		exit (1);
 	    }
 	    sscanf (buf, "%f", &valf);
-	    GfParmSetNum (param, "Aerodynamics", "front Clift", NULL, valf * 120.0f);
-	    GfParmSetNum (param, "Aerodynamics", "rear Clift", NULL, valf * 100.0f);
+	    GfParmSetNum (param, "Aerodynamics", "front Clift", nullptr, valf * 120.0f);
+	    GfParmSetNum (param, "Aerodynamics", "rear Clift", nullptr, valf * 100.0f);
 	    break;
 
 	case 35:		/* tire specs front */

@@ -29,7 +29,7 @@ ParticleSystem::ParticleSystem(int maxParticles)
     glBindVertexArray(m_vao);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, maxParticles * FLOATS_PER_PARTICLE * sizeof(float),
-                 NULL, GL_DYNAMIC_DRAW);
+                 nullptr, GL_DYNAMIC_DRAW);
 
     // attrib 0: pos (3f)
     glEnableVertexAttribArray(0);

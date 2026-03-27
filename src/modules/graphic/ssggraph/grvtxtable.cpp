@@ -43,19 +43,19 @@ extern double shad_ymin;
 void grVtxTable::copy_from (grVtxTable *src, int clone_flags)
 {
 	ssgVtxTable::copy_from (src, clone_flags);
-	if (src->texcoords1 != NULL && (clone_flags & SSG_CLONE_GEOMETRY)) {
+	if (src->texcoords1 != nullptr && (clone_flags & SSG_CLONE_GEOMETRY)) {
 		texcoords1 = (ssgTexCoordArray *)(src->texcoords1->clone(clone_flags));
 	} else {
 		texcoords1 = src->texcoords1;
 	}
 
-	if (src->texcoords2 != NULL && (clone_flags & SSG_CLONE_GEOMETRY)) {
+	if (src->texcoords2 != nullptr && (clone_flags & SSG_CLONE_GEOMETRY)) {
 		texcoords2 = (ssgTexCoordArray *)(src->texcoords2->clone(clone_flags));
 	} else {
 		texcoords2 = src->texcoords2;
 	}
 
-	if (src->texcoords3 != NULL && (clone_flags & SSG_CLONE_GEOMETRY)) {
+	if (src->texcoords3 != nullptr && (clone_flags & SSG_CLONE_GEOMETRY)) {
 		texcoords3 = (ssgTexCoordArray *)(src->texcoords3->clone(clone_flags));
 	} else {
 		texcoords3 = src->texcoords3;
@@ -68,24 +68,24 @@ void grVtxTable::copy_from (grVtxTable *src, int clone_flags)
 	if (src->internalType == ARRAY) {
 		numStripes = src->numStripes;
 		ssgDeRefDelete(indices);
-		if (src->indices != NULL && (clone_flags & SSG_CLONE_GEOMETRY)) {
+		if (src->indices != nullptr && (clone_flags & SSG_CLONE_GEOMETRY)) {
 			indices = (ssgIndexArray *)(src->indices->clone(clone_flags));
 		} else {
 			indices = src->indices;
 		}
 
-		if (indices != NULL) {
+		if (indices != nullptr) {
 			indices->ref();
 		}
 
 		ssgDeRefDelete(stripes);
-		if (src->stripes != NULL && (clone_flags & SSG_CLONE_GEOMETRY)) {
+		if (src->stripes != nullptr && (clone_flags & SSG_CLONE_GEOMETRY)) {
 			stripes = (ssgIndexArray *)(src->stripes->clone(clone_flags));
 		} else {
 			stripes = src->stripes;
 		}
 
-		if (stripes != NULL) {
+		if (stripes != nullptr) {
 			stripes->ref();
 		}
 	}
@@ -105,10 +105,10 @@ grVtxTable::grVtxTable (int _numMapLevel,int _mapLevel)
 	numMapLevel = _numMapLevel;
 	mapLevelBitmap = _mapLevel;
 	indexCar = -1;
-	texcoords1 = NULL;
-	texcoords2 = NULL;
-	texcoords3 = NULL;
-	state1 = state2 = state3 = NULL;
+	texcoords1 = nullptr;
+	texcoords2 = nullptr;
+	texcoords3 = nullptr;
+	state1 = state2 = state3 = nullptr;
 	internalType = TABLE;
 	numStripes = 0;
 	ssgVtxTable();
@@ -133,17 +133,17 @@ grVtxTable::grVtxTable (GLenum ty, ssgVertexArray   *vl,
 	numMapLevel = _numMapLevel;
 	mapLevelBitmap =_mapLevel;
 	indexCar = _indexCar;
-	texcoords1 = (tl1!=NULL) ? tl1 : new ssgTexCoordArray();
-	texcoords2 = (tl2!=NULL) ? tl2 : new ssgTexCoordArray();
-	texcoords3 = (tl3!=NULL) ? tl3 : new ssgTexCoordArray();
+	texcoords1 = (tl1!=nullptr) ? tl1 : new ssgTexCoordArray();
+	texcoords2 = (tl2!=nullptr) ? tl2 : new ssgTexCoordArray();
+	texcoords3 = (tl3!=nullptr) ? tl3 : new ssgTexCoordArray();
 	texcoords1->ref();
 	texcoords2->ref();
 	texcoords3->ref();
-	state1 = state2 = state3 = NULL;
+	state1 = state2 = state3 = nullptr;
 	internalType = ARRAY;
-	indices = (il != NULL) ? il : new ssgIndexArray();
+	indices = (il != nullptr) ? il : new ssgIndexArray();
 	indices->ref();
-	stripes = (stripeIndex!=NULL) ? stripeIndex : new ssgIndexArray();
+	stripes = (stripeIndex!=nullptr) ? stripeIndex : new ssgIndexArray();
 	stripes->ref();
 	numStripes = _numstripes;
 }
@@ -164,13 +164,13 @@ grVtxTable::grVtxTable (GLenum ty, ssgVertexArray   *vl,
 	numMapLevel = _numMapLevel;
 	mapLevelBitmap = _mapLevel;
 	indexCar = _indexCar;
-	texcoords1 = (tl1!=NULL) ? tl1 : new ssgTexCoordArray();
-	texcoords2 = (tl2!=NULL) ? tl2 : new ssgTexCoordArray();
-	texcoords3 = (tl3!=NULL) ? tl3 : new ssgTexCoordArray();
+	texcoords1 = (tl1!=nullptr) ? tl1 : new ssgTexCoordArray();
+	texcoords2 = (tl2!=nullptr) ? tl2 : new ssgTexCoordArray();
+	texcoords3 = (tl3!=nullptr) ? tl3 : new ssgTexCoordArray();
 	texcoords1->ref();
 	texcoords2->ref();
 	texcoords3->ref();
-	state1 = state2 = state3 = NULL;
+	state1 = state2 = state3 = nullptr;
 	internalType = TABLE;
 	numStripes = 0;
 }
@@ -199,7 +199,7 @@ void grVtxTable::setState1 (ssgState *st)
 
 	state1 = (grMultiTexState *)st;
 
-	if (state1 != NULL) {
+	if (state1 != nullptr) {
 		state1->ref();
 	}
 }
@@ -211,7 +211,7 @@ void grVtxTable::setState2 (ssgState *st)
 
 	state2 = (grMultiTexState *)st;
 
-	if (state2 != NULL) {
+	if (state2 != nullptr) {
 		state2->ref();
 	}
 }
@@ -223,7 +223,7 @@ void grVtxTable::setState3 (ssgState *st)
 
 	state3 = (grMultiTexState *)st;
 
-	if (state3 != NULL) {
+	if (state3 != nullptr) {
 		state3->ref();
 	}
 }
@@ -263,7 +263,7 @@ void grVtxTable::draw ()
 		}
 	}
 
-	if (postDrawCB != NULL) {
+	if (postDrawCB != nullptr) {
 		(*postDrawCB)(this);
 	}
 }
@@ -506,7 +506,7 @@ void grVtxTable::draw_geometry_array ()
 
 
 	int i = 0;
-	short *ii = NULL;
+	short *ii = nullptr;
 	int j = 0;
 	int p = 0;
 
@@ -673,7 +673,7 @@ void grVtxTable::draw_geometry_for_a_car_array ()
 	glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 
 	int i = 0;
-	short *ii = NULL;
+	short *ii = nullptr;
 	int j = 0;
 	int p = 0;
 

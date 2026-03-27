@@ -50,12 +50,12 @@ bool doMipMap(const char *tfname, int mipmap)
 	if (mipmap == TRUE) {
 		// Check the shadow.
 		s = strrchr((char *)tfname, '/');
-		if (s == NULL) {
+		if (s == nullptr) {
 			s = (char *) tfname;
 		} else {
 			s++;
 		}
-		if (strstr(s, "shadow") != NULL) {
+		if (strstr(s, "shadow") != nullptr) {
 			mipmap = FALSE;
 		}
 	}
@@ -118,8 +118,8 @@ grSGIHeader::grSGIHeader(const char *fname, ssgTextureInfo* info)
 {
 	grSGIHeader *sgihdr = this;
 
-	start = NULL;
-	leng = NULL;
+	start = nullptr;
+	leng = nullptr;
 
 	bool success = openFile(fname);
 
@@ -134,9 +134,9 @@ grSGIHeader::grSGIHeader(const char *fname, ssgTextureInfo* info)
 	GLubyte *ptr = image;
 
 	unsigned char *rbuf = new unsigned char[sgihdr->xsize];
-	unsigned char *gbuf = (sgihdr->zsize>1) ? new unsigned char[sgihdr->xsize] : (unsigned char *) NULL ;
-	unsigned char *bbuf = (sgihdr->zsize>2) ? new unsigned char[sgihdr->xsize] : (unsigned char *) NULL ;
-	unsigned char *abuf = (sgihdr->zsize>3) ? new unsigned char[sgihdr->xsize] : (unsigned char *) NULL ;
+	unsigned char *gbuf = (sgihdr->zsize>1) ? new unsigned char[sgihdr->xsize] : (unsigned char *) nullptr ;
+	unsigned char *bbuf = (sgihdr->zsize>2) ? new unsigned char[sgihdr->xsize] : (unsigned char *) nullptr ;
+	unsigned char *abuf = (sgihdr->zsize>3) ? new unsigned char[sgihdr->xsize] : (unsigned char *) nullptr ;
 
 	for (int y = 0 ; y < sgihdr->ysize ; y++) {
 		int x ;
@@ -188,13 +188,13 @@ grSGIHeader::grSGIHeader(const char *fname, ssgTextureInfo* info)
 	}
 
 	fclose(image_fd);
-	image_fd = NULL ;
+	image_fd = nullptr ;
 	delete [] rbuf;
 	delete [] gbuf;
 	delete [] bbuf;
 	delete [] abuf;
 
-	if (info != NULL) {
+	if (info != nullptr) {
 		info->width = sgihdr->xsize;
 		info->height = sgihdr->ysize;
 		info->depth = sgihdr->zsize;
@@ -219,7 +219,7 @@ bool grMakeMipMaps (GLubyte *image, int xsize, int ysize, int zsize, bool mipmap
 	GLubyte *texels[20];   // One element per level of MIPmap.
 
 	for (int l = 0; l < 20; l++) {
-    	texels [l] = NULL;
+    	texels [l] = nullptr;
 	}
 
 	texels[0] = image;
@@ -282,7 +282,7 @@ bool grMakeMipMaps (GLubyte *image, int xsize, int ysize, int zsize, bool mipmap
 		}
 	}
 
-	texels[lev + 1] = NULL;
+	texels[lev + 1] = nullptr;
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glHint(GL_TEXTURE_COMPRESSION_HINT_ARB, GL_NICEST);
@@ -329,7 +329,7 @@ bool grMakeMipMaps (GLubyte *image, int xsize, int ysize, int zsize, bool mipmap
 									(zsize==2)?GL_LUMINANCE_ALPHA:
 									(zsize==3)?GL_RGB:
 											GL_RGBA,
-									GL_UNSIGNED_BYTE, NULL);
+									GL_UNSIGNED_BYTE, nullptr);
 
 			glGetTexLevelParameteriv(GL_PROXY_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &ww);
 		}
@@ -338,7 +338,7 @@ bool grMakeMipMaps (GLubyte *image, int xsize, int ysize, int zsize, bool mipmap
 			delete [] texels[0];
 			xsize >>= 1;
 			ysize >>= 1;
-			for (int l = 0; texels [l] != NULL; l++) {
+			for (int l = 0; texels [l] != nullptr; l++) {
 				texels [l] = texels[l+1];
 			}
 
@@ -349,7 +349,7 @@ bool grMakeMipMaps (GLubyte *image, int xsize, int ysize, int zsize, bool mipmap
 	} while (ww == 0);
 
 
-	for (int i = 0; texels[i] != NULL; i++) {
+	for (int i = 0; texels[i] != nullptr; i++) {
 		int w = xsize >> i;
 		int h = ysize >> i;
 

@@ -25,7 +25,7 @@
 #ifndef _GRTEXTURE_H_
 #define _GRTEXTURE_H_
 
-#include <stdio.h>
+#include <cstdio>
 #include <plib/ssg.h>
 #include <glfeatures.h>
 #include "grloadsgi.h"
@@ -47,7 +47,7 @@ class grManagedState : public ssgSimpleState {
 */
 		virtual ~grManagedState() {
 			//GfError("delete this: %0xd, #: %d\n", this, --ms);
-			if (this->getTexture() != NULL) {
+			if (this->getTexture() != nullptr) {
 				grRemoveState(this->getTexture()->getFilename());
 			}
 		}

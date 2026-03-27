@@ -64,7 +64,7 @@ CarSoundData::CarSoundData(int id, SoundInterface* sound_interface)
     setCarPosition(zeroes);
     setCarSpeed(zeroes);
     setListenerPosition(zeroes);
-	engine_sound = NULL;
+	engine_sound = nullptr;
     
     attenuation = 0.0f;
     grass_skid.a=0.0f;
@@ -228,24 +228,24 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
 	}
 
     for (i = 0; i<4; i++) {
-        const char* s = NULL;
+        const char* s = nullptr;
         tdble roughness = 0.0f;
         tdble roughnessFreq = 1.0f;
         float ride  = 0.0001f;
         float tmpvol = car->pub.speed*0.01f;
-        if (car==NULL) {
+        if (car==nullptr) {
             fprintf (stderr, "Error: (grsound.c) no car\n");
             continue;
-        } else if (car->priv.wheel==NULL) {
+        } else if (car->priv.wheel==nullptr) {
             fprintf (stderr, "Error: (grsound.c) no wheels\n");
             continue;
-        } else if (car->priv.wheel[i].seg==NULL) {
+        } else if (car->priv.wheel[i].seg==nullptr) {
             fprintf (stderr, "Error: (grsound.c) no seg\n");
             continue;
-        } else if (car->priv.wheel[i].seg->surface==NULL) {
+        } else if (car->priv.wheel[i].seg->surface==nullptr) {
             fprintf (stderr, "Error: (grsound.c) no surface\n");
             continue;
-        } else if (car->priv.wheel[i].seg->surface->material==NULL) {
+        } else if (car->priv.wheel[i].seg->surface->material==nullptr) {
             fprintf (stderr, "Error: (grsound.c) no material\n");
             continue;
         } else {

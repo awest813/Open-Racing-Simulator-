@@ -26,9 +26,9 @@
 #ifndef _STRATEGY_H_
 #define _STRATEGY_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 
 #include <tgf.h>
 #include <track.h>

@@ -77,7 +77,7 @@ SingleCardata *Cardata::findCar(tCarElt *car)
 			return &data[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 

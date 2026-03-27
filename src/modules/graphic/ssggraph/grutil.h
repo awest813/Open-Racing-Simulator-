@@ -21,7 +21,7 @@
 #ifndef _GRUTIL_H_
 #define _GRUTIL_H_
 
-#include <stdio.h>
+#include <cstdio>
 #include "grtexture.h"
 
 #if 1

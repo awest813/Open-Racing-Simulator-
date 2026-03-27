@@ -28,8 +28,8 @@ PlibSoundInterface::PlibSoundInterface(float sampling_rate, int n_channels) : So
 	sched = new slScheduler ((int) sampling_rate);
 	sched->setSafetyMargin (0.128f);
 	sched->setMaxConcurrent (n_channels);
-	engpri = NULL;
-	car_src = NULL;
+	engpri = nullptr;
+	car_src = nullptr;
 	global_gain = 1.0f;
 
 	// initialise mappings

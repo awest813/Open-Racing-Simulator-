@@ -16,11 +16,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <sys/types.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -57,9 +57,9 @@ double grSmokeLife;
 
 static tgrSmokeManager *smokeManager = 0;
 /** initialize the smoke structure */
-ssgSimpleState *mst = NULL;
-ssgSimpleState *mstf0 = NULL;
-ssgSimpleState *mstf1 = NULL;
+ssgSimpleState *mst = nullptr;
+ssgSimpleState *mstf0 = nullptr;
+ssgSimpleState *mstf1 = nullptr;
 double * timeSmoke = 0;
 double * timeFire = 0;
 
@@ -71,11 +71,11 @@ void grInitSmoke(int index)
     char buf[BUFSIZE];
 
     grSmokeMaxNumber = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SMOKENB,
-										 (char*)NULL, MAX_SMOKE_NUMBER);
+										 (char*)nullptr, MAX_SMOKE_NUMBER);
     grSmokeDeltaT = (double)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SMOKEDELTAT,
-										 (char*)NULL, DELTAT);
+										 (char*)nullptr, DELTAT);
     grSmokeLife = (double)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SMOKEDLIFE,
-									   (char*)NULL, MAX_SMOKE_LIFE);
+									   (char*)nullptr, MAX_SMOKE_LIFE);
 
     if (!grSmokeMaxNumber) {
 		return;
@@ -95,7 +95,7 @@ void grInitSmoke(int index)
 
     if (!smokeManager) {
 		smokeManager = (tgrSmokeManager*) malloc(sizeof(tgrSmokeManager));
-		smokeManager->smokeList = NULL;
+		smokeManager->smokeList = nullptr;
 		smokeManager->number = 0;
     }
 
@@ -103,7 +103,7 @@ void grInitSmoke(int index)
     if (!mst) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		mst = (ssgSimpleState*)grSsgLoadTexStateEx("smoke.rgb", buf, FALSE, FALSE);
-		if (mst!=NULL) {
+		if (mst!=nullptr) {
 			mst->disable(GL_LIGHTING);
 			mst->enable(GL_BLEND);
 			mst->disable(GL_CULL_FACE);
@@ -117,7 +117,7 @@ void grInitSmoke(int index)
     if (!mstf0) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		mstf0 = (ssgSimpleState*)grSsgLoadTexStateEx("fire0.rgb", buf, FALSE, FALSE);
-		if (mst!=NULL) {
+		if (mst!=nullptr) {
 			mstf0->disable(GL_LIGHTING);
 			mstf0->enable(GL_BLEND);
 			mstf0->disable(GL_CULL_FACE);
@@ -131,7 +131,7 @@ void grInitSmoke(int index)
     if (!mstf1) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		mstf1 = (ssgSimpleState*)grSsgLoadTexStateEx("fire1.rgb", buf, FALSE, FALSE);
-		if (mst!=NULL) {
+		if (mst!=nullptr) {
 			mstf1->disable(GL_LIGHTING);
 			mstf1->enable(GL_BLEND);
 			mstf1->disable(GL_CULL_FACE);
@@ -154,9 +154,9 @@ void grUpdateSmoke(double t)
 		return;
 	}
 
-	prev = NULL;
+	prev = nullptr;
 	tmp = smokeManager->smokeList;
-	while( tmp != NULL) {
+	while( tmp != nullptr) {
 		if (tmp->smoke->cur_life >= tmp->smoke->max_life) {
 			if (prev) {
 				prev->next = tmp->next;
@@ -350,12 +350,12 @@ void grAddSmoke(tCarElt *car, double t)
 					tmp->smoke->vexp = V_EXPANSION+(car->_skid[i]+.1*spd_fx)*(((float)rand()/(float)RAND_MAX));
 					tmp->smoke->smokeType = SMOKE_TYPE_TIRE;
 					tmp->smoke->smokeTypeStep = 0;
-					tmp->next = NULL;
+					tmp->next = nullptr;
 					tmp->smoke->lastTime = t;
 					tmp->smoke->transform(grCarInfo[car->index].carPos);
 					SmokeAnchor->addKid(tmp->smoke);
 					smokeManager->number++;
-					if (smokeManager->smokeList==NULL) {
+					if (smokeManager->smokeList==nullptr) {
 						smokeManager->smokeList = tmp;
 					} else {
 						tmp->next = smokeManager->smokeList;
@@ -407,12 +407,12 @@ void grAddSmoke(tCarElt *car, double t)
 						//tmp->smoke->vexp = V_EXPANSION+5.0*(((float)rand()/(float)RAND_MAX)) * car->_exhaustPower / 2.0;
 						tmp->smoke->smokeType = SMOKE_TYPE_ENGINE;
 						tmp->smoke->smokeTypeStep = 0;
-						tmp->next = NULL;
+						tmp->next = nullptr;
 						tmp->smoke->lastTime = t;
 						tmp->smoke->transform(grCarInfo[index].carPos);
 						SmokeAnchor->addKid(tmp->smoke);
 						smokeManager->number++;
-						if (smokeManager->smokeList==NULL) {
+						if (smokeManager->smokeList==nullptr) {
 							smokeManager->smokeList = tmp;
 						} else {
 							tmp->next = smokeManager->smokeList;
@@ -439,36 +439,36 @@ void grShutdownSmoke ()
     SmokeAnchor->removeAllKids();
     if (smokeManager) {
 		tmp = smokeManager->smokeList;
-		while( tmp!=NULL)
+		while( tmp!=nullptr)
 			{
 				tmp2 = tmp->next;
 				/* SmokeAnchor->removeKid(tmp->smoke); */
 				free(tmp);
 				tmp = tmp2;
 			}
-		smokeManager->smokeList = NULL;
+		smokeManager->smokeList = nullptr;
 		free(timeSmoke);
 		free(timeFire);
 		free(smokeManager);
 		smokeManager = 0;
-		smokeManager = NULL;
-		timeSmoke = NULL;
-		timeFire=NULL;
+		smokeManager = nullptr;
+		timeSmoke = nullptr;
+		timeFire=nullptr;
     }
 
-	if (mst != NULL) {
+	if (mst != nullptr) {
 		ssgDeRefDelete(mst);
-		mst = NULL;
+		mst = nullptr;
 	}
 
-	if (mstf0 != NULL) {
+	if (mstf0 != nullptr) {
 		ssgDeRefDelete(mstf0);
-		mstf0 = NULL;
+		mstf0 = nullptr;
 	}
 
-	if (mstf1 != NULL) {
+	if (mstf1 != nullptr) {
 		ssgDeRefDelete(mstf1);
-		mstf1 = NULL;
+		mstf1 = nullptr;
 	}
 }
 
@@ -493,7 +493,7 @@ ssgVtxTableSmoke:: ssgVtxTableSmoke (ssgVertexArray	*shd_vtx , float initsize, i
     gltype = GL_TRIANGLE_STRIP;
     type = ssgTypeVtxTable () ;
     stype = typ;
-    vertices  = (shd_vtx!=NULL) ? shd_vtx : new ssgVertexArray   () ;
+    vertices  = (shd_vtx!=nullptr) ? shd_vtx : new ssgVertexArray   () ;
     normals   =  new ssgNormalArray   () ;
     texcoords =  new ssgTexCoordArray () ;
     colours   =  new ssgColourArray   () ;

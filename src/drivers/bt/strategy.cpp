@@ -49,12 +49,12 @@ SimpleStrategy::~SimpleStrategy()
 void SimpleStrategy::setFuelAtRaceStart(tTrack* t, void **carParmHandle, tSituation *s, int index)
 {
 	// Load and set parameters.
-	float fuel = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_FUELPERLAP, (char*) NULL, t->length*MAX_FUEL_PER_METER);
+	float fuel = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_FUELPERLAP, (char*) nullptr, t->length*MAX_FUEL_PER_METER);
 	m_expectedfuelperlap = fuel;
-	float maxfuel = GfParmGetNum(*carParmHandle, SECT_CAR, PRM_TANK, (char*) NULL, 100.0f);
+	float maxfuel = GfParmGetNum(*carParmHandle, SECT_CAR, PRM_TANK, (char*) nullptr, 100.0f);
 	fuel *= (s->_totLaps + 1.0f);
 	m_lastfuel = MIN(fuel, maxfuel);
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*) NULL, m_lastfuel);
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*) nullptr, m_lastfuel);
 }
 
 
@@ -80,7 +80,7 @@ void SimpleStrategy::update(tCarElt* car, tSituation *s)
 bool SimpleStrategy::needPitstop(tCarElt* car, tSituation *s)
 {
 	// Question makes only sense if there is a pit.
-	if (car->_pit != NULL) {	
+	if (car->_pit != nullptr) {	
 		// Do we need to refuel?
 		int laps = car->_remainingLaps - car->_lapsBehindLeader;
 		if (laps > 0) {
@@ -104,7 +104,7 @@ bool SimpleStrategy::needPitstop(tCarElt* car, tSituation *s)
 
 bool SimpleStrategy::isPitFree(tCarElt* car)
 {
-	if (car->_pit != NULL) {	
+	if (car->_pit != nullptr) {	
 		if (car->_pit->pitCarIndex == TR_PIT_STATE_FREE) {
 			return true;
 		}
@@ -157,13 +157,13 @@ void SimpleStrategy2::update(tCarElt* car, tSituation *s)
 void SimpleStrategy2::setFuelAtRaceStart(tTrack* t, void **carParmHandle, tSituation *s, int index)
 {
 	// Load and set parameters.
-	float fuel = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_FUELPERLAP, (char*) NULL, t->length*MAX_FUEL_PER_METER);
+	float fuel = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_FUELPERLAP, (char*) nullptr, t->length*MAX_FUEL_PER_METER);
 	m_expectedfuelperlap = fuel;
 	// Pittime is pittime without refuel.
-	m_pittime = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_PITTIME, (char*) NULL, 25.0f);
-	m_bestlap = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_BESTLAP, (char*) NULL, 87.0f);
-	m_worstlap = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_WORSTLAP, (char*) NULL, 87.0f);
-	float maxfuel = GfParmGetNum(*carParmHandle, SECT_CAR, PRM_TANK, (char*) NULL, 100.0f);
+	m_pittime = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_PITTIME, (char*) nullptr, 25.0f);
+	m_bestlap = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_BESTLAP, (char*) nullptr, 87.0f);
+	m_worstlap = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_WORSTLAP, (char*) nullptr, 87.0f);
+	float maxfuel = GfParmGetNum(*carParmHandle, SECT_CAR, PRM_TANK, (char*) nullptr, 100.0f);
 
 	// Fuel for the whole race.
 	float fuelforrace = (s->_totLaps + 1.0f)*fuel;
@@ -189,7 +189,7 @@ void SimpleStrategy2::setFuelAtRaceStart(tTrack* t, void **carParmHandle, tSitua
 
 	m_remainingstops = beststops;
 	// Add fuel dependent on index to avoid fuel stop in the same lap.
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*) NULL, m_lastfuel + index*m_expectedfuelperlap);
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*) nullptr, m_lastfuel + index*m_expectedfuelperlap);
 }
 
 

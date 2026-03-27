@@ -622,7 +622,7 @@ SimCarCollideConfig(tCar *car)
 void
 SimCarCollideInit(void)
 {
-    dtSetDefaultResponse(SimCarCollideResponse, DT_SMART_RESPONSE, NULL);
+    dtSetDefaultResponse(SimCarCollideResponse, DT_SMART_RESPONSE, nullptr);
     dtDisableCaching();
     dtSetTolerance(0.001);
 }

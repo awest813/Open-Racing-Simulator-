@@ -33,13 +33,13 @@
 #include <learning/ann_policy.h>
 #include <learning/MathFunctions.h>
 #include "geometry.h"
-#include <math.h>
+#include <cmath>
 #include <portability.h>
 #include "TrackData.h"
 #include "Trajectory.h"
 
 #ifdef WIN32
-#include <float.h>
+#include <cfloat>
 #define isnan _isnan
 #endif
 
@@ -94,7 +94,7 @@ namespace olethros {
     const float Driver::FILTER_TARGET_FEEDBACK = 0.2f;        ///< [-] Feedback from target error to steer filter.
     const bool Driver::USE_NEW_ALPHA=false;  ///< Use actual trajectory..
 
-    Cardata *Driver::cardata = NULL;
+    Cardata *Driver::cardata = nullptr;
     double Driver::currentsimtime;
 
     static const int SBSIZE = 1024;
@@ -102,9 +102,9 @@ namespace olethros {
     Driver::Driver(int index)
     {
 	INDEX = index;
-	seg_alpha = NULL;
-	seg_alpha_new = NULL;
-	max_speed_list = NULL;
+	seg_alpha = nullptr;
+	seg_alpha_new = nullptr;
+	max_speed_list = nullptr;
 	u_toleft = 0.0f;
 	u_toright = 0.0f;
 	prev_toleft = 0.0f;
@@ -163,9 +163,9 @@ namespace olethros {
 	delete learn;
 	delete strategy;
 
-	if (cardata != NULL) {
+	if (cardata != nullptr) {
             delete cardata;
-            cardata = NULL;
+            cardata = nullptr;
 	}
     }
 
@@ -198,7 +198,7 @@ namespace olethros {
 	//printf ("Trying %s\n", buffer);
 	*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 
-	if (*carParmHandle == NULL) {
+	if (*carParmHandle == nullptr) {
             snprintf(buffer, BUFSIZE, "drivers/olethros/%d/default.xml", INDEX);
             //printf ("LOADING: %s\n", buffer);
             *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
@@ -217,7 +217,7 @@ namespace olethros {
 	strategy->setFuelAtRaceStart(t, carParmHandle, s);
 
 	// Load and set parameters.
-	MU_FACTOR = GfParmGetNum(*carParmHandle, OLETHROS_SECT_PRIV, OLETHROS_ATT_MUFACTOR, (char*)NULL, 0.69f);
+	MU_FACTOR = GfParmGetNum(*carParmHandle, OLETHROS_SECT_PRIV, OLETHROS_ATT_MUFACTOR, (char*)nullptr, 0.69f);
 
     }
 
@@ -243,7 +243,7 @@ namespace olethros {
 	overtaking = false;
 
 	this->car = car;
-	CARMASS = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_MASS, NULL, 1000.0f);
+	CARMASS = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_MASS, nullptr, 1000.0f);
 	myoffset = 0.0f;
 	initCa();
 	initCw();
@@ -257,7 +257,7 @@ namespace olethros {
 	//ShowPaths();
 
 	// Create just one instance of cardata shared by all drivers.
-	if (cardata == NULL) {
+	if (cardata == nullptr) {
             cardata = new Cardata(s);
 	}
 	mycardata = cardata->findCar(car);
@@ -1079,7 +1079,7 @@ namespace olethros {
     {
 	int i;
 	float catchdist, mincatchdist = FLT_MAX, mindist = -1000.0;
-	Opponent *o = NULL;
+	Opponent *o = nullptr;
 
 	// Increment speed dependent.
 	float incfactor = MAX_INC_FACTOR - MIN(fabs(car->_speed_x)/MAX_INC_FACTOR, (MAX_INC_FACTOR-1.0));
@@ -1097,7 +1097,7 @@ namespace olethros {
 
 	//myoffset = -0.2f * car->_trkPos.seg->width;
 	overtaking = false;
-	if (o != NULL) {
+	if (o != nullptr) {
             tCarElt *ocar = o->getCarPtr();
             float side = car->_trkPos.toMiddle - ocar->_trkPos.toMiddle;
             float w = car->_trkPos.seg->width/WIDTHDIV-BORDER_OVERTAKE_MARGIN;
@@ -1142,7 +1142,7 @@ namespace olethros {
             }
 	}
 
-	if (o != NULL) {
+	if (o != nullptr) {
             overtaking = true;
             // Compute the width around the middle which we can use for overtaking.
             float w = o->getCarPtr()->_trkPos.seg->width/WIDTHDIV-BORDER_OVERTAKE_MARGIN;
@@ -1320,16 +1320,16 @@ namespace olethros {
     void Driver::initCa()
     {
 	const char *WheelSect[4] = {SECT_FRNTRGTWHEEL, SECT_FRNTLFTWHEEL, SECT_REARRGTWHEEL, SECT_REARLFTWHEEL};
-	float rearwingarea = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*) NULL, 0.0);
-	float rearwingangle = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*) NULL, 0.0);
+	float rearwingarea = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*) nullptr, 0.0);
+	float rearwingangle = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*) nullptr, 0.0);
 	float wingca = 1.23*rearwingarea*sin(rearwingangle);
 
-	float cl = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*) NULL, 0.0) +
-            GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_RCL, (char*) NULL, 0.0);
+	float cl = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*) nullptr, 0.0) +
+            GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_RCL, (char*) nullptr, 0.0);
 	float h = 0.0;
 	int i;
 	for (i = 0; i < 4; i++)
-            h += GfParmGetNum(car->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, (char*) NULL, 0.20f);
+            h += GfParmGetNum(car->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, (char*) nullptr, 0.20f);
 	h*= 1.5; h = h*h; h = h*h; h = 2.0 * exp(-3.0*h);
 	CA = h*cl + 4.0*wingca;
     }
@@ -1338,8 +1338,8 @@ namespace olethros {
     /// Compute aerodynamic drag coefficient CW.
     void Driver::initCw()
     {
-	float cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*) NULL, 0.0);
-	float frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*) NULL, 0.0);
+	float cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*) nullptr, 0.0);
+	float frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*) nullptr, 0.0);
 	CW = 0.645*cx*frontarea;
     }
 
@@ -1352,7 +1352,7 @@ namespace olethros {
 	int i;
 
 	for (i = 0; i < 4; i++) {
-            tm = MIN(tm, GfParmGetNum(car->_carHandle, WheelSect[i], PRM_MU, (char*) NULL, 1.0));
+            tm = MIN(tm, GfParmGetNum(car->_carHandle, WheelSect[i], PRM_MU, (char*) nullptr, 1.0));
 	}
 	TIREMU = tm;
     }
@@ -1560,7 +1560,7 @@ namespace olethros {
     {
 	int i;
 	float sidedist = 0.0, fsidedist = 0.0, minsidedist = FLT_MAX;
-	Opponent *o = NULL;
+	Opponent *o = nullptr;
 
 	// Get the index of the nearest car (o).
 	for (i = 0; i < opponents->getNOpponents(); i++) {
@@ -1575,7 +1575,7 @@ namespace olethros {
 	}
 
 	// If there is another car handle the situation.
-	if (o != NULL) {
+	if (o != nullptr) {
             float d = fsidedist - o->getWidth();
             // Near, so we need to look at it.
             if (d < 2.0 * SIDECOLL_MARGIN) {

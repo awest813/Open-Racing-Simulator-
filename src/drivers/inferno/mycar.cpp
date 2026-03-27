@@ -61,8 +61,8 @@ const float MyCar::FUEL_SAFETY_MARGIN = 0.15f;		// [kg] How much additional fuel
 
 MyCar::MyCar(TrackDesc* track, tCarElt* car, tSituation *situation)
 {
-    AEROMAGIC = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_AMAGIC, (char*)NULL, 1.6f);
-	CFRICTION = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FMAGIC, (char*)NULL, 1.0f);
+    AEROMAGIC = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_AMAGIC, (char*)nullptr, 1.6f);
+	CFRICTION = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FMAGIC, (char*)nullptr, 1.0f);
 
 	setCarPtr(car);
 	initCGh();
@@ -73,7 +73,7 @@ MyCar::MyCar(TrackDesc* track, tCarElt* car, tSituation *situation)
 	updateSpeed();
 
 	// Damage and fuel status.
-	lastfuel = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_FUEL, NULL, 100.0);
+	lastfuel = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_FUEL, nullptr, 100.0);
 	undamaged = situation->_maxDammage;
 	if (undamaged == 0) {
 		undamaged = 10000;
@@ -86,7 +86,7 @@ MyCar::MyCar(TrackDesc* track, tCarElt* car, tSituation *situation)
 	wheelbase = car->priv.wheel[FRNT_RGT].relPos.x - car->priv.wheel[REAR_RGT].relPos.x;
 	wheeltrack = 2* fabs(car->priv.wheel[REAR_RGT].relPos.y);
 
-	carmass = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_MASS, NULL, 0.0);
+	carmass = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_MASS, nullptr, 0.0);
 	mass = carmass + lastfuel;
 
 	// Which wheels are driven.
@@ -100,13 +100,13 @@ MyCar::MyCar(TrackDesc* track, tCarElt* car, tSituation *situation)
 	}
 
 	updateCa();
-	double cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*)NULL, 0.0);
-	double frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*)NULL, 0.0);
+	double cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*)nullptr, 0.0);
+	double frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*)nullptr, 0.0);
 	cw = 0.625*cx*frontarea;
 
 	// Get PGAIN.
-	STEER_P_CONTROLLER_GAIN = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_STEERPGAIN, (char*)NULL, 0.02f);
-	STEER_P_CONTROLLER_MAX = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_STEERPGAIN_MAX, (char*)NULL, 0.1f);
+	STEER_P_CONTROLLER_GAIN = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_STEERPGAIN, (char*)nullptr, 0.02f);
+	STEER_P_CONTROLLER_MAX = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_STEERPGAIN_MAX, (char*)nullptr, 0.1f);
 	//printf("PC: %f, %f\n", STEER_P_CONTROLLER_GAIN, STEER_P_CONTROLLER_MAX);
 	// Magic number for friction in pit lane, because the current code does not consider the pit surface.
 	// TODO: Consider the pit surface properties.
@@ -226,13 +226,13 @@ void MyCar::loadBehaviour(int id) {
 void MyCar::updateCa()
 {
 	const char *WheelSect[4] = {SECT_FRNTRGTWHEEL, SECT_FRNTLFTWHEEL, SECT_REARRGTWHEEL, SECT_REARLFTWHEEL};
-	double rearwingarea = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*)NULL, 0);
-	double rearwingangle = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*)NULL, 0);
+	double rearwingarea = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*)nullptr, 0);
+	double rearwingangle = GfParmGetNum(me->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*)nullptr, 0);
 	double wingca = 1.23*rearwingarea*sin(rearwingangle);
-	double cl = GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*)NULL, 0.0) + GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_RCL, (char*)NULL, 0.0);
+	double cl = GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*)nullptr, 0.0) + GfParmGetNum(me->_carHandle, SECT_AERODYNAMICS, PRM_RCL, (char*)nullptr, 0.0);
 	double h = 0.0;
 
-	for (int i = 0; i < 4; i++) h += GfParmGetNum(me->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, (char*)NULL, 0.20f);
+	for (int i = 0; i < 4; i++) h += GfParmGetNum(me->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, (char*)nullptr, 0.20f);
 	h*= 1.5; h = h*h; h = h*h; h = 2.0 * exp(-3.0*h);
 	ca = AEROMAGIC*(h*cl + 4.0*wingca);
 }

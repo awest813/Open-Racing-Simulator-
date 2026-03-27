@@ -23,9 +23,9 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #ifndef WIN32
 #include <unistd.h>
 #endif
@@ -47,9 +47,9 @@ GetFilename(const char *filename, const char *filepath, char *buf, const int BUF
 	if (filepath) {
 		c1 = filepath;
 		c2 = c1;
-		while ((!found) && (c2 != NULL)) {
+		while ((!found) && (c2 != nullptr)) {
 			c2 = strchr(c1, ';');
-			if (c2 == NULL) {
+			if (c2 == nullptr) {
 				snprintf(buf, BUFSIZE, "%s/%s", c1, filename);
 			} else {
 				lg = c2 - c1;

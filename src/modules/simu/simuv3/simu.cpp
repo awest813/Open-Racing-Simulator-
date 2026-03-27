@@ -17,13 +17,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <memory.h>
-#include <math.h>
+#include <cmath>
 #ifdef WIN32
 #include <windows.h>
-#include <float.h>
+#include <cfloat>
 #define isnan _isnan
 #endif
 

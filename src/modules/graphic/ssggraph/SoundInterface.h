@@ -217,7 +217,7 @@ class SoundInterface {
 	/// Update sound for a given observer.
 	virtual void update(CarSoundData** car_sound_data,
 			    int n_cars, sgVec3 p_obs, sgVec3 u_obs, 
-			    sgVec3 c_obs = NULL, sgVec3 a_obs = NULL)
+			    sgVec3 c_obs = nullptr, sgVec3 a_obs = nullptr)
 	{
 		// do nothing
 	}
@@ -254,7 +254,7 @@ class PlibSoundInterface : public SoundInterface {
 	virtual void setNCars(int n_cars);
 	virtual slScheduler* getScheduler();
 	virtual TorcsSound* addSample (const char* filename, int flags = (ACTIVE_VOLUME|ACTIVE_PITCH), bool loop = false, bool static_pool = true);
-	virtual void update(CarSoundData** car_sound_data, int n_cars, sgVec3 p_obs, sgVec3 u_obs, sgVec3 c_obs = NULL, sgVec3 a_obs = NULL);
+	virtual void update(CarSoundData** car_sound_data, int n_cars, sgVec3 p_obs, sgVec3 u_obs, sgVec3 c_obs = nullptr, sgVec3 a_obs = nullptr);
 	virtual float getGlobalGain() {return global_gain;}
 	virtual void setGlobalGain(float g)
 	{
@@ -331,7 +331,7 @@ class SharedSourcePool {
 			pool = new sharedSource[nbsources];
 			int i;
 			for (i = 0; i < nbsources; i++) {
-				pool[i].currentOwner = NULL;
+				pool[i].currentOwner = nullptr;
 				pool[i].in_use = false;
 				alGenSources(1, &(pool[i].source));
 				int error = alGetError();

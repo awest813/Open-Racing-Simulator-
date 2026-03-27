@@ -28,8 +28,8 @@
 #ifndef _TRACKDESC_H_
 #define _TRACKDESC_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 #include <tgf.h>
@@ -38,7 +38,7 @@
 #include <raceman.h>
 #include <robot.h>
 #include <robottools.h>
-#include <math.h>
+#include <cmath>
 #include <tmath/linalg_t.h>
 
 // TODO: test runs with different resolutions.

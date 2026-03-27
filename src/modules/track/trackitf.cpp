@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <tgf.h>
 #include <track.h>
 #include "trackinc.h"

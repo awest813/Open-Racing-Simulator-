@@ -94,17 +94,17 @@ PlibTorcsSound::~PlibTorcsSound()
 {
 	sched->stopSample(sample);
 	if (flags & ACTIVE_VOLUME) {
-		sched->addSampleEnvelope(sample, 0, VOLUME_SLOT, NULL,
+		sched->addSampleEnvelope(sample, 0, VOLUME_SLOT, nullptr,
 					 SL_NULL_ENVELOPE);
 		delete volume_env;
 	}
 	if (flags & ACTIVE_PITCH) {
-		sched->addSampleEnvelope(sample, 0, PITCH_SLOT, NULL,
+		sched->addSampleEnvelope(sample, 0, PITCH_SLOT, nullptr,
 					 SL_NULL_ENVELOPE);
 		delete pitch_env;
 	}
 	if (flags & ACTIVE_LP_FILTER) {
-		sched->addSampleEnvelope(sample, 0, FILTER_SLOT, NULL,
+		sched->addSampleEnvelope(sample, 0, FILTER_SLOT, nullptr,
 					 SL_NULL_ENVELOPE);
 		delete lowpass_env;
 	}
@@ -324,7 +324,7 @@ OpenalTorcsSound::OpenalTorcsSound(const char* filename, OpenalSoundInterface* s
 		return;
 	}
 
-	ALvoid *wave = NULL;
+	ALvoid *wave = nullptr;
 	ALsizei size;
 	ALsizei freq;
 	ALenum format;

@@ -17,9 +17,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdio.h>
+#include <cstdio>
 #include <memory.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -28,7 +28,7 @@
 #include <telemetry.h>
 
 #include "tlm.h"
-#include <ctype.h>
+#include <cctype>
 
 typedef struct Channel 
 {
@@ -67,11 +67,11 @@ static tTlm	TlmData;
 void
 TlmInit(tdble ymin, tdble ymax)
 {
-    TlmData.file	= (FILE*)NULL;
+    TlmData.file	= (FILE*)nullptr;
     TlmData.state	= 0;
     TlmData.ymin	= ymin;
     TlmData.ymax	= ymax;
-    TlmData.chanList	= (tChannel*)NULL;
+    TlmData.chanList	= (tChannel*)nullptr;
 }
 
 
@@ -93,7 +93,7 @@ TlmNewChannel(const char *name, tdble *var, tdble min, tdble max)
     tChannel	*curChan;
 
     curChan = (tChannel *)calloc(sizeof(tChannel), 1);
-    if (TlmData.chanList == NULL) {
+    if (TlmData.chanList == nullptr) {
 	TlmData.chanList = curChan;
 	curChan->next = curChan;
     } else {
@@ -134,7 +134,7 @@ TlmStartMonitoring(const char *filename)
 
     snprintf(buf, BUFSIZE, "telemetry/%s.cmd", clean_filename);
     fcmd = fopen(buf, "w");
-    if (fcmd == NULL) {
+    if (fcmd == nullptr) {
 	return;
     }
     fprintf(fcmd, "#!/bin/sh\n");
@@ -145,7 +145,7 @@ TlmStartMonitoring(const char *filename)
     fprintf(fcmd, "    set terminal png color\n");
     fprintf(fcmd, "    set data style lines\n");
     curChan = TlmData.chanList;
-    if (curChan != NULL) {
+    if (curChan != nullptr) {
 	i = 2;
 	do {
 	    curChan = curChan->next;
@@ -165,12 +165,12 @@ TlmStartMonitoring(const char *filename)
     
     snprintf(buf, BUFSIZE, "telemetry/%s.dat", clean_filename);
     fout = TlmData.file = fopen(buf, "w");
-    if (fout == NULL) {
+    if (fout == nullptr) {
 	return;
     }
     curChan = TlmData.chanList;
     fprintf(fout, "time");
-    if (curChan != NULL) {
+    if (curChan != nullptr) {
 	do {
 	    curChan = curChan->next;
 	    fprintf(fout, "	%s", curChan->name);
@@ -194,7 +194,7 @@ TlmUpdate(double time)
     fprintf(fout, "%f ", time);
     
     curChan = TlmData.chanList;
-    if (curChan != NULL) {
+    if (curChan != nullptr) {
 	do {
 	    curChan = curChan->next;
 	    fprintf(fout, "%f ", curChan->scale * (*curChan->val));
@@ -213,7 +213,7 @@ TlmStopMonitoring(void)
     if (TlmData.state == 1) {
 	fclose(TlmData.file);
     }
-    TlmData.file = (FILE*)NULL;
+    TlmData.file = (FILE*)nullptr;
     TlmData.state = 0;
     GfOut("Telemetry: stop monitoring\n");
 

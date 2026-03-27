@@ -18,11 +18,11 @@
  ***************************************************************************/
 
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <sys/types.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #ifdef WIN32
 #include <windows.h>
 #include <GL/gl.h>
@@ -57,9 +57,9 @@ int grWrldMaxSize;
 tTrack 	 *grTrack;
 
 ssgStateSelector	*grEnvSelector;
-grMultiTexState	*grEnvState=NULL;
-grMultiTexState	*grEnvShadowState=NULL;
-grMultiTexState	*grEnvShadowStateOnCars=NULL;
+grMultiTexState	*grEnvState=nullptr;
+grMultiTexState	*grEnvShadowState=nullptr;
+grMultiTexState	*grEnvShadowStateOnCars=nullptr;
 #define NB_BG_FACES	36
 #define BG_DIST		1.0
 
@@ -77,7 +77,7 @@ ssgBranch *SkidAnchor = 0;
 ssgBranch *CarlightAnchor = 0;
 
 ssgBranch *ThePits = 0;
-ssgTransform *sun_grscene = NULL ;
+ssgTransform *sun_grscene = nullptr ;
 
 static void initBackground(void);
 
@@ -102,23 +102,23 @@ grInitScene(void)
 	GLfloat lmodel_diffuse[] = {0.8, 0.8, 0.8, 1.0};
 	GLfloat fog_clr[]        = {1.0, 1.0, 1.0, 0.5};
 
-	mat_specular[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SPEC_R, NULL, mat_specular[0]);
-	mat_specular[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SPEC_G, NULL, mat_specular[1]);
-	mat_specular[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SPEC_B, NULL, mat_specular[2]);
+	mat_specular[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SPEC_R, nullptr, mat_specular[0]);
+	mat_specular[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SPEC_G, nullptr, mat_specular[1]);
+	mat_specular[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SPEC_B, nullptr, mat_specular[2]);
 
-	lmodel_ambient[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_R, NULL, lmodel_ambient[0]);
-	lmodel_ambient[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_G, NULL, lmodel_ambient[1]);
-	lmodel_ambient[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_B, NULL, lmodel_ambient[2]);
+	lmodel_ambient[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_R, nullptr, lmodel_ambient[0]);
+	lmodel_ambient[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_G, nullptr, lmodel_ambient[1]);
+	lmodel_ambient[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_B, nullptr, lmodel_ambient[2]);
 
-	lmodel_diffuse[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_R, NULL, lmodel_diffuse[0]);
-	lmodel_diffuse[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_G, NULL, lmodel_diffuse[1]);
-	lmodel_diffuse[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_B, NULL, lmodel_diffuse[2]);
+	lmodel_diffuse[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_R, nullptr, lmodel_diffuse[0]);
+	lmodel_diffuse[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_G, nullptr, lmodel_diffuse[1]);
+	lmodel_diffuse[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_B, nullptr, lmodel_diffuse[2]);
 
-	mat_shininess[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SHIN, NULL, mat_shininess[0]);
+	mat_shininess[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_SHIN, nullptr, mat_shininess[0]);
 
-	light_position[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_LIPOS_X, NULL, light_position[0]);
-	light_position[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Y, NULL, light_position[1]);
-	light_position[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Z, NULL, light_position[2]);
+	light_position[0] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_LIPOS_X, nullptr, light_position[0]);
+	light_position[1] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Y, nullptr, light_position[1]);
+	light_position[2] = GfParmGetNum(hndl, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Z, nullptr, light_position[2]);
 
 	glShadeModel(GL_SMOOTH);
 
@@ -140,7 +140,7 @@ grInitScene(void)
 	glEnable(GL_DEPTH_TEST);
  
 	if (!sun_grscene) {
-		ssgaLensFlare *sun_obj = NULL ;
+		ssgaLensFlare *sun_obj = nullptr ;
 		sun_obj = new ssgaLensFlare () ;
 		sun_grscene = new ssgTransform ;
 		sun_grscene->setTransform( light_position );
@@ -234,7 +234,7 @@ grLoadScene(tTrack *track)
 	snprintf(buf, BUFSIZE, "tracks/%s/%s", grTrack->category, grTrack->internalname);
 	ssgModelPath(buf);
 
-	desc = grssgLoadAC3D(acname, NULL);
+	desc = grssgLoadAC3D(acname, nullptr);
 	LandAnchor->addKid(desc);
 
 	return 0;
@@ -261,21 +261,21 @@ void grShutdownScene(void)
 		TheBackground = 0;
 	}
 
-	if (grEnvState != NULL) {
+	if (grEnvState != nullptr) {
 		ssgDeRefDelete(grEnvState);
-		grEnvState = NULL;
+		grEnvState = nullptr;
 	}
-	if (grEnvShadowState != NULL) {
+	if (grEnvShadowState != nullptr) {
 		ssgDeRefDelete(grEnvShadowState);
-		grEnvShadowState = NULL;
+		grEnvShadowState = nullptr;
 	}
-	if (grEnvShadowStateOnCars != NULL) {
+	if (grEnvShadowStateOnCars != nullptr) {
 		ssgDeRefDelete(grEnvShadowStateOnCars);
-		grEnvShadowStateOnCars = NULL;
+		grEnvShadowStateOnCars = nullptr;
 	}
-	if(grEnvSelector != NULL) {
+	if(grEnvSelector != nullptr) {
 		delete grEnvSelector;
-		grEnvSelector = NULL;
+		grEnvSelector = nullptr;
 	}
 
 	options.endLoad();
@@ -577,11 +577,11 @@ initBackground(void)
     grEnvShadowState=(grMultiTexState*)grSsgEnvTexState("envshadow.png");
     grEnvShadowStateOnCars=(grMultiTexState*)grSsgEnvTexState("shadow2.rgb");
 
-	if (grEnvState != NULL) {
+	if (grEnvState != nullptr) {
 		grEnvState->ref();
 	}
 
-	if (grEnvShadowState == NULL) {
+	if (grEnvShadowState == nullptr) {
 		ulSetError ( UL_WARNING, "grscene:initBackground Failed to open envshadow.png for reading") ;
 		ulSetError ( UL_WARNING, "        mandatory for top env mapping ") ;
 		ulSetError ( UL_WARNING, "        should be in the .xml !! ") ;
@@ -593,7 +593,7 @@ initBackground(void)
 		grEnvShadowState->ref();
 	}
 
-	if (grEnvShadowStateOnCars == NULL) {
+	if (grEnvShadowStateOnCars == nullptr) {
 		ulSetError ( UL_WARNING, "grscene:initBackground Failed to open shadow2.rgb for reading") ;
 		ulSetError ( UL_WARNING, "        no shadow mapping on cars for this track ") ;
 	} else {

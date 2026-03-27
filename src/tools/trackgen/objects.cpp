@@ -24,13 +24,13 @@
 */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #ifndef WIN32
 #include <unistd.h>
 #endif
-#include <math.h>
+#include <cmath>
 #include <plib/ssg.h>
 #include <GL/glut.h>
 
@@ -44,9 +44,9 @@
 #include "ac3d.h"
 #include "objects.h"
 
-static ssgRoot	*Root = NULL;
-static ssgRoot	*GroupRoot = NULL;
-static ssgRoot	*TrackRoot = NULL;
+static ssgRoot	*Root = nullptr;
+static ssgRoot	*GroupRoot = nullptr;
+static ssgRoot	*TrackRoot = nullptr;
 
 struct group {
 	ssgBranch	*br;
@@ -63,11 +63,11 @@ static int		ObjUniqId = 0;
 class myLoaderOptions : public ssgLoaderOptions {
 	public:
 		virtual void makeModelPath ( char *path, const char *fname ) const {
-			ulFindFile ( path, model_dir, fname, NULL ) ;
+			ulFindFile ( path, model_dir, fname, nullptr ) ;
 		}
 
 		virtual void makeTexturePath ( char *path, const char *fname ) const {
-			ulFindFile ( path, texture_dir, fname, NULL ) ;
+			ulFindFile ( path, texture_dir, fname, nullptr ) ;
 		}
 } ;
 
@@ -125,7 +125,7 @@ InitObjects(tTrack *track, void *TrackHandle)
 
 	ObjUniqId = 0;
 
-	srand((unsigned int)GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_SEED, NULL, 1));
+	srand((unsigned int)GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_SEED, nullptr, 1));
 
 	ssgSetCurrentOptions ( &options ) ;
 
@@ -143,8 +143,8 @@ InitObjects(tTrack *track, void *TrackHandle)
 
 	for (i = 0; i < objnb; i++) {
 		curObj = (struct objdef *)malloc(sizeof(struct objdef));
-		curObj->color = (unsigned int)GfParmGetCurNum(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_COLOR, NULL, 0);
-		objName = GfParmGetCurStr(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_OBJECT, NULL);
+		curObj->color = (unsigned int)GfParmGetCurNum(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_COLOR, nullptr, 0);
+		objName = GfParmGetCurStr(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_OBJECT, nullptr);
 		if (!objName) {
 			GfOut("Missing %s in %s/%s", TRK_ATT_OBJECT, TRK_SECT_OBJECTS, GfParmListGetCurEltName(TrackHandle, TRK_SECT_OBJECTS));
 			exit(1);
@@ -154,8 +154,8 @@ InitObjects(tTrack *track, void *TrackHandle)
 		curObj->obj = ssgLoadAC(buf);
 		ssgFlatten(curObj->obj);
 		if (strcmp(GfParmGetCurStr(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_ORIENTATION_TYPE, ""), "random") == 0) {
-			curObj->deltaHeight = GfParmGetCurNum(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_DH, NULL, 0);
-			curObj->deltaVert = GfParmGetCurNum(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_DV, NULL, 5.0);
+			curObj->deltaHeight = GfParmGetCurNum(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_DH, nullptr, 0);
+			curObj->deltaVert = GfParmGetCurNum(TrackHandle, TRK_SECT_OBJECTS, TRK_ATT_DV, nullptr, 5.0);
 			curObj->random = 1;
 		} else {
 			curObj->random = 0;
@@ -275,15 +275,15 @@ ssgSaveLeaf (ssgEntity *ent, FILE *save_fd)
 		if (ss->isEnabled (GL_TEXTURE_2D)) {
 			const char *tfname = ss->getTextureFilename ();
 
-			if ((tfname != NULL) && (tfname[0] != 0)) {
+			if ((tfname != nullptr) && (tfname[0] != 0)) {
 				if (writeTextureWithoutPath) {
 					char *s = strrchr ((char *)tfname, '\\');
 
-					if (s == NULL) {
+					if (s == nullptr) {
 						s = strrchr ((char *)tfname, '/');
 					}
 
-					if (s == NULL) {
+					if (s == nullptr) {
 						fprintf (save_fd, "texture \"%s\"\n", tfname);
 					} else {
 						fprintf (save_fd, "texture \"%s\"\n", ++s);
@@ -400,8 +400,8 @@ Group(tTrack *track, void *TrackHandle, ssgEntity *ent)
 	}
 	GroupRoot = new ssgRoot();
 
-	Margin    = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, NULL, 100.0);
-	GroupSize = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_GRPSZ, NULL, 100.0);
+	Margin    = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, nullptr, 100.0);
+	GroupSize = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_GRPSZ, nullptr, 100.0);
 	XGroupOffset = track->min.x - Margin;
 	YGroupOffset = track->min.y - Margin;
 
@@ -446,7 +446,7 @@ GenerateObjects(tTrack *track, void *TrackHandle, void *CfgHandle, FILE *save_fd
 
 	InitObjects(track, TrackHandle);
 
-	Margin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, NULL, 0);
+	Margin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, nullptr, 0);
 
 	xmin = track->min.x - Margin;
 	xmax = track->max.x + Margin;

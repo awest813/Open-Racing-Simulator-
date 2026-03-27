@@ -22,16 +22,16 @@
 @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #include <cstring>
 #include <portability.h>
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
-#include <math.h>
+#include <cmath>
 #include "accc.h"
 
 
@@ -70,7 +70,7 @@ void normalMap( ob_t *object);
 void mapTextureEnv(ob_t *object);
 ob_t   ob[10000];
 /*mat_t  material[10000];*/
-mat_t *root_material=NULL;
+mat_t *root_material=nullptr;
 point_t tmpPoint[100000];
 tcoord_t     tmpva[100000];
 double   tmptexa[200000];
@@ -143,7 +143,7 @@ verbaction_t verbTab[]= {
 	{MAT      , doMat},
 	{REFS     , doRefs},
 	{CREASE   , doCrease},
-	{"END"    , NULL}
+	{"END"    , nullptr}
 };
 
 int computeNorm( point_t *pv1, point_t *pv2, point_t *pv3, point_t *norm)
@@ -216,7 +216,7 @@ int doMaterial(char *Line, ob_t *object, mat_t *material)
 	nummaterial ++;
 
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown MATERIAL format %s \n", Line);
 		return (-1);
 	}
@@ -252,7 +252,7 @@ int doObject(char *Line, ob_t *object, mat_t *material)
 	numvertFound=0;
 
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown OBJECT format %s \n", Line);
 		return (-1);
 	}
@@ -290,8 +290,8 @@ int terrainSplitOb (ob_t **object)
 	point_t pttmp[10000];
 	point_t snorm[10000];
 	int  oldva[10000];
-	ob_t *tob=NULL;
-	ob_t *tob0=NULL;
+	ob_t *tob=nullptr;
+	ob_t *tob0=nullptr;
 	ob_t *tobnext=(*object)->next;
 	int *triIndex;
 	int triIndice;
@@ -480,8 +480,8 @@ int terrainSplitOb (ob_t **object)
 				tob->z_min=tob->vertex[j].z;
 
 		}
-		tob->next=NULL;
-		if (tob0==NULL) {
+		tob->next=nullptr;
+		if (tob0==nullptr) {
 			tob0=tob;
 			tob0->next=tobnext;
 		} else {
@@ -491,7 +491,7 @@ int terrainSplitOb (ob_t **object)
 
 
 	}
-	if (tob0!=NULL)
+	if (tob0!=nullptr)
 		*object=tob0;
 
 	return 1;
@@ -517,8 +517,8 @@ int splitOb (ob_t **object)
 	int *tri;
 	int numtri=0;
 	int mustcontinue=1;
-	ob_t *tob=NULL;
-	ob_t *tob0=NULL;
+	ob_t *tob=nullptr;
+	ob_t *tob0=nullptr;
 	int numob=0;
 	int firstTri=0;
 	ob_t *tobnext=(*object)->next;
@@ -670,7 +670,7 @@ int splitOb (ob_t **object)
 		if ((*object)->data) {
 			tob->data=strdup((*object)->data);
 		} else {
-			tob->data=NULL;
+			tob->data=nullptr;
 		}
 		attrSurf=tob->attrSurf;
 		memcpy(tob->vertexarray, vatmp,numtri*3*sizeof(tcoord_t));
@@ -692,8 +692,8 @@ int splitOb (ob_t **object)
 		tob->numsurf=numtri;
 		tob->numvert=n;
 		tob->numvertice=n;
-		tob->next=NULL;
-		if (tob0==NULL) {
+		tob->next=nullptr;
+		if (tob0==nullptr) {
 			tob0=tob;
 			tob0->next=tobnext;
 		} else {
@@ -726,7 +726,7 @@ int doKids(char *Line, ob_t *object, mat_t *material)
 	int needSplit=0;
 
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown Kids format %s \n", Line);
 		return (-1);
 	}
@@ -746,7 +746,7 @@ int doKids(char *Line, ob_t *object, mat_t *material)
 		memcpy(object->next->textarray, tmptexa,numrefstotal*2*sizeof(double));
 		memcpy(object->next->surfrefs, tmpsurf,numrefs*sizeof(int));
 		object->next->numvertice=numvertice;
-		if ( (object->next->name)==NULL) {
+		if ( (object->next->name)==nullptr) {
 			object->next->name=(char *)malloc(strlen(tmpname)+12);
 			snprintf(object->next->name, strlen(tmpname)+12, "%s%d",tmpname,tmpIndice);
 			tmpIndice++;
@@ -831,14 +831,14 @@ int doName(char *Line, ob_t *object, mat_t *material)
 	char name[SIZE];
 	char name2[SIZE];
 	p=strstr(Line,"\"");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown name format %s \n", Line);
 		return (-1);
 	} else
 		p++;
 	snprintf(name, SIZE, "%s",p);
 	p=strstr(name,"\n");
-	if (p!=NULL)
+	if (p!=nullptr)
 		*p='\0';
 
 	if (!strcmp("\"n\"",name)) {
@@ -875,7 +875,7 @@ int doLoc(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown Loc format %s \n", Line);
 		return (-1);
 	}
@@ -888,7 +888,7 @@ int doData(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown Loc format %s \n", Line);
 		return (-1);
 	}
@@ -906,20 +906,20 @@ int doTexture(char *Line, ob_t *object, mat_t *material)
 	char *p;
 	char name[256];
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown texture format %s \n", Line);
 		return (-1);
 	}
 	sscanf(p,"%255s",name);
-	p=NULL;
+	p=nullptr;
 	p=strstr(name,"\"");
-	if (p!=NULL) {
+	if (p!=nullptr) {
 		p++;
 		object->next->texture=strdup(p);
 	} else
 		object->next->texture=strdup(name);
 	p=strstr(object->next->texture,"\"");
-	if (p!=NULL)
+	if (p!=nullptr)
 		*p='\0';
 	return (0);
 }
@@ -928,7 +928,7 @@ int doTexrep(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown Texrep format %s \n", Line);
 		return (-1);
 	}
@@ -941,7 +941,7 @@ int doNumvert(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown numvert format %s \n", Line);
 		return (-1);
 	}
@@ -956,7 +956,7 @@ int doNumsurf(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown numsurf format %s \n", Line);
 		return (-1);
 	}
@@ -1015,7 +1015,7 @@ int doSurf(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown SURF format %s \n", Line);
 		return (-1);
 	}
@@ -1028,7 +1028,7 @@ int doMat(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown mat format %s \n", Line);
 		return (-1);
 	}
@@ -1041,7 +1041,7 @@ int doRefs(char *Line, ob_t *object, mat_t *material)
 {
 	char *p;
 	p=strstr(Line," ");
-	if (p==NULL) {
+	if (p==nullptr) {
 		fprintf(stderr,"unknown Refs format %s \n", Line);
 		return (-1);
 	}
@@ -1067,11 +1067,11 @@ int loadAC( char *inputFilename, char *outputFilename, int saveIn)
 	ob_t *current_ob;
 	mat_t *current_material;
 
-	if ((file=fopen (inputFilename,"r"))==NULL) {
+	if ((file=fopen (inputFilename,"r"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", inputFilename);
 		return (-1);
 	}
-	if (fgets(Line,256, file)==NULL) {
+	if (fgets(Line,256, file)==nullptr) {
 		fprintf(stderr,"failed to read first line of the file\n");
 		return (-1);
 	}
@@ -1091,7 +1091,7 @@ int loadAC( char *inputFilename, char *outputFilename, int saveIn)
 	while (fgets(Line,sizeof(Line), file)) {
 		int i=0;
 		/*fprintf(stderr,"parsing line: %s", Line);*/
-		doVerb=NULL;
+		doVerb=nullptr;
 		while (1) {
 			if (stricmp("END",verbTab[i].verb)==0)
 				break;
@@ -1101,12 +1101,12 @@ int loadAC( char *inputFilename, char *outputFilename, int saveIn)
 			}
 			i++;
 		}
-		if (numvertFound==1 && doVerb==NULL) {
+		if (numvertFound==1 && doVerb==nullptr) {
 			doGetVertex(Line, current_ob , current_material);
-		} else if (numrefsFound==1 && doVerb==NULL) {
+		} else if (numrefsFound==1 && doVerb==nullptr) {
 			doGetSurf(Line,current_ob,current_material);
 		} else {
-			if (doVerb==NULL) {
+			if (doVerb==nullptr) {
 				fprintf(stderr," Unknown verb %s\n", Line);
 				continue;
 			}
@@ -1144,11 +1144,11 @@ int loadACo( char *inputFilename, char *outputFilename, int saveIn)
 	ob_t *current_ob;
 	mat_t *current_material;
 
-	if ((file=fopen (inputFilename,"r"))==NULL) {
+	if ((file=fopen (inputFilename,"r"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", inputFilename);
 		return (-1);
 	}
-	if (fgets(Line,256, file)==NULL) {
+	if (fgets(Line,256, file)==nullptr) {
 		fprintf(stderr,"failed to read first line of the file\n");
 		return (-1);
 	}
@@ -1167,7 +1167,7 @@ int loadACo( char *inputFilename, char *outputFilename, int saveIn)
 	while (fgets(Line,sizeof(Line), file)) {
 		int i=0;
 		/*fprintf(stderr,"parsing line: %s", Line);*/
-		doVerb=NULL;
+		doVerb=nullptr;
 		while (1) {
 			if (stricmp("END",verbTab[i].verb)==0)
 				break;
@@ -1177,12 +1177,12 @@ int loadACo( char *inputFilename, char *outputFilename, int saveIn)
 			}
 			i++;
 		}
-		if (numvertFound==1 && doVerb==NULL) {
+		if (numvertFound==1 && doVerb==nullptr) {
 			doGetVertex(Line, current_ob , current_material);
-		} else if (numrefsFound==1 && doVerb==NULL) {
+		} else if (numrefsFound==1 && doVerb==nullptr) {
 			doGetSurf(Line,current_ob,current_material);
 		} else {
-			if (doVerb==NULL) {
+			if (doVerb==nullptr) {
 				fprintf(stderr," Unknown verb %s\n", Line);
 				continue;
 			}
@@ -1350,8 +1350,8 @@ int foundNear(ob_t *object, ob_t *allobjects, int dist,int print)
 	y=(object->y_max-object->y_min)/2 + object->y_min;
 
 
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1444,13 +1444,13 @@ void normalize(point_t *t )
 
 void computeTriNorm(ob_t *object )
 {
-	ob_t *tmpob=NULL;
+	ob_t *tmpob=nullptr;
 	int i=0;
 	point_t norm ;
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1493,12 +1493,12 @@ void computeTriNorm(ob_t *object )
 
 void computeObjectTriNorm(ob_t *object )
 {
-	ob_t *tmpob=NULL;
+	ob_t *tmpob=nullptr;
 	int i=0;
 	point_t norm ;
 
 	tmpob=object;
-	if (tmpob->name==NULL)  {
+	if (tmpob->name==nullptr)  {
 		tmpob=tmpob->next;
 		return;
 	}
@@ -1561,8 +1561,8 @@ int checkMustSmoothVector(point_t *n1, point_t *n2,point_t *t1, point_t *t2)
 
 void smoothTriNorm(ob_t *object )
 {
-	ob_t *tmpob=NULL;
-	ob_t *tmpob1=NULL;
+	ob_t *tmpob=nullptr;
+	ob_t *tmpob1=nullptr;
 	int i=0;
 	double dd;
 	double nx,ny,nz;
@@ -1570,8 +1570,8 @@ void smoothTriNorm(ob_t *object )
 
 	printf("Smooth called on %s\n", object->name);
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1596,8 +1596,8 @@ void smoothTriNorm(ob_t *object )
 	tmpob=object;
 	tmpob1=object;
 
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1615,8 +1615,8 @@ void smoothTriNorm(ob_t *object )
 				continue;
 			}
 		tmpob1=object;
-		while (tmpob1!=NULL) {
-			if (tmpob1->name==NULL)  {
+		while (tmpob1!=nullptr) {
+			if (tmpob1->name==nullptr)  {
 				tmpob1=tmpob1->next;
 				continue;
 			}
@@ -1670,8 +1670,8 @@ void smoothTriNorm(ob_t *object )
 	}
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL) {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr) {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1705,8 +1705,8 @@ void smoothTriNorm(ob_t *object )
 
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL) {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr) {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1724,8 +1724,8 @@ void smoothTriNorm(ob_t *object )
 				continue;
 			}
 		tmpob1=object;
-		while (tmpob1!=NULL) {
-			if (tmpob1->name==NULL) {
+		while (tmpob1!=nullptr) {
+			if (tmpob1->name==nullptr) {
 				tmpob1=tmpob1->next;
 				continue;
 			}
@@ -1754,12 +1754,12 @@ void smoothTriNorm(ob_t *object )
 
 void smoothFaceTriNorm(ob_t *object )
 {
-	ob_t *tmpob=NULL;
+	ob_t *tmpob=nullptr;
 	int i=0;
 	int j=0;
 
 	tmpob=object;
-	if (tmpob->name==NULL)  {
+	if (tmpob->name==nullptr)  {
 		tmpob=tmpob->next;
 		return;
 	}
@@ -1799,7 +1799,7 @@ void smoothFaceTriNorm(ob_t *object )
 
 void smoothObjectTriNorm(ob_t *object )
 {
-	ob_t *tmpob=NULL;
+	ob_t *tmpob=nullptr;
 	int i=0;
 	int j=0;
 
@@ -1835,8 +1835,8 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 	int j=0;
 	char name2[256];
 	char *p, *q;
-	ob_t *tmpob =NULL;
-	mat_t *tmat=NULL;
+	ob_t *tmpob =nullptr;
+	mat_t *tmat=nullptr;
 	int numg=0;
 	int lastpass=FALSE;
 	int nborder=0;
@@ -1847,7 +1847,7 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 		normalMap(object);
 	}
 
-	if ((ofile=fopen (OutputFilename,"w"))==NULL) {
+	if ((ofile=fopen (OutputFilename,"w"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", OutputFilename);
 		return ;
 	}
@@ -1863,7 +1863,7 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 
 	fprintf(ofile,"AC3Db\n");
 	tmat=root_material;
-	while (tmat!=NULL) {
+	while (tmat!=nullptr) {
 		if (strcmp (tmat->name, "root") == 0) {
 			tmat = tmat->next;
 			continue;
@@ -1896,7 +1896,7 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 		nborder=1;
 		while (TRUE) {
 			q=strstr(p,";");
-			if (q!=NULL) nborder++;
+			if (q!=nullptr) nborder++;
 			else
 				break;
 			p=q+1;
@@ -1911,8 +1911,8 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 	}
 
 	tmpob=object;
-	while(tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while(tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1943,9 +1943,9 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 
 	texnum=0;
 	tmpob=object;
-	while (tmpob!=NULL) {
+	while (tmpob!=nullptr) {
 		int texnofound=0;
-		if (tmpob->name==NULL)  {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -1959,7 +1959,7 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 		}
 		texnofound=1;
 		for (i=0; i<texnum; i++) {
-			if (tmpob->texture==NULL) {
+			if (tmpob->texture==nullptr) {
 				texnofound=0;
 				break;
 
@@ -1972,7 +1972,7 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 				texnofound=1;
 		}
 		if  (texnofound==1) {
-			if (tmpob->texture!=NULL) {
+			if (tmpob->texture!=nullptr) {
 				snprintf(tex[texnum], sizeof(tex[texnum]), "%s", tmpob->texture);
 				tex[texnum][13]='\0';
 				/*sprintf(tex[texnum],"%s",tmpob->texture);*/
@@ -1989,9 +1989,9 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 
 	tmpob=object;
 	tmpob->kids_o=0;
-	while (tmpob!=NULL) {
+	while (tmpob!=nullptr) {
 		tmpob->kids_o=0;
-		if (tmpob->name==NULL)  {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2013,7 +2013,7 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 
 
 	tmpob=object;
-	while (tmpob!=NULL) {
+	while (tmpob!=nullptr) {
 		tmpob->inkids_o=0;
 		tmpob=tmpob->next;
 	}
@@ -2024,20 +2024,20 @@ void computeSaveAC3D( char *OutputFilename, ob_t *object)
 	for (ik=0; ik<nborder; ik++) {
 		if (ordering) {
 			/* look to the current object name to save */
-			if (p==NULL)
+			if (p==nullptr)
 				lastpass=TRUE;
 			else {
 				q=p;
 				p=strstr(p,";");
-				if (p!=NULL) {
+				if (p!=nullptr) {
 					*p='\0';
 					p++;
 				}
 			}
 		}
 		tmpob=object;
-		while (tmpob!=NULL) {
-			if (tmpob->name==NULL)  {
+		while (tmpob!=nullptr) {
+			if (tmpob->name==nullptr)  {
 				tmpob=tmpob->next;
 				continue;
 			}
@@ -2132,14 +2132,14 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 	int j=0;
 	char name2[256];
 	char *p, *q;
-	ob_t *tmpob =NULL;
-	mat_t *tmat=NULL;
+	ob_t *tmpob =nullptr;
+	mat_t *tmat=nullptr;
 	int deltav=1;
 	int ind=0;
 	char tname [256];
 	FILE *tfile;
 
-	if ((ofile=fopen (OutputFilename,"w"))==NULL) {
+	if ((ofile=fopen (OutputFilename,"w"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", OutputFilename);
 		return ;
 	}
@@ -2147,19 +2147,19 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 	fprintf(ofile,"mtllib ./%s.mtl\n",OutputFilename);
 	snprintf(tname, 256, "%s.mtl",OutputFilename);
 
-	if ((tfile=fopen (tname,"w"))==NULL) {
+	if ((tfile=fopen (tname,"w"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", tname);
 		return ;
 	}
 
 	tmat=root_material;
-	while (tmat!=NULL) {
+	while (tmat!=nullptr) {
 		if (strcmp (tmat->name,"root")!=0) {
 		} else {
 			tmpob=object;
-			while (tmpob!=NULL) {
+			while (tmpob!=nullptr) {
 				//int texnofound=0;
-				if (tmpob->name==NULL)  {
+				if (tmpob->name==nullptr)  {
 					tmpob=tmpob->next;
 					continue;
 				}
@@ -2173,7 +2173,7 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 				}
 				//texnofound=1;
 
-				if (tmpob->texture!=NULL)
+				if (tmpob->texture!=nullptr)
 					if (*tmpob->texture!='\0') {
 						fprintf(tfile, "newmtl default\n");
 						fprintf(tfile, "Ka %lf %lf %lf\n",  tmat->amb.r,  tmat->amb.g,  tmat->amb.b);
@@ -2194,9 +2194,9 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 
 	texnum=0;
 	tmpob=object;
-	while (tmpob!=NULL) {
+	while (tmpob!=nullptr) {
 		int texnofound=0;
-		if (tmpob->name==NULL)  {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2210,7 +2210,7 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 		}
 		texnofound=1;
 		for (i=0; i<texnum; i++) {
-			if (tmpob->texture==NULL) {
+			if (tmpob->texture==nullptr) {
 				texnofound=0;
 				break;
 
@@ -2223,7 +2223,7 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 				texnofound=1;
 		}
 		if  (texnofound==1) {
-			if (tmpob->texture!=NULL) {
+			if (tmpob->texture!=nullptr) {
 				snprintf(tex[texnum], sizeof(tex[texnum]), "%s", tmpob->texture);
 				tex[texnum][13]='\0';
 			}
@@ -2277,8 +2277,8 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 	fprintf(ofile, "g\n");
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2297,8 +2297,8 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 	}
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2317,8 +2317,8 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 	}
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2339,8 +2339,8 @@ void computeSaveOBJ( char *OutputFilename, ob_t *object)
 	fprintf(ofile,"s 1\n");
 	fprintf(ofile,"usemtl default\n");
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2458,7 +2458,7 @@ void stripifyOb(ob_t *object,int writeit)
 		}
 	}
 
-	if (object->name!=NULL)
+	if (object->name!=nullptr)
 		printf("name=%s stripnumber =%d \n",object->name,NumStrips);
 	/* Allocate enough memory for what we just read */
 	if ((mem = malloc(sizeof(unsigned int) * NumStripPoints)) == 0) {
@@ -2675,18 +2675,18 @@ void computeSaveAC3DM( char *OutputFilename, ob_t *object)
 	int j=0;
 	char name2[256];
 	char *p, *q;
-	ob_t *tmpob =NULL;
-	mat_t *tmat=NULL;
+	ob_t *tmpob =nullptr;
+	mat_t *tmat=nullptr;
 	int deltav=1;
 	int ind=0;
 
-	if ((ofile=fopen (OutputFilename,"w"))==NULL) {
+	if ((ofile=fopen (OutputFilename,"w"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", OutputFilename);
 		return ;
 	}
 
 	tmat=root_material;
-	while (tmat!=NULL) {
+	while (tmat!=nullptr) {
 		if (strcmp (tmat->name, "root") == 0) {
 			tmat = tmat->next;
 			continue;
@@ -2715,8 +2715,8 @@ void computeSaveAC3DM( char *OutputFilename, ob_t *object)
 
 	texnum=0;
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2772,8 +2772,8 @@ void computeSaveAC3DM( char *OutputFilename, ob_t *object)
 	fprintf(ofile, "g\n");
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2792,8 +2792,8 @@ void computeSaveAC3DM( char *OutputFilename, ob_t *object)
 	}
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2812,8 +2812,8 @@ void computeSaveAC3DM( char *OutputFilename, ob_t *object)
 	}
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2834,8 +2834,8 @@ void computeSaveAC3DM( char *OutputFilename, ob_t *object)
 	fprintf(ofile,"s 1\n");
 	fprintf(ofile,"usemtl default\n");
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2868,7 +2868,7 @@ void computeSaveAC3DM( char *OutputFilename, ob_t *object)
 
 void mapNormalToSphere(ob_t *object)
 {
-	ob_t *tmpob =NULL;
+	ob_t *tmpob =nullptr;
 	double xmin=9999;
 	double ymin=9999;
 	double zmin=9999;
@@ -2881,8 +2881,8 @@ void mapNormalToSphere(ob_t *object)
 	int i=0;
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2921,8 +2921,8 @@ void mapNormalToSphere(ob_t *object)
 	}
 	ddmin=(ddmax-ddmin)/2+ddmin;
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2955,7 +2955,7 @@ void mapNormalToSphere(ob_t *object)
 }
 void mapTextureEnv(ob_t *object)
 {
-	ob_t *tmpob =NULL;
+	ob_t *tmpob =nullptr;
 	double x,y,z,zt,lg;
 	double z_min=10000;
 	double z_max=-10000;
@@ -2963,8 +2963,8 @@ void mapTextureEnv(ob_t *object)
 
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -2987,8 +2987,8 @@ void mapTextureEnv(ob_t *object)
 	}
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3041,7 +3041,7 @@ void mapTextureEnv(ob_t *object)
 
 void mapTextureEnvOld(ob_t *object)
 {
-	ob_t *tmpob =NULL;
+	ob_t *tmpob =nullptr;
 	int i=0;
 	int j=0;
 	double x_min=10000;
@@ -3061,8 +3061,8 @@ void mapTextureEnvOld(ob_t *object)
 	double v2_max=-10000;
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3093,8 +3093,8 @@ void mapTextureEnvOld(ob_t *object)
 		tmpob=tmpob->next;
 	}
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3153,8 +3153,8 @@ void mapTextureEnvOld(ob_t *object)
 
 	/* clamp the texture coord */
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3181,12 +3181,12 @@ void mapTextureEnvOld(ob_t *object)
 
 void mapNormalToSphere2(ob_t *object)
 {
-	ob_t *tmpob =NULL;
+	ob_t *tmpob =nullptr;
 	int i=0;
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3218,7 +3218,7 @@ void mapNormalToSphere2(ob_t *object)
 
 void normalMap( ob_t *object)
 {
-	ob_t *tmpob =NULL;
+	ob_t *tmpob =nullptr;
 	double x_min=99999;
 	double y_min=99999;
 	double z_min=99999;
@@ -3229,8 +3229,8 @@ void normalMap( ob_t *object)
 	int j=0;
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3263,8 +3263,8 @@ void normalMap( ob_t *object)
 	}
 	tmpob=object;
 
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3291,7 +3291,7 @@ void normalMap( ob_t *object)
 
 void normalMap01( ob_t *object)
 {
-	ob_t *tmpob =NULL;
+	ob_t *tmpob =nullptr;
 	double x_min=99999;
 	double y_min=99999;
 	double z_min=99999;
@@ -3302,8 +3302,8 @@ void normalMap01( ob_t *object)
 	int j=0;
 
 	tmpob=object;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3336,8 +3336,8 @@ void normalMap01( ob_t *object)
 	}
 	tmpob=object;
 
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3367,16 +3367,16 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 
 	int i =0;
 	int ik=0;
-	ob_t *tmpob =NULL;
-	mat_t *tmat=NULL;
+	ob_t *tmpob =nullptr;
+	mat_t *tmat=nullptr;
 	int numg=0;
 	char *p;
-	char *q=NULL;
+	char *q=nullptr;
 	int lastpass=FALSE;
 	int nborder=0;
 	int ordering=FALSE;
 
-	if ((ofile=fopen (OutputFilename,"w"))==NULL) {
+	if ((ofile=fopen (OutputFilename,"w"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", OutputFilename);
 		return ;
 	}
@@ -3392,7 +3392,7 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 
 	fprintf(ofile,"AC3Db\n");
 	tmat=root_material;
-	while (tmat!=NULL) {
+	while (tmat!=nullptr) {
 		if (strcmp (tmat->name,"root")==0) {
 			tmat=tmat->next;
 			continue;
@@ -3426,7 +3426,7 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 		nborder=1;
 		while (TRUE) {
 			q=strstr(p,";");
-			if (q!=NULL) nborder++;
+			if (q!=nullptr) nborder++;
 			else
 				break;
 			p=q+1;
@@ -3442,8 +3442,8 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 
 
 	tmpob=object;
-	while(tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while(tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -3471,21 +3471,21 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 	for (ik=0; ik<nborder; ik++) {
 		if (ordering) {
 			/* look to the current object name to save */
-			if (p==NULL)
+			if (p==nullptr)
 				lastpass=TRUE;
 			else {
 				q=p;
 				p=strstr(p,";");
-				if (p!=NULL) {
+				if (p!=nullptr) {
 					*p='\0';
 					p++;
 				}
 			}
 		}
 		tmpob=object;
-		while (tmpob!=NULL) {
+		while (tmpob!=nullptr) {
 			int texnofound=0;
-			if (tmpob->name==NULL)  {
+			if (tmpob->name==nullptr)  {
 				tmpob=tmpob->next;
 				continue;
 			}
@@ -3499,7 +3499,7 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 			}
 			texnofound=1;
 			for (i=0; i<texnum; i++) {
-				if (tmpob->texture==NULL) {
+				if (tmpob->texture==nullptr) {
 					texnofound=0;
 					break;
 
@@ -3512,7 +3512,7 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 					texnofound=1;
 			}
 			if  (texnofound==1) {
-				if (tmpob->texture!=NULL) {
+				if (tmpob->texture!=nullptr) {
 					snprintf(tex[texnum], sizeof(tex[texnum]), "%s", tmpob->texture);
 					tex[texnum][13]='\0';
 					/*sprintf(tex[texnum],"%s",tmpob->texture);*/
@@ -3530,14 +3530,14 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 		tmpob->kids_o=0;
 
 		tmpob=object;
-		while (tmpob!=NULL) {
+		while (tmpob!=nullptr) {
 			tmpob->inkids_o=0;
 			tmpob=tmpob->next;
 		}
 
 		tmpob=object;
-		while (tmpob!=NULL) {
-			if (tmpob->name==NULL)  {
+		while (tmpob!=nullptr) {
+			if (tmpob->name==nullptr)  {
 				tmpob=tmpob->next;
 				continue;
 			}
@@ -3580,7 +3580,7 @@ void computeSaveAC3DStrip( char *OutputFilename, ob_t *object)
 
 ob_t *mergeObject (ob_t *ob1,ob_t *ob2, char *nameS)
 {
-	ob_t *tobS=NULL;
+	ob_t *tobS=nullptr;
 	int  oldva1[10000];
 	int  oldva2[10000];
 	int n =0;
@@ -3611,8 +3611,8 @@ ob_t *mergeObject (ob_t *ob1,ob_t *ob2, char *nameS)
 	tobS->attrSurf=ob1->attrSurf;
 	tobS->name=(char *) malloc(strlen(nameS)+1);
 	tobS->texture=strdup(nameS);
-	tobS->type= ob1->type ? strdup(ob1->type) : NULL;
-	tobS->data= ob1->data ? strdup(ob1->data) : NULL;
+	tobS->type= ob1->type ? strdup(ob1->type) : nullptr;
+	tobS->data= ob1->data ? strdup(ob1->data) : nullptr;
 
 
 
@@ -3727,24 +3727,24 @@ int mergeSplitted (ob_t **object)
 	int k=0;
 	char nameS[256];
 	char *p ;
-	ob_t *tob=NULL;
-	ob_t *tob0=NULL;
-	ob_t *tobP=NULL;
+	ob_t *tob=nullptr;
+	ob_t *tob0=nullptr;
+	ob_t *tobP=nullptr;
 	//int numtri;
 	int reduced=0;
 
 	tob=*object;
 	while (tob) {
 		if (isobjectacar) {
-			if (tob->name==NULL) {
+			if (tob->name==nullptr) {
 				tob=tob->next;
 				continue;
 			}
-			if (strstr(tob->name,"_s_")==NULL) {
+			if (strstr(tob->name,"_s_")==nullptr) {
 				tob=tob->next;
 				continue;
 			}
-		} else if (strstr(tob->name,"__split__")==NULL) {
+		} else if (strstr(tob->name,"__split__")==nullptr) {
 			tob=tob->next;
 			continue;
 		}
@@ -3755,7 +3755,7 @@ int mergeSplitted (ob_t **object)
 			p=strstr(nameS,"_s_");
 		} else
 			p=strstr(nameS,"__split__");
-		if (p==NULL) {
+		if (p==nullptr) {
 			tob=tob->next;
 			continue;
 		}
@@ -3769,7 +3769,7 @@ int mergeSplitted (ob_t **object)
 		//numtri=0;
 		//numtri=tob->numsurf;
 		while (tob0) {
-			if(tob0->name==NULL ) {
+			if(tob0->name==nullptr ) {
 				tobP=tob0;
 				tob0=tob0->next;
 				continue;
@@ -3780,7 +3780,7 @@ int mergeSplitted (ob_t **object)
 				tob0=tob0->next;
 				continue;
 			}
-			if (tob0->type !=NULL)
+			if (tob0->type !=nullptr)
 				if (!strcmp(tob0->type, "group")) {
 					tobP=tob0;
 					tob0=tob0->next;

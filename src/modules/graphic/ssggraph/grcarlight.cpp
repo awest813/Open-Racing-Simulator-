@@ -17,11 +17,11 @@
  ***************************************************************************/
 
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <sys/types.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -84,7 +84,7 @@ ssgVtxTableCarlight::ssgVtxTableCarlight(ssgVertexArray *vtx, double s, sgVec3 p
 	pos[0] = p[0];
 	pos[1] = p[1];
 	pos[2] = p[2];
-	vertices = (vtx!=NULL) ? vtx : new ssgVertexArray();
+	vertices = (vtx!=nullptr) ? vtx : new ssgVertexArray();
 	normals = new ssgNormalArray();
 	texcoords = new ssgTexCoordArray();
 	colours = new ssgColourArray();
@@ -213,14 +213,14 @@ void ssgVtxTableCarlight::draw_geometry ()
 }
 
 
-ssgSimpleState	*frontlight1 = NULL;
-ssgSimpleState	*frontlight2 = NULL;
-ssgSimpleState	*rearlight1 = NULL;
-ssgSimpleState	*rearlight2 = NULL;
-ssgSimpleState	*breaklight1 = NULL;
-ssgSimpleState	*breaklight2 = NULL;
+ssgSimpleState	*frontlight1 = nullptr;
+ssgSimpleState	*frontlight2 = nullptr;
+ssgSimpleState	*rearlight1 = nullptr;
+ssgSimpleState	*rearlight2 = nullptr;
+ssgSimpleState	*breaklight1 = nullptr;
+ssgSimpleState	*breaklight2 = nullptr;
 
-tgrCarlight * theCarslight = NULL;
+tgrCarlight * theCarslight = nullptr;
 
 void grInitCarlight(int index)
 {
@@ -237,7 +237,7 @@ void grInitCarlight(int index)
 	if (!frontlight1) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		frontlight1 = (ssgSimpleState*)grSsgLoadTexStateEx("frontlight1.rgb", buf, FALSE, FALSE);
-		if (frontlight1 != NULL) {
+		if (frontlight1 != nullptr) {
 			frontlight1->disable(GL_LIGHTING);
 			frontlight1->enable(GL_BLEND);
 			frontlight1->disable(GL_CULL_FACE);
@@ -250,7 +250,7 @@ void grInitCarlight(int index)
 	if (!frontlight2) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		frontlight2 = (ssgSimpleState*)grSsgLoadTexStateEx("frontlight2.rgb", buf, FALSE, FALSE);
-		if (frontlight2 != NULL) {
+		if (frontlight2 != nullptr) {
 			frontlight2->disable(GL_LIGHTING);
 			frontlight2->enable(GL_BLEND);
 			frontlight2->disable(GL_CULL_FACE);
@@ -263,7 +263,7 @@ void grInitCarlight(int index)
 	if (!rearlight1) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		rearlight1 = (ssgSimpleState*)grSsgLoadTexStateEx("rearlight1.rgb", buf, FALSE, FALSE);
-		if (rearlight1 != NULL) {
+		if (rearlight1 != nullptr) {
 			rearlight1->disable(GL_LIGHTING);
 			rearlight1->enable(GL_BLEND);
 			rearlight1->disable(GL_CULL_FACE);
@@ -276,7 +276,7 @@ void grInitCarlight(int index)
 	if (!rearlight2) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		rearlight2 = (ssgSimpleState*)grSsgLoadTexStateEx("rearlight2.rgb", buf, FALSE, FALSE);
-		if (rearlight2 != NULL) {
+		if (rearlight2 != nullptr) {
 			rearlight2->disable(GL_LIGHTING);
 			rearlight2->enable(GL_BLEND);
 			rearlight2->disable(GL_CULL_FACE);
@@ -289,7 +289,7 @@ void grInitCarlight(int index)
 	if (!breaklight1) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		breaklight1 = (ssgSimpleState*)grSsgLoadTexStateEx("breaklight1.rgb", buf, FALSE, FALSE);
-		if (breaklight1 != NULL) {
+		if (breaklight1 != nullptr) {
 			breaklight1->disable(GL_LIGHTING);
 			breaklight1->enable(GL_BLEND);
 			breaklight1->disable(GL_CULL_FACE);
@@ -302,7 +302,7 @@ void grInitCarlight(int index)
 	if (!breaklight2) {
 		snprintf(buf, BUFSIZE, "data/textures;data/img;.");
 		breaklight2 = (ssgSimpleState*)grSsgLoadTexStateEx("breaklight2.rgb", buf, FALSE, FALSE);
-		if (breaklight2 != NULL) {
+		if (breaklight2 != nullptr) {
 			breaklight2->disable(GL_LIGHTING);
 			breaklight2->enable(GL_BLEND);
 			breaklight2->disable(GL_CULL_FACE);
@@ -325,32 +325,32 @@ void grShudownCarlight(void)
 	}
 
 	free(theCarslight);
-	theCarslight=NULL;
+	theCarslight=nullptr;
 
-	if (frontlight1 != NULL) {
+	if (frontlight1 != nullptr) {
 		ssgDeRefDelete(frontlight1);
-		frontlight1 = NULL;
+		frontlight1 = nullptr;
 	}
 
-	if (frontlight2 != NULL) {
+	if (frontlight2 != nullptr) {
 		ssgDeRefDelete(frontlight2);
-		frontlight2 = NULL;
+		frontlight2 = nullptr;
 	}
-	if (rearlight1 != NULL) {
+	if (rearlight1 != nullptr) {
 		ssgDeRefDelete(rearlight1);
-		rearlight1 = NULL;
+		rearlight1 = nullptr;
 	}
-	if (rearlight2 != NULL) {
+	if (rearlight2 != nullptr) {
 		ssgDeRefDelete(rearlight2);
-		rearlight2 = NULL;
+		rearlight2 = nullptr;
 	}
-	if (breaklight1 != NULL) {
+	if (breaklight1 != nullptr) {
 		ssgDeRefDelete(breaklight1);
-		breaklight1 = NULL;
+		breaklight1 = nullptr;
 	}
-	if (breaklight2 != NULL) {
+	if (breaklight2 != nullptr) {
 		ssgDeRefDelete(breaklight2);
-		breaklight2 = NULL;
+		breaklight2 = nullptr;
 	}
 }
 

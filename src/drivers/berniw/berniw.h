@@ -20,8 +20,8 @@
 #ifndef _BERNIW_H_
 #define _BERNIW_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 #include <tgf.h>
@@ -30,7 +30,7 @@
 #include <raceman.h>
 #include <robot.h>
 #include <robottools.h>
-#include <math.h>
+#include <cmath>
 #include "spline.h"
 #include "trackdesc.h"
 #include "mycar.h"

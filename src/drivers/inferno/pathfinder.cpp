@@ -21,7 +21,7 @@
 #include "berniw.h"
 
 const double Pathfinder::COLLDIST = 150.0;
-PathSegOpt* Pathfinder::psopt = NULL;
+PathSegOpt* Pathfinder::psopt = nullptr;
 bool Pathfinder::optpathinitialized = false;
 
 
@@ -33,10 +33,10 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 	o = new tOCar[s->_ncars];
 
 	// Set team mate, TODO: support multiple teammates.
-	teammate = NULL;
-	const char *teammatename = GfParmGetStr(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_TEAMMATE, NULL);
+	teammate = nullptr;
+	const char *teammatename = GfParmGetStr(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_TEAMMATE, nullptr);
 	// Teammate defined in XML setup file?
-	if (teammatename != NULL) {
+	if (teammatename != nullptr) {
 		// Teammate as well in the race?
 		for (i = 0; i < s->_ncars; i++) {
 			if (strcmp(s->cars[i]->_name, teammatename) == 0 && car != s->cars[i]) {
@@ -56,7 +56,7 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 	nPathSeg = track->getnTrackSegments();
 
 	// Get memory for the optimal path, just once shared by all instances.
-	if (psopt == NULL) {
+	if (psopt == nullptr) {
 		psopt = new PathSegOpt(nPathSeg);
 	}
 
@@ -67,7 +67,7 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 
 	// Check if there is a pit type we can use and if for this car is a pit available.
 	pit = false;
-	if (t->pits.type == TR_PIT_ON_TRACK_SIDE && car->_pit != NULL) {
+	if (t->pits.type == TR_PIT_ON_TRACK_SIDE && car->_pit != nullptr) {
 		pit = true;
 	}
 	
@@ -76,9 +76,9 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 		initPit(car);
 		// The values in the setup file must be for trackres == 1.0.
 		s1 = track->getPitEntryStartId();
-		s1 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, (char*)NULL, s1*TRACKRES)/TRACKRES);
+		s1 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, (char*)nullptr, s1*TRACKRES)/TRACKRES);
 		e3 = track->getPitExitEndId();
-		e3 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, (char*)NULL, e3*TRACKRES)/TRACKRES);
+		e3 = (int) (GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, (char*)nullptr, e3*TRACKRES)/TRACKRES);
 		pitspeedsqrlimit = t->pits.speedLimit - 0.5;
 		pitspeedsqrlimit *= pitspeedsqrlimit;
 		pspit = new PathSegPit(countSegments(s1, e3), nPathSeg, s1, e3, psopt);
@@ -89,9 +89,9 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 Pathfinder::~Pathfinder()
 {
 	delete psdyn;
-	if (psopt != NULL) {
+	if (psopt != nullptr) {
 		delete psopt;
-		psopt = NULL;
+		psopt = nullptr;
 		optpathinitialized = false;
 	}
 	if (isPitAvailable()) {
@@ -106,7 +106,7 @@ Pathfinder::~Pathfinder()
 void Pathfinder::initPit(tCarElt* car) {
 	tTrack* t = track->getTorcsTrack();
 
-	if (t->pits.driversPits != NULL && car != NULL) {
+	if (t->pits.driversPits != nullptr && car != nullptr) {
 		if (isPitAvailable()) {
 			tTrackSeg* pitSeg = car->_pit->pos.seg;
 			if (pitSeg->type == TR_STR) {
@@ -873,7 +873,7 @@ int Pathfinder::overtake(int trackSegId, tSituation *s, MyCar* myc, OtherCar* oc
 	const int start = (trackSegId - (int) ((2.0 + myc->CARLEN)/TRACKRES) + nPathSeg) % nPathSeg;
 	const int nearend = (trackSegId + (int) (2.0*myc->CARLEN/TRACKRES)) % nPathSeg;
 
-	OtherCar* nearestCar = NULL;	/* car near in time, not in space ! (next reached car) */
+	OtherCar* nearestCar = nullptr;	/* car near in time, not in space ! (next reached car) */
 	double minTime = FLT_MAX;
 	double minorthdist = FLT_MAX;	/* near in space */
 	double orthdist = FLT_MAX;
@@ -907,7 +907,7 @@ int Pathfinder::overtake(int trackSegId, tSituation *s, MyCar* myc, OtherCar* oc
 		nearestCar = o[minorthdistindex].collcar;
 
 		// Reject overtaking teammate if possible.
-		if (teammate != NULL && nearestCar->getCarPtr() == teammate) {
+		if (teammate != nullptr && nearestCar->getCarPtr() == teammate) {
 			if (o[minorthdistindex].dist > (nearestCar->getCarPtr()->_dimension_x + myc->getCarPtr()->_dimension_x)/2.0 &&
 				(nearestCar->getCarPtr()->_dammage - myc->getCarPtr()->_dammage) < myc->TEAM_DAMAGE_CHANGE_LEAD)
 			{
@@ -927,7 +927,7 @@ int Pathfinder::overtake(int trackSegId, tSituation *s, MyCar* myc, OtherCar* oc
 		}
 
 		// Reject overtaking teammate.
-		if (teammate != NULL &&
+		if (teammate != nullptr &&
 			nearestCar->getCarPtr() == teammate &&
 			(nearestCar->getCarPtr()->_dammage - myc->getCarPtr()->_dammage) < myc->TEAM_DAMAGE_CHANGE_LEAD)
 		{

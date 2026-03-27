@@ -27,8 +27,8 @@
 #ifndef _BASIC_H_
 #define _BASIC_H_
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 
 /* typedef double Scalar; */
 #define Scalar double

@@ -58,16 +58,16 @@ void SimpleStrategy::setFuelAtRaceStart(tTrack* t, void **carParmHandle, tSituat
 	// lap estimate, if available.
 	float fuel_per_meter = GfParmGetNum (*carParmHandle, OLETHROS_SECT_PRIV,
 										 OLETHROS_ATT_FUELCONSUMPTION,
-										 (char*) NULL,
+										 (char*) nullptr,
 										 MAX_FUEL_PER_METER);
 
-	float fuel = GfParmGetNum(*carParmHandle, OLETHROS_SECT_PRIV, OLETHROS_ATT_FUELPERLAP, (char*) NULL, t->length*fuel_per_meter);
+	float fuel = GfParmGetNum(*carParmHandle, OLETHROS_SECT_PRIV, OLETHROS_ATT_FUELPERLAP, (char*) nullptr, t->length*fuel_per_meter);
 
 	expectedfuelperlap = fuel;
-	float maxfuel = GfParmGetNum(*carParmHandle, SECT_CAR, PRM_TANK, (char*) NULL, 100.0);
+	float maxfuel = GfParmGetNum(*carParmHandle, SECT_CAR, PRM_TANK, (char*) nullptr, 100.0);
 	fuel *= (s->_totLaps + 1.0);
 	lastfuel = MIN(fuel, maxfuel);
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*) NULL, lastfuel);
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*) nullptr, lastfuel);
 }
 
 

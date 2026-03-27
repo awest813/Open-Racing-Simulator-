@@ -157,18 +157,18 @@ bool OGLRenderer::initTrack(tTrack* track) {
     else trackDir[0] = '\0';
 
     // Load lighting parameters
-    m_lightDir[0] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_X, NULL, 0.5f);
-    m_lightDir[1] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Y, NULL, 0.5f);
-    m_lightDir[2] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Z, NULL, 1.0f);
+    m_lightDir[0] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_X, nullptr, 0.5f);
+    m_lightDir[1] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Y, nullptr, 0.5f);
+    m_lightDir[2] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Z, nullptr, 1.0f);
     float llen = sqrtf(m_lightDir[0]*m_lightDir[0]+m_lightDir[1]*m_lightDir[1]+m_lightDir[2]*m_lightDir[2]);
     if (llen > 1e-6f) { m_lightDir[0]/=llen; m_lightDir[1]/=llen; m_lightDir[2]/=llen; }
 
-    m_ambientColor[0] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_R, NULL, 0.3f);
-    m_ambientColor[1] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_G, NULL, 0.3f);
-    m_ambientColor[2] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_B, NULL, 0.3f);
-    m_lightColor[0]   = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_R, NULL, 0.9f);
-    m_lightColor[1]   = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_G, NULL, 0.9f);
-    m_lightColor[2]   = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_B, NULL, 0.9f);
+    m_ambientColor[0] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_R, nullptr, 0.3f);
+    m_ambientColor[1] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_G, nullptr, 0.3f);
+    m_ambientColor[2] = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_AMBIENT_B, nullptr, 0.3f);
+    m_lightColor[0]   = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_R, nullptr, 0.9f);
+    m_lightColor[1]   = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_G, nullptr, 0.9f);
+    m_lightColor[2]   = GfParmGetNum(trackHandle, TRK_SECT_GRAPH, TRK_ATT_DIFFUSE_B, nullptr, 0.9f);
 
     if (acFile && strlen(acFile) > 0) {
         char acPath[1024];

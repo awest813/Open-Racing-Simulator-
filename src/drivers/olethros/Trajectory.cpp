@@ -15,7 +15,7 @@
 #include <list>
 #include <vector>
 #include "Trajectory.h"
-#include <time.h>
+#include <ctime>
 
 
 

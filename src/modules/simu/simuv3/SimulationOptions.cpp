@@ -72,7 +72,7 @@ void SimulationOptions::LoadFromFile(void* handle) {
 void SimulationOptions::SetFloatFromGfParm(void* handle, const char* name) {
     float v;
     option_list.Get(name, v);
-    v = GfParmGetNum (handle, SECT_SIMU_SETTINGS, name, (char*) NULL, v);
+    v = GfParmGetNum (handle, SECT_SIMU_SETTINGS, name, (char*) nullptr, v);
     option_list.Set(name, v);
 }
 

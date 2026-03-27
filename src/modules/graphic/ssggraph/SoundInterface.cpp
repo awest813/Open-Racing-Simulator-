@@ -26,22 +26,22 @@ SoundInterface::SoundInterface(float sampling_rate, int n_channels)
 	this->n_channels = n_channels;
 	int i;
 	for (i = 0; i<4; i++) {
-		skid_sound[i]=NULL;
+		skid_sound[i]=nullptr;
 	}
-	road_ride_sound=NULL;
-	grass_ride_sound=NULL;
-	grass_skid_sound=NULL;
-	metal_skid_sound=NULL;
-	axle_sound=NULL;
-	turbo_sound=NULL;
-	backfire_loop_sound=NULL;
+	road_ride_sound=nullptr;
+	grass_ride_sound=nullptr;
+	grass_skid_sound=nullptr;
+	metal_skid_sound=nullptr;
+	axle_sound=nullptr;
+	turbo_sound=nullptr;
+	backfire_loop_sound=nullptr;
 	for (i = 0; i<NB_CRASH_SOUND; i++) {
-		crash_sound[i]=NULL;
+		crash_sound[i]=nullptr;
 	}
 	curCrashSnd = 0;
-	bang_sound=NULL;
-	bottom_crash_sound=NULL;
-	gear_change_sound=NULL;
+	bang_sound=nullptr;
+	bottom_crash_sound=nullptr;
+	gear_change_sound=nullptr;
 	
 	n_engine_sounds = n_channels - 12;
 

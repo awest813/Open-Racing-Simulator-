@@ -23,15 +23,15 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #ifndef WIN32
 #include <unistd.h>
 #else
 #include <windows.h>
 #endif
-#include <math.h>
+#include <cmath>
 #include <plib/ssg.h>
 #include <GL/glut.h>
 
@@ -55,7 +55,7 @@ tRingListHead	ExteriorList;
 
 static tdble	GridStep;
 
-static ssgEntity	*Root = NULL;
+static ssgEntity	*Root = nullptr;
 
 /*
  * Read the faces from AC3D file
@@ -87,7 +87,7 @@ LoadRelief(void *TrackHandle, char *reliefFile)
     GF_TAILQ_INIT(&InteriorList);
     GF_TAILQ_INIT(&ExteriorList);
     
-    GridStep  = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BSTEP, NULL, GridStep);
+    GridStep  = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BSTEP, nullptr, GridStep);
 
     ssgLoaderOptions *loaderopt = new ssgLoaderOptions();
  
@@ -124,7 +124,7 @@ CountRelief(int interior, int *nb_vert, int *nb_seg)
     
     *nb_vert = *nb_seg = 0;
     
-    if (Root == NULL) {
+    if (Root == nullptr) {
 	return;
     }
 
@@ -135,7 +135,7 @@ CountRelief(int interior, int *nb_vert, int *nb_seg)
     }
     
     curLine = GF_TAILQ_FIRST(curHead);
-    while (curLine != NULL) {
+    while (curLine != nullptr) {
 	ssgBranch *br = curLine->branch->getParent(0);
 	ssgBranch *br2 = new ssgBranch();
 	
@@ -200,7 +200,7 @@ GenRelief(int interior)
     tRingListHead	*curHead;
     
     
-    if (Root == NULL) {
+    if (Root == nullptr) {
 	return;
     }
 
@@ -211,7 +211,7 @@ GenRelief(int interior)
     }
     
     curLine = GF_TAILQ_FIRST(curHead);
-    while (curLine != NULL) {
+    while (curLine != nullptr) {
 	genRec((ssgEntity *)curLine->branch);
 
 	curLine = GF_TAILQ_NEXT(curLine, link);
