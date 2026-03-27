@@ -39,6 +39,7 @@ class v2d {
 
         /* methods */
         float len(void) const;
+        float lenSqr(void) const;
         void normalize(void);
         float dist(const v2d &p) const;
         float cosalpha(const v2d &p2, const v2d &center) const;
@@ -124,6 +125,13 @@ inline float v2d::len(void) const
 }
 
 
+/* compute the squared length of the vector */
+inline float v2d::lenSqr(void) const
+{
+	return x*x+y*y;
+}
+
+
 /* distance between *this and p */
 inline float v2d::dist(const v2d &p) const
 { 
@@ -151,6 +159,7 @@ class Straight {
         /* methods */
         v2d intersect(const Straight &s) const;
         float dist(const v2d &p) const; 
+        float distSqr(const v2d &p) const;
 
         /* data */
         v2d p;          /* point on the straight */
@@ -172,6 +181,14 @@ inline float Straight::dist(const v2d &s) const
     v2d d1 = s - p;
     v2d d3 = d1 - d*d1*d;
     return d3.len();
+}
+
+/* squared distance of point s from straight *this */
+inline float Straight::distSqr(const v2d &s) const
+{
+    v2d d1 = s - p;
+    v2d d3 = d1 - d*d1*d;
+    return d3.lenSqr();
 }
 
 #endif // _LINALG_H_
