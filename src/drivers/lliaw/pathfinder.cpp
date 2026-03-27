@@ -534,19 +534,17 @@ int Pathfinder::collision(int trackSegId, tCarElt* mycar, tSituation* s, MyCar* 
 	int i, n = collcars;
 
 	for (i = 0; i < n; i++) {
-// TODO: magic number
-// TODO: Move out of pathfinder to improve performance.
-		if (o[i].overtakee == true || (o[i].time > myc->TIMETOCATCH-0.1 && o[i].collcar->getSpeed() < 10.0)) continue;
+		if (o[i].overtakee == true || (o[i].time > myc->TIMETOCATCH - COLL_TIME_MARGIN && o[i].collcar->getSpeed() < COLL_SLOW_SPEED)) continue;
 		int currentsegid = o[i].collcar->getCurrentSegId();
 		if (track->isBetween(trackSegId, end, currentsegid) && (myc->getSpeed() > o[i].speed)) {
 			int spsegid = (currentsegid - (int) ((myc->CARLEN + 1)/TRACKRES) + nPathSeg) % nPathSeg;
 
-			// TODO: try to use relative speed.
-			if (o[i].mincorner < myc->CARWIDTH/2.0 + (myc->DIST*MIN(1.0, o[i].collcar->getSpeed()/28.0))) {
+			// TODO: try to use relative speed instead of absolute.
+			if (o[i].mincorner < myc->CARWIDTH/2.0 + (myc->DIST*MIN(1.0, o[i].collcar->getSpeed()/COLL_REF_SPEED))) {
 				double cmpdist = o[i].dist - myc->CARLEN - myc->DIST;
 				if ((o[i].brakedist >= cmpdist) && (psdyn->getSpeedsqr(spsegid) > o[i].speedsqr)) {
 					int j;
-					int adv = MAX(1, (int) (3.0/TRACKRES+0.5));
+					int adv = MAX(1, (int) (COLL_ADJ_HALFRANGE_M/TRACKRES+0.5));
 					for (j = spsegid - adv; j < spsegid + adv; j++) {
 						psdyn->setSpeedsqr(o[i].speedsqr, (j + nPathSeg) % nPathSeg);
 					}
@@ -559,7 +557,7 @@ int Pathfinder::collision(int trackSegId, tCarElt* mycar, tSituation* s, MyCar* 
 				double sina = o[i].collcar->getDir()->fakeCrossProduct(myc->getDir());
 				double otherd = o[i].disttomiddle + sina*o[i].collcar->getSpeed()*o[i].time;
 
-				if (fabs(myd - otherd) < myc->CARWIDTH + myc->DIST*MIN(1.0, o[i].collcar->getSpeed()/28.0)) {
+				if (fabs(myd - otherd) < myc->CARWIDTH + myc->DIST*MIN(1.0, o[i].collcar->getSpeed()/COLL_REF_SPEED)) {
 					if ((o[i].catchdist > 0.0) && (o[i].brakedist >= (o[i].catchdist - (myc->CARLEN + myc->DIST)))) {
 						int catchsegid = ((o[i].catchsegid - (int) ((myc->CARLEN + 1)/TRACKRES) + nPathSeg) % nPathSeg);
 						if (psdyn->getSpeedsqr(catchsegid) > o[i].speedsqr) {
@@ -882,8 +880,7 @@ int Pathfinder::overtake(int trackSegId, tSituation *s, MyCar* myc, OtherCar* oc
 
 	//int i, m = 0;
 	for (i = 0; i < collcars; i++) {
-// TODO: MAGIC number
-		if (o[i].dist < COLLDIST*1.5) { // always?
+		if (o[i].dist < COLLDIST * OVERTAKE_SCAN_MULT) {
 			double dst = o[i].minorthdist;
 			if (o[i].time > 0.0 && o[i].time < minTime) {
 				minTime = o[i].time;
@@ -921,8 +918,7 @@ int Pathfinder::overtake(int trackSegId, tSituation *s, MyCar* myc, OtherCar* oc
 		sidechangeallowed = true;
 		minorthdist = orthdist;
 		int i;
-// TODO: MAGIG NUMBER.
-		for (i = 0; i <= (int) myc->MINOVERTAKERANGE; i += 10) {
+		for (i = 0; i <= (int) myc->MINOVERTAKERANGE; i += OVERTAKE_CHECK_STEP_M) {
 			if (track->getSegmentPtr((trackSegId+((int) (i/TRACKRES))) % nPathSeg)->getRadius() < myc->OVERTAKERADIUS) return 0;
 		}
 
@@ -1196,12 +1192,10 @@ int Pathfinder::letoverlap(int trackSegId, tSituation *situation, MyCar* myc, Ot
 		if ((ov[k].time > myc->OVERLAPWAITTIME) && track->isBetween(start, end, ocar[k].getCurrentSegId())) {
 			/* let overtake */
 			double s[4], y[4], ys[4];
-// TODO: constant.
-			const int DST = 400;
+			constexpr int DST = LETPASS_LOOKAHEAD_M;
 
-// TODO: optslope correct or dynslope?
 			ys[0] = pathDynSlope(trackSegId);
-			if (fabs(ys[0]) > PI/180.0) return 0;
+			if (fabs(ys[0]) > LETPASS_SLOPE_LIMIT_RAD) return 0;
 
 			int trackSegId1 = (trackSegId + (int) (DST/(4.0*TRACKRES)) + nPathSeg) % nPathSeg;
 			int trackSegId2 = (trackSegId + (int) (DST*3.0/(4.0*TRACKRES)) + nPathSeg) % nPathSeg;
@@ -1212,8 +1206,7 @@ int Pathfinder::letoverlap(int trackSegId, tSituation *situation, MyCar* myc, Ot
 			y[0] = track->distToMiddle(trackSegId, myc->getCurrentPos());
 
 			/* point 1 */
-// TODO: REMOVE magic numbers.
-			y[1] = sign(y[0])*MIN((width/2.0 - 2.0*myc->CARWIDTH - myc->MARGIN), (15.0/2.0));
+			y[1] = sign(y[0])*MIN((width/2.0 - 2.0*myc->CARWIDTH - myc->MARGIN), LETPASS_MAX_HALFWIDTH_M);
 			ys[1] = 0.0;
 
 			/* point 2 */
@@ -1222,7 +1215,6 @@ int Pathfinder::letoverlap(int trackSegId, tSituation *situation, MyCar* myc, Ot
 
 			/* point 3*/
 			y[3] = track->distToMiddle(trackSegId3, psopt->getOptLoc(trackSegId3));
-// TODO: optslope correct or dynslope?
 			ys[3] = pathOptSlope(trackSegId3);
 
 			/* set up parameter s */

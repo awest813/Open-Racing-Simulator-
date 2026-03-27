@@ -56,6 +56,16 @@ double grSmokeLife;
 
 
 static tgrSmokeManager *smokeManager = 0;
+
+// Cached modelview matrix for billboard smoke rendering.
+// Updated once per simulation step in grUpdateSmoke() so that each smoke
+// particle's draw_geometry() can read camera orientation without calling
+// glGetFloatv (which stalls the GPU pipeline) on every particle draw.
+static GLfloat grSmokeModelView[16] = {
+    1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1
+};
+static bool grSmokeModelViewDirty = true;
+
 /** initialize the smoke structure */
 ssgSimpleState *mst = nullptr;
 ssgSimpleState *mstf0 = nullptr;
@@ -153,6 +163,10 @@ void grUpdateSmoke(double t)
 	if (!grSmokeMaxNumber) {
 		return;
 	}
+
+	// Mark the cached modelview matrix stale so the first smoke particle
+	// rendered this frame refreshes it with a single glGetFloatv call.
+	grSmokeModelViewDirty = true;
 
 	prev = nullptr;
 	tmp = smokeManager->smokeList;
@@ -517,7 +531,6 @@ void ssgVtxTableSmoke::draw_geometry ()
 	int num_colours = getNumColours();
 	int num_normals = getNumNormals();
 	float alpha;
-	GLfloat modelView[16];
 	sgVec3 A, B, C, D;
 	sgVec3 right, up, offset;
 
@@ -535,9 +548,13 @@ void ssgVtxTableSmoke::draw_geometry ()
 	// to determine how the points of the quadri should be placed
 	// orthogonaly to the view, parallel to the screen.
 
-	/* get the matrix */
-	// TODO: replace that, glGet stalls rendering pipeline (forces flush).
-	glGetFloatv(GL_MODELVIEW_MATRIX, modelView);
+	// Fetch the modelview matrix at most once per frame; subsequent smoke
+	// particles reuse the cached copy to avoid per-particle GPU pipeline stalls.
+	if (grSmokeModelViewDirty) {
+		glGetFloatv(GL_MODELVIEW_MATRIX, grSmokeModelView);
+		grSmokeModelViewDirty = false;
+	}
+	const GLfloat* modelView = grSmokeModelView;
 
 	// get the up and right vector from the matrice view
 

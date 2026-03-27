@@ -50,6 +50,26 @@
 #define SEGRANGE ((int) (0.5+3.0/(50*RCM_MAX_DT_ROBOTS*TRACKRES)))
 #define PATHBUF	(BACK+AHEAD+SEGRANGE)
 
+// Named constants replacing magic numbers in collision/overtake/letoverlap logic.
+// Time margin subtracted from TIMETOCATCH when deciding to skip a slow opponent [s].
+constexpr double COLL_TIME_MARGIN        = 0.1;
+// Speed below which an opponent is treated as "slow and blocking" [m/s].
+constexpr double COLL_SLOW_SPEED         = 10.0;
+// Reference speed used to scale lateral clearance requirements [m/s].
+constexpr double COLL_REF_SPEED          = 28.0;
+// Half-range in metres for speed-profile adjustment around a catch point [m].
+constexpr double COLL_ADJ_HALFRANGE_M    = 3.0;
+// Multiplier on COLLDIST for the broader overtake-candidate scan range.
+constexpr double OVERTAKE_SCAN_MULT      = 1.5;
+// Step size in metres when scanning radius along MINOVERTAKERANGE [m].
+constexpr int    OVERTAKE_CHECK_STEP_M   = 10;
+// Look-ahead distance in metres for the yield (let-pass) spline [m].
+constexpr int    LETPASS_LOOKAHEAD_M     = 400;
+// Maximum half-width offset in metres when moving aside to yield [m].
+constexpr double LETPASS_MAX_HALFWIDTH_M = 7.5;
+// Path slope limit for yielding (1 degree in radians); above this, yield is suppressed.
+constexpr double LETPASS_SLOPE_LIMIT_RAD = 3.14159265358979323846 / 180.0;
+
 
 class MyCar;
 class OtherCar;

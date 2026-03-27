@@ -65,7 +65,7 @@ Polyhedron::Polyhedron(const VertexBase& b, int c, const unsigned int v[]) :
   ismalloc = False; 	// True if qh_freeqhull should 'free(array)'
   qh_init_A(stdin, stdout, stderr, 0, nullptr);
   if (exitcode = setjmp(qh errexit)) exit(exitcode);
-  sprintf(options, "qhull Qx i s Tcv C-0");
+  snprintf(options, sizeof(options), "qhull Qx i s Tcv C-0");
   qh_initflags(options);
   qh_init_B(&array[0], numVerts(), 3, ismalloc);
   qh_qhull();
