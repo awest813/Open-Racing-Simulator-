@@ -23,8 +23,8 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 #include <tgfclient.h>
 #include <track.h>
@@ -35,7 +35,7 @@
 #include "controlconfig.h"
 #include "mouseconfig.h"
 
-static void 	*scrHandle2 = NULL;
+static void 	*scrHandle2 = nullptr;
 
 static tCtrlMouseInfo	mouseInfo;
 
@@ -168,7 +168,7 @@ MouseCalMenuInit(void *prevMenu, tCmdInfo *cmd, int maxcmd)
 		return scrHandle2;
 	}
 
-	scrHandle2 = GfuiScreenCreateEx(NULL, NULL, onActivate2, NULL, NULL, 1);
+	scrHandle2 = GfuiScreenCreateEx(nullptr, nullptr, onActivate2, nullptr, nullptr, 1);
 	GfuiTitleCreate(scrHandle2, "Mouse Calibration", 0);
 	GfuiMenuDefaultKeysAdd(scrHandle2);
 
@@ -181,10 +181,10 @@ MouseCalMenuInit(void *prevMenu, tCmdInfo *cmd, int maxcmd)
 	InstId = GfuiLabelCreate(scrHandle2, "", GFUI_FONT_MEDIUM, 320, 80, GFUI_ALIGN_HC_VB, 60);
 
 	GfuiButtonCreate(scrHandle2, "Back", GFUI_FONT_LARGE, 160, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				prevMenu, GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				prevMenu, GfuiScreenActivate, nullptr, nullptr, nullptr);
 
 	GfuiButtonCreate(scrHandle2, "Reset", GFUI_FONT_LARGE, 480, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				NULL, onActivate2, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, onActivate2, nullptr, nullptr, nullptr);
 
 	return scrHandle2;
 }

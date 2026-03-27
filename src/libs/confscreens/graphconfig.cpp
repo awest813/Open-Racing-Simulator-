@@ -23,15 +23,15 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <tgfclient.h>
 #include <graphic.h>
 #include <portability.h>
 
 #include "graphconfig.h"
 
-static void	*scrHandle = NULL;
+static void	*scrHandle = nullptr;
 static int	FovEditId;
 static int	FovFactorValue = 100;
 static int	SmokeEditId;
@@ -72,12 +72,12 @@ static void SaveGraphicOptions(void *prevMenu)
 	void * grHandle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 
 	GfParmSetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_FOVFACT, "%", FovFactorValue);
-	GfParmSetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SMOKENB, NULL, SmokeValue);
-	GfParmSetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXSTRIPBYWHEEL, NULL, SkidValue);
-	GfParmSetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_LODFACTOR, NULL, LodFactorValue);	
+	GfParmSetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SMOKENB, nullptr, SmokeValue);
+	GfParmSetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXSTRIPBYWHEEL, nullptr, SkidValue);
+	GfParmSetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_LODFACTOR, nullptr, LodFactorValue);	
 	GfParmSetStr(grHandle, GR_SCT_GRAPHIC, GR_ATT_WHEELRENDERING, wheelDetailOptionList[curOptionWheelDetail]);	
 	
-	GfParmWriteFile(NULL, grHandle, "graph");
+	GfParmWriteFile(nullptr, grHandle, "graph");
 	GfParmReleaseHandle(grHandle);
 	ExitGraphicOptions(prevMenu);
 }
@@ -92,7 +92,7 @@ static void ChangeFov(void * /* dummy */)
 	char buf[BUFSIZE];
 
 	val = GfuiEditboxGetString(scrHandle, FovEditId);
-	FovFactorValue = strtol(val, (char **)NULL, 0);
+	FovFactorValue = strtol(val, nullptr, 0);
 	snprintf(buf, BUFSIZE, "%d", FovFactorValue);
 	GfuiEditboxSetString(scrHandle, FovEditId, buf);
 }
@@ -122,7 +122,7 @@ static void ChangeSmoke(void * /* dummy */)
 	char buf[BUFSIZE];
 
 	val = GfuiEditboxGetString(scrHandle, SmokeEditId);
-	SmokeValue = strtol(val, (char **)NULL, 0);
+	SmokeValue = strtol(val, nullptr, 0);
 	snprintf(buf, BUFSIZE, "%d", SmokeValue);
 	GfuiEditboxSetString(scrHandle, SmokeEditId, buf);
 }
@@ -137,7 +137,7 @@ static void ChangeSkid(void * /* dummy */)
 	char buf[BUFSIZE];
 
 	val = GfuiEditboxGetString(scrHandle, SkidEditId);
-	SkidValue = strtol(val, (char **)NULL, 0);
+	SkidValue = strtol(val, nullptr, 0);
 	snprintf(buf, BUFSIZE, "%d", SkidValue);
 	GfuiEditboxSetString(scrHandle, SkidEditId, buf);
 }
@@ -192,28 +192,28 @@ void *GraphMenuInit(void *prevMenu)
 	FovFactorValue = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_FOVFACT, "%", 100.0);
 	snprintf(buf, BUFSIZE, "%d", FovFactorValue);
 	FovEditId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
-					x2+10, y, width-20, 16, NULL, (tfuiCallback)NULL, ChangeFov);
+					x2+10, y, width-20, 16, nullptr, nullptr, ChangeFov);
 	
 	y -= dy;
 	GfuiLabelCreate(scrHandle, "Smoke particles:", GFUI_FONT_MEDIUM, x, y, GFUI_ALIGN_HL_VB, 0);
-	SmokeValue = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SMOKENB, NULL, 300.0);
+	SmokeValue = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SMOKENB, nullptr, 300.0);
 	snprintf(buf, BUFSIZE, "%d", SmokeValue);
 	SmokeEditId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
-					x2+10, y, width-20, 16, NULL, (tfuiCallback)NULL, ChangeSmoke);
+					x2+10, y, width-20, 16, nullptr, nullptr, ChangeSmoke);
 	
 	y -= dy;
 	GfuiLabelCreate(scrHandle, "Skid mark strips:", GFUI_FONT_MEDIUM, x, y, GFUI_ALIGN_HL_VB, 0);
-	SkidValue = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXSTRIPBYWHEEL, NULL, 20.0);
+	SkidValue = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXSTRIPBYWHEEL, nullptr, 20.0);
 	snprintf(buf, BUFSIZE, "%d", SkidValue);
 	SkidEditId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
-					x2+10, y, width-20, 16, NULL, (tfuiCallback)NULL, ChangeSkid);
+					x2+10, y, width-20, 16, nullptr, nullptr, ChangeSkid);
 	
 	y -= dy;
 	GfuiLabelCreate(scrHandle, "Level of detail factor:", GFUI_FONT_MEDIUM, x, y, GFUI_ALIGN_HL_VB, 0);
-	LodFactorValue = GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_LODFACTOR, NULL, 1.0);
+	LodFactorValue = GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_LODFACTOR, nullptr, 1.0);
 	snprintf(buf, BUFSIZE, "%g", LodFactorValue);
 	LodFactorEditId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
-					x2+10, y, width-20, 16, NULL, (tfuiCallback)NULL, ChangeLodFactor);
+					x2+10, y, width-20, 16, nullptr, nullptr, ChangeLodFactor);
 	
 					
 	// Wheel detail option
@@ -224,13 +224,13 @@ void *GraphMenuInit(void *prevMenu)
 		"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 		x2, y-5, GFUI_ALIGN_HL_VB, 1,
 		(void*)-1, changeWheelDetailState,
-		NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		nullptr, nullptr, nullptr);
 
 	GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 		"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 		x2+width, y-5, GFUI_ALIGN_HR_VB, 1,
 		(void*)1, changeWheelDetailState,
-		NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		nullptr, nullptr, nullptr);
 
 	// Read wheel detail parameter.
 	int i;
@@ -247,12 +247,12 @@ void *GraphMenuInit(void *prevMenu)
 										
 	// Navigation
 	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				prevMenu, SaveGraphicOptions, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				prevMenu, SaveGraphicOptions, nullptr, nullptr, nullptr);
 	
 	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				prevMenu, GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				prevMenu, GfuiScreenActivate, nullptr, nullptr, nullptr);
 	
-	GfuiAddKey(scrHandle, 27, "Cancel", prevMenu, GfuiScreenActivate, NULL);
+	GfuiAddKey(scrHandle, 27, "Cancel", prevMenu, GfuiScreenActivate, nullptr);
 	
 	GfParmReleaseHandle(grHandle);
 	

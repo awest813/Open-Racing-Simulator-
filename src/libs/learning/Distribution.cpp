@@ -112,11 +112,11 @@ real ExponentialDistribution::pdf(real x)
 
 
 DiscreteDistribution::DiscreteDistribution() {
-	p = NULL; n_outcomes=0;
+	p = nullptr; n_outcomes=0;
 }
 
 DiscreteDistribution::DiscreteDistribution(int N) {
-	p = NULL;
+	p = nullptr;
 	n_outcomes = 0;
 	p = (real*) malloc (sizeof(real) * N);
 	n_outcomes = N;

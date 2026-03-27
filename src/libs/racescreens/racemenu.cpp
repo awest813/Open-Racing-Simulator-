@@ -23,8 +23,8 @@
     @version $Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -64,7 +64,7 @@ static void rmrpUpdDist(void * /* dummy */)
 	char buf[BUFSIZE];
 
 	val = GfuiEditboxGetString(scrHandle, rmrpDistId);
-	rmrpDistance = strtol(val, (char **)NULL, 0);
+	rmrpDistance = strtol(val, nullptr, 0);
 	if (rmrpDistance == 0) {
 		snprintf(buf, BUFSIZE, "---");
 	} else {
@@ -83,7 +83,7 @@ static void rmrpUpdLaps(void * /* dummy */)
 	char buf[BUFSIZE];
 
 	val = GfuiEditboxGetString(scrHandle, rmrpLapsId);
-	rmrpLaps = strtol(val, (char **)NULL, 0);
+	rmrpLaps = strtol(val, nullptr, 0);
 	if (rmrpLaps == 0) {
 		snprintf(buf, BUFSIZE, "---");
 	} else {
@@ -101,7 +101,7 @@ static void rmrpValidate(void * /* dummy */)
 		rmrpUpdDist(0);
 		rmrpUpdLaps(0);
 		GfParmSetNum(rp->param, rp->title, RM_ATTR_DISTANCE, "km", rmrpDistance);
-		GfParmSetNum(rp->param, rp->title, RM_ATTR_LAPS, (char*)NULL, rmrpLaps);
+		GfParmSetNum(rp->param, rp->title, RM_ATTR_LAPS, nullptr, rmrpLaps);
 	}
 
 	if (rp->confMask & RM_CONF_DISP_MODE) {
@@ -114,10 +114,10 @@ static void rmrpValidate(void * /* dummy */)
 
 static void rmrpAddKeys(void)
 {
-	GfuiAddKey(scrHandle, 27, "Cancel changes", rp->prevScreen, rmrpDeactivate, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_F1, "Help", scrHandle, GfuiHelpScreen, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
-	GfuiAddKey(scrHandle, 13, "Accept changes", NULL, rmrpValidate, NULL);
+	GfuiAddKey(scrHandle, 27, "Cancel changes", rp->prevScreen, rmrpDeactivate, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_F1, "Help", scrHandle, GfuiHelpScreen, nullptr);
+	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
+	GfuiAddKey(scrHandle, 13, "Accept changes", nullptr, rmrpValidate, nullptr);
 }
 
 
@@ -156,7 +156,7 @@ void RmRaceParamMenu(void *vrp)
 		rmrpDistance = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_DISTANCE, "km", 0);
 		if (rmrpDistance == 0) {
 			snprintf(buf, BUFSIZE, "---");
-			rmrpLaps = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_LAPS, NULL, 25);
+			rmrpLaps = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_LAPS, nullptr, 25);
 		} else {
 			snprintf(buf, BUFSIZE, "%d", rmrpDistance);
 			rmrpLaps = 0;
@@ -164,7 +164,7 @@ void RmRaceParamMenu(void *vrp)
 		
 		rmrpDistId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
 						x + dx, y,
-						0, 8, NULL, (tfuiCallback)NULL, rmrpUpdDist);
+						0, 8, nullptr, nullptr, rmrpUpdDist);
 
 		y -= dy;
 		GfuiLabelCreate(scrHandle, "Number of laps:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
@@ -176,7 +176,7 @@ void RmRaceParamMenu(void *vrp)
 		
 		rmrpLapsId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
 						x + dx, y,
-						0, 8, NULL, (tfuiCallback)NULL, rmrpUpdLaps);
+						0, 8, nullptr, nullptr, rmrpUpdLaps);
 		y -= dy;
 	}
 
@@ -186,12 +186,12 @@ void RmRaceParamMenu(void *vrp)
 				"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 				x2, y, GFUI_ALIGN_HL_VB, 1,
 				(void*)0, rmChangeDisplayMode,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);	    
+				nullptr, nullptr, nullptr);	    
 		GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 				"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 				x2 + 150, y, GFUI_ALIGN_HL_VB, 1,
 				(void*)1, rmChangeDisplayMode,
-				NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, nullptr, nullptr);
 		if (!strcmp(GfParmGetStr(rp->param, rp->title, RM_ATTR_DISPMODE, RM_VAL_VISIBLE), RM_VAL_INVISIBLE)) {
 			rmCurDispMode = 1;
 		} else {
@@ -202,10 +202,10 @@ void RmRaceParamMenu(void *vrp)
 	}
 
 	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				NULL, rmrpValidate, NULL, NULL, NULL);
+				nullptr, rmrpValidate, nullptr, nullptr, nullptr);
 
 	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				rp->prevScreen, rmrpDeactivate, NULL, NULL, NULL);
+				rp->prevScreen, rmrpDeactivate, nullptr, nullptr, nullptr);
 
 	rmrpAddKeys();
 

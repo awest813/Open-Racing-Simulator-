@@ -23,8 +23,8 @@
     @version $Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <plib/js.h>
 
 #include <tgfclient.h>
@@ -111,7 +111,7 @@ static int gfmaxSKey		= sizeof(GfSKey)	/ sizeof(GfSKey[0]);
 static int gfmaxKey		= sizeof(GfKey)		/ sizeof(GfKey[0]);
 
 static int gfctrlJoyPresent = GFCTRL_JOY_UNTESTED;
-static jsJoystick *js[NUM_JOY] = {NULL};
+static jsJoystick *js[NUM_JOY] = {nullptr};
 
 
 /** Get a control reference by its name
@@ -196,13 +196,13 @@ const char *GfctrlGetNameByRef(GfCtrlType type, int index)
     
     switch (type) {
 		case GFCTRL_TYPE_NOT_AFFECTED:
-			return NULL;
+			return nullptr;
 
 		case GFCTRL_TYPE_JOY_BUT:
 			if (index < gfmaxJoyButton) {
 				return GfJoyBtn[index];
 			} else {
-				return NULL;
+				return nullptr;
 			}
 			break;
 
@@ -210,7 +210,7 @@ const char *GfctrlGetNameByRef(GfCtrlType type, int index)
 			if (index < gfmaxJoyAxis) {
 				return GfJoyAxis[index];
 			} else {
-				return NULL;
+				return nullptr;
 			}
 			break;
 
@@ -218,7 +218,7 @@ const char *GfctrlGetNameByRef(GfCtrlType type, int index)
 			if (index < gfmaxMouseButton) {
 				return GfMouseBtn[index];
 			} else {
-				return NULL;
+				return nullptr;
 			}
 			break;
 
@@ -226,7 +226,7 @@ const char *GfctrlGetNameByRef(GfCtrlType type, int index)
 			if (index < gfmaxMouseAxis) {
 				return GfMouseAxis[index];
 			} else {
-				return NULL;
+				return nullptr;
 			}
 			break;
 
@@ -236,7 +236,7 @@ const char *GfctrlGetNameByRef(GfCtrlType type, int index)
 					return GfSKey[i].descr;
 				}
 			}
-			return NULL;
+			return nullptr;
 			break;
 
 		case GFCTRL_TYPE_KEYBOARD:
@@ -249,14 +249,14 @@ const char *GfctrlGetNameByRef(GfCtrlType type, int index)
 				snprintf(buf, BUFSIZE, "%c", index);
 				return buf;
 			}
-			return NULL;
+			return nullptr;
 			break;
 
 		default:
 			break;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -267,13 +267,13 @@ static void gfJoyFirstInit(void)
     gfctrlJoyPresent = GFCTRL_JOY_NONE;
 
     for (index = 0; index < NUM_JOY; index++) {
-		if (js[index] == NULL) {
+		if (js[index] == nullptr) {
 			js[index] = new jsJoystick(index);
 		}
 	    
 		if (js[index]->notWorking()) {
 			/* don't configure the joystick */
-			js[index] = NULL;
+			js[index] = nullptr;
 		} else {
 			gfctrlJoyPresent = GFCTRL_JOY_PRESENT;
 		}
@@ -302,7 +302,7 @@ const char *GfctrlGetDefaultSection(GfCtrlType type)
 */
 tCtrlJoyInfo *GfctrlJoyInit(void)
 {
-    tCtrlJoyInfo *joyInfo = NULL;
+    tCtrlJoyInfo *joyInfo = nullptr;
 
     if (gfctrlJoyPresent == GFCTRL_JOY_UNTESTED) {
 		gfJoyFirstInit();
@@ -398,7 +398,7 @@ int GfctrlJoyGetCurrent(tCtrlJoyInfo *joyInfo)
 */
 tCtrlMouseInfo *GfctrlMouseInit(void)
 {
-    tCtrlMouseInfo	*mouseInfo = NULL;
+    tCtrlMouseInfo	*mouseInfo = nullptr;
     mouseInfo = (tCtrlMouseInfo *)calloc(1, sizeof(tCtrlMouseInfo));
     return mouseInfo;
 }
@@ -501,7 +501,7 @@ void GfctrlMouseInitCenter(void)
 */
 bool GfctrlIsEventBlacklisted(void *parmHandle, const char* driversSection, const char* event)
 {
-	const char* eventBlacklist = GfParmGetStr(parmHandle, driversSection, HM_ATT_EVENTBLACKLIST, NULL);
+	const char* eventBlacklist = GfParmGetStr(parmHandle, driversSection, HM_ATT_EVENTBLACKLIST, nullptr);
 	if (eventBlacklist && strstr(eventBlacklist, event)) {
 		GfOut("Blacklisted event: %s\n", event);
 		return true;

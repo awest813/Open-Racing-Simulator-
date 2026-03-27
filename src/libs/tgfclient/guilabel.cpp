@@ -23,7 +23,7 @@
     @ingroup	gui
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -215,7 +215,7 @@ GfuiLabelSetText(void *scr, int id, const char *text)
 	tGfuiScreen	*screen = (tGfuiScreen*)scr;
 	
 	curObject = screen->objects;
-	if (curObject != NULL) {
+	if (curObject != nullptr) {
 		do {
 			curObject = curObject->next;
 			if (curObject->id == id) {
@@ -242,7 +242,7 @@ GfuiLabelSetColor(void *scr, int id, float *color)
     tGfuiScreen	*screen = (tGfuiScreen*)scr;
     
     curObject = screen->objects;
-    if (curObject != NULL) {
+    if (curObject != nullptr) {
 	do {
 	    curObject = curObject->next;
 	    if (curObject->id == id) {

@@ -123,7 +123,7 @@ void getUserTextureMaxSize(int &result)
 	char fnbuf[BUFSIZE];
 	snprintf(fnbuf, BUFSIZE, "%s%s", GetLocalDir(), GR_PARAM_FILE);
 	void *paramHandle = GfParmReadFile(fnbuf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
-	result = (int) GfParmGetNum(paramHandle, GR_SCT_GLFEATURES, GR_ATT_TEXTURESIZE, (char*)NULL, (tdble) glTextureMaxSize);
+	result = (int) GfParmGetNum(paramHandle, GR_SCT_GLFEATURES, GR_ATT_TEXTURESIZE, nullptr, (tdble) glTextureMaxSize);
 	if (result > glTextureMaxSize) {
 		result = glTextureMaxSize;
 	}

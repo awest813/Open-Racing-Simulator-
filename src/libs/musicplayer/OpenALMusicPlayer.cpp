@@ -17,15 +17,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdio.h>
+#include <cstdio>
 #include <tgf.h>
 #include "OpenALMusicPlayer.h"
 
 const int OpenALMusicPlayer::BUFFERSIZE = 4096*64;
 
 OpenALMusicPlayer::OpenALMusicPlayer(SoundStream* soundStream):
-	device(NULL),
-	context(NULL),
+	device(nullptr),
+	context(nullptr),
 	source(0),
 	stream(soundStream),
 	ready(false)
@@ -69,7 +69,7 @@ void OpenALMusicPlayer::stop()
     alDeleteBuffers(2, buffers);
     check();
 	
-	alcMakeContextCurrent(NULL);
+	alcMakeContextCurrent(nullptr);
 	alcDestroyContext(context);
 	alcCloseDevice(device);
 	
@@ -81,14 +81,14 @@ void OpenALMusicPlayer::stop()
 
 bool OpenALMusicPlayer::initContext()
 {
-	device = alcOpenDevice(NULL);
-	if( device == NULL ) {
+	device = alcOpenDevice(nullptr);
+	if( device == nullptr ) {
 		GfError("OpenALMusicPlayer: OpenAL could not open device\n");
 		return false;
 	}
 
-	context = alcCreateContext(device, NULL);
-	if(context == NULL) {
+	context = alcCreateContext(device, nullptr);
+	if(context == nullptr) {
 		alcCloseDevice(device);
 		GfError("OpenALMusicPlayer: OpenAL could not create contect for device\n");
 		return false;

@@ -23,9 +23,9 @@
     @version $Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
 #include <tgfclient.h>
 #include <robot.h>
 #include <raceman.h>
@@ -176,7 +176,7 @@ ReInitResults(void)
 	const int BUFSIZE = 1024;
 	char buf[BUFSIZE];
 	
-	t = time(NULL);
+	t = time(nullptr);
 	stm = localtime(&t);
 	snprintf(buf, BUFSIZE, "%sresults/%s/results-%4d-%02d-%02d-%02d-%02d-%02d.xml",
 		GetLocalDir(),
@@ -191,10 +191,10 @@ ReInitResults(void)
 	
 	ReInfo->results = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 	results = ReInfo->results;
-	GfParmSetNum(results, RE_SECT_HEADER, RE_ATTR_DATE, NULL, (tdble)t);
-	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, NULL, 1);
-	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, NULL, 1);
-	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);	
+	GfParmSetNum(results, RE_SECT_HEADER, RE_ATTR_DATE, nullptr, (tdble)t);
+	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1);
+	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1);
+	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, nullptr, 1);	
 }
 
 void
@@ -212,7 +212,7 @@ ReEventInitResults(void)
 		snprintf(path, BUFSIZE, "%s/%s/%d", ReInfo->track->name, RM_SECT_DRIVERS, i);
 		snprintf(path2, BUFSIZE, "%s/%d", RM_SECT_DRIVERS, i);
 		GfParmSetStr(results, path, RE_ATTR_DLL_NAME, GfParmGetStr(params, path2, RM_ATTR_MODULE, ""));
-		GfParmSetNum(results, path, RE_ATTR_INDEX, NULL, GfParmGetNum(params, path2, RM_ATTR_IDX, (char*)NULL, tModInfo::INVALID_INDEX));
+		GfParmSetNum(results, path, RE_ATTR_INDEX, nullptr, GfParmGetNum(params, path2, RM_ATTR_IDX, nullptr, tModInfo::INVALID_INDEX));
 		GfParmSetStr(results, path, RM_ATTR_DRVNAME, GfParmGetStr(params, path2, RM_ATTR_DRVNAME, ""));
     }
 }
@@ -246,8 +246,8 @@ ReUpdateStandings(void)
 		snprintf(path2, BUFSIZE, "%s/%d", RE_SECT_STANDINGS, i + 1);
 		standings[i].carName = strdup(GfParmGetStr(results, path2, RE_ATTR_NAME, 0));
 		standings[i].modName = strdup(GfParmGetStr(results, path2, RE_ATTR_MODULE, 0));
-		standings[i].drvIdx  = (int)GfParmGetNum(results, path2, RE_ATTR_IDX, NULL, 0);
-		standings[i].points  = (int)GfParmGetNum(results, path2, RE_ATTR_POINTS, NULL, 0);
+		standings[i].drvIdx  = (int)GfParmGetNum(results, path2, RE_ATTR_IDX, nullptr, 0);
+		standings[i].points  = (int)GfParmGetNum(results, path2, RE_ATTR_POINTS, nullptr, 0);
 	}
 
 	GfParmListClean(results, RE_SECT_STANDINGS);
@@ -269,11 +269,11 @@ ReUpdateStandings(void)
 			curDrv++;
 			standings[j].carName = strdup(carName);
 			standings[j].modName = strdup(GfParmGetStr(results, path, RE_ATTR_MODULE, 0));
-			standings[j].drvIdx  = (int)GfParmGetNum(results, path, RE_ATTR_IDX, NULL, 0);
-			standings[j].points  = (int)GfParmGetNum(results, path, RE_ATTR_POINTS, NULL, 0);
+			standings[j].drvIdx  = (int)GfParmGetNum(results, path, RE_ATTR_IDX, nullptr, 0);
+			standings[j].points  = (int)GfParmGetNum(results, path, RE_ATTR_POINTS, nullptr, 0);
 		} else {
 			/* Add the new points */
-			standings[j].points += (int)GfParmGetNum(results, path, RE_ATTR_POINTS, NULL, 0);
+			standings[j].points += (int)GfParmGetNum(results, path, RE_ATTR_POINTS, nullptr, 0);
 		}
 		/* bubble sort... */
 		while (j > 0) {
@@ -308,8 +308,8 @@ ReUpdateStandings(void)
 		free(standings[i].carName);
 		GfParmSetStr(results, path, RE_ATTR_MODULE, standings[i].modName);
 		free(standings[i].modName);
-		GfParmSetNum(results, path, RE_ATTR_IDX, NULL, standings[i].drvIdx);
-		GfParmSetNum(results, path, RE_ATTR_POINTS, NULL, standings[i].points);
+		GfParmSetNum(results, path, RE_ATTR_IDX, nullptr, standings[i].drvIdx);
+		GfParmSetNum(results, path, RE_ATTR_POINTS, nullptr, standings[i].points);
 	}
 	free(standings);
 	
@@ -343,7 +343,7 @@ void ReStoreRaceResults(const char *race)
 
 			snprintf(path, BUFSIZE, "%s/%s/%s", ReInfo->track->name, RE_SECT_RESULTS, race);
 			GfParmListClean(results, path);
-			GfParmSetNum(results, path, RE_ATTR_LAPS, NULL, car->_laps - 1);
+			GfParmSetNum(results, path, RE_ATTR_LAPS, nullptr, car->_laps - 1);
 			
 			ReApplyRaceTimePenalties();
 
@@ -359,22 +359,22 @@ void ReStoreRaceResults(const char *race)
 				carName = GfParmGetName(carparam);
 			
 				GfParmSetStr(results, path, RE_ATTR_CAR, carName);
-				GfParmSetNum(results, path, RE_ATTR_INDEX, NULL, car->index);
+				GfParmSetNum(results, path, RE_ATTR_INDEX, nullptr, car->index);
 			
-				GfParmSetNum(results, path, RE_ATTR_LAPS, NULL, car->_laps - 1);
-				GfParmSetNum(results, path, RE_ATTR_TIME, NULL, car->_curTime + car->_penaltyTime);
-				GfParmSetNum(results, path, RE_ATTR_PENALTYTIME, NULL, car->_penaltyTime);
-				GfParmSetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, car->_bestLapTime);
-				GfParmSetNum(results, path, RE_ATTR_TOP_SPEED, NULL, car->_topSpeed);
-				GfParmSetNum(results, path, RE_ATTR_DAMMAGES, NULL, car->_dammage);
-				GfParmSetNum(results, path, RE_ATTR_NB_PIT_STOPS, NULL, car->_nbPitStops);
+				GfParmSetNum(results, path, RE_ATTR_LAPS, nullptr, car->_laps - 1);
+				GfParmSetNum(results, path, RE_ATTR_TIME, nullptr, car->_curTime + car->_penaltyTime);
+				GfParmSetNum(results, path, RE_ATTR_PENALTYTIME, nullptr, car->_penaltyTime);
+				GfParmSetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, car->_bestLapTime);
+				GfParmSetNum(results, path, RE_ATTR_TOP_SPEED, nullptr, car->_topSpeed);
+				GfParmSetNum(results, path, RE_ATTR_DAMMAGES, nullptr, car->_dammage);
+				GfParmSetNum(results, path, RE_ATTR_NB_PIT_STOPS, nullptr, car->_nbPitStops);
 			
 				GfParmSetStr(results, path, RE_ATTR_MODULE, car->_modName);
-				GfParmSetNum(results, path, RE_ATTR_IDX, NULL, car->_driverIndex);
+				GfParmSetNum(results, path, RE_ATTR_IDX, nullptr, car->_driverIndex);
 			
 				snprintf(path2, BUFSIZE, "%s/%s/%d", race, RM_SECT_POINTS, i + 1);
-				GfParmSetNum(results, path, RE_ATTR_POINTS, NULL,
-						(int)GfParmGetNum(params, path2, RE_ATTR_POINTS, NULL, 0));
+				GfParmSetNum(results, path, RE_ATTR_POINTS, nullptr,
+						(int)GfParmGetNum(params, path2, RE_ATTR_POINTS, nullptr, 0));
 
 				GfParmReleaseHandle(carparam);
 			}
@@ -392,7 +392,7 @@ void ReStoreRaceResults(const char *race)
 			nCars = GfParmGetEltNb(results, path);
 			for (i = nCars; i > 0; i--) {
 				snprintf(path, BUFSIZE, "%s/%s/%s/%s/%d", ReInfo->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK, i);
-				float opponentBestLapTime = GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, 0);
+				float opponentBestLapTime = GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, 0);
 			
 				if (
 					(car->_bestLapTime != 0.0) && 
@@ -402,12 +402,12 @@ void ReStoreRaceResults(const char *race)
 					snprintf(path2, BUFSIZE, "%s/%s/%s/%s/%d", ReInfo->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK, i + 1);
 					GfParmSetStr(results, path2, RE_ATTR_NAME, GfParmGetStr(results, path, RE_ATTR_NAME, ""));
 					GfParmSetStr(results, path2, RE_ATTR_CAR, GfParmGetStr(results, path, RE_ATTR_CAR, ""));
-					GfParmSetNum(results, path2, RE_ATTR_BEST_LAP_TIME, NULL, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, 0));
+					GfParmSetNum(results, path2, RE_ATTR_BEST_LAP_TIME, nullptr, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, 0));
 					GfParmSetStr(results, path2, RE_ATTR_MODULE, GfParmGetStr(results, path, RM_ATTR_MODULE, ""));
-					GfParmSetNum(results, path2, RE_ATTR_IDX, NULL, GfParmGetNum(results, path, RM_ATTR_IDX, NULL, 0));
+					GfParmSetNum(results, path2, RE_ATTR_IDX, nullptr, GfParmGetNum(results, path, RM_ATTR_IDX, nullptr, 0));
 					snprintf(path, BUFSIZE, "%s/%s/%d", race, RM_SECT_POINTS, i + 1);
-					GfParmSetNum(results, path2, RE_ATTR_POINTS, NULL,
-								(int)GfParmGetNum(params, path, RE_ATTR_POINTS, NULL, 0));
+					GfParmSetNum(results, path2, RE_ATTR_POINTS, nullptr,
+								(int)GfParmGetNum(params, path, RE_ATTR_POINTS, nullptr, 0));
 				} else {
 					break;
 				}
@@ -421,12 +421,12 @@ void ReStoreRaceResults(const char *race)
 			carName = GfParmGetName(carparam);
 			
 			GfParmSetStr(results, path, RE_ATTR_CAR, carName);
-			GfParmSetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, round(car->_bestLapTime*1000.0f)/1000.0f);
+			GfParmSetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, round(car->_bestLapTime*1000.0f)/1000.0f);
 			GfParmSetStr(results, path, RE_ATTR_MODULE, car->_modName);
-			GfParmSetNum(results, path, RE_ATTR_IDX, NULL, car->_driverIndex);
+			GfParmSetNum(results, path, RE_ATTR_IDX, nullptr, car->_driverIndex);
 			snprintf(path2, BUFSIZE, "%s/%s/%d", race, RM_SECT_POINTS, i + 1);
-			GfParmSetNum(results, path, RE_ATTR_POINTS, NULL,
-						(int)GfParmGetNum(params, path2, RE_ATTR_POINTS, NULL, 0));
+			GfParmSetNum(results, path, RE_ATTR_POINTS, nullptr,
+						(int)GfParmGetNum(params, path2, RE_ATTR_POINTS, nullptr, 0));
 		
 			GfParmReleaseHandle(carparam);
 			break;
@@ -467,14 +467,14 @@ ReUpdateQualifCurRes(tCarElt *car)
 	for (i = 1; i < nCars; i++) {
 		snprintf(path, BUFSIZE, "%s/%s/%s/%s/%d", ReInfo->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK, i);
 		if (!printed) {
-			if ((car->_bestLapTime != 0.0) && (car->_bestLapTime < GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, 0))) {
+			if ((car->_bestLapTime != 0.0) && (car->_bestLapTime < GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, 0))) {
 				GfTime2Str(timefmt, TIMEFMTSIZE, car->_bestLapTime, 0);
 				snprintf(buf, BUFSIZE, "%d - %s - %s (%s)", i, timefmt, car->_name, carName);
 				ReResScreenSetText(buf, i - 1, 1);
 				printed = 1;
 			}
 		}
-		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, 0), 0);
+		GfTime2Str(timefmt, TIMEFMTSIZE, GfParmGetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, 0), 0);
 		snprintf(buf, BUFSIZE, "%d - %s - %s (%s)", i + printed, timefmt, GfParmGetStr(results, path, RE_ATTR_NAME, ""), GfParmGetStr(results, path, RE_ATTR_CAR, ""));
 		ReResScreenSetText(buf, i - 1 + printed, 0);
 	}
@@ -498,11 +498,11 @@ ReSavePracticeLap(tCarElt *car)
 	char path[BUFSIZE];
 
 	snprintf(path, BUFSIZE, "%s/%s/%s/%d", ReInfo->track->name, RE_SECT_RESULTS, ReInfo->_reRaceName, car->_laps - 1);
-	GfParmSetNum(results, path, RE_ATTR_TIME, NULL, car->_lastLapTime);
-	GfParmSetNum(results, path, RE_ATTR_BEST_LAP_TIME, NULL, car->_bestLapTime);
-	GfParmSetNum(results, path, RE_ATTR_TOP_SPEED, NULL, info->topSpd);
-	GfParmSetNum(results, path, RE_ATTR_BOT_SPEED, NULL, info->botSpd);
-	GfParmSetNum(results, path, RE_ATTR_DAMMAGES, NULL, car->_dammage);    
+	GfParmSetNum(results, path, RE_ATTR_TIME, nullptr, car->_lastLapTime);
+	GfParmSetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, car->_bestLapTime);
+	GfParmSetNum(results, path, RE_ATTR_TOP_SPEED, nullptr, info->topSpd);
+	GfParmSetNum(results, path, RE_ATTR_BOT_SPEED, nullptr, info->botSpd);
+	GfParmSetNum(results, path, RE_ATTR_DAMMAGES, nullptr, car->_dammage);    
 }
 
 int

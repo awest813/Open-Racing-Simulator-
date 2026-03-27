@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include <stdio.h>
+#include <cstdio>
 #include <tgfclient.h>
 #include <singleplayer.h>
 #include <driverconfig.h>
@@ -28,13 +28,13 @@
 #include "optionmenu.h"
 
 
-void *menuHandle = NULL;
-tModList *RacemanModLoaded = (tModList*)NULL;
+void *menuHandle = nullptr;
+tModList *RacemanModLoaded = nullptr;
 
 static void
 TorcsMainMenuActivate(void * /* dummy */)
 {
-	if (RacemanModLoaded != NULL) {
+	if (RacemanModLoaded != nullptr) {
 		GfModUnloadList(&RacemanModLoaded);
 	}
 }
@@ -58,9 +58,9 @@ TorcsMainMenuActivate(void * /* dummy */)
 int
 TorcsMainMenuInit(void)
 {
-    menuHandle = GfuiScreenCreateEx((float*)NULL, 
-				    NULL, TorcsMainMenuActivate, 
-				    NULL, (tfuiCallback)NULL, 
+    menuHandle = GfuiScreenCreateEx(nullptr, 
+				    nullptr, TorcsMainMenuActivate, 
+				    nullptr, nullptr, 
 				    1);
 
     GfuiScreenAddBgImg(menuHandle, "data/img/splash-main.png");

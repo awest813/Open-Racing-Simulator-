@@ -14,9 +14,9 @@
  ***************************************************************************/
 
 #include <learning/string_utils.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstdio>
 #include <portability.h>
 
 static char msgbuf[10000];
@@ -29,7 +29,7 @@ char *strBaseName(char *filename) {
 
 char *strRemoveSuffix(char *filename, char c)
 {
-  char *copy = NULL;
+  char *copy = nullptr;
   int len = strlen(filename);
   char *p = filename + len - 1;
   int i=len;
@@ -99,7 +99,7 @@ StringBuffer* read_string (FILE* f, StringBuffer* s)
      unsigned int l;
      fpos_t pos;
 
-     if (s==NULL) {
+     if (s==nullptr) {
 	  s = NewStringBuffer (10);
      }
 
@@ -108,7 +108,7 @@ StringBuffer* read_string (FILE* f, StringBuffer* s)
 	  if (fgetpos (f, &pos)) {
 	       printf ("Error getting position\n");
 	  }
-	  if ((s->string = fgets (s->c, l, f)) == NULL) {
+	  if ((s->string = fgets (s->c, l, f)) == nullptr) {
 	       return s;
 	  }
 	  if (strlen(s->string)<(l-1)) {
@@ -119,10 +119,10 @@ StringBuffer* read_string (FILE* f, StringBuffer* s)
 	       printf ("Error setting position\n");
 	  }
 	  s->length += l;
-	  if ((s->c = (char*) realloc (s->c, s->length)) == NULL) {
+	  if ((s->c = (char*) realloc (s->c, s->length)) == nullptr) {
 	       fprintf (stderr, "Oops, out of RAM\n");
 	       FreeStringBuffer (&s);
-	       return NULL;
+	       return nullptr;
 	  }
      }
 	  
@@ -135,10 +135,10 @@ StringBuffer* SetStringBufferLength (StringBuffer* s, unsigned int l)
 {
 	if (l > s->length) {
 		s->length = l;
-		if ((s->c = (char*) realloc (s->c, s->length)) == NULL) {
+		if ((s->c = (char*) realloc (s->c, s->length)) == nullptr) {
 			fprintf (stderr, "Oops, out of RAM\n");
 			FreeStringBuffer (&s);
-			return NULL;
+			return nullptr;
 		}
 	}
 	return s;
@@ -147,11 +147,11 @@ StringBuffer* SetStringBufferLength (StringBuffer* s, unsigned int l)
 StringBuffer* NewStringBuffer (int length)
 {
      StringBuffer* s = AllocM (StringBuffer, 1);
-     if (s==NULL) {
-	  return NULL;
+     if (s==nullptr) {
+	  return nullptr;
      }
      s->length = length;
-     if ((s->c = AllocM (char, length))==NULL) {
+     if ((s->c = AllocM (char, length))==nullptr) {
 	  FreeStringBuffer (&s);
      }
      return s;
@@ -163,13 +163,13 @@ void FreeStringBuffer (StringBuffer** s)
 	  FreeM ((*s)->c);
      }
      FreeM ((*s));
-     s = NULL;
+     s = nullptr;
 }
 
 char* string_copy (char* c)
 {
      char* r;
-     if (c==NULL) return NULL;
+     if (c==nullptr) return nullptr;
      size_t len = strlen(c) + 1;
      r = AllocM (char, len);
      snprintf (r, len, "%s", c);

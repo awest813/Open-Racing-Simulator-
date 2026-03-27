@@ -24,7 +24,7 @@
     @ingroup	gui
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -104,7 +104,7 @@ GfuiEditboxCreate(void *scr, const char *text, int font, int x, int y, int width
 		char *buf;
 		int  i;
 		buf = (char*)malloc(maxlen+1);
-		if (buf == NULL) return -1;	// Memory leak does not matter, this must not happen
+		if (buf == nullptr) return -1;	// Memory leak does not matter, this must not happen
 		for (i = 0; i < maxlen; i++) buf[i] = 'W';
 		buf[i] = '\0';
 		width = gfuiFont[font]->getWidth((const char *)buf);
@@ -139,9 +139,9 @@ GfuiEditboxGetFocused(void)
 {
     tGfuiObject *curObject;
 
-    if (GfuiScreen != NULL) {
+    if (GfuiScreen != nullptr) {
 	curObject = GfuiScreen->objects;
-	if (curObject != NULL) {
+	if (curObject != nullptr) {
 	    do {
 		curObject = curObject->next;
 		if (curObject->focus) {
@@ -363,8 +363,8 @@ GfuiEditboxGetString(void *scr, int id)
     
     curObject = gfuiGetObject(scr, id);
     
-    if ((curObject == NULL) || (curObject->widget != GFUI_EDITBOX)) {
-	return (char*)NULL;
+    if ((curObject == nullptr) || (curObject->widget != GFUI_EDITBOX)) {
+	return nullptr;
     }
 
     editbox = &(curObject->u.editbox);
@@ -388,7 +388,7 @@ void GfuiEditboxSetString(void *scr, int id, const char *text)
 	
 	curObject = gfuiGetObject(scr, id);
 	
-	if ((curObject == NULL) || (curObject->widget != GFUI_EDITBOX)) {
+	if ((curObject == nullptr) || (curObject->widget != GFUI_EDITBOX)) {
 		return;
 	}
 	

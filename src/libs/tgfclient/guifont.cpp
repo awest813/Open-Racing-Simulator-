@@ -19,8 +19,8 @@
 /* This font manipulation is based on Brad Fish's glFont format and code.  */
 /* http://www.netxs.net/bfish/news.html                                    */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 #ifdef WIN32
 #include <windows.h>
@@ -77,7 +77,7 @@ void gfuiLoadFonts(void)
 	snprintf(buf, BUFSIZE, "data/fonts/%s", fontName);
 
 	for(i = 0; i < 4; i++) {
-		size = (int)GfParmGetNum(param, "Menu Font", keySize[i], (char*)NULL, 10.0);
+		size = (int)GfParmGetNum(param, "Menu Font", keySize[i], nullptr, 10.0);
 		gfuiFont[i] = new GfuiFontClass(buf);
 		gfuiFont[i]->create(size);
 	}
@@ -86,14 +86,14 @@ void gfuiLoadFonts(void)
 	snprintf(buf, BUFSIZE, "data/fonts/%s", fontName);
 
 	for(i = 0; i < 4; i++) {
-		size = (int)GfParmGetNum(param, "Console Font", keySize[i], (char*)NULL, 10.0);
+		size = (int)GfParmGetNum(param, "Console Font", keySize[i], nullptr, 10.0);
 		gfuiFont[i+4] = new GfuiFontClass(buf);
 		gfuiFont[i+4]->create(size);
 	}
 
 	fontName = GfParmGetStr(param, "Digital Font", "name", "digital.glf");
 	snprintf(buf, BUFSIZE, "data/fonts/%s", fontName);
-	size = (int)GfParmGetNum(param, "Digital Font", keySize[0], (char*)NULL, 8.0);
+	size = (int)GfParmGetNum(param, "Digital Font", keySize[0], nullptr, 8.0);
 	gfuiFont[8] = new GfuiFontClass(buf);
 	gfuiFont[8]->create(size);
 
@@ -108,16 +108,16 @@ GfuiFontClass::GfuiFontClass(char *FileName)
 	int	Num;
 	uint Tex;
 
-	font = NULL;
+	font = nullptr;
 	size = 8.0;
 
 	//Open font file
-	if ((Input = fopen(FileName, "rb")) == NULL) {
+	if ((Input = fopen(FileName, "rb")) == nullptr) {
 		perror(FileName);
 		return;
 	}
 
-	if ((font = (GLFONT *)malloc(sizeof(GLFONT))) == NULL) {
+	if ((font = (GLFONT *)malloc(sizeof(GLFONT))) == nullptr) {
 		return;
 	}
 
@@ -135,9 +135,9 @@ GfuiFontClass::GfuiFontClass(char *FileName)
 	Num = font->IntEnd - font->IntStart + 1;
 
 	//Allocate memory for characters
-	if ((font->Char = (GLFONTCHAR *)malloc(sizeof(GLFONTCHAR) * Num)) == NULL) {
+	if ((font->Char = (GLFONTCHAR *)malloc(sizeof(GLFONTCHAR) * Num)) == nullptr) {
 		free(font);
-		font = NULL;
+		font = nullptr;
 		fclose(Input);
 		return;
 	}
@@ -155,7 +155,7 @@ GfuiFontClass::GfuiFontClass(char *FileName)
 	Num = font->TexWidth * font->TexHeight * 2;
 
 	//Allocate memory for texture data
-	if ((TexBytes = (char *)malloc(Num)) == NULL) {
+	if ((TexBytes = (char *)malloc(Num)) == nullptr) {
 		fclose(Input);
 		return;
 	}
@@ -211,7 +211,7 @@ int GfuiFontClass::getWidth(const char* text)
 	GLFONTCHAR *Char;
 	float width = 0;
 
-	if (font == NULL) {
+	if (font == nullptr) {
 		return 0;
 	}
 
@@ -233,14 +233,14 @@ int GfuiFontClass::getWidth(const char* text)
 
 int GfuiFontClass::getHeight() const
 {
-	if (font == NULL) return 0;
+	if (font == nullptr) return 0;
 	return (const int)(font->Char[0].dy * size);
 }
 
 
 int GfuiFontClass::getDescender() const
 {
-	if (font == NULL) return 0;
+	if (font == nullptr) return 0;
 	return 0;
 	return (const int)(font->Char[0].dy * size / 2.0);
 }
@@ -254,7 +254,7 @@ void GfuiFontClass::output(int X, int Y, const char* text)
 	float	y = (float)Y;
 
 	//Return if we don't have a valid glFont
-	if (font == NULL) return;
+	if (font == nullptr) return;
 
 	//Get length of string
 	Length = strlen(text);

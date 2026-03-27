@@ -12,9 +12,9 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cassert>
 
 /// A list item
 typedef struct ListItem {
@@ -30,7 +30,7 @@ typedef struct ListItem {
    
    The structure is initialised empty. The search function pointer is
    ListLinearSearchRetrieve.
-   \return NULL if nothing could be
+   \return nullptr if nothing could be
    created.
    \see ListLinearSearchRetrieve
 */

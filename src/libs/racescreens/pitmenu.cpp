@@ -23,7 +23,7 @@
     @version $Id$
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -32,7 +32,7 @@
 #include <portability.h>
 #include <racescreens.h>
 
-static void *menuHandle = NULL;
+static void *menuHandle = nullptr;
 static int fuelId;
 static int repairId;
 static tCarElt *rmCar;
@@ -60,7 +60,7 @@ static void rmUpdtFuel(void * /* dummy */)
 	char buf[BUFSIZE];
 
 	val = GfuiEditboxGetString(menuHandle, fuelId);
-	rmCar->pitcmd.fuel = (tdble)strtol(val, (char **)NULL, 0);
+	rmCar->pitcmd.fuel = (tdble)strtol(val, nullptr, 0);
 	snprintf(buf, BUFSIZE, "%f", rmCar->pitcmd.fuel);
 	GfuiEditboxSetString(menuHandle, fuelId, buf);
 }
@@ -73,7 +73,7 @@ static void rmUpdtRepair(void * /* dummy */)
 	char buf[BUFSIZE];
 
 	val = GfuiEditboxGetString(menuHandle, repairId);
-	rmCar->pitcmd.repair = strtol(val, (char **)NULL, 0);
+	rmCar->pitcmd.repair = strtol(val, nullptr, 0);
 	snprintf(buf, BUFSIZE, "%d", rmCar->pitcmd.repair);
 	GfuiEditboxSetString(menuHandle, repairId, buf);
 }
@@ -161,7 +161,7 @@ void RmPitMenuStart(tCarElt *car, tRmInfo *reInfo, void *userdata, tfuiCallback 
 	snprintf(buf, BUFSIZE, "%d", (int)car->pitcmd.fuel);
 	fuelId = GfuiEditboxCreate(menuHandle, buf, GFUI_FONT_MEDIUM_C,
 					x + dx, y,
-					100, 10, NULL, (tfuiCallback)NULL, rmUpdtFuel);
+					100, 10, nullptr, nullptr, rmUpdtFuel);
 
 	y -= dy;
 	GfuiLabelCreate(menuHandle, "Repair damage:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
@@ -169,7 +169,7 @@ void RmPitMenuStart(tCarElt *car, tRmInfo *reInfo, void *userdata, tfuiCallback 
 	snprintf(buf, BUFSIZE, "%d", (int)car->pitcmd.repair);
 	repairId = GfuiEditboxCreate(menuHandle, buf, GFUI_FONT_MEDIUM_C,
 					x + dx, y,
-					100, 10, NULL, (tfuiCallback)NULL, rmUpdtRepair);
+					100, 10, nullptr, nullptr, rmUpdtRepair);
 
 	y -= dy;
 
@@ -190,26 +190,26 @@ void RmPitMenuStart(tCarElt *car, tRmInfo *reInfo, void *userdata, tfuiCallback 
 			"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 			x2, y-5, GFUI_ALIGN_HL_VB, 1,
 			(void*)-1, changeTireState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 		GfuiGrButtonCreate(menuHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 			"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 			x3, y-5, GFUI_ALIGN_HR_VB, 1,
 			(void*)1, changeTireState,
-			NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+			nullptr, nullptr, nullptr);
 
 		rmCar->pitcmd.tireChange = tireChangeList[currentTireChangeOption];
 		GfuiLabelSetColor(menuHandle, tireChangeId, LabelColor);
 	}
 
 	GfuiButtonCreate(menuHandle, "Repair", GFUI_FONT_LARGE, 160, 40, 130, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				NULL, rmRepair, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, rmRepair, nullptr, nullptr, nullptr);
 	rmCallback = callback;
 	rmUserData = userdata;
 
 	int buttonid;
 	// Just enable stop and go if penalty is pending
 	buttonid = GfuiButtonCreate(menuHandle, "Stop & Go", GFUI_FONT_LARGE, 320, 40, 130, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				NULL, rmStopAndGo, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, rmStopAndGo, nullptr, nullptr, nullptr);
 	tCarPenalty *penalty = GF_TAILQ_FIRST(&(car->_penaltyList));
 	if (!penalty || (penalty && penalty->penalty != RM_PENALTY_STOPANDGO)) {
 		GfuiEnable(menuHandle, buttonid, GFUI_DISABLE);
@@ -217,7 +217,7 @@ void RmPitMenuStart(tCarElt *car, tRmInfo *reInfo, void *userdata, tfuiCallback 
 
 	// Just enable car setup button in practice and qualifying sessions
 	buttonid = GfuiButtonCreate(menuHandle, "Car Setup", GFUI_FONT_LARGE, 480, 40, 130, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-		RmCarSetupScreenInit(menuHandle, rmCar, rmInfo), GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		RmCarSetupScreenInit(menuHandle, rmCar, rmInfo), GfuiScreenActivate, nullptr, nullptr, nullptr);
 	if (reInfo->s->raceInfo.type != RM_TYPE_PRACTICE && reInfo->s->raceInfo.type != RM_TYPE_QUALIF) {
 		GfuiEnable(menuHandle, buttonid, GFUI_DISABLE);
 	}

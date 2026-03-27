@@ -24,7 +24,7 @@
     @ingroup	gui
 */
 
-#include <stdlib.h>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -198,7 +198,7 @@ GfuiButtonStateCreate(void *scr, const char *text, int font, int x, int y, int w
 				onFocus, onFocusLost);
 	
 	curObject = screen->objects;
-	if (curObject != NULL) {
+	if (curObject != nullptr) {
 		do {
 			curObject = curObject->next;
 			if (curObject->id == id) {
@@ -361,7 +361,7 @@ GfuiButtonSetText(void *scr, int id, const char *text)
 	int oldmin, oldmax;
 	
 	curObject = screen->objects;
-	if (curObject != NULL) {
+	if (curObject != nullptr) {
 		do {
 			curObject = curObject->next;
 			if (curObject->id == id) {
@@ -388,9 +388,9 @@ GfuiButtonGetFocused(void)
 {
     tGfuiObject *curObject;
 
-    if (GfuiScreen != NULL) {
+    if (GfuiScreen != nullptr) {
 	curObject = GfuiScreen->objects;
-	if (curObject != NULL) {
+	if (curObject != nullptr) {
 	    do {
 		curObject = curObject->next;
 		if (curObject->focus) {
@@ -486,14 +486,14 @@ gfuiGrButtonAction(int action)
     switch (button->buttonType) {
     case GFUI_BTN_PUSH:
 	if (action == 2) { /* enter key */
-	    if (button->onPush != NULL) {
+	    if (button->onPush != nullptr) {
 		button->onPush(button->userDataOnPush);
 	    }
 	} else if (action == 1) { /* mouse up */
 	    if (button->state != GFUI_BTN_RELEASED) {
 		button->state = GFUI_BTN_RELEASED;
 		if (button->mouseBehaviour == GFUI_MOUSE_UP) {
-		    if (button->onPush != NULL) {
+		    if (button->onPush != nullptr) {
 			button->onPush(button->userDataOnPush);
 		    }
 		}
@@ -502,7 +502,7 @@ gfuiGrButtonAction(int action)
 	    if (button->state != GFUI_BTN_PUSHED) {
 		button->state = GFUI_BTN_PUSHED;
 		if (button->mouseBehaviour == GFUI_MOUSE_DOWN) {
-		    if (button->onPush != NULL) {
+		    if (button->onPush != nullptr) {
 			button->onPush(button->userDataOnPush);
 		    }
 		}
@@ -514,7 +514,7 @@ gfuiGrButtonAction(int action)
 	if (action == 2) { /* enter key */
 	    if (button->state == GFUI_BTN_RELEASED) {
 		button->state = GFUI_BTN_PUSHED;
-		if (button->onPush != NULL) {
+		if (button->onPush != nullptr) {
 		    button->onPush(button->userDataOnPush);
 		}
 	    } else {
@@ -524,7 +524,7 @@ gfuiGrButtonAction(int action)
 	    if (button->mouseBehaviour == GFUI_MOUSE_UP) {
 		if (button->state == GFUI_BTN_RELEASED) {
 		    button->state = GFUI_BTN_PUSHED;
-		    if (button->onPush != NULL) {
+		    if (button->onPush != nullptr) {
 			button->onPush(button->userDataOnPush);
 		    }
 		} else {
@@ -535,7 +535,7 @@ gfuiGrButtonAction(int action)
 	    if (button->mouseBehaviour == GFUI_MOUSE_DOWN) {
 		if (button->state == GFUI_BTN_RELEASED) {
 		    button->state = GFUI_BTN_PUSHED;
-		    if (button->onPush != NULL) {
+		    if (button->onPush != nullptr) {
 			button->onPush(button->userDataOnPush);
 		    }
 		} else {
@@ -561,20 +561,20 @@ gfuiButtonAction(int action)
     switch (button->buttonType) {
     case GFUI_BTN_PUSH:
 	if (action == 2) { /* enter key */
-	    if (button->onPush != NULL) {
+	    if (button->onPush != nullptr) {
 		button->onPush(button->userDataOnPush);
 	    }
 	} else if (action == 1) { /* mouse up */
 	    button->state = GFUI_BTN_RELEASED;
 	    if (button->mouseBehaviour == GFUI_MOUSE_UP) {
-		if (button->onPush != NULL) {
+		if (button->onPush != nullptr) {
 		    button->onPush(button->userDataOnPush);
 		}
 	    }
 	} else { /* mouse down */
 	    button->state = GFUI_BTN_PUSHED;
 	    if (button->mouseBehaviour == GFUI_MOUSE_DOWN) {
-		if (button->onPush != NULL) {
+		if (button->onPush != nullptr) {
 		    button->onPush(button->userDataOnPush);
 		}
 	    }
@@ -585,7 +585,7 @@ gfuiButtonAction(int action)
 	if (action == 2) { /* enter key */
 	    if (button->state == GFUI_BTN_RELEASED) {
 		button->state = GFUI_BTN_PUSHED;
-		if (button->onPush != NULL) {
+		if (button->onPush != nullptr) {
 		    button->onPush(button->userDataOnPush);
 		}
 	    } else {
@@ -595,7 +595,7 @@ gfuiButtonAction(int action)
 	    if (button->mouseBehaviour == GFUI_MOUSE_UP) {
 		if (button->state == GFUI_BTN_RELEASED) {
 		    button->state = GFUI_BTN_PUSHED;
-		    if (button->onPush != NULL) {
+		    if (button->onPush != nullptr) {
 			button->onPush(button->userDataOnPush);
 		    }
 		} else {
@@ -606,7 +606,7 @@ gfuiButtonAction(int action)
 	    if (button->mouseBehaviour == GFUI_MOUSE_DOWN) {
 		if (button->state == GFUI_BTN_RELEASED) {
 		    button->state = GFUI_BTN_PUSHED;
-		    if (button->onPush != NULL) {
+		    if (button->onPush != nullptr) {
 			button->onPush(button->userDataOnPush);
 		    }
 		} else {

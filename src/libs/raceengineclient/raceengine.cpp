@@ -23,8 +23,8 @@
     @version	$Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <tgfclient.h>
 #include <robot.h>
 #include <raceman.h>
@@ -691,7 +691,7 @@ reCapture(void)
 	
 	GfScrGetSize(&sw, &sh, &vw, &vh);
 	img = (unsigned char*)malloc(vw * vh * 3);
-	if (img == NULL) {
+	if (img == nullptr) {
 		return;
 	}
 

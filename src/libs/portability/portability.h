@@ -20,7 +20,7 @@
 #ifndef _TORCS_PORTABILITY_H_
 #define _TORCS_PORTABILITY_H_
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <cstring>
 
 #ifdef WIN32
@@ -40,13 +40,13 @@ static char *strndup(const char *str, int len)
 {
 	char *ret;
 
-	if ((str == NULL || len < 0)) {
-		return (NULL);
+	if ((str == nullptr || len < 0)) {
+		return (nullptr);
 	}
 
 	ret = (char *) malloc(len + 1);
-	if (ret == NULL) {
-		return (NULL);
+	if (ret == nullptr) {
+		return (nullptr);
 	}
 
 	memcpy(ret, str, len);
@@ -65,7 +65,7 @@ static char *strndup(const char *str, int len)
 #endif
 
 #ifdef WIN32
-#include <math.h>
+#include <cmath>
 
 static float round(float x)
 {

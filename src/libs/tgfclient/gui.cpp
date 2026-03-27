@@ -23,9 +23,9 @@
     @ingroup	gui
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
 
 #include <tgfclient.h>
 #include "gui.h"
@@ -71,7 +71,7 @@ gfuiColorInit(void)
 	for (i = 0; i < GFUI_COLORNB; i++) {
 		for (j = 0; j < 4; j++) {
 			snprintf(buf, BUFSIZE, "%s/%s/%s", GFSCR_SECT_MENUCOL, GFSCR_LIST_COLORS, clr[i]);
-			GfuiColor[i][j] = GfParmGetNum(hdle, buf, rgba[j], (char*)NULL, 1.0);
+			GfuiColor[i][j] = GfParmGetNum(hdle, buf, rgba[j], nullptr, 1.0);
 		}
 	}
 
@@ -258,7 +258,7 @@ gfuiKeyboard(unsigned char key, int /* x */, int /* y */)
 	}
 	
 	/* now see the user's defined keys */
-	if (GfuiScreen->userKeys != NULL) {
+	if (GfuiScreen->userKeys != nullptr) {
 		curKey = GfuiScreen->userKeys;
 		do {
 			curKey = curKey->next;
@@ -270,7 +270,7 @@ gfuiKeyboard(unsigned char key, int /* x */, int /* y */)
 	}
 	
 	obj = GfuiScreen->hasFocus;
-	if (obj != NULL) {
+	if (obj != nullptr) {
 		switch (obj->widget) {
 			case GFUI_EDITBOX:
 				gfuiEditboxKey(obj, (int)key, modifier);
@@ -295,7 +295,7 @@ gfuiSpecial(int key, int /* x */, int /* y */)
 	}
 	
 	/* now see the user's defined keys */
-	if (GfuiScreen->userSpecKeys != NULL) {
+	if (GfuiScreen->userSpecKeys != nullptr) {
 		curKey = GfuiScreen->userSpecKeys;
 		do {
 			curKey = curKey->next;
@@ -307,7 +307,7 @@ gfuiSpecial(int key, int /* x */, int /* y */)
 	}
 
 	obj = GfuiScreen->hasFocus;
-	if (obj != NULL) {
+	if (obj != nullptr) {
 		switch (obj->widget) {
 		case GFUI_EDITBOX:
 			gfuiEditboxKey(obj, key + 256, modifier);
@@ -331,7 +331,7 @@ gfuiKeyboardUp(unsigned char key, int /* x */, int /* y */)
 	}
 	
 	/* now see the user's defined keys */
-	if (GfuiScreen->userKeys != NULL) {
+	if (GfuiScreen->userKeys != nullptr) {
 		curKey = GfuiScreen->userKeys;
 		do {
 			curKey = curKey->next;
@@ -359,7 +359,7 @@ gfuiSpecialUp(int key, int /* x */, int /* y */)
 	}
 	
 	/* now see the user's defined keys */
-	if (GfuiScreen->userSpecKeys != NULL) {
+	if (GfuiScreen->userSpecKeys != nullptr) {
 		curKey = GfuiScreen->userSpecKeys;
 		do {
 			curKey = curKey->next;
@@ -477,11 +477,11 @@ GfuiScreenActivate(void *screen)
 	glutMouseFunc(gfuiMouse);
 	glutMotionFunc(gfuiMotion);
 	glutPassiveMotionFunc(gfuiPassiveMotion);
-	glutIdleFunc((void(*)(void))NULL);
+	glutIdleFunc((void(*)(void))nullptr);
 	
 	if (GfuiScreen->onlyCallback == 0) {
-		if (GfuiScreen->hasFocus == NULL) {
-			gfuiSelectNext(NULL);
+		if (GfuiScreen->hasFocus == nullptr) {
+			gfuiSelectNext(nullptr);
 		}
 		glutDisplayFunc(GfuiDisplay);
 	} else {
@@ -521,23 +521,23 @@ GfuiScreenDeactivate(void)
 {
 	if (GfuiScreen->onDeactivate) GfuiScreen->onDeactivate(GfuiScreen->userDeactData);
 	
-	GfuiScreen = (tGfuiScreen*)NULL;
+	GfuiScreen = nullptr;
 	
-	glutKeyboardFunc((void(*)(unsigned char,int,int))NULL);
-	glutSpecialFunc((void(*)(int,int,int))NULL);
-	glutKeyboardUpFunc((void(*)(unsigned char,int,int))NULL);
-	glutSpecialUpFunc((void(*)(int,int,int))NULL);
-	glutMouseFunc((void(*)(int,int,int,int))NULL);
-	glutMotionFunc((void(*)(int,int))NULL);
-	glutPassiveMotionFunc((void(*)(int,int))NULL);
-	glutIdleFunc((void(*)(void))NULL);
+	glutKeyboardFunc((void(*)(unsigned char,int,int))nullptr);
+	glutSpecialFunc((void(*)(int,int,int))nullptr);
+	glutKeyboardUpFunc((void(*)(unsigned char,int,int))nullptr);
+	glutSpecialUpFunc((void(*)(int,int,int))nullptr);
+	glutMouseFunc((void(*)(int,int,int,int))nullptr);
+	glutMotionFunc((void(*)(int,int))nullptr);
+	glutPassiveMotionFunc((void(*)(int,int))nullptr);
+	glutIdleFunc((void(*)(void))nullptr);
 	glutDisplayFunc(GfuiDisplayNothing);
 }
 
 /** Create a new screen.
     @ingroup	gui
     @return	New screen instance
-		<br>NULL if Error
+		<br>nullptr if Error
  */
 void *
 GfuiScreenCreate(void)
@@ -564,14 +564,14 @@ GfuiScreenCreate(void)
 
 /** Create a screen.
     @ingroup	gui
-    @param	bgColor			pointer on color array (RGBA) (if NULL default color is used)
+    @param	bgColor			pointer on color array (RGBA) (if nullptr default color is used)
     @param	userDataOnActivate	Parameter to the activate function
     @param	onActivate		Function called when the screen is activated
     @param	userDataOnDeactivate	Parameter to the deactivate function
     @param	onDeactivate		Function called when the screen is deactivated
     @param	mouseAllowed		Flag to tell if the mouse cursor can be displayed
     @return	New screen instance
-		<br>NULL if Error
+		<br>nullptr if Error
     @bug	Only black background work well
  */
 void *
@@ -590,7 +590,7 @@ GfuiScreenCreateEx(float *bgColor,
 	
 	screen->bgColor = (float*)calloc(4, sizeof(float));
 	for(i = 0; i < 4; i++) {
-		if (bgColor != NULL) {
+		if (bgColor != nullptr) {
 			screen->bgColor[i] = bgColor[i];
 		} else {
 			screen->bgColor[i] = GfuiColor[GFUI_BGCOLOR][i];
@@ -631,13 +631,13 @@ GfuiScreenRelease(void *scr)
 		glDeleteTextures(1, &screen->bgImage);
 	}
 
-	if (screen->bgColor != NULL) {
+	if (screen->bgColor != nullptr) {
 		free(screen->bgColor);
-		screen->bgColor = NULL;
+		screen->bgColor = nullptr;
 	}
 
 	curObject = screen->objects;
-	if (curObject != NULL) {
+	if (curObject != nullptr) {
 		do {
 			nextObject = curObject->next;
 			gfuiReleaseObject(curObject);
@@ -646,7 +646,7 @@ GfuiScreenRelease(void *scr)
 	}
 
 	curKey = screen->userKeys;
-	if (curKey != NULL) {
+	if (curKey != nullptr) {
 		do {
 			nextKey = curKey->next;
 			free(curKey->name);
@@ -656,7 +656,7 @@ GfuiScreenRelease(void *scr)
 		} while (curKey != screen->userKeys);
 	}
 	curKey = screen->userSpecKeys;
-	if (curKey != NULL) {
+	if (curKey != nullptr) {
 		do {
 			nextKey = curKey->next;
 			free(curKey->name);
@@ -673,7 +673,7 @@ GfuiScreenRelease(void *scr)
     @param	userDataOnActivate	Parameter to the activate function
     @param	onActivate		Function called when the screen is activated
     @return	New hook instance
-		<br>NULL if Error
+		<br>nullptr if Error
  */
 void *
 GfuiHookCreate(void *userDataOnActivate, tfuiCallback onActivate)
@@ -751,7 +751,7 @@ GfuiAddKey(void *scr, unsigned char key, const char *descr, void *userData, tfui
 	curKey->userData = userData;
 	curKey->onPress = onKeyPressed;
 
-	if (descr == NULL) {
+	if (descr == nullptr) {
 		curKey->descr = strdup("");
 	} else {
 		curKey->descr = strdup(descr);
@@ -779,7 +779,7 @@ GfuiAddKey(void *scr, unsigned char key, const char *descr, void *userData, tfui
 			break;
 	}
 	
-	if (screen->userKeys == NULL) {
+	if (screen->userKeys == nullptr) {
 		screen->userKeys = curKey;
 		curKey->next = curKey;
 	} else {
@@ -823,7 +823,7 @@ GfuiAddSKey(void *scr, int key, const char *descr, void *userData, tfuiCallback 
 	curKey->userData = userData;
 	curKey->onPress = onKeyPressed;
 
-	if (descr == NULL) {
+	if (descr == nullptr) {
 		curKey->descr = strdup("");
 	} else {
 		curKey->descr = strdup(descr);
@@ -896,7 +896,7 @@ GfuiAddSKey(void *scr, int key, const char *descr, void *userData, tfuiCallback 
 	}
 	
 	
-	if (screen->userSpecKeys == NULL) {
+	if (screen->userSpecKeys == nullptr) {
 		screen->userSpecKeys = curKey;
 		curKey->next = curKey;
 	} else {
@@ -926,7 +926,7 @@ GfuiScreenShot(void * /* notused */)
 	
 		GfScrGetSize(&sw, &sh, &vw, &vh);
 		img = (unsigned char*)malloc(vw * vh * 3);
-		if (img == NULL) {
+		if (img == nullptr) {
 			return;
 		}
 		
@@ -935,7 +935,7 @@ GfuiScreenShot(void * /* notused */)
 		glReadBuffer(GL_FRONT);
 		glReadPixels((sw-vw)/2, (sh-vh)/2, vw, vh, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid*)img);
 		
-		t = time(NULL);
+		t = time(nullptr);
 		stm = localtime(&t);
 		snprintf(buf, BUFSIZE, "%s/torcs-%4d%02d%02d%02d%02d%02d.png",
 			path,
@@ -974,7 +974,7 @@ GfuiScreenAddBgImg(void *scr, const char *filename)
 
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GFSCR_CONF_FILE);
 	handle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
-	screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, (char*)NULL, 2.0);
+	screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, nullptr, 2.0);
 	tex = (GLbyte*)GfImgReadPng(filename, &w, &h, screen_gamma);
 	if (!tex) {
 		GfParmReleaseHandle(handle);

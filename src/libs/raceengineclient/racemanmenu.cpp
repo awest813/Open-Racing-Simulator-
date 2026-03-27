@@ -23,8 +23,8 @@
     @version	$Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <tgfclient.h>
 #include <raceman.h>
 #include <racescreens.h>
@@ -40,8 +40,8 @@
 
 static float red[4]  = {1.0, 0.0, 0.0, 1.0};
 
-static void *racemanMenuHdle = NULL;
-static void *newTrackMenuHdle = NULL;
+static void *racemanMenuHdle = nullptr;
+static void *newTrackMenuHdle = nullptr;
 static tRmTrackSelect ts;
 static tRmDrvSelect ds;
 static tRmRaceParam rp;
@@ -55,8 +55,8 @@ reConfigBack(void)
 	void *params = ReInfo->params;
 
 	/* Go back one step in the conf */
-	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, 
-			GfParmGetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, 1) - 2);
+	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, nullptr, 
+			GfParmGetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, nullptr, 1) - 2);
 
 	reConfigRunState();
 }
@@ -117,10 +117,10 @@ reConfigRunState(void)
 	const int BUFSIZE = 1024;
 	char path[BUFSIZE];
 	
-	curConf = (int)GfParmGetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, 1);
+	curConf = (int)GfParmGetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, nullptr, 1);
 	if (curConf > GfParmGetEltNb(params, RM_SECT_CONF)) {
 		GfOut("End of configuration\n");
-		GfParmWriteFile(NULL, ReInfo->params, ReInfo->_reName);
+		GfParmWriteFile(nullptr, ReInfo->params, ReInfo->_reName);
 		goto menuback;
 	}
 	
@@ -185,7 +185,7 @@ reConfigRunState(void)
 	}
 	
 	curConf++;
-	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, curConf);
+	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, nullptr, curConf);
 	
 	return;
 
@@ -201,7 +201,7 @@ reConfigureMenu(void * /* dummy */)
 	void *params = ReInfo->params;
 
 	/* Reset configuration automaton */
-	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, 1);
+	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, nullptr, 1);
 	reConfigRunState();
 }
 
@@ -250,9 +250,9 @@ ReRacemanMenu(void)
 		GfuiScreenRelease(racemanMenuHdle);
 	}
 
-	racemanMenuHdle = GfuiScreenCreateEx(NULL, 
-					NULL, (tfuiCallback)NULL, 
-					NULL, (tfuiCallback)NULL, 
+	racemanMenuHdle = GfuiScreenCreateEx(nullptr, 
+					nullptr, nullptr, 
+					nullptr, nullptr, 
 					1);
 
 	const char* str = GfParmGetStr(params, RM_SECT_HEADER, RM_ATTR_BGIMG, 0);
@@ -270,11 +270,11 @@ ReRacemanMenu(void)
 
 	GfuiMenuButtonCreate(racemanMenuHdle,
 			"New Race", "Start a New Race",
-			NULL, ReStartNewRace);
+			nullptr, ReStartNewRace);
 
 	GfuiMenuButtonCreate(racemanMenuHdle, 
 			"Configure Race", "Configure The Race",
-			NULL, reConfigureMenu);
+			nullptr, reConfigureMenu);
 
 /*     GfuiMenuButtonCreate(racemanMenuHdle, */
 /* 			 "Configure Players", "Players configuration menu", */
@@ -313,9 +313,9 @@ ReNewTrackMenu(void)
 		GfuiScreenRelease(newTrackMenuHdle);
 	}
 
-	newTrackMenuHdle = GfuiScreenCreateEx(NULL, 
-						NULL, (tfuiCallback)NULL, 
-						NULL, (tfuiCallback)NULL, 
+	newTrackMenuHdle = GfuiScreenCreateEx(nullptr, 
+						nullptr, nullptr, 
+						nullptr, nullptr, 
 						1);
 	
 	const char* str = GfParmGetStr(params, RM_SECT_HEADER, RM_ATTR_BGIMG, 0);
@@ -329,7 +329,7 @@ ReNewTrackMenu(void)
 	GfuiMenuDefaultKeysAdd(newTrackMenuHdle);
 	
 	snprintf(buf, BUFSIZE, "Race Day #%d/%d on %s",
-		(int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, NULL, 1),
+		(int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1),
 		GfParmGetEltNb(params, RM_SECT_TRACKS),
 		ReInfo->track->name);
 	
@@ -342,14 +342,14 @@ ReNewTrackMenu(void)
 	
 	GfuiMenuButtonCreate(newTrackMenuHdle,
 				"Start Event", "Start The Current Race",
-				NULL, reStateManage);
+				nullptr, reStateManage);
 	
 	
 	GfuiMenuButtonCreate(newTrackMenuHdle, 
 				"Abandon", "Abandon The Race",
 				ReInfo->_reMenuScreen, GfuiScreenActivate);
 	
-	GfuiAddKey(newTrackMenuHdle, 27,  "Abandon", ReInfo->_reMenuScreen, GfuiScreenActivate, NULL);
+	GfuiAddKey(newTrackMenuHdle, 27,  "Abandon", ReInfo->_reMenuScreen, GfuiScreenActivate, nullptr);
 	
 	GfuiScreenActivate(newTrackMenuHdle);
 	

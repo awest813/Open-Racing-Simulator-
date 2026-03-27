@@ -22,8 +22,8 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <tgfclient.h>
 #include <raceinit.h>
 
@@ -41,8 +41,8 @@ static int curVersion = 0;
 static int SimuVersionId;
 
 /* gui screen handles */
-static void	*scrHandle = NULL;
-static void	*prevHandle = NULL;
+static void	*scrHandle = nullptr;
+static void	*prevHandle = nullptr;
 
 
 static void ReadSimuCfg(void)
@@ -79,7 +79,7 @@ static void SaveSimuVersion(void * /* dummy */)
 
 	void *paramHandle = GfParmReadFile(buf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
 	GfParmSetStr(paramHandle, "Modules", "simu", simuVersionList[curVersion]);
-	GfParmWriteFile(NULL, paramHandle, "raceengine");
+	GfParmWriteFile(nullptr, paramHandle, "raceengine");
 	GfParmReleaseHandle(paramHandle);
 	
 	/* return to previous screen */
@@ -124,7 +124,7 @@ SimuMenuInit(void *prevMenu)
     }
     prevHandle = prevMenu;
 
-    scrHandle = GfuiScreenCreateEx((float*)NULL, NULL, onActivate, NULL, (tfuiCallback)NULL, 1);
+    scrHandle = GfuiScreenCreateEx(nullptr, nullptr, onActivate, nullptr, nullptr, 1);
     GfuiTitleCreate(scrHandle, "Simulation Configuration", 0);
     GfuiScreenAddBgImg(scrHandle, "data/img/splash-simucfg.png");
 
@@ -141,26 +141,26 @@ SimuMenuInit(void *prevMenu)
 		       "data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 		       x2, y, GFUI_ALIGN_HL_VB, 1,
 		       (void*)-1, ChangeSimuVersion,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		       nullptr, nullptr, nullptr);
     GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
 		       "data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
 		       x4, y, GFUI_ALIGN_HR_VB, 1,
 		       (void*)1, ChangeSimuVersion,
-		       NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+		       nullptr, nullptr, nullptr);
     SimuVersionId = GfuiLabelCreate(scrHandle, "", GFUI_FONT_MEDIUM_C, x3, y, GFUI_ALIGN_HC_VB, 32);
     GfuiLabelSetColor(scrHandle, SimuVersionId, LabelColor);
 
     GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-     NULL, SaveSimuVersion, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+     nullptr, SaveSimuVersion, nullptr, nullptr, nullptr);
 
     GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-     prevMenu, GfuiScreenActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+     prevMenu, GfuiScreenActivate, nullptr, nullptr, nullptr);
 
-    GfuiAddKey(scrHandle, 13, "Save settings", NULL, SaveSimuVersion, NULL);
-    GfuiAddKey(scrHandle, 27, "Cancel changes", prevMenu, GfuiScreenActivate, NULL);
-    GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
-    GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous engine", (void*)0, ChangeSimuVersion, NULL);
-    GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next engine", (void*)1, ChangeSimuVersion, NULL);
+    GfuiAddKey(scrHandle, 13, "Save settings", nullptr, SaveSimuVersion, nullptr);
+    GfuiAddKey(scrHandle, 27, "Cancel changes", prevMenu, GfuiScreenActivate, nullptr);
+    GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", nullptr, GfuiScreenShot, nullptr);
+    GfuiAddSKey(scrHandle, GLUT_KEY_LEFT, "Previous engine", (void*)0, ChangeSimuVersion, nullptr);
+    GfuiAddSKey(scrHandle, GLUT_KEY_RIGHT, "Next engine", (void*)1, ChangeSimuVersion, nullptr);
 
     ReadSimuCfg();
   

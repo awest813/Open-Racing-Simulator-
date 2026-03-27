@@ -24,8 +24,8 @@
     @ingroup	gui
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -48,7 +48,7 @@ gfuiScroll(tScrollBarInfo *sinfo)
 	object = (tGfuiObject *) sinfo->userData;
 	//object = gfuiGetObject(GfuiScreen, (long)(sinfo->userData));
 
-	if(object == NULL) {
+	if(object == nullptr) {
 		return;
 	}
 
@@ -199,7 +199,7 @@ gfuiScrollListInsElt(tGfuiScrollList *scrollist, tGfuiListElement *elt, int inde
 	tGfuiListElement	*cur;
 	int			i;
 
-	if(scrollist->elts == NULL) {
+	if(scrollist->elts == nullptr) {
 		scrollist->elts = elt;
 		elt->next = elt;
 		elt->prev = elt;
@@ -233,8 +233,8 @@ gfuiScrollListRemElt(tGfuiScrollList *scrollist, int index)
 	tGfuiListElement	*cur;
 	int			i;
 
-	if(scrollist->elts == NULL) {
-		return (tGfuiListElement *)NULL;
+	if(scrollist->elts == nullptr) {
+		return nullptr;
 	}
 
 	cur = scrollist->elts;
@@ -255,7 +255,7 @@ gfuiScrollListRemElt(tGfuiScrollList *scrollist, int index)
 
 	if(cur == scrollist->elts) {
 		if(cur->next == cur) {
-			scrollist->elts = (tGfuiListElement *)NULL;
+			scrollist->elts = nullptr;
 		} else {
 			scrollist->elts = cur->prev;
 		}
@@ -270,7 +270,7 @@ gfuiScrollListRemElt(tGfuiScrollList *scrollist, int index)
     @param	Id		Scroll list Id
     @param	userData	address of the userData of the element to retrieve
     @return	Name of the retrieved element
-		<br>NULL if Error
+		<br>nullptr if Error
  */
 char *
 GfuiScrollListGetSelectedElement(void *scr, int Id, void **userData)
@@ -284,22 +284,22 @@ GfuiScrollListGetSelectedElement(void *scr, int Id, void **userData)
 
 	object = gfuiGetObject(scr, Id);
 
-	if(object == NULL) {
-		return (char *)NULL;
+	if(object == nullptr) {
+		return nullptr;
 	}
 
 	if(object->widget != GFUI_SCROLLIST) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
 	scrollist = &(object->u.scrollist);
 
 	if(scrollist->selectedElt == -1) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
-	if(scrollist->elts == NULL) {
-		return (char *)NULL;
+	if(scrollist->elts == nullptr) {
+		return nullptr;
 	}
 
 	elt = scrollist->elts;
@@ -328,7 +328,7 @@ GfuiScrollListGetSelectedElement(void *scr, int Id, void **userData)
     @param	index		Position where to get the element
     @param	userData	address of the userData of the element to retrieve
     @return	Name of the retrieved element
-		<br>NULL if Error
+		<br>nullptr if Error
  */
 char *
 GfuiScrollListGetElement(void *scr, int Id, int index, void **userData)
@@ -341,22 +341,22 @@ GfuiScrollListGetElement(void *scr, int Id, int index, void **userData)
 
 	object = gfuiGetObject(scr, Id);
 
-	if(object == NULL) {
-		return (char *)NULL;
+	if(object == nullptr) {
+		return nullptr;
 	}
 
 	if(object->widget != GFUI_SCROLLIST) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
 	scrollist = &(object->u.scrollist);
 
 	if((index < 0) || (index > scrollist->nbElts - 1)) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
-	if(scrollist->elts == NULL) {
-		return (char *)NULL;
+	if(scrollist->elts == nullptr) {
+		return nullptr;
 	}
 
 	elt = scrollist->elts;
@@ -384,7 +384,7 @@ GfuiScrollListGetElement(void *scr, int Id, int index, void **userData)
     @param	Id		Scroll list Id
     @param	userData	address of the userData of the element to retrieve
     @return	Name of the extracted element
-		<br>NULL if Error
+		<br>nullptr if Error
  */
 char *
 GfuiScrollListExtractSelectedElement(void *scr, int Id, void **userData)
@@ -396,18 +396,18 @@ GfuiScrollListExtractSelectedElement(void *scr, int Id, void **userData)
 
 	object = gfuiGetObject(scr, Id);
 
-	if(object == NULL) {
-		return (char *)NULL;
+	if(object == nullptr) {
+		return nullptr;
 	}
 
 	if(object->widget != GFUI_SCROLLIST) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
 	scrollist = &(object->u.scrollist);
 
 	if(scrollist->selectedElt == -1) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
 	elt = gfuiScrollListRemElt(scrollist, scrollist->selectedElt);
@@ -432,7 +432,7 @@ GfuiScrollListExtractSelectedElement(void *scr, int Id, void **userData)
     @param	index		Position where to extract the element
     @param	userData	address of the userData of the element to retrieve
     @return	Name of the extracted element
-		<br>NULL if Error
+		<br>nullptr if Error
  */
 char *
 GfuiScrollListExtractElement(void *scr, int Id, int index, void **userData)
@@ -444,18 +444,18 @@ GfuiScrollListExtractElement(void *scr, int Id, int index, void **userData)
 
 	object = gfuiGetObject(scr, Id);
 
-	if(object == NULL) {
-		return (char *)NULL;
+	if(object == nullptr) {
+		return nullptr;
 	}
 
 	if(object->widget != GFUI_SCROLLIST) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
 	scrollist = &(object->u.scrollist);
 
 	if((index < 0) || (index > scrollist->nbElts - 1)) {
-		return (char *)NULL;
+		return nullptr;
 	}
 
 	elt = gfuiScrollListRemElt(scrollist, index);
@@ -493,7 +493,7 @@ GfuiScrollListInsertElement(void *scr, int Id, char *element, int index, void *u
 
 	object = gfuiGetObject(scr, Id);
 
-	if(object == NULL) {
+	if(object == nullptr) {
 		return -1;
 	}
 
@@ -565,7 +565,7 @@ gfuiDrawScrollist(tGfuiObject *obj)
 	index = 0;
 	elt = scrollist->elts;
 
-	if(elt != NULL) {
+	if(elt != nullptr) {
 		if(scrollist->nbElts < 100) {
 			snprintf(buf, BUFSIZE, " 00 ");
 		} else {
@@ -611,7 +611,7 @@ gfuiScrollListDeselectAll(void)
 
 	curObject = GfuiScreen->objects;
 
-	if(curObject != NULL) {
+	if(curObject != nullptr) {
 		do {
 			curObject = curObject->next;
 
@@ -670,7 +670,7 @@ GfuiScrollListMoveSelectedElement(void *scr, int Id, int delta)
 
 	object = gfuiGetObject(scr, Id);
 
-	if(object == NULL) {
+	if(object == nullptr) {
 		return -1;
 	}
 
@@ -730,7 +730,7 @@ gfuiReleaseScrollist(tGfuiObject *curObject)
 
 	scrollist = &(curObject->u.scrollist);
 
-	while((elt = gfuiScrollListRemElt(scrollist, 0)) != NULL) {
+	while((elt = gfuiScrollListRemElt(scrollist, 0)) != nullptr) {
 		free(elt);
 	}
 

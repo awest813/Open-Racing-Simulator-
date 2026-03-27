@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <tgfclient.h>
 #include <track.h>
 #include <robot.h>
@@ -31,14 +31,14 @@
 #include "controlconfig.h"
 #include "joystickconfig.h"
 
-static void	*scrHandle2 = NULL;
+static void	*scrHandle2 = nullptr;
 
 static tCmdInfo *Cmd;
 static int maxCmd;
 static void *parmHandle;
 static const char* driverSection;
 
-static jsJoystick *js[NUM_JOY] = {NULL};
+static jsJoystick *js[NUM_JOY] = {nullptr};
 
 static float ax[_JS_MAX_AXES * NUM_JOY] = {0};
 static int rawb[NUM_JOY] = {0};
@@ -208,7 +208,7 @@ void *JoyCalMenuInit(void *prevMenu, tCmdInfo *cmd, int maxcmd, void *parmhandle
 		return scrHandle2;
 	}
 
-	scrHandle2 = GfuiScreenCreateEx(NULL, NULL, onActivate, NULL, NULL, 1);
+	scrHandle2 = GfuiScreenCreateEx(nullptr, nullptr, onActivate, nullptr, nullptr, 1);
 	GfuiTitleCreate(scrHandle2, "Joystick Calibration", 0);
 	GfuiMenuDefaultKeysAdd(scrHandle2);
 
@@ -227,23 +227,23 @@ void *JoyCalMenuInit(void *prevMenu, tCmdInfo *cmd, int maxcmd, void *parmhandle
 	}
 
 	for (index = 0; index < NUM_JOY; index++) {
-		if (js[index] == NULL) {
+		if (js[index] == nullptr) {
 			js[index] = new jsJoystick(index);
 		}
 
 		if (js[index]->notWorking()) {
 			/* don't configure the joystick */
-			js[index] = NULL;
+			js[index] = nullptr;
 		}
 	}
 
 	InstId = GfuiLabelCreate(scrHandle2, Instructions[0], GFUI_FONT_MEDIUM, 320, 80, GFUI_ALIGN_HC_VB, 60);
 
 	GfuiButtonCreate(scrHandle2, "Back", GFUI_FONT_LARGE, 160, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				prevMenu, onBack, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				prevMenu, onBack, nullptr, nullptr, nullptr);
 
 	GfuiButtonCreate(scrHandle2, "Reset", GFUI_FONT_LARGE, 480, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				NULL, onActivate, NULL, (tfuiCallback)NULL, (tfuiCallback)NULL);
+				nullptr, onActivate, nullptr, nullptr, nullptr);
 
 	return scrHandle2;
 }
