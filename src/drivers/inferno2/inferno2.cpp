@@ -23,9 +23,9 @@
 #include <windows.h>
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
 
 #include <tgf.h>
 
@@ -264,7 +264,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	snprintf(buf, BUFSIZE, "drivers/inferno2/%d/tracksdata/car_%s", index, str);
 	*carParmHandle = GfParmReadFile(buf, GFPARM_RMODE_REREAD);
 	
-	if (*carParmHandle == NULL) {
+	if (*carParmHandle == nullptr) {
 		snprintf(buf, BUFSIZE, "drivers/inferno2/%d/defaultcar.xml", index);
 		*carParmHandle = GfParmReadFile(buf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
 	}
@@ -273,18 +273,18 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	ConsFactor[idx] = 0.0007 * DmTrack->length;
 	fuel = ConsFactor[idx] * (s->_totLaps + 1);
 			
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)NULL, fuel);
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, fuel);
 		
 	VM = track->pits.speedLimit;
 		
-	Gmax = GfParmGetNum(*carParmHandle, SECT_FRNTRGTWHEEL, PRM_MU, (char*)NULL, 1.0);
-	tmpMu = GfParmGetNum(*carParmHandle, SECT_FRNTLFTWHEEL, PRM_MU, (char*)NULL, 1.0);
+	Gmax = GfParmGetNum(*carParmHandle, SECT_FRNTRGTWHEEL, PRM_MU, (char*)nullptr, 1.0);
+	tmpMu = GfParmGetNum(*carParmHandle, SECT_FRNTLFTWHEEL, PRM_MU, (char*)nullptr, 1.0);
 	Gmax = MIN(Gmax, tmpMu);
-	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARRGTWHEEL, PRM_MU, (char*)NULL, 1.0);
+	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARRGTWHEEL, PRM_MU, (char*)nullptr, 1.0);
 	Gmax = MIN(Gmax, tmpMu);
-	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARLFTWHEEL, PRM_MU, (char*)NULL, 1.0);
+	tmpMu = GfParmGetNum(*carParmHandle, SECT_REARLFTWHEEL, PRM_MU, (char*)nullptr, 1.0);
 	Gmax = MIN(Gmax, tmpMu);
-	/*     Gmax = Gmax * GfParmGetNum(*carParmHandle, SECT_CAR, PRM_MASS, (char*)NULL, 1000.0); */
+	/*     Gmax = Gmax * GfParmGetNum(*carParmHandle, SECT_CAR, PRM_MASS, (char*)nullptr, 1000.0); */
 		
 	snprintf(buf, BUFSIZE, "drivers/inferno2/%d/tracksdata/%s", index, str);
 	hdle = GfParmReadFile(buf, GFPARM_RMODE_REREAD);
@@ -296,32 +296,32 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	if (hdle) {
 		GfOut("%s Loaded\n", buf);
 		
-		PGain[idx]     = GfParmGetNum(hdle, SIMU_PRMS, PGAIN,     NULL, PGain[0]);
-		AGain[idx]     = GfParmGetNum(hdle, SIMU_PRMS, AGAIN,     NULL, AGain[0]);
-		PnGain[idx]    = GfParmGetNum(hdle, SIMU_PRMS, PNGAIN,    NULL, PnGain[0]);
-		Advance[idx]   = GfParmGetNum(hdle, SIMU_PRMS, ADVANCE,   NULL, Advance[0]);
-		Advance2[idx]  = GfParmGetNum(hdle, SIMU_PRMS, ADVANCE2,  NULL, Advance2[0]);
-		AdvStep[idx]   = GfParmGetNum(hdle, SIMU_PRMS, ADVSTEP,   NULL, AdvStep[0]);
-		VGain[idx]     = GfParmGetNum(hdle, SIMU_PRMS, VGAIN,     NULL, VGain[0]);
-		preDy[idx]     = GfParmGetNum(hdle, SIMU_PRMS, PREDY,     NULL, preDy[0]);
-		spdtgt[idx]    = GfParmGetNum(hdle, SIMU_PRMS, SPDTGT,    NULL, spdtgt[0]);
-		spdtgt2[idx]   = GfParmGetNum(hdle, SIMU_PRMS, SPDTGT2,   NULL, spdtgt2[0]);
-		steerMult[idx] = GfParmGetNum(hdle, SIMU_PRMS, STEERMULT, NULL, steerMult[0]);
-		Offset[idx]    = GfParmGetNum(hdle, SIMU_PRMS, OFFSET,    NULL, Offset[0]);
+		PGain[idx]     = GfParmGetNum(hdle, SIMU_PRMS, PGAIN,     nullptr, PGain[0]);
+		AGain[idx]     = GfParmGetNum(hdle, SIMU_PRMS, AGAIN,     nullptr, AGain[0]);
+		PnGain[idx]    = GfParmGetNum(hdle, SIMU_PRMS, PNGAIN,    nullptr, PnGain[0]);
+		Advance[idx]   = GfParmGetNum(hdle, SIMU_PRMS, ADVANCE,   nullptr, Advance[0]);
+		Advance2[idx]  = GfParmGetNum(hdle, SIMU_PRMS, ADVANCE2,  nullptr, Advance2[0]);
+		AdvStep[idx]   = GfParmGetNum(hdle, SIMU_PRMS, ADVSTEP,   nullptr, AdvStep[0]);
+		VGain[idx]     = GfParmGetNum(hdle, SIMU_PRMS, VGAIN,     nullptr, VGain[0]);
+		preDy[idx]     = GfParmGetNum(hdle, SIMU_PRMS, PREDY,     nullptr, preDy[0]);
+		spdtgt[idx]    = GfParmGetNum(hdle, SIMU_PRMS, SPDTGT,    nullptr, spdtgt[0]);
+		spdtgt2[idx]   = GfParmGetNum(hdle, SIMU_PRMS, SPDTGT2,   nullptr, spdtgt2[0]);
+		steerMult[idx] = GfParmGetNum(hdle, SIMU_PRMS, STEERMULT, nullptr, steerMult[0]);
+		Offset[idx]    = GfParmGetNum(hdle, SIMU_PRMS, OFFSET,    nullptr, Offset[0]);
 		
-		OffsetApproach[idx] = GfParmGetNum(hdle, SIMU_PRMS, OFFSETAPPROACH, NULL, OffsetApproach[0]);
-		OffsetFinal[idx]    = GfParmGetNum(hdle, SIMU_PRMS, OFFSETFINAL,    NULL, OffsetFinal[0]);
-		OffsetExit[idx]     = GfParmGetNum(hdle, SIMU_PRMS, OFFSETEXIT,     NULL, OffsetExit[0]);
-		O1[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET1,     NULL, O1[0]);
-		O2[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET2,     NULL, O2[0]);
-		OP[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSETP,     NULL, OP[0]);
-		OA[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSETA,     NULL, OA[0]);
-		O3[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET3,     NULL, O3[0]);
-		O4[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET4,     NULL, O4[0]);
-		O5[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET5,     NULL, O5[0]);
-		VM1[idx]         = GfParmGetNum(hdle, SIMU_PRMS, VMAX1,          NULL, VM1[0]);
-		VM2[idx]         = GfParmGetNum(hdle, SIMU_PRMS, VMAX2,          NULL, VM2[0]);
-		VM3[idx]         = GfParmGetNum(hdle, SIMU_PRMS, VMAX3,          NULL, VM3[0]);
+		OffsetApproach[idx] = GfParmGetNum(hdle, SIMU_PRMS, OFFSETAPPROACH, nullptr, OffsetApproach[0]);
+		OffsetFinal[idx]    = GfParmGetNum(hdle, SIMU_PRMS, OFFSETFINAL,    nullptr, OffsetFinal[0]);
+		OffsetExit[idx]     = GfParmGetNum(hdle, SIMU_PRMS, OFFSETEXIT,     nullptr, OffsetExit[0]);
+		O1[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET1,     nullptr, O1[0]);
+		O2[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET2,     nullptr, O2[0]);
+		OP[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSETP,     nullptr, OP[0]);
+		OA[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSETA,     nullptr, OA[0]);
+		O3[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET3,     nullptr, O3[0]);
+		O4[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET4,     nullptr, O4[0]);
+		O5[idx]          = GfParmGetNum(hdle, SIMU_PRMS, PITOFFSET5,     nullptr, O5[0]);
+		VM1[idx]         = GfParmGetNum(hdle, SIMU_PRMS, VMAX1,          nullptr, VM1[0]);
+		VM2[idx]         = GfParmGetNum(hdle, SIMU_PRMS, VMAX2,          nullptr, VM2[0]);
+		VM3[idx]         = GfParmGetNum(hdle, SIMU_PRMS, VMAX3,          nullptr, VM3[0]);
 		GfParmReleaseHandle(hdle);
 	}
 }

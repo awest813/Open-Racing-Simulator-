@@ -27,10 +27,10 @@ SimAeroConfig(tCar *car)
     void *hdle = car->params;
     tdble Cx, FrntArea;
     
-    Cx       = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_CX, (char*)NULL, 0.4);
-    FrntArea = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*)NULL, 2.5);
-    car->aero.Clift[0] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)NULL, 0.0);
-    car->aero.Clift[1] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)NULL, 0.0);
+    Cx       = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_CX, (char*)nullptr, 0.4);
+    FrntArea = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*)nullptr, 2.5);
+    car->aero.Clift[0] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)nullptr, 0.0);
+    car->aero.Clift[1] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)nullptr, 0.0);
     float aero_factor = car->options->aero_factor;
 
     car->aero.SCx2 = 0.5f * AIR_DENSITY * Cx * FrntArea;
@@ -48,8 +48,8 @@ SimAeroConfig(tCar *car)
                  max_lift);
     }
 
-    GfParmSetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)NULL, car->aero.Clift[0]);
-    GfParmSetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)NULL, car->aero.Clift[1]);
+    GfParmSetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)nullptr, car->aero.Clift[0]);
+    GfParmSetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)nullptr, car->aero.Clift[1]);
     //printf ("%f %f\n", GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)NULL, 0.0), GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)NULL, 0.0));
     //printf ("cl: %f\n", car->aero.Clift[0]+car->aero.Clift[1]);
     car->aero.Cd += car->aero.SCx2;
@@ -192,11 +192,11 @@ SimWingConfig(tCar *car, int index)
     tWing  *wing = &(car->wing[index]);
     tdble area;
 
-    area              = GfParmGetNum(hdle, WingSect[index], PRM_WINGAREA, (char*)NULL, 0);
+    area              = GfParmGetNum(hdle, WingSect[index], PRM_WINGAREA, (char*)nullptr, 0);
     // we need also the angle
-    wing->angle       = GfParmGetNum(hdle, WingSect[index], PRM_WINGANGLE, (char*)NULL, 0);
-    wing->staticPos.x = GfParmGetNum(hdle, WingSect[index], PRM_XPOS, (char*)NULL, 0);
-    wing->staticPos.z = GfParmGetNum(hdle, WingSect[index], PRM_ZPOS, (char*)NULL, 0);
+    wing->angle       = GfParmGetNum(hdle, WingSect[index], PRM_WINGANGLE, (char*)nullptr, 0);
+    wing->staticPos.x = GfParmGetNum(hdle, WingSect[index], PRM_XPOS, (char*)nullptr, 0);
+    wing->staticPos.z = GfParmGetNum(hdle, WingSect[index], PRM_ZPOS, (char*)nullptr, 0);
     
     switch (car->options->aeroflow_model) {
     case SIMPLE:

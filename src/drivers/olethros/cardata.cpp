@@ -80,7 +80,7 @@ SingleCardata *Cardata::findCar(tCarElt *car)
 			return &data[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 #ifdef USE_OLETHROS_NAMESPACE

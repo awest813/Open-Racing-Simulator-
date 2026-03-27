@@ -21,9 +21,9 @@
 #ifndef _DRIVER_H_
 #define _DRIVER_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 
 #include <tgf.h>
 #include <track.h>

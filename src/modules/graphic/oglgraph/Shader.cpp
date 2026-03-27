@@ -39,13 +39,13 @@ std::string Shader::readFile(const std::string& path) {
 GLuint Shader::compileShader(GLenum type, const std::string& source) {
     GLuint shader = glCreateShader(type);
     const char* src = source.c_str();
-    glShaderSource(shader, 1, &src, NULL);
+    glShaderSource(shader, 1, &src, nullptr);
     glCompileShader(shader);
     GLint ok = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
     if (!ok) {
         char log[1024];
-        glGetShaderInfoLog(shader, sizeof(log), NULL, log);
+        glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
         GfOut("Shader compile error: %s\n", log);
         glDeleteShader(shader);
         return 0;
@@ -75,7 +75,7 @@ bool Shader::load(const std::string& vertPath, const std::string& fragPath) {
     glGetProgramiv(m_program, GL_LINK_STATUS, &ok);
     if (!ok) {
         char log[1024];
-        glGetProgramInfoLog(m_program, sizeof(log), NULL, log);
+        glGetProgramInfoLog(m_program, sizeof(log), nullptr, log);
         GfOut("Shader link error: %s\n", log);
         glDetachShader(m_program, vs);
         glDetachShader(m_program, fs);
@@ -115,7 +115,7 @@ bool Shader::loadWithGeom(const std::string& vertPath, const std::string& geomPa
     glGetProgramiv(m_program, GL_LINK_STATUS, &ok);
     if (!ok) {
         char log[1024];
-        glGetProgramInfoLog(m_program, sizeof(log), NULL, log);
+        glGetProgramInfoLog(m_program, sizeof(log), nullptr, log);
         GfOut("Shader link error (geom): %s\n", log);
         glDeleteProgram(m_program);
         m_program = 0;

@@ -75,9 +75,9 @@ static int InitFuncPt(int index, void *pt)
 }
 
 
-static MyCar* mycar[BOTS] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-static OtherCar* ocar = NULL;
-static TrackDesc* myTrackDesc = NULL;
+static MyCar* mycar[BOTS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+static OtherCar* ocar = nullptr;
+static TrackDesc* myTrackDesc = nullptr;
 static double currenttime;
 static const tdble waitToTurn = 1.0; /* how long should i wait till i try to turn backwards */
 
@@ -85,19 +85,19 @@ static const tdble waitToTurn = 1.0; /* how long should i wait till i try to tur
 /* release resources when the module gets unloaded */
 static void shutdown(int index) {
 	int i = index - 1;
-	if (mycar[i] != NULL) {
+	if (mycar[i] != nullptr) {
 		delete mycar[i];
-		mycar[i] = NULL;
+		mycar[i] = nullptr;
 		//free(botdesc[i]);
 		//free(botname[i]);
 	}
-	if (myTrackDesc != NULL) {
+	if (myTrackDesc != nullptr) {
 		delete myTrackDesc;
-		myTrackDesc = NULL;
+		myTrackDesc = nullptr;
 	}
-	if (ocar != NULL) {
+	if (ocar != nullptr) {
 		delete [] ocar;
-		ocar = NULL;
+		ocar = nullptr;
 	}
 }
 
@@ -105,11 +105,11 @@ static void shutdown(int index) {
 /* initialize track data, called for every selected driver */
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation)
 {
-	if ((myTrackDesc != NULL) && (myTrackDesc->getTorcsTrack() != track)) {
+	if ((myTrackDesc != nullptr) && (myTrackDesc->getTorcsTrack() != track)) {
 		delete myTrackDesc;
-		myTrackDesc = NULL;
+		myTrackDesc = nullptr;
 	}
-	if (myTrackDesc == NULL) {
+	if (myTrackDesc == nullptr) {
 		myTrackDesc = new TrackDesc(track);
 	}
 
@@ -119,29 +119,29 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	snprintf(buffer, BUFSIZE, "drivers/berniw3/%d/%s", index, trackname);
     *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 
-	if (*carParmHandle == NULL) {
+	if (*carParmHandle == nullptr) {
 		snprintf(buffer, BUFSIZE, "drivers/berniw3/%d/default.xml", index);
 	    *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 	}
 
 	/* Load and set parameters */
 	float fuel = GfParmGetNum(*carParmHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FUELPERLAP,
-		(char*)NULL, track->length*MyCar::MAX_FUEL_PER_METER);
+		(char*)nullptr, track->length*MyCar::MAX_FUEL_PER_METER);
 	fuel *= (situation->_totLaps + 1.0);
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)NULL, MIN(fuel, 100.0));
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, MIN(fuel, 100.0));
 }
 
 
 /* initialize driver for the race, called for every selected driver */
 static void newRace(int index, tCarElt* car, tSituation *situation)
 {
-	if (ocar != NULL) delete [] ocar;
+	if (ocar != nullptr) delete [] ocar;
 	ocar = new OtherCar[situation->_ncars];
 	for (int i = 0; i < situation->_ncars; i++) {
 		ocar[i].init(myTrackDesc, situation->cars[i], situation);
 	}
 
-	if (mycar[index-1] != NULL) delete mycar[index-1];
+	if (mycar[index-1] != nullptr) delete mycar[index-1];
 	mycar[index-1] = new MyCar(myTrackDesc, car, situation);
 
 	currenttime = situation->currentTime;

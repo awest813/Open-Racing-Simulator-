@@ -22,14 +22,14 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #include <cstring>
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
-#include <math.h>
+#include <cmath>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -46,8 +46,8 @@ void reorder(ob_t *ob,ob_t *ob2, double *textarray,tcoord_t *vertexarray);
 
 void assignArrays(ob_t *tmpob, ob_t* tmpob2, double **textarray, tcoord_t **vertexarray, char **texture)
 {
-	while (tmpob2!=NULL) {
-		if (tmpob2->name==NULL)  {
+	while (tmpob2!=nullptr) {
+		if (tmpob2->name==nullptr)  {
 			tmpob2=tmpob2->next;
 			continue;
 		}
@@ -59,7 +59,7 @@ void assignArrays(ob_t *tmpob, ob_t* tmpob2, double **textarray, tcoord_t **vert
 			tmpob2=tmpob2->next;
 			continue;
 		}
-		if (tmpob->type!=NULL) {
+		if (tmpob->type!=nullptr) {
 			if (!strcmp(tmpob->type,"group")) {
 				tmpob2=tmpob2->next;
 				continue;
@@ -96,13 +96,13 @@ void assignArrays(ob_t *tmpob, ob_t* tmpob2, double **textarray, tcoord_t **vert
 
 void loadAndGroup( char *OutputFileName)
 {
-	ob_t *ob0=NULL;
-	ob_t *ob1=NULL;
-	ob_t *ob2=NULL;
-	ob_t *ob3=NULL;
-	ob_t *tmpob=NULL;
-	ob_t *tmpob2=NULL;
-	mat_t *tmat=NULL;
+	ob_t *ob0=nullptr;
+	ob_t *ob1=nullptr;
+	ob_t *ob2=nullptr;
+	ob_t *ob3=nullptr;
+	ob_t *tmpob=nullptr;
+	ob_t *tmpob2=nullptr;
+	mat_t *tmat=nullptr;
 	//int requiredExtraGroup=0;
 	extern FILE *ofile;
 	int num_tkmn=0;
@@ -113,27 +113,27 @@ void loadAndGroup( char *OutputFileName)
 
 	if (fileL0) {
 		fprintf(stderr,"\nloading file %s\n",fileL0);
-		loadAC(fileL0,NULL,-1);
+		loadAC(fileL0,nullptr,-1);
 		ob0=root_ob;
-		root_ob=NULL;
+		root_ob=nullptr;
 	}
 	if (fileL1) {
 		fprintf(stderr,"\nloading file %s\n",fileL1);
-		loadAC(fileL1,NULL,-1);
+		loadAC(fileL1,nullptr,-1);
 		ob1=root_ob;
-		root_ob=NULL;
+		root_ob=nullptr;
 	}
 	if (fileL2) {
 		fprintf(stderr,"\nloading file %s\n",fileL2);
-		loadAC(fileL2,NULL,-1);
+		loadAC(fileL2,nullptr,-1);
 		ob2=root_ob;
-		root_ob=NULL;
+		root_ob=nullptr;
 	}
 	if (fileL3) {
 		fprintf(stderr,"\nloading file %s\n",fileL3);
-		loadAC(fileL3,NULL,-1);
+		loadAC(fileL3,nullptr,-1);
 		ob3=root_ob;
-		root_ob=NULL;
+		root_ob=nullptr;
 	}
 	/* now collapse the texture and texture  arrays of 1 2 3 in 0 */
 
@@ -142,8 +142,8 @@ void loadAndGroup( char *OutputFileName)
 	printf("collapsing textures \n");
 	fprintf(stderr,"\ncollapsing textures\n");
 	tmpob=ob0;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -155,7 +155,7 @@ void loadAndGroup( char *OutputFileName)
 			tmpob=tmpob->next;
 			continue;
 		}
-		if (tmpob->type!=NULL) {
+		if (tmpob->type!=nullptr) {
 			if (!strcmp(tmpob->type,"group")) {
 				tmpob=tmpob->next;
 				continue;
@@ -174,8 +174,8 @@ void loadAndGroup( char *OutputFileName)
 	fprintf(stderr,"making groups\n");
 	tmpob=ob0;
 	num_tkmn=0;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -187,7 +187,7 @@ void loadAndGroup( char *OutputFileName)
 			tmpob=tmpob->next;
 			continue;
 		}
-		if (tmpob->type != NULL && !strnicmp(tmpob->name, "tkmn",4) && strcmp(tmpob->type,"group")) {
+		if (tmpob->type != nullptr && !strnicmp(tmpob->name, "tkmn",4) && strcmp(tmpob->type,"group")) {
 			tmpob=tmpob->next;
 			num_tkmn++;
 			continue;
@@ -205,8 +205,8 @@ void loadAndGroup( char *OutputFileName)
 	i=0;
 	tmpob=ob0;
 	array_groups=(ob_groups_t *) malloc(sizeof(ob_groups_t)*num_tkmn);
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -218,16 +218,16 @@ void loadAndGroup( char *OutputFileName)
 			tmpob=tmpob->next;
 			continue;
 		}
-		if (tmpob->type != NULL && !strnicmp(tmpob->name, "tkmn",4) && strcmp(tmpob->type,"group")) {
+		if (tmpob->type != nullptr && !strnicmp(tmpob->name, "tkmn",4) && strcmp(tmpob->type,"group")) {
 			array_groups[i].tkmn=tmpob;
 			array_groups[i].numkids=1;
 			array_groups[i].name=tmpob->name;
 			array_groups[i].tkmnlabel=atoi(tmpob->name+4);
-			array_groups[i].kids=NULL;
-			array_groups[i].kids0=NULL;
-			array_groups[i].kids1=NULL;
-			array_groups[i].kids2=NULL;
-			array_groups[i].kids3=NULL;
+			array_groups[i].kids=nullptr;
+			array_groups[i].kids0=nullptr;
+			array_groups[i].kids1=nullptr;
+			array_groups[i].kids2=nullptr;
+			array_groups[i].kids3=nullptr;
 			array_groups[i].numkids0=0;
 			array_groups[i].numkids1=0;
 			array_groups[i].numkids2=0;
@@ -241,8 +241,8 @@ void loadAndGroup( char *OutputFileName)
 
 	fprintf(stderr,"dispatching objects in groups\n");
 	tmpob=ob0;
-	while (tmpob!=NULL) {
-		if (tmpob->name==NULL)  {
+	while (tmpob!=nullptr) {
+		if (tmpob->name==nullptr)  {
 			tmpob=tmpob->next;
 			continue;
 		}
@@ -292,11 +292,11 @@ void loadAndGroup( char *OutputFileName)
 		}
 		printf("object %s is going to group %s  at dist=%f\n",tmpob->name,
 		       array_groups[good_group].name,sqrt(tmpob->dist_min));
-		if (array_groups[good_group].kids==NULL) {
+		if (array_groups[good_group].kids==nullptr) {
 			array_groups[good_group].kids=tmpob;
 			tmpob=tmpob->next;
 			array_groups[good_group].numkids++;
-			array_groups[good_group].kids->next=NULL;
+			array_groups[good_group].kids->next=nullptr;
 		} else {
 			tmpob2=array_groups[good_group].kids;
 			array_groups[good_group].kids=tmpob;
@@ -320,9 +320,9 @@ void loadAndGroup( char *OutputFileName)
 		ob_t *tmpobnext;
 		tmpob=array_groups[i].kids;
 		printf("grouping level for %s\n", array_groups[i].name);
-		while (tmpob!=NULL) {
+		while (tmpob!=nullptr) {
 			tmpobnext=tmpob->next;
-			if (tmpob->name==NULL)  {
+			if (tmpob->name==nullptr)  {
 				tmpob=tmpobnext;
 				continue;
 			}
@@ -387,7 +387,7 @@ void loadAndGroup( char *OutputFileName)
 			tmpob=tmpobnext;
 		}
 		if (array_groups[i].numkids==0)
-			array_groups[i].kids=NULL;
+			array_groups[i].kids=nullptr;
 		printf("in group %s\n",array_groups[i].name);
 		printf("    found in l0  %d\n",array_groups[i].numkids0);
 		printf("    found in l1  %d\n",array_groups[i].numkids1);
@@ -421,13 +421,13 @@ void loadAndGroup( char *OutputFileName)
 
 
 
-	if ((ofile=fopen (OutputFileName,"w"))==NULL) {
+	if ((ofile=fopen (OutputFileName,"w"))==nullptr) {
 		fprintf(stderr,"failed to open %s\n", OutputFileName);
 		return ;
 	}
 	fprintf(ofile,"AC3Db\n");
 	tmat=root_material;
-	while (tmat!=NULL) {
+	while (tmat!=nullptr) {
 		if (strcmp (tmat->name, "root") == 0) {
 			tmat = tmat->next;
 			continue;
@@ -469,7 +469,7 @@ void loadAndGroup( char *OutputFileName)
 			fprintf(ofile,"kids %d\n",array_groups[i].numkids3);
 			printf("writting group: ___%s_gl3\n",array_groups[i].tkmn->name);
 			tmpob=array_groups[i].kids3;
-			while (tmpob!=NULL) {
+			while (tmpob!=nullptr) {
 
 				printOb(tmpob);
 				printf("%s\n",tmpob->name);
@@ -483,7 +483,7 @@ void loadAndGroup( char *OutputFileName)
 			fprintf(ofile,"kids %d\n",array_groups[i].numkids2);
 			printf("writting group: ___%s_gl2\n",array_groups[i].tkmn->name);
 			tmpob=array_groups[i].kids2;
-			while (tmpob!=NULL) {
+			while (tmpob!=nullptr) {
 				printOb(tmpob);
 				printf("%s\n",tmpob->name);
 				tmpob=tmpob->next;
@@ -495,7 +495,7 @@ void loadAndGroup( char *OutputFileName)
 			fprintf(ofile,"kids %d\n",array_groups[i].numkids1);
 			printf("writting group: ___%s_gl1\n",array_groups[i].tkmn->name);
 			tmpob=array_groups[i].kids1;
-			while (tmpob!=NULL) {
+			while (tmpob!=nullptr) {
 				printOb(tmpob);
 				printf("%s\n",tmpob->name);
 				tmpob=tmpob->next;
@@ -508,7 +508,7 @@ void loadAndGroup( char *OutputFileName)
 		fprintf(ofile,"kids %d\n",array_groups[i].numkids0+1);
 		printf("writting group: ___%s_gl0\n",array_groups[i].tkmn->name);
 		tmpob=array_groups[i].kids0;
-		while (tmpob!=NULL) {
+		while (tmpob!=nullptr) {
 			printOb(tmpob);
 			printf("%s\n",tmpob->name);
 			tmpob=tmpob->next;

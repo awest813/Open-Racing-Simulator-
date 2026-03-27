@@ -18,11 +18,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <sys/types.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -58,20 +58,20 @@ ssgBranch *CarsAnchorTmp = 0;
 
 static int grCarIndex;
 
-static ssgSimpleState *brakeState = NULL;
-static ssgSimpleState *commonState = NULL;
+static ssgSimpleState *brakeState = nullptr;
+static ssgSimpleState *commonState = nullptr;
 
 void grInitCommonState(void)
 {
 	// brake
-	if (brakeState == NULL) {
+	if (brakeState == nullptr) {
 		brakeState = new ssgSimpleState;
 		brakeState->ref();
 		brakeState->disable(GL_LIGHTING);
 		brakeState->disable(GL_TEXTURE_2D);
 	}
 
-	if (commonState == NULL) {
+	if (commonState == nullptr) {
 		commonState = new ssgSimpleState;
 		commonState->ref();
 		commonState->disable(GL_LIGHTING);
@@ -157,7 +157,7 @@ static ssgTransform *initWheel(tCarElt *car, int wheel_index)
 
 	brk_nrm->add(nrm);
 
-	ssgVtxTable *brk = new ssgVtxTable(GL_TRIANGLE_FAN, brk_vtx, brk_nrm, NULL, brk_clr);
+	ssgVtxTable *brk = new ssgVtxTable(GL_TRIANGLE_FAN, brk_vtx, brk_nrm, nullptr, brk_clr);
 	brk->setCullFace(0);
 	brk->setState(commonState);
 
@@ -189,7 +189,7 @@ static ssgTransform *initWheel(tCarElt *car, int wheel_index)
 	//nrm[1] = 1.0;
 	brk_nrm->add(nrm);
 	
-	brk = new ssgVtxTable(GL_TRIANGLE_STRIP, brk_vtx, brk_nrm, NULL, brk_clr);
+	brk = new ssgVtxTable(GL_TRIANGLE_STRIP, brk_vtx, brk_nrm, nullptr, brk_clr);
 	brk->setCullFace(0);
 	brk->setState(brakeState);
 	grCarInfo[grCarIndex].brkColor[wheel_index] = brk_clr;
@@ -223,7 +223,7 @@ static ssgTransform *initWheel(tCarElt *car, int wheel_index)
 	//nrm[1] = 1.0;
 	brk_nrm->add(nrm);
 
-	brk = new ssgVtxTable(GL_TRIANGLE_STRIP, brk_vtx, brk_nrm, NULL, brk_clr);
+	brk = new ssgVtxTable(GL_TRIANGLE_STRIP, brk_vtx, brk_nrm, nullptr, brk_clr);
 	brk->setCullFace(0);
 	brk->setState(commonState);
 
@@ -264,7 +264,7 @@ static ssgTransform *initWheel(tCarElt *car, int wheel_index)
 			const char* wheel_obj = GfParmGetStr(car->_carHandle, SECT_GROBJECTS, PRM_WHEEL_3D, 0);
 			if (wheel_obj != 0 && wheel_dir != 0) {
 				snprintf(buf, bufsize, "%s%d.acc", wheel_obj, j);
-				whl3d = grssgCarLoadAC3D(buf, NULL, car->index);
+				whl3d = grssgCarLoadAC3D(buf, nullptr, car->index);
 			}
 		}
 		
@@ -324,7 +324,7 @@ static ssgTransform *initWheel(tCarElt *car, int wheel_index)
 					whl_clr->add(clr);
 					whl_clr->add(clr);
 				}
-				ssgVtxTable *whl = new ssgVtxTable(GL_TRIANGLE_STRIP, whl_vtx, whl_nrm, NULL, whl_clr);
+				ssgVtxTable *whl = new ssgVtxTable(GL_TRIANGLE_STRIP, whl_vtx, whl_nrm, nullptr, whl_clr);
 				whl->setState(commonState);
 				whl->setCullFace(0);
 
@@ -549,21 +549,21 @@ grInitCar(tCarElt *car)
 	/* Load visual attributes */
 	car->_exhaustNb = GfParmGetEltNb(handle, SECT_EXHAUST);
 	car->_exhaustNb = MIN(car->_exhaustNb, 2);
-	car->_exhaustPower = GfParmGetNum(handle, SECT_EXHAUST, PRM_POWER, NULL, 1.0);
+	car->_exhaustPower = GfParmGetNum(handle, SECT_EXHAUST, PRM_POWER, nullptr, 1.0);
 	for (i = 0; i < car->_exhaustNb; i++) {
 		snprintf(path, PATHSIZE, "%s/%d", SECT_EXHAUST, i + 1);
-		car->_exhaustPos[i].x = GfParmGetNum(handle, path, PRM_XPOS, NULL, -car->_dimension_x / 2.0);
-		car->_exhaustPos[i].y = -GfParmGetNum(handle, path, PRM_YPOS, NULL, car->_dimension_y / 2.0);
-		car->_exhaustPos[i].z = GfParmGetNum(handle, path, PRM_ZPOS, NULL, 0.1);
+		car->_exhaustPos[i].x = GfParmGetNum(handle, path, PRM_XPOS, nullptr, -car->_dimension_x / 2.0);
+		car->_exhaustPos[i].y = -GfParmGetNum(handle, path, PRM_YPOS, nullptr, car->_dimension_y / 2.0);
+		car->_exhaustPos[i].z = GfParmGetNum(handle, path, PRM_ZPOS, nullptr, 0.1);
 	}
 
 	snprintf(path, PATHSIZE, "%s/%s", SECT_GROBJECTS, SECT_LIGHT);
 	lightNum = GfParmGetEltNb(handle, path);
 	for (i = 0; i < lightNum; i++) {
 		snprintf(path, PATHSIZE, "%s/%s/%d", SECT_GROBJECTS, SECT_LIGHT, i + 1);
-		lightPos[0] = GfParmGetNum(handle, path, PRM_XPOS, NULL, 0);
-		lightPos[1] = GfParmGetNum(handle, path, PRM_YPOS, NULL, 0);
-		lightPos[2] = GfParmGetNum(handle, path, PRM_ZPOS, NULL, 0);
+		lightPos[0] = GfParmGetNum(handle, path, PRM_XPOS, nullptr, 0);
+		lightPos[1] = GfParmGetNum(handle, path, PRM_YPOS, nullptr, 0);
+		lightPos[2] = GfParmGetNum(handle, path, PRM_ZPOS, nullptr, 0);
 		lightType = GfParmGetStr(handle, path, PRM_TYPE, "");
 		lightTypeNum = LIGHT_NO_TYPE;
 		if (!strcmp(lightType, VAL_LIGHT_HEAD1)) {
@@ -577,7 +577,7 @@ grInitCar(tCarElt *car)
 		} else if (!strcmp(lightType, VAL_LIGHT_REAR)) {
 			lightTypeNum = LIGHT_TYPE_REAR;
 		}
-		grAddCarlight(car, lightTypeNum, lightPos, GfParmGetNum(handle, path, PRM_SIZE, NULL, 0.2));
+		grAddCarlight(car, lightTypeNum, lightPos, GfParmGetNum(handle, path, PRM_SIZE, nullptr, 0.2));
 	}
 
 	grLinkCarlights(car);
@@ -636,9 +636,9 @@ grInitCar(tCarElt *car)
 	snprintf(buf, BUFSIZE, "%s.ac", car->_carName); /* default car name */
 	snprintf(path, PATHSIZE, "%s/%s/1", SECT_GROBJECTS, LST_RANGES);
 	param = GfParmGetStr(handle, path, PRM_CAR, buf);
-	grCarInfo[index].LODThreshold[selIndex] = GfParmGetNum(handle, path, PRM_THRESHOLD, NULL, 0.0);
+	grCarInfo[index].LODThreshold[selIndex] = GfParmGetNum(handle, path, PRM_THRESHOLD, nullptr, 0.0);
 	/*carEntity = ssgLoad(param);*/
-	carEntity = grssgCarLoadAC3D(param, NULL, index);
+	carEntity = grssgCarLoadAC3D(param, nullptr, index);
 	grCarInfo[index].carEntity = carEntity;
 
 	/* Set a selector on the driver */
@@ -676,9 +676,9 @@ grInitCar(tCarElt *car)
 		carBody = new ssgBranch;
 		snprintf(buf, BUFSIZE, "%s/%s/%d", SECT_GROBJECTS, LST_RANGES, i);
 		param = GfParmGetStr(handle, buf, PRM_CAR, "");
-		grCarInfo[index].LODThreshold[selIndex] = GfParmGetNum(handle, buf, PRM_THRESHOLD, NULL, 0.0);
+		grCarInfo[index].LODThreshold[selIndex] = GfParmGetNum(handle, buf, PRM_THRESHOLD, nullptr, 0.0);
 		/* carEntity = ssgLoad(param); */
-		carEntity = grssgCarLoadAC3D(param, NULL, index);;
+		carEntity = grssgCarLoadAC3D(param, nullptr, index);;
 		DBG_SET_NAME(carEntity, "LOD", index, i-1);
 		carBody->addKid(carEntity);
 		if (!strcmp(GfParmGetStr(handle, buf, PRM_WHEELSON, "no"), "yes")) {

@@ -36,7 +36,7 @@
 #ifndef WIN32
 #include <unistd.h>
 #endif
-#include <math.h>
+#include <cmath>
 #include <glfeatures.h>
 
 #define TRACK_MAP_NONE							(1<<0)

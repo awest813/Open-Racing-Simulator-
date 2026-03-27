@@ -18,11 +18,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <sys/types.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -49,7 +49,7 @@
 #include "dmalloc.h"
 #endif
 
-static ssgSimpleState *skidState = NULL;
+static ssgSimpleState *skidState = nullptr;
 
 int grSkidMaxStripByWheel;
 int grSkidMaxPointByStrip;
@@ -64,11 +64,11 @@ void grInitSkidmarks(tCarElt *car)
 	sgVec3 nrm;
 
 	grSkidMaxStripByWheel = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXSTRIPBYWHEEL,
-							(char*)NULL, MAXSTRIP_BYWHEEL);
+							(char*)nullptr, MAXSTRIP_BYWHEEL);
 	grSkidMaxPointByStrip = (int)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_MAXPOINTBYSTRIP,
-							(char*)NULL, MAXPOINT_BY_STRIP);
+							(char*)nullptr, MAXPOINT_BY_STRIP);
 	grSkidDeltaT = (double)GfParmGetNum(grHandle, GR_SCT_GRAPHIC, GR_ATT_SKIDDELTAT,
-					(char*)NULL, DELTATSTRIP);
+					(char*)nullptr, DELTATSTRIP);
 
 	if (!grSkidMaxStripByWheel) {
 		return;
@@ -79,7 +79,7 @@ void grInitSkidmarks(tCarElt *car)
 	nrm[2] = 1.0;
 	shd_nrm->add(nrm);
 
-	if (skidState == NULL) {
+	if (skidState == nullptr) {
 		skidState = new ssgSimpleState();
 		if (skidState) {
 			skidState->disable(GL_LIGHTING);
@@ -148,9 +148,9 @@ void grUpdateSkidmarks(tCarElt *car, double t)
 	sgVec3 *tvtx;
 	sgVec2 *tclist;
 	sgVec2 TxVtx;
-	ssgVertexArray *basevtx = NULL;
+	ssgVertexArray *basevtx = nullptr;
 	sgVec4 cur_clr;
-	ssgTexCoordArray* texcoords = NULL;
+	ssgTexCoordArray* texcoords = nullptr;
 	tdble skid_sensitivity = 0.75f;
 
 	if (!grSkidMaxStripByWheel) {
@@ -273,7 +273,7 @@ void grUpdateSkidmarks(tCarElt *car, double t)
 				float dt = 0.01f; // should get it from somewhere else really. I could also account for radius, but that's a bit of an overkill.
 				grCarInfo[car->index].skidmarks->strips[i].tex_state += dt*car->_wheelSpinVel(i);
 
-				grCarInfo[car->index].skidmarks->base = new ssgVtxTable(GL_TRIANGLE_STRIP, basevtx, NULL, texcoords, NULL);
+				grCarInfo[car->index].skidmarks->base = new ssgVtxTable(GL_TRIANGLE_STRIP, basevtx, nullptr, texcoords, nullptr);
 				grCarInfo[car->index].skidmarks->base->transform(grCarInfo[car->index].carPos);
 				grCarInfo[car->index].skidmarks->base->getVertexList((void**)&tvtx);
 				grCarInfo[car->index].skidmarks->base->getTexCoordList((void**)&tclist);
@@ -376,9 +376,9 @@ void grShutdownSkidmarks (void)
 			free(grCarInfo[z].skidmarks->strips[i].clr);
 		}
 		free(grCarInfo[z].skidmarks);
-		grCarInfo[z].skidmarks = NULL;
+		grCarInfo[z].skidmarks = nullptr;
 	}
-	skidState = NULL;
+	skidState = nullptr;
 }
 
 

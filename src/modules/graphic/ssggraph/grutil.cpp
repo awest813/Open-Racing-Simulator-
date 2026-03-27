@@ -17,11 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include <sys/types.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cctype>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -40,7 +40,7 @@ float grGammaValue = 1.8;
 int grMipMap = 0;
 
 char *grFilePath;			// Multiple path (';' separated) used to search for files.
-char *grTexturePath = NULL;	// Default ssg path.
+char *grTexturePath = nullptr;	// Default ssg path.
 
 
 int grGetFilename(const char *filename, char *filepath, char *buf, const int BUFSIZE)
@@ -53,9 +53,9 @@ int grGetFilename(const char *filename, char *filepath, char *buf, const int BUF
 	if (filepath) {
 		c1 = filepath;
 		c2 = c1;
-		while ((!found) && (c2 != NULL)) {
+		while ((!found) && (c2 != nullptr)) {
 			c2 = strchr(c1, ';');
-			if (c2 == NULL) {
+			if (c2 == nullptr) {
 				snprintf(buf, BUFSIZE, "%s/%s", c1, filename);
 			} else {
 				lg = c2 - c1;
@@ -135,7 +135,7 @@ typedef struct stlist
 } stlist;
 
 
-static stlist * stateList = NULL;
+static stlist * stateList = nullptr;
 
 
 static grManagedState * grGetState(char *img)
@@ -143,13 +143,13 @@ static grManagedState * grGetState(char *img)
     stlist	*curr;
 
 	curr = stateList;
-    while (curr != NULL) {
+    while (curr != nullptr) {
 	if (strcmp(curr->name, img) == 0) {
 	    return curr->state;
 	}
 	curr = curr->next;
     }
-    return NULL;
+    return nullptr;
 }
 
 
@@ -158,7 +158,7 @@ void grRemoveState(char* img)
 	stlist	*curr;
 
 	curr = stateList;
-	while (curr != NULL) {
+	while (curr != nullptr) {
 		if (strcmp(curr->name, img) == 0) {
 			if (curr->prev != 0) {
 				curr->prev->next = curr->next;
@@ -185,14 +185,14 @@ void grShutdownState(void)
 	stlist *next;
 
 	curr = stateList;
-	while (curr != NULL) {
+	while (curr != nullptr) {
 		next = curr->next;
 		printf("Still in list : %s\n", curr->name);
 		free(curr->name);
 		free(curr);
 		curr = next;
 	}
-	stateList = NULL;
+	stateList = nullptr;
 }
 
 
@@ -205,7 +205,7 @@ static void grSetupState(grManagedState *st, char *buf)
 
 	stlist *curr = (stlist*)calloc(sizeof(stlist), 1);
 	curr->next = stateList;
-	if (stateList != NULL) {
+	if (stateList != nullptr) {
 		stateList->prev = curr;
 	}
 	stateList = curr;
@@ -225,7 +225,7 @@ ssgState * grSsgLoadTexState(const char *img)
 
 	// remove the directory
 	s = strrchr(img, '/');
-	if (s == NULL) {
+	if (s == nullptr) {
 		s = img;
 	} else {
 		s++;
@@ -233,11 +233,11 @@ ssgState * grSsgLoadTexState(const char *img)
 
 	if (!grGetFilename(s, grFilePath, buf, BUFSIZE)) {
 		GfOut("grSsgLoadTexState: File %s not found\n", s);
-		return NULL;
+		return nullptr;
 	}
 
 	st = grGetState(buf);
-	if (st != NULL) {
+	if (st != nullptr) {
 		return (ssgState*)st;
 	}
 
@@ -257,7 +257,7 @@ ssgState * grSsgEnvTexState(const char *img)
 
 	// remove the directory
 	s = strrchr(img, '/');
-	if (s == NULL) {
+	if (s == nullptr) {
 		s = img;
 	} else {
 		s++;
@@ -265,11 +265,11 @@ ssgState * grSsgEnvTexState(const char *img)
 
 	if (!grGetFilename(s, grFilePath, buf, BUFSIZE)) {
 		GfOut("grSsgLoadTexState: File %s not found\n", s);
-		return NULL;
+		return nullptr;
     }
 
 	/*st = grGetState(buf);
-	if (st != NULL) {
+	if (st != nullptr) {
 		return (ssgState*)st;
 	}*/
 
@@ -290,7 +290,7 @@ grSsgLoadTexStateEx(const char *img, char *filepath, int wrap, int mipmap)
 
 	// remove the directory
 	s = strrchr(img, '/');
-	if (s == NULL) {
+	if (s == nullptr) {
 		s = img;
 	} else {
 		s++;
@@ -298,11 +298,11 @@ grSsgLoadTexStateEx(const char *img, char *filepath, int wrap, int mipmap)
 
 	if (!grGetFilename(s, filepath, buf, BUFSIZE)) {
 		GfOut("File %s not found\n", s);
-		return NULL;
+		return nullptr;
 	}
 
 	st = grGetState(buf);
-	if (st != NULL) {
+	if (st != nullptr) {
 		return (ssgState*)st;
 	}
 

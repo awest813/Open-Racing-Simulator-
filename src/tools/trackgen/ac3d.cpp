@@ -23,9 +23,9 @@
     @version	$Id$
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #ifndef WIN32
 #include <unistd.h>
 #endif
@@ -43,9 +43,9 @@ Ac3dOpen(char *filename, int nbObjects)
 
     save_fd = fopen(filename, "w");
 
-    if (save_fd == NULL) {
+    if (save_fd == nullptr) {
 	    GfOut("Failed to open '%s' for writing", filename);
-	    return NULL;
+	    return nullptr;
     }
 
     fprintf(save_fd, "AC3Db\n");

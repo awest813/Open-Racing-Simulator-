@@ -24,8 +24,8 @@
 #ifndef _MYCAR_H_
 #define _MYCAR_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 #include <tgf.h>
@@ -34,7 +34,7 @@
 #include <raceman.h>
 #include <robot.h>
 #include <robottools.h>
-#include <math.h>
+#include <cmath>
 #include "trackdesc.h"
 #include "pathfinder.h"
 #include "linalg.h"
@@ -61,7 +61,7 @@ class AbstractCar
 		inline void updatePos() { currentpos.x = me->_pos_X; currentpos.y = me->_pos_Y; currentpos.z = me->_pos_Z - cgh; }
 		inline void updateSpeedSqr() { speedsqr = (me->_speed_x)*(me->_speed_x) + (me->_speed_y)*(me->_speed_y) + (me->_speed_z)*(me->_speed_z); }
 		inline void updateSpeed() { speed = sqrt(speedsqr); }
-		inline void initCGh() { cgh = GfParmGetNum(me->_carHandle, SECT_CAR, PRM_GCHEIGHT, NULL, 0.0); }
+		inline void initCGh() { cgh = GfParmGetNum(me->_carHandle, SECT_CAR, PRM_GCHEIGHT, nullptr, 0.0); }
 
 		tCarElt* me;
 		v3d currentpos;

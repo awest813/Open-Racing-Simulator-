@@ -130,7 +130,7 @@ void SegLearn::writeKarma()
 	char path[sizeof(filename)];
 	strncpy(path, filename, sizeof(path));
 	char* end = strrchr(path, '/');
-	if (end != NULL) {
+	if (end != nullptr) {
 		*end = '\0';
 	}
 
@@ -138,7 +138,7 @@ void SegLearn::writeKarma()
 	if (GfCreateDir(path) == GF_DIR_CREATED) {
 		// Try to write data.
 		FILE *fd = fopen(filename, "wb");
-		if (fd != NULL) {
+		if (fd != nullptr) {
 			// Create header: Magic Number, #segments, string, version.
 			int magic = MAGIC1;
 			int magic2 = MAGIC2;
@@ -175,7 +175,7 @@ bool SegLearn::readKarma(tTrack* track, tSituation *s, float *radius, int *uid, 
 {
 	FILE* fd = getKarmaFilename(track, s, driverindex);
 
-	if (fd != NULL) {
+	if (fd != nullptr) {
 		// Check if the file is valid.
 		int magic = 0;
 		int magic2 = 0;
@@ -221,21 +221,21 @@ FILE* SegLearn::getKarmaFilename(tTrack* track, tSituation *s, int driverindex)
 	switch (s->_raceType) {
 		case RM_TYPE_RACE:
 			fd = tryKarmaFilename(buffer, sizeof(buffer), "%sdrivers/damned/%d/race/%s.karma", driverindex, tbuf, s->_raceType == RM_TYPE_RACE);
-			if ( fd != NULL) {
+			if ( fd != nullptr) {
 				return fd;
 			} // not found, try the next.
 		case RM_TYPE_QUALIF:
 			fd = tryKarmaFilename(buffer, sizeof(buffer), "%sdrivers/damned/%d/qualifying/%s.karma", driverindex, tbuf, s->_raceType == RM_TYPE_QUALIF);
-			if ( fd != NULL) {
+			if ( fd != nullptr) {
 				return fd;
 			} // not found, try the next.
 		case RM_TYPE_PRACTICE:
 			fd = tryKarmaFilename(buffer, sizeof(buffer), "%sdrivers/damned/%d/practice/%s.karma", driverindex, tbuf, s->_raceType == RM_TYPE_PRACTICE);
-			if ( fd != NULL) {
+			if ( fd != nullptr) {
 				return fd;
 			} // not found, try the next.		
 		default:
-			return NULL;
+			return nullptr;
 			break;
 	}
 }
@@ -251,7 +251,7 @@ FILE* SegLearn::tryKarmaFilename(char* buffer, int size, const char *path, int d
 
 	// Try to open the local file.
 	FILE* fd;		
-	if ((fd = fopen(buffer, "rb")) != NULL) {
+	if ((fd = fopen(buffer, "rb")) != nullptr) {
 		return fd;
 	}
 

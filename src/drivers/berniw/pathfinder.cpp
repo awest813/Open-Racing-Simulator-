@@ -52,9 +52,9 @@ Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
 	if (isPitAvailable()) {
 		initPit(car);
 		s1 = track->getPitEntryStartId();
-		s1 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, (char*)NULL, (float) s1);
+		s1 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITENTRY, (char*)nullptr, (float) s1);
 		e3 = track->getPitExitEndId();
-		e3 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, (char*)NULL, (float) e3);
+		e3 = (int) GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_PITEXIT, (char*)nullptr, (float) e3);
 		pitspeedsqrlimit = t->pits.speedLimit - 0.5;
 		pitspeedsqrlimit *= pitspeedsqrlimit;
 		/* get memory for the pit points */
@@ -76,7 +76,7 @@ Pathfinder::~Pathfinder()
 void Pathfinder::initPit(tCarElt* car) {
 	tTrack* t = track->getTorcsTrack();
 
-	if (t->pits.driversPits != NULL && car != NULL) {
+	if (t->pits.driversPits != nullptr && car != nullptr) {
 		if (isPitAvailable()) {
 			tTrackSeg* pitSeg = t->pits.driversPits->pos.seg;
 			if (pitSeg->type == TR_STR) {
@@ -248,7 +248,7 @@ bool Pathfinder::loadClothoidParams(tParam* p)
 	FILE* fd = fopen(FNPF, "r");
 
 	/* read FNPF */
-	if (fd != NULL) {
+	if (fd != nullptr) {
 		for (int i = 0; i < NTPARAMS; i++) {
 			fscanf(fd, "%lf %lf", &p[i].x, &p[i].pd);
 		}
@@ -260,7 +260,7 @@ bool Pathfinder::loadClothoidParams(tParam* p)
 
 	/* read FNIS */
 	fd = fopen(FNIS, "r");
-	if (fd != NULL) {
+	if (fd != nullptr) {
 		for (int i = 0; i < NTPARAMS; i++) {
 			fscanf(fd, "%lf %lf", &dummy, &p[i].is);
 		}
@@ -272,7 +272,7 @@ bool Pathfinder::loadClothoidParams(tParam* p)
 
 	/* read FNIC */
 	fd = fopen(FNIC, "r");
-	if (fd != NULL) {
+	if (fd != nullptr) {
 		for (int i = 0; i < NTPARAMS; i++) {
 			fscanf(fd, "%lf %lf", &dummy, &p[i].ic);
 		}
@@ -501,7 +501,7 @@ int Pathfinder::initLeft(int id, double w)
 
 	double beta = acos(track->cosalpha(trtg, tr));
 
-	if (beta < 0.0) printf("error in initLeft: turn > 360° ??\n");
+	if (beta < 0.0) printf("error in initLeft: turn > 360ï¿½ ??\n");
 
 	s1->dirVector(s2, &sdir);
 	sp = (*s2) - (*tr)*w;
@@ -561,7 +561,7 @@ int Pathfinder::initRight(int id, double w)
 
 	double beta = acos(track->cosalpha(trtg, tr));
 
-	if (beta < 0.0) printf("error in initRight: turn > 360° ??\n");
+	if (beta < 0.0) printf("error in initRight: turn > 360ï¿½ ??\n");
 
 	s1->dirVector(s2, &sdir);
 	sp = (*s2) + (*tr)*w;
@@ -1217,7 +1217,7 @@ int Pathfinder::overtake(int trackSegId, tSituation *s, MyCar* myc, OtherCar* oc
 	const int start = (trackSegId - (int) (2.0 + myc->CARLEN) + nPathSeg) % nPathSeg;
 	const int nearend = (trackSegId + (int) (2.0*myc->CARLEN)) % nPathSeg;
 
-	OtherCar* nearestCar = NULL;	/* car near in time, not in space ! (next reached car) */
+	OtherCar* nearestCar = nullptr;	/* car near in time, not in space ! (next reached car) */
 	double minTime = FLT_MAX;
 	double minorthdist = FLT_MAX;	/* near in space */
 	double orthdist = FLT_MAX;

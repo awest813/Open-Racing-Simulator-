@@ -55,7 +55,7 @@ const float Driver::TEAM_REAR_DIST = 50.0f;					//
 const int Driver::TEAM_DAMAGE_CHANGE_LEAD = 700;			// When to change position in the team?
 
 // Static variables.
-Cardata *Driver::cardata = NULL;
+Cardata *Driver::cardata = nullptr;
 double Driver::currentsimtime;
 
 
@@ -72,9 +72,9 @@ Driver::~Driver()
 	delete [] radius;
 	delete learn;
 	delete strategy;
-	if (cardata != NULL) {
+	if (cardata != nullptr) {
 		delete cardata;
-		cardata = NULL;
+		cardata = nullptr;
 	}
 }
 
@@ -105,7 +105,7 @@ void Driver::initTrack(tTrack* t, void *carHandle, void **carParmHandle, tSituat
 	}
 
 	*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
-	if (*carParmHandle == NULL) {
+	if (*carParmHandle == nullptr) {
 		snprintf(buffer, BUFSIZE, "drivers/bt/%d/default.xml", INDEX);
 		*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
     }
@@ -117,7 +117,7 @@ void Driver::initTrack(tTrack* t, void *carHandle, void **carParmHandle, tSituat
 	strategy->setFuelAtRaceStart(t, carParmHandle, s, INDEX);
 
 	// Load and set parameters.
-	MU_FACTOR = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_MUFACTOR, (char*)NULL, 0.69f);
+	MU_FACTOR = GfParmGetNum(*carParmHandle, BT_SECT_PRIV, BT_ATT_MUFACTOR, (char*)nullptr, 0.69f);
 }
 
 
@@ -132,7 +132,7 @@ void Driver::newRace(tCarElt* car, tSituation *s)
 	clutchtime = 0.0f;
 	oldlookahead = 0.0f;
 	this->car = car;
-	CARMASS = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_MASS, NULL, 1000.0f);
+	CARMASS = GfParmGetNum(car->_carHandle, SECT_CAR, PRM_MASS, nullptr, 1000.0f);
 	myoffset = 0.0f;
 	initCa();
 	initCw();
@@ -140,7 +140,7 @@ void Driver::newRace(tCarElt* car, tSituation *s)
 	initTCLfilter();
 
 	// Create just one instance of cardata shared by all drivers.
-	if (cardata == NULL) {
+	if (cardata == nullptr) {
 		cardata = new Cardata(s);
 	}
 	mycardata = cardata->findCar(car);
@@ -151,8 +151,8 @@ void Driver::newRace(tCarElt* car, tSituation *s)
 	opponent = opponents->getOpponentPtr();
 
 	// Set team mate.
-	const char *teammate = GfParmGetStr(car->_carHandle, BT_SECT_PRIV, BT_ATT_TEAMMATE, NULL);
-	if (teammate != NULL) {
+	const char *teammate = GfParmGetStr(car->_carHandle, BT_SECT_PRIV, BT_ATT_TEAMMATE, nullptr);
+	if (teammate != nullptr) {
 		opponents->setTeamMate(teammate);
 	}
 
@@ -498,7 +498,7 @@ float Driver::getOffset()
 {
 	int i;
 	float catchdist, mincatchdist = FLT_MAX, mindist = -1000.0f;
-	Opponent *o = NULL;
+	Opponent *o = nullptr;
 
 	// Increment speed dependent.
 	float incfactor = MAX_INC_FACTOR - MIN(fabs(car->_speed_x)/MAX_INC_FACTOR, (MAX_INC_FACTOR - 1.0f));
@@ -521,7 +521,7 @@ float Driver::getOffset()
 		}
 	}
 
-	if (o != NULL) {
+	if (o != nullptr) {
 		tCarElt *ocar = o->getCarPtr();
 		float side = car->_trkPos.toMiddle - ocar->_trkPos.toMiddle;
 		float w = car->_trkPos.seg->width/WIDTHDIV-BORDER_OVERTAKE_MARGIN;
@@ -551,7 +551,7 @@ float Driver::getOffset()
 		}
 	}
 
-	if (o != NULL) {
+	if (o != nullptr) {
 		// Compute the width around the middle which we can use for overtaking.
 		float w = o->getCarPtr()->_trkPos.seg->width/WIDTHDIV-BORDER_OVERTAKE_MARGIN;
 		// Compute the opponents distance to the middle.
@@ -691,16 +691,16 @@ bool Driver::isStuck()
 void Driver::initCa()
 {
 	const char *WheelSect[4] = {SECT_FRNTRGTWHEEL, SECT_FRNTLFTWHEEL, SECT_REARRGTWHEEL, SECT_REARLFTWHEEL};
-	float rearwingarea = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*) NULL, 0.0f);
-	float rearwingangle = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*) NULL, 0.0f);
+	float rearwingarea = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGAREA, (char*) nullptr, 0.0f);
+	float rearwingangle = GfParmGetNum(car->_carHandle, SECT_REARWING, PRM_WINGANGLE, (char*) nullptr, 0.0f);
 	float wingca = 1.23f*rearwingarea*sin(rearwingangle);
 
-	float cl = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*) NULL, 0.0f) +
-			   GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_RCL, (char*) NULL, 0.0f);
+	float cl = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FCL, (char*) nullptr, 0.0f) +
+			   GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_RCL, (char*) nullptr, 0.0f);
 	float h = 0.0f;
 	int i;
 	for (i = 0; i < 4; i++)
-		h += GfParmGetNum(car->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, (char*) NULL, 0.20f);
+		h += GfParmGetNum(car->_carHandle, WheelSect[i], PRM_RIDEHEIGHT, (char*) nullptr, 0.20f);
 	h*= 1.5f; h = h*h; h = h*h; h = 2.0f * exp(-3.0f*h);
 	CA = h*cl + 4.0f*wingca;
 }
@@ -709,8 +709,8 @@ void Driver::initCa()
 // Compute aerodynamic drag coefficient CW.
 void Driver::initCw()
 {
-	float cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*) NULL, 0.0f);
-	float frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*) NULL, 0.0f);
+	float cx = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_CX, (char*) nullptr, 0.0f);
+	float frontarea = GfParmGetNum(car->_carHandle, SECT_AERODYNAMICS, PRM_FRNTAREA, (char*) nullptr, 0.0f);
 	CW = 0.645f*cx*frontarea;
 }
 
@@ -723,7 +723,7 @@ void Driver::initTireMu()
 	int i;
 
 	for (i = 0; i < 4; i++) {
-		tm = MIN(tm, GfParmGetNum(car->_carHandle, WheelSect[i], PRM_MU, (char*) NULL, 1.0f));
+		tm = MIN(tm, GfParmGetNum(car->_carHandle, WheelSect[i], PRM_MU, (char*) nullptr, 1.0f));
 	}
 	TIREMU = tm;
 }
@@ -819,7 +819,7 @@ float Driver::filterSColl(float steer)
 {
 	int i;
 	float sidedist = 0.0f, fsidedist = 0.0f, minsidedist = FLT_MAX;
-	Opponent *o = NULL;
+	Opponent *o = nullptr;
 
 	// Get the index of the nearest car (o).
 	for (i = 0; i < opponents->getNOpponents(); i++) {
@@ -834,7 +834,7 @@ float Driver::filterSColl(float steer)
 	}
 
 	// If there is another car handle the situation.
-	if (o != NULL) {
+	if (o != nullptr) {
 		float d = fsidedist - o->getWidth();
 		// Near, so we need to look at it.
 		if (d < SIDECOLL_MARGIN) {

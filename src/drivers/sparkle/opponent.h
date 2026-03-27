@@ -20,10 +20,10 @@
 #ifndef _OPPONENT_H_
 #define _OPPONENT_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
-#include <math.h>
+#include <cmath>
 
 #include <tgf.h>
 #include <track.h>

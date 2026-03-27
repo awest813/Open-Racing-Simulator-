@@ -504,10 +504,10 @@ void SimCollideRemoveCar(tCar *car, int nbcars)
 	}
 
 	// Remove it.
-	if (SimCarTable[i].shape != NULL) {
+	if (SimCarTable[i].shape != nullptr) {
 		dtDeleteObject(&(SimCarTable[i]));
 		dtDeleteShape(SimCarTable[i].shape);
-		SimCarTable[i].shape = NULL;
+		SimCarTable[i].shape = nullptr;
 	}
 }
 
@@ -525,7 +525,7 @@ void SimCarCollideShutdown(int nbcars)
 
 	for (i = 0; i < nbcars; i++) {
 		// Check if car has not been removed already (wrecked).
-		if (SimCarTable[i].shape != NULL) {
+		if (SimCarTable[i].shape != nullptr) {
 			dtDeleteObject(&(SimCarTable[i]));
 			dtDeleteShape(SimCarTable[i].shape);
 		}
@@ -552,8 +552,8 @@ static tTrackSeg *getFirstWallStart(tTrackSeg *start, int side)
 	// Moving backward out of wall.
 	do {
 		// A wall is a wall on the track if it is not the barrier at the same time.
-		if (first->side[side] != NULL && first->side[side]->style == TR_WALL &&
-			first->side[side]->side[side] != NULL)
+		if (first->side[side] != nullptr && first->side[side]->style == TR_WALL &&
+			first->side[side]->side[side] != nullptr)
 		{
 			first = first->prev;
 		} else {
@@ -564,8 +564,8 @@ static tTrackSeg *getFirstWallStart(tTrackSeg *start, int side)
 	// Searching forward for the first wall segment.
 	start = first;
 	do {
-		if (first->side[side] != NULL && first->side[side]->style == TR_WALL &&
-			first->side[side]->side[side] != NULL)
+		if (first->side[side] != nullptr && first->side[side]->style == TR_WALL &&
+			first->side[side]->side[side] != nullptr)
 		{
 			return first;
 		} else {
@@ -573,7 +573,7 @@ static tTrackSeg *getFirstWallStart(tTrackSeg *start, int side)
 		}
 	} while (first != start);
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -582,7 +582,7 @@ static tTrackSeg *getFirstWallStart(tTrackSeg *start, int side)
 // FIXME: Does not work for a closed ring "by design".
 void buildWalls(tTrackSeg *start, int side) {
 
-	if (start == NULL) {
+	if (start == nullptr) {
 		return;
 	}
 
@@ -596,7 +596,7 @@ void buildWalls(tTrackSeg *start, int side) {
 		tTrackSeg* n = current->next->side[side];
 
 		// Current segment is a wall?
-		if (s != NULL && s->style == TR_WALL && s->side[side] != NULL) {
+		if (s != nullptr && s->style == TR_WALL && s->side[side] != nullptr) {
 
 			float h = s->height;
 			t3Dd svl = s->vertex[TR_SL];
@@ -606,7 +606,7 @@ void buildWalls(tTrackSeg *start, int side) {
 			static float weps = 0.01f;
 
 			// Close the start with a ploygon?
-			if (p == NULL || p->style != TR_WALL ||
+			if (p == nullptr || p->style != TR_WALL ||
 				(fabs(p->vertex[TR_EL].x - svl.x) > weps) ||
 				(fabs(p->vertex[TR_ER].x - svr.x) > weps) ||
 				(fabs(h - p->height) > weps) ||
@@ -667,7 +667,7 @@ void buildWalls(tTrackSeg *start, int side) {
 			}
 
 			// Close the end with a ploygon?
-			if (n == NULL || n->style != TR_WALL ||
+			if (n == nullptr || n->style != TR_WALL ||
 				(fabs(n->vertex[TR_SL].x - evl.x) > weps) ||
 				(fabs(n->vertex[TR_SR].x - evr.x) > weps) ||
 				(fabs(h - n->height) > weps))
@@ -719,7 +719,7 @@ SimCarCollideConfig(tCar *car, tTrack *track)
 void
 SimCarCollideInit(tTrack *track)
 {
-	dtSetDefaultResponse(SimCarCollideResponse, DT_SMART_RESPONSE, NULL);
+	dtSetDefaultResponse(SimCarCollideResponse, DT_SMART_RESPONSE, nullptr);
 	// Hmm, why is caching disabled, are our objects too fast, so it does not work?
 	// TODO: understand this and reconsider caching.
 	dtDisableCaching();
@@ -727,7 +727,7 @@ SimCarCollideInit(tTrack *track)
 	
 	fixedid = 0;
 
-	if (track != NULL) {
+	if (track != nullptr) {
 		tTrackSeg *firstleft = getFirstWallStart(track->seg, TR_SIDE_LFT);
 		tTrackSeg *firstright = getFirstWallStart(track->seg, TR_SIDE_RGT);
 

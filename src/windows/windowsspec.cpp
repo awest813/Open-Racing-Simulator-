@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 
-#include <stdlib.h>
-#include <stddef.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstddef>
+#include <cstdio>
 #include <string>
 #include <sys/types.h>
-#include <time.h>
+#include <ctime>
 #include <tgf.h>
 #include <os.h>
 #include <direct.h>
@@ -67,7 +67,7 @@ static int windowsModLoad(unsigned int gfid, char *sopath, tModList **modlist)
 	/* This one doesn't load dynamically... */
 	if (strcmp(sopath,"modules/graphic/ssggraph.dll") == 0) {
 		ssggraph(curMod->modInfo);
-		if (*modlist == NULL) {
+		if (*modlist == nullptr) {
 			*modlist = curMod;
 			curMod->next = curMod;
 		} else {
@@ -81,15 +81,15 @@ static int windowsModLoad(unsigned int gfid, char *sopath, tModList **modlist)
 
 	handle = LoadLibrary( sopath ); 
 	GfOut("LoadLibrary return from %s\n",sopath);
-	if (handle != NULL) {
-		if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != NULL) {
+	if (handle != nullptr) {
+		if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != nullptr) {
 			/* DLL loaded, init function exists, call it... */
 			GfOut("calling modInfo from %s\n",sopath);
 			if (fModInfo(curMod->modInfo) == 0) {
 				GfOut(">>> %s >>>\n", sopath);
 				curMod->handle = handle;
 				curMod->sopath = strdup(sopath);
-				if (*modlist == NULL) {
+				if (*modlist == nullptr) {
 					*modlist = curMod;
 					curMod->next = curMod;
 				} else {
@@ -149,14 +149,14 @@ static int windowsModInfo(unsigned int gfid, char *sopath, tModList **modlist)
 	dname[strlen(dname) - 4] = 0; /* cut .dll */
     
 	handle = LoadLibrary( sopath );
-	if (handle != NULL) {
-		if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != NULL) {
+	if (handle != nullptr) {
+		if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != nullptr) {
 			/* DLL loaded, init function exists, call it... */
 			if (fModInfo(curMod->modInfo) == 0) {
 				GfOut("Request Info for %s\n", sopath);
-				curMod->handle = NULL;
+				curMod->handle = nullptr;
 				curMod->sopath = strdup(sopath);
-				if (*modlist == NULL) {
+				if (*modlist == nullptr) {
 					*modlist = curMod;
 					curMod->next = curMod;
 				} else {
@@ -238,8 +238,8 @@ static int windowsModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 		do {
 		snprintf(sopath, sizeof(sopath), "%s\\%s", dir, FData.name);
 		handle = LoadLibrary( sopath );
-		if (handle != NULL) {
-			if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != NULL) {
+		if (handle != nullptr) {
+			if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != nullptr) {
 				/* DLL loaded, init function exists, call it... */
 				if ((fModInfo(curMod->modInfo) == 0) && (curMod->modInfo[0].gfId == gfid)) {
 					GfOut(">>> %s loaded >>>\n", sopath);
@@ -247,7 +247,7 @@ static int windowsModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 					curMod->handle = handle;
 					curMod->sopath = strdup(sopath);
 					/* add the module in the list */
-					if (*modlist == NULL) {
+					if (*modlist == nullptr) {
 						*modlist = curMod;
 						curMod->next = curMod;
 					} else {
@@ -340,16 +340,16 @@ static int windowsModInfoDir(unsigned int gfid, char *dir, int level, tModList *
 					dname[strlen(dname) - 4] = 0; /* cut .dll */
 				}
 				handle = LoadLibrary( sopath );
-				if (handle != NULL) {
-					if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != NULL) {
+				if (handle != nullptr) {
+					if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != nullptr) {
 						GfOut("Request Info for %s\n", sopath);
 						/* DLL loaded, init function exists, call it... */
 						if (fModInfo(curMod->modInfo) == 0) {
 							modnb++;
-							curMod->handle = NULL;
+							curMod->handle = nullptr;
 							curMod->sopath = strdup(sopath);
 							/* add the module in the list */
-							if (*modlist == NULL) {
+							if (*modlist == nullptr) {
 								*modlist = curMod;
 								curMod->next = curMod;
 							} else {
@@ -438,7 +438,7 @@ static int windowsModUnloadList(tModList **modlist)
 		free(curMod);
 	} while (curMod != *modlist);
     
-	*modlist = (tModList *)NULL;
+	*modlist = (tModList *)nullptr;
 	return 0;
 }
 
@@ -480,7 +480,7 @@ static int windowsModFreeInfoList(tModList **modlist)
 		free(curMod);
 	} while (curMod != *modlist);
 	
-	*modlist = (tModList *)NULL;
+	*modlist = (tModList *)nullptr;
 	return 0;
 }
 
@@ -499,7 +499,7 @@ static int windowsModFreeInfoList(tModList **modlist)
 */
 static tFList* windowsDirGetList(const char *dir)
 {
-	tFList	*flist = NULL;
+	tFList	*flist = nullptr;
 	tFList	*curf;
 	
 	_finddata_t FData;
@@ -512,7 +512,7 @@ static tFList* windowsDirGetList(const char *dir)
 			if ( strcmp(FData.name, ".") != 0 && strcmp(FData.name, "..") != 0 ) {
 				curf = (tFList*)calloc(1, sizeof(tFList));
 				curf->name = strdup(FData.name);
-				if (flist == (tFList*)NULL) {
+				if (flist == (tFList*)nullptr) {
 					curf->next = curf;
 					curf->prev = curf;
 					flist = curf;
@@ -556,12 +556,12 @@ static tFList* windowsDirGetList(const char *dir)
 */
 static tFList *windowsDirGetListFiltered(const char *dir, const char *suffix)
 {
-	tFList	*flist = NULL;
+	tFList	*flist = nullptr;
 	tFList	*curf;
 	int		suffixLg;
 	int		fnameLg;
 
-	if ((suffix == NULL) || (strlen(suffix) == 0))
+	if ((suffix == nullptr) || (strlen(suffix) == 0))
 		return windowsDirGetList(dir);
 
 	suffixLg = strlen(suffix);
@@ -577,7 +577,7 @@ static tFList *windowsDirGetListFiltered(const char *dir, const char *suffix)
 			if ((fnameLg > suffixLg) && (strcmp(FData.name + fnameLg - suffixLg, suffix) == 0)) {
 				curf = (tFList*)calloc(1, sizeof(tFList));
 				curf->name = strdup(FData.name);
-				if (flist == (tFList*)NULL) {
+				if (flist == (tFList*)nullptr) {
 					curf->next = curf;
 					curf->prev = curf;
 					flist = curf;

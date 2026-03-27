@@ -23,9 +23,9 @@
     @version	$Id$
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
 
 #include <tgfclient.h>
 #include <portability.h>
@@ -44,26 +44,26 @@
 void	*PrefHdle;
 
 tControlCmd	CmdControlRef[] = {
-    {HM_ATT_UP_SHFT,    GFCTRL_TYPE_JOY_BUT,       0, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_DN_SHFT,    GFCTRL_TYPE_JOY_BUT,       1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_ASR_CMD,    GFCTRL_TYPE_JOY_BUT,       2, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_ABS_CMD,    GFCTRL_TYPE_JOY_BUT,       3, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_R,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_N,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_1,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_2,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_3,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_4,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_5,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_GEAR_6,     GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
+    {HM_ATT_UP_SHFT,    GFCTRL_TYPE_JOY_BUT,       0, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_DN_SHFT,    GFCTRL_TYPE_JOY_BUT,       1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_ASR_CMD,    GFCTRL_TYPE_JOY_BUT,       2, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_ABS_CMD,    GFCTRL_TYPE_JOY_BUT,       3, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_R,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_N,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_1,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_2,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_3,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_4,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_5,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_GEAR_6,     GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
 
-    {HM_ATT_THROTTLE,   GFCTRL_TYPE_JOY_AXIS, 1, HM_ATT_THROTTLE_MIN,   0.0, 0.0, HM_ATT_THROTTLE_MAX,   1.0, HM_ATT_THROTTLE_SENS, 1.0, HM_ATT_THROTTLE_POW, 2.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_BRAKE,      GFCTRL_TYPE_JOY_AXIS, 1, HM_ATT_BRAKE_MIN,      0.0, 0.0, HM_ATT_BRAKE_MAX,      1.0, HM_ATT_BRAKE_SENS,    1.0, HM_ATT_BRAKE_POW,    2.0, NULL, 0.0, NULL, 0.0},
+    {HM_ATT_THROTTLE,   GFCTRL_TYPE_JOY_AXIS, 1, HM_ATT_THROTTLE_MIN,   0.0, 0.0, HM_ATT_THROTTLE_MAX,   1.0, HM_ATT_THROTTLE_SENS, 1.0, HM_ATT_THROTTLE_POW, 2.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_BRAKE,      GFCTRL_TYPE_JOY_AXIS, 1, HM_ATT_BRAKE_MIN,      0.0, 0.0, HM_ATT_BRAKE_MAX,      1.0, HM_ATT_BRAKE_SENS,    1.0, HM_ATT_BRAKE_POW,    2.0, nullptr, 0.0, nullptr, 0.0},
     {HM_ATT_LEFTSTEER,  GFCTRL_TYPE_JOY_AXIS, 0, HM_ATT_LEFTSTEER_MIN,  0.0, 0.0, HM_ATT_LEFTSTEER_MAX,  1.0, HM_ATT_STEER_SENS,    2.0, HM_ATT_LEFTSTEER_POW,    1.0, HM_ATT_STEER_SPD, 0.0, HM_ATT_STEER_DEAD, 0.0},
     {HM_ATT_RIGHTSTEER, GFCTRL_TYPE_JOY_AXIS, 0, HM_ATT_RIGHTSTEER_MIN, 0.0, 0.0, HM_ATT_RIGHTSTEER_MAX, 1.0, HM_ATT_STEER_SENS,    2.0, HM_ATT_RIGHTSTEER_POW,    1.0, HM_ATT_STEER_SPD, 0.0, HM_ATT_STEER_DEAD, 0.0},
-    {HM_ATT_LIGHT1_CMD, GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_CLUTCH,      GFCTRL_TYPE_JOY_AXIS, 1, HM_ATT_CLUTCH_MIN,      0.0, 0.0, HM_ATT_CLUTCH_MAX,      1.0, HM_ATT_CLUTCH_SENS,    1.0, HM_ATT_CLUTCH_POW,    2.0, NULL, 0.0, NULL, 0.0},
-    {HM_ATT_SPDLIM_CMD,  GFCTRL_TYPE_NOT_AFFECTED, -1, NULL, 0.0, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0, NULL, 0.0}
+    {HM_ATT_LIGHT1_CMD, GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_CLUTCH,      GFCTRL_TYPE_JOY_AXIS, 1, HM_ATT_CLUTCH_MIN,      0.0, 0.0, HM_ATT_CLUTCH_MAX,      1.0, HM_ATT_CLUTCH_SENS,    1.0, HM_ATT_CLUTCH_POW,    2.0, nullptr, 0.0, nullptr, 0.0},
+    {HM_ATT_SPDLIM_CMD,  GFCTRL_TYPE_NOT_AFFECTED, -1, nullptr, 0.0, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0, nullptr, 0.0}
 };
 
 const int nbCmdControl = sizeof(CmdControlRef) / sizeof(CmdControlRef[0]);
@@ -128,30 +128,30 @@ void HmReadPrefs(int index)
 		GfOut("%s -> %s\n", cmdCtrl[cmd].name, prm);
 
 		if (cmdCtrl[cmd].minName) {
-			cmdCtrl[cmd].min = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].minName, (char*)NULL, cmdCtrl[cmd].min);
-			cmdCtrl[cmd].min = cmdCtrl[cmd].minVal = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].minName, (char*)NULL, cmdCtrl[cmd].min);
+			cmdCtrl[cmd].min = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].minName, (char*)nullptr, cmdCtrl[cmd].min);
+			cmdCtrl[cmd].min = cmdCtrl[cmd].minVal = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].minName, (char*)nullptr, cmdCtrl[cmd].min);
 		}
 		if (cmdCtrl[cmd].maxName) {
-			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].maxName, (char*)NULL, cmdCtrl[cmd].max);
-			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].maxName, (char*)NULL, cmdCtrl[cmd].max);
+			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].maxName, (char*)nullptr, cmdCtrl[cmd].max);
+			cmdCtrl[cmd].max = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].maxName, (char*)nullptr, cmdCtrl[cmd].max);
 		}	
 		if (cmdCtrl[cmd].sensName) {
-			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].sensName, (char*)NULL, cmdCtrl[cmd].sens);
-			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].sensName, (char*)NULL, cmdCtrl[cmd].sens);
+			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].sensName, (char*)nullptr, cmdCtrl[cmd].sens);
+			cmdCtrl[cmd].sens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].sensName, (char*)nullptr, cmdCtrl[cmd].sens);
 			cmdCtrl[cmd].sens = 1.0f / cmdCtrl[cmd].sens;
 		}	
 		if (cmdCtrl[cmd].powName) {
-			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].powName, (char*)NULL, cmdCtrl[cmd].pow);
-			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].powName, (char*)NULL, cmdCtrl[cmd].pow);
+			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].powName, (char*)nullptr, cmdCtrl[cmd].pow);
+			cmdCtrl[cmd].pow = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].powName, (char*)nullptr, cmdCtrl[cmd].pow);
 		}
 		if (cmdCtrl[cmd].spdSensName) {
-			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].spdSensName, (char*)NULL, cmdCtrl[cmd].spdSens);
-			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].spdSensName, (char*)NULL, cmdCtrl[cmd].spdSens);
+			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].spdSensName, (char*)nullptr, cmdCtrl[cmd].spdSens);
+			cmdCtrl[cmd].spdSens = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].spdSensName, (char*)nullptr, cmdCtrl[cmd].spdSens);
 			cmdCtrl[cmd].spdSens = cmdCtrl[cmd].spdSens / 100.0;
 		}
 		if (cmdCtrl[cmd].deadZoneName) {
-			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].deadZoneName, (char*)NULL, cmdCtrl[cmd].deadZone);
-			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].deadZoneName, (char*)NULL, cmdCtrl[cmd].deadZone);
+			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, GfctrlGetDefaultSection(cmdCtrl[cmd].type), cmdCtrl[cmd].deadZoneName, (char*)nullptr, cmdCtrl[cmd].deadZone);
+			cmdCtrl[cmd].deadZone = GfParmGetNum(PrefHdle, sstring, cmdCtrl[cmd].deadZoneName, (char*)nullptr, cmdCtrl[cmd].deadZone);
 		}
 		if (cmdCtrl[cmd].min > cmdCtrl[cmd].max) {
 			tmp = cmdCtrl[cmd].min;

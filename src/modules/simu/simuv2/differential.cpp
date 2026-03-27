@@ -21,16 +21,16 @@
 
 void SimDifferentialConfig(void *hdle, const char *section, tDifferential *differential)
 {
-	differential->I		= GfParmGetNum(hdle, section, PRM_INERTIA, (char*)NULL, 0.1f);
-	differential->efficiency	= GfParmGetNum(hdle, section, PRM_EFFICIENCY, (char*)NULL, 1.0f);
-	differential->ratio		= GfParmGetNum(hdle, section, PRM_RATIO, (char*)NULL, 1.0f);
-	differential->dTqMin	= GfParmGetNum(hdle, section, PRM_MIN_TQ_BIAS, (char*)NULL, 0.05f);
-	differential->dTqMax	= GfParmGetNum(hdle, section, PRM_MAX_TQ_BIAS, (char*)NULL, 0.80f) - differential->dTqMin;
+	differential->I		= GfParmGetNum(hdle, section, PRM_INERTIA, (char*)nullptr, 0.1f);
+	differential->efficiency	= GfParmGetNum(hdle, section, PRM_EFFICIENCY, (char*)nullptr, 1.0f);
+	differential->ratio		= GfParmGetNum(hdle, section, PRM_RATIO, (char*)nullptr, 1.0f);
+	differential->dTqMin	= GfParmGetNum(hdle, section, PRM_MIN_TQ_BIAS, (char*)nullptr, 0.05f);
+	differential->dTqMax	= GfParmGetNum(hdle, section, PRM_MAX_TQ_BIAS, (char*)nullptr, 0.80f) - differential->dTqMin;
 	if (differential->dTqMax < 0.0f) differential->dTqMax = 0.0f;
-	differential->dSlipMax	= GfParmGetNum(hdle, section, PRM_MAX_SLIP_BIAS, (char*)NULL, 0.03f);
-	differential->lockInputTq	= GfParmGetNum(hdle, section, PRM_LOCKING_TQ, (char*)NULL, 3000.0f);
-	differential->lockBrakeInputTq = GfParmGetNum(hdle, section, PRM_LOCKINGBRAKE_TQ, (char*)NULL, differential->lockInputTq*0.33f);
-	differential->viscosity	= GfParmGetNum(hdle, section, PRM_VISCOSITY_FACTOR, (char*)NULL, 1.0f);
+	differential->dSlipMax	= GfParmGetNum(hdle, section, PRM_MAX_SLIP_BIAS, (char*)nullptr, 0.03f);
+	differential->lockInputTq	= GfParmGetNum(hdle, section, PRM_LOCKING_TQ, (char*)nullptr, 3000.0f);
+	differential->lockBrakeInputTq = GfParmGetNum(hdle, section, PRM_LOCKINGBRAKE_TQ, (char*)nullptr, differential->lockInputTq*0.33f);
+	differential->viscosity	= GfParmGetNum(hdle, section, PRM_VISCOSITY_FACTOR, (char*)nullptr, 1.0f);
 	
 	const char* type = GfParmGetStr(hdle, section, PRM_TYPE, VAL_DIFF_NONE);
 	if (strcmp(type, VAL_DIFF_LIMITED_SLIP) == 0) {

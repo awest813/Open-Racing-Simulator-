@@ -19,7 +19,7 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <shlobj.h>
 #endif
 #include <GL/glut.h>
@@ -108,7 +108,7 @@ static void prepareLocalDir()
 		} while (racemanCur != racemanList);		
 	}
 
-	GfDirFreeList(racemanList, NULL, true, true);
+	GfDirFreeList(racemanList, nullptr, true, true);
 }
 
 
@@ -116,7 +116,7 @@ static void prepareLocalDir()
 static void setUserLocalDir(char* buf, const int bufsize)
 {
 	TCHAR szLocalAppDataPath[MAX_PATH];
-	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, szLocalAppDataPath))) {
+	if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, nullptr, 0, szLocalAppDataPath))) {
 		convertDelimiter(szLocalAppDataPath, MAX_PATH);			
 		snprintf(buf, bufsize, "%s/torcs/", szLocalAppDataPath);
 		if (GfCreateDir(buf) == GF_DIR_CREATED) {
@@ -160,7 +160,7 @@ static void init_args(int argc, char **argv, const char** raceconfig)
 	char *end = strrchr(buf, '\\');
 
 	// Did we find the last '\' and do we get a complete path?
-	if (end != NULL && buf[1] == ':') {
+	if (end != nullptr && buf[1] == ':') {
 		end++;
 		*(end) = '\0';
 		convertDelimiter(buf, BUFSIZE);
@@ -172,7 +172,7 @@ static void init_args(int argc, char **argv, const char** raceconfig)
 		SetLibDir("");
 		setUserLocalDir(buf, BUFSIZE);
 	} else {
-		if (_fullpath(buf, argv[0], BUFSIZE) != NULL &&
+		if (_fullpath(buf, argv[0], BUFSIZE) != nullptr &&
 			(strcmp(argv[0], "wtorcs") == 0 ||
 			 strcmp(argv[0], "wtorcs.exe") == 0)
 		   )

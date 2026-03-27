@@ -46,8 +46,8 @@ class ssgBranchCb : public ssgBranch
  public:
 
   ssgBranchCb(void):ssgBranch() {
-    preDrawCB = NULL;
-    postDrawCB = NULL;
+    preDrawCB = nullptr;
+    postDrawCB = nullptr;
   }
 
   void cull  ( sgFrustum *f, sgMat4 m, int test_needed )
@@ -57,13 +57,13 @@ class ssgBranchCb : public ssgBranch
       if ( cull_result == SSG_OUTSIDE )
 	return ;
 
-      if ( preDrawCB != NULL && ! (*preDrawCB)(this) )
+      if ( preDrawCB != nullptr && ! (*preDrawCB)(this) )
 	return ;
 
-      for ( ssgEntity *e = getKid ( 0 ) ; e != NULL ; e = getNextKid() )
+      for ( ssgEntity *e = getKid ( 0 ) ; e != nullptr ; e = getNextKid() )
 	e -> cull ( f, m, cull_result != SSG_INSIDE ) ;
 
-      if ( postDrawCB != NULL )
+      if ( postDrawCB != nullptr )
 	(*postDrawCB)(this) ;
     }
 
@@ -89,12 +89,12 @@ class ssgLoaderOptionsEx : public ssgLoaderOptions {
 
 		virtual void makeModelPath ( char* path, const char *fname ) const
 		{
-			ulFindFile ( path, model_dir, fname, NULL ) ;
+			ulFindFile ( path, model_dir, fname, nullptr ) ;
 		}
 
 		virtual void makeTexturePath ( char* path, const char *fname ) const
 		{
-			ulFindFile ( path, texture_dir, fname, NULL ) ;
+			ulFindFile ( path, texture_dir, fname, nullptr ) ;
 		}
 };
 

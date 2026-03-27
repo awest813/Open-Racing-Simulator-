@@ -63,14 +63,14 @@ struct _ssgMaterial
 } ;
 
 static int		num_materials = 0 ;
-static sgVec3		*vtab  = NULL ;
-static sgVec3		*ntab  = NULL ;
-static sgVec2           *t0tab = NULL;
-static sgVec2           *t1tab = NULL;
-static sgVec2           *t2tab = NULL;
-static sgVec2           *t3tab = NULL;
-static ssgIndexArray    *vertlist=NULL;
-static ssgIndexArray    *striplist=NULL;
+static sgVec3		*vtab  = nullptr ;
+static sgVec3		*ntab  = nullptr ;
+static sgVec2           *t0tab = nullptr;
+static sgVec2           *t1tab = nullptr;
+static sgVec2           *t2tab = nullptr;
+static sgVec2           *t3tab = nullptr;
+static ssgIndexArray    *vertlist=nullptr;
+static ssgIndexArray    *striplist=nullptr;
 static int              totalnv=0;
 static int              totalstripe=0;
 static int		usenormal = 0;
@@ -84,16 +84,16 @@ static int              indexCar;
 
 static int		isaWindow;
 
-static ssgLoaderOptions	*current_options  = NULL ;
-static _ssgMaterial	*current_material = NULL ;
-static sgVec4		*current_colour   = NULL ;
-static ssgBranch	*current_branch   = NULL ;
-static char		*current_tfname   = NULL ;
-static char		*current_tbase    = NULL ;
-static char		*current_ttiled   = NULL ;
-static char		*current_tskids   = NULL ;
-static char		*current_tshad    = NULL ;
-static char		*current_data     = NULL ;
+static ssgLoaderOptions	*current_options  = nullptr ;
+static _ssgMaterial	*current_material = nullptr ;
+static sgVec4		*current_colour   = nullptr ;
+static ssgBranch	*current_branch   = nullptr ;
+static char		*current_tfname   = nullptr ;
+static char		*current_tbase    = nullptr ;
+static char		*current_ttiled   = nullptr ;
+static char		*current_tskids   = nullptr ;
+static char		*current_tshad    = nullptr ;
+static char		*current_data     = nullptr ;
 #define NOTEXTURE "empty_texture_no_mapping"
 #define MAX_MATERIALS 1000    /* This *ought* to be enough! */
 static _ssgMaterial   *mlist    [ MAX_MATERIALS ] ;
@@ -170,7 +170,7 @@ static int search ( Tag *tags, char *s )
 {
   skip_spaces ( & s ) ;
 
-  for ( int i = 0 ; tags[i].token != NULL ; i++ )
+  for ( int i = 0 ; tags[i].token != nullptr ; i++ )
     if ( ulStrNEqual ( tags[i].token, s, strlen(tags[i].token) ) )
     {
       s += strlen ( tags[i].token ) ;
@@ -205,20 +205,20 @@ static Tag object_tags [] =
   { "numvert" , do_numvert  },
   { "numsurf" , do_numsurf  },
   { "kids"    , do_kids     },
-  { NULL, NULL }
+  { nullptr, nullptr }
 } ;
 
 static Tag surf_tag [] =
 {
   { "SURF"    , do_surf     },
-  { NULL, NULL }
+  { nullptr, nullptr }
 } ;
 
 static Tag surface_tags [] =
 {
   { "mat"     , do_mat      },
   { "refs"    , do_refs     },
-  { NULL, NULL }
+  { nullptr, nullptr }
 } ;
 
 static Tag obj_type_tags [] = 
@@ -227,7 +227,7 @@ static Tag obj_type_tags [] =
    { "poly" , do_obj_poly  }, 
    { "group", do_obj_group }, 
    { "light", do_obj_light }, 
-   { NULL, NULL } 
+   { nullptr, nullptr } 
  } ; 
 
 #define OBJ_WORLD  0
@@ -249,10 +249,10 @@ static ssgState *get_state ( _ssgMaterial *mat )
 {
 #ifdef EEE_PAS_COMPRIS
 #warning: HELLO ---------------------
-  if (current_tfname != NULL) {
+  if (current_tfname != nullptr) {
     ssgState *st = current_options -> createState ( current_tfname ) ;
     /* printf("creating texture : %s\n",current_tfname); */
-    if ( st != NULL )
+    if ( st != nullptr )
       return st ;
   }
 #endif
@@ -290,11 +290,11 @@ static ssgState *get_state ( _ssgMaterial *mat )
       st -> setOpaque () ;
   }
 
-  if (current_tfname != NULL) {
+  if (current_tfname != nullptr) {
     st -> setTexture( current_options -> createTexture(current_tfname) ) ;
     st -> enable( GL_TEXTURE_2D ) ;
 
-    if (strstr(current_tfname,"tree")!=NULL || strstr(current_tfname,"trans-")!=NULL || strstr(current_tfname,"arbor")!=NULL)
+    if (strstr(current_tfname,"tree")!=nullptr || strstr(current_tfname,"trans-")!=nullptr || strstr(current_tfname,"arbor")!=nullptr)
       {
 	st->setAlphaClamp(0.65f);
 	st -> enable ( GL_ALPHA_TEST ) ;
@@ -310,17 +310,17 @@ static ssgState *get_state ( _ssgMaterial *mat )
 
 static ssgState *get_state_ext ( char * name)
 {
-	if (name==NULL) {
-		return NULL;
+	if (name==nullptr) {
+		return nullptr;
 	}
 	grMultiTexState *st = new grMultiTexState();
 	st->disable(GL_BLEND);
 	st->setOpaque();
 
-	if (name != NULL) {
+	if (name != nullptr) {
 		st->setTexture(current_options->createTexture(name));
 		st->enable(GL_TEXTURE_2D) ;
-		if (strstr(current_tfname,"tree")!=NULL || strstr(current_tfname,"trans-")!=NULL || strstr(current_tfname,"arbor")!=NULL) {
+		if (strstr(current_tfname,"tree")!=nullptr || strstr(current_tfname,"trans-")!=nullptr || strstr(current_tfname,"arbor")!=nullptr) {
 			st->enable(GL_BLEND);
 			st->setAlphaClamp(0.7f);
 			st->enable(GL_ALPHA_TEST);
@@ -390,7 +390,7 @@ static int do_object   ( char * s  )
 	int obj_type = search(obj_type_tags, s);
 
 	delete [] current_tfname;
-	current_tfname = NULL;
+	current_tfname = nullptr;
 
 	char buffer[1024];
 
@@ -402,7 +402,7 @@ static int do_object   ( char * s  )
 	ssgEntity *old_cb = current_branch ;
 
 	if (obj_type == OBJ_GROUP) {
-		ssgBranch *current_branch_g = NULL;
+		ssgBranch *current_branch_g = nullptr;
 		inGroup = 1;
 		current_branch_g = new ssgBranchCb();
 		current_branch->addKid(current_branch_g);
@@ -421,7 +421,7 @@ static int do_object   ( char * s  )
 	current_branch -> addKid ( tr ) ;
 	current_branch = tr ;
 
-	while ( FGETS ( buffer, 1024, loader_fd ) != NULL )
+	while ( FGETS ( buffer, 1024, loader_fd ) != nullptr )
     	if ( search ( object_tags, buffer ) == PARSE_POP )
       		break ;
 
@@ -429,7 +429,7 @@ static int do_object   ( char * s  )
 
 	for ( int i = 0 ; i < num_kids ; i++ ) {
 		/* EE: bad hack for buggy .acc format... */
-		if (FGETS ( buffer, 1024, loader_fd ) != NULL )
+		if (FGETS ( buffer, 1024, loader_fd ) != nullptr )
 			search ( top_tags, buffer ) ;
     	else
 			break;
@@ -442,7 +442,7 @@ static int do_object   ( char * s  )
 
 static int do_name ( char *s )
 {
-  char *q=NULL;
+  char *q=nullptr;
   skip_quotes ( &s ) ;
 
   /* Window flag */
@@ -458,7 +458,7 @@ static int do_name ( char *s )
   if (!strncmp(s, "TKMN",4))
       {
 	q=strstr(s,"_g");
-	if (q!=NULL)
+	if (q!=nullptr)
 	  *q='\0';
 /* 	if (inGroup!=0) */
 /* 	  { */
@@ -478,7 +478,7 @@ static int do_name ( char *s )
 
 static int do_data     ( char *s )
 {
-  int len = strtol ( s, NULL, 0 ) ;
+  int len = strtol ( s, nullptr, 0 ) ;
 
   current_data = new char [ len + 1 ] ;
 
@@ -491,14 +491,14 @@ static int do_data     ( char *s )
 
   ssgBranch *br = current_options -> createBranch ( current_data ) ;
 
-  if ( br != NULL )
+  if ( br != nullptr )
   {
     current_branch -> addKid ( br ) ;
     current_branch = br ;
   }
 
   /* delete [] current_data ; */
-  current_data = NULL ;
+  current_data = nullptr ;
 
   return PARSE_CONT ;
 }
@@ -508,11 +508,11 @@ static int do_texture  ( char *s )
 {
   char *p ;
 
-  if ( s == NULL || s[0] == '\0' )
-    current_tfname = NULL ;
+  if ( s == nullptr || s[0] == '\0' )
+    current_tfname = nullptr ;
   else
   {
-    if ((p=strstr(s," base"))!=NULL)
+    if ((p=strstr(s," base"))!=nullptr)
       {
 	*p='\0';
 	numMapLevel=1;
@@ -531,7 +531,7 @@ static int do_texture  ( char *s )
 	snprintf ( current_tbase, strlen(s)+1, "%s", s ) ;
 	snprintf ( current_tfname, strlen(s)+1, "%s", s ) ;
       }
-    else  if ((p=strstr(s," tiled"))!=NULL)
+    else  if ((p=strstr(s," tiled"))!=nullptr)
       {
 	*p='\0';
 	delete [] current_ttiled ;
@@ -549,7 +549,7 @@ static int do_texture  ( char *s )
 	    snprintf ( current_ttiled, strlen(s)+1, "%s", s ) ;
 	  }
       }
-    else  if ((p=strstr(s," skids"))!=NULL)
+    else  if ((p=strstr(s," skids"))!=nullptr)
       {
 	*p='\0';
 	delete [] current_tskids ;
@@ -565,7 +565,7 @@ static int do_texture  ( char *s )
 	    snprintf ( current_tskids, strlen(s)+1, "%s", s ) ;
 	  }
       }
-    else  if ((p=strstr(s," shad"))!=NULL)
+    else  if ((p=strstr(s," shad"))!=nullptr)
       {
 	*p='\0';
 	delete [] current_tshad ;
@@ -662,7 +662,7 @@ static int do_numvert  ( char *s )
 {
   char buffer [ 1024 ] ;
 
-  nv = strtol ( s, NULL, 0 ) ;
+  nv = strtol ( s, nullptr, 0 ) ;
  
   delete [] vtab ;
   delete [] ntab ;
@@ -680,10 +680,10 @@ static int do_numvert  ( char *s )
   t2tab = new sgVec2 [ nv ] ;
   t3tab = new sgVec2 [ nv ] ;
   
-  if (vertlist != NULL) {
+  if (vertlist != nullptr) {
 	  ssgDeRefDelete(vertlist);
   }
-  if (striplist != NULL) {
+  if (striplist != nullptr) {
 	  ssgDeRefDelete(striplist);
   }
   
@@ -735,7 +735,7 @@ static int do_numvert  ( char *s )
 
 static int do_numsurf  ( char *s )
 {
-  int ns = strtol ( s, NULL, 0 ) ;
+  int ns = strtol ( s, nullptr, 0 ) ;
 
   for ( int i = 0 ; i < ns ; i++ )
   {
@@ -750,11 +750,11 @@ static int do_numsurf  ( char *s )
 
 static int do_surf     ( char *s )
 {
-  current_flags = strtol ( s, NULL, 0 ) ;
+  current_flags = strtol ( s, nullptr, 0 ) ;
 
   char buffer [ 1024 ] ;
 
-  while ( FGETS ( buffer, 1024, loader_fd ) != NULL )
+  while ( FGETS ( buffer, 1024, loader_fd ) != nullptr )
     if ( search ( surface_tags, buffer ) == PARSE_POP )
       break ;
 
@@ -764,7 +764,7 @@ static int do_surf     ( char *s )
 
 static int do_mat ( char *s )
 {
-  int mat = strtol ( s, NULL, 0 ) ;
+  int mat = strtol ( s, nullptr, 0 ) ;
 
   current_material = mlist [ mat ] ;
   current_colour   = clist [ mat ] ;
@@ -775,7 +775,7 @@ static int do_mat ( char *s )
 
 static int do_refs( char *s )
 {
-	int nrefs = strtol( s, NULL, 0 );
+	int nrefs = strtol( s, nullptr, 0 );
 	char buffer[1024];
 
 	if (nrefs == 0) {
@@ -784,9 +784,9 @@ static int do_refs( char *s )
 
 	ssgVertexArray *vlist = new ssgVertexArray(nrefs);
 	ssgTexCoordArray *tlist = new ssgTexCoordArray (nrefs);
-	ssgTexCoordArray *tlist1 = NULL;
-	ssgTexCoordArray *tlist2 = NULL;
-	ssgTexCoordArray *tlist3 = NULL;
+	ssgTexCoordArray *tlist1 = nullptr;
+	ssgTexCoordArray *tlist2 = nullptr;
+	ssgTexCoordArray *tlist3 = nullptr;
 	//ssgIndexArray *vindices = new ssgIndexArray(nrefs);
 	ssgNormalArray *nrm = new ssgNormalArray(nrefs);
 
@@ -905,7 +905,7 @@ static int do_refs( char *s )
 			vlinelist->add(vtab[i]);
 			vlinelist->add(tv);
 		}
-		ssgVtxTable *vline = new ssgVtxTable(GL_LINES, vlinelist, NULL, NULL, NULL);
+		ssgVtxTable *vline = new ssgVtxTable(GL_LINES, vlinelist, nullptr, nullptr, nullptr);
 		current_branch->addKid(current_options->createLeaf(vline, 0));
 	}
 #endif
@@ -1001,16 +1001,16 @@ static int do_refs( char *s )
 
 static int do_kids ( char *s )
 {
-	last_num_kids = strtol(s, NULL, 0);
+	last_num_kids = strtol(s, nullptr, 0);
 
 #ifdef VTXARRAY_GUIONS
 	if (last_num_kids == 0 && usestrip == TRUE && inGroup != 1) {
 		ssgVertexArray *vlist = new ssgVertexArray(totalnv);
 		ssgNormalArray *nrm = new ssgNormalArray(totalnv);
 		ssgTexCoordArray *tlist0 = new ssgTexCoordArray(totalnv);
-		ssgTexCoordArray *tlist1 = NULL;
-		ssgTexCoordArray *tlist2 = NULL;
-		ssgTexCoordArray *tlist3 = NULL;
+		ssgTexCoordArray *tlist1 = nullptr;
+		ssgTexCoordArray *tlist2 = nullptr;
+		ssgTexCoordArray *tlist3 = nullptr;
 		/* if (numMapLevel>1) */
 		tlist1 = new ssgTexCoordArray(totalnv);
 		/* if (numMapLevel>2) */
@@ -1127,8 +1127,8 @@ ssgEntity *grssgCarLoadAC3D ( const char *fname, const ssgLoaderOptions* options
 
   ssgEntity *obj = myssgLoadAC ( fname, options ) ;
   
-  if ( obj == NULL )
-    return NULL ;
+  if ( obj == nullptr )
+    return nullptr ;
   
   /* Do some simple optimisations */
 
@@ -1161,8 +1161,8 @@ ssgEntity *grssgLoadAC3D ( const char *fname, const ssgLoaderOptions* options )
 
   ssgEntity *obj = myssgLoadAC ( fname, options ) ;
 
-  if ( obj == NULL )
-    return NULL ;
+  if ( obj == nullptr )
+    return nullptr ;
 
 
   /* Do some simple optimisations */
@@ -1200,22 +1200,22 @@ static ssgEntity *myssgLoadAC ( const char *fname, const ssgLoaderOptions* optio
   current_options -> makeModelPath ( filename, fname ) ;
 
   num_materials = 0 ;
-  vtab = NULL ;
+  vtab = nullptr ;
 
-  current_material = NULL ;
-  current_colour   = NULL ;
-  current_tfname   = NULL ;
-  current_branch   = NULL ;
+  current_material = nullptr ;
+  current_colour   = nullptr ;
+  current_tfname   = nullptr ;
+  current_branch   = nullptr ;
 
   sgSetVec2 ( texrep, 1.0, 1.0 ) ;
   sgSetVec2 ( texoff, 0.0, 0.0 ) ;
 
   loader_fd = FOPEN ( filename, "rb" ) ;
 
-  if ( loader_fd == NULL )
+  if ( loader_fd == nullptr )
   {
     ulSetError ( UL_WARNING, "ssgLoadAC: Failed to open '%900s' for reading", filename ) ;
-    return NULL ;
+    return nullptr ;
   }
 
   char buffer [ 1024 ] ;
@@ -1223,7 +1223,7 @@ static ssgEntity *myssgLoadAC ( const char *fname, const ssgLoaderOptions* optio
 
   current_branch = new ssgTransform () ;
 
-  while ( FGETS ( buffer, 1024, loader_fd ) != NULL )
+  while ( FGETS ( buffer, 1024, loader_fd ) != nullptr )
   {
     char *s = buffer ;
 
@@ -1245,7 +1245,7 @@ static ssgEntity *myssgLoadAC ( const char *fname, const ssgLoaderOptions* optio
       {
         FCLOSE ( loader_fd ) ;
         ulSetError ( UL_WARNING, "ssgLoadAC: '%900s' is not in AC3D format.", filename ) ;
-        return NULL ;
+        return nullptr ;
       }
     }
     else
@@ -1253,7 +1253,7 @@ static ssgEntity *myssgLoadAC ( const char *fname, const ssgLoaderOptions* optio
   }
 
   delete [] current_tfname;
-  current_tfname = NULL ;
+  current_tfname = nullptr ;
   delete [] vtab ;
   vtab = 0;
 

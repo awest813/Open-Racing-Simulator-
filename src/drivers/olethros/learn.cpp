@@ -26,7 +26,7 @@
 //#include <iostream>
 
 #ifdef WIN32
-#include <float.h>
+#include <cfloat>
 #define finite _finite
 #endif
 
@@ -40,7 +40,7 @@ inline bool CheckMatchingToken (const char* tag, StringBuffer* buf, FILE* f)
 {
     int l = 1+strlen(tag);
     buf = SetStringBufferLength (buf, l);
-    if (buf==NULL) {
+    if (buf==nullptr) {
         return false;
     }
     fread(buf->c, sizeof(char), l, f);

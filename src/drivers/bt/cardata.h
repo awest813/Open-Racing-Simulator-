@@ -25,8 +25,8 @@
 #ifndef _BT_CARDATA_H_
 #define _BT_CARDATA_H_
 
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <car.h>
 #include <robottools.h>
 #include <raceman.h>

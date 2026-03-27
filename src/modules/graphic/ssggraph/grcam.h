@@ -24,7 +24,7 @@
 #include <car.h>
 #include <raceman.h>
 #ifdef WIN32
-#include <float.h>
+#include <cfloat>
 #endif
 
 class cGrCamera;
@@ -249,7 +249,7 @@ class cGrCarCamMirror : public cGrPerspCamera
 			 myfnear, myffar, myfogstart, myfogend) {
 	glGenTextures (1, &tex);
 	limitFov();
-	viewCam = NULL;
+	viewCam = nullptr;
     }
     virtual ~cGrCarCamMirror ();
 

@@ -31,7 +31,7 @@ SkidMarkSystem::SkidMarkSystem(int maxStrips, int maxPointsPerStrip)
     glBindVertexArray(m_vao);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, maxVerts * FLOATS_PER_VERT * sizeof(float),
-                 NULL, GL_DYNAMIC_DRAW);
+                 nullptr, GL_DYNAMIC_DRAW);
 
     // attrib 0: pos(3f)
     glEnableVertexAttribArray(0);

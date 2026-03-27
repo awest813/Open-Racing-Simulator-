@@ -17,26 +17,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #include <cstring>
 #include <unistd.h>
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
 #include <getopt.h>
-#include <math.h>
+#include <cmath>
 #include <plib/ssg.h>
 #include <GL/glut.h>
 
 #include <tgfclient.h>
 
-char	*InputFileName = NULL;
-char	*OutputFileName = NULL;
-char	*ParamFileName = NULL;
-char	*SkinFileName = NULL;
-void	*ParamHandle = NULL;
+char	*InputFileName = nullptr;
+char	*OutputFileName = nullptr;
+char	*ParamFileName = nullptr;
+char	*SkinFileName = nullptr;
+void	*ParamHandle = nullptr;
 
 FILE	*in, *out;
 
@@ -137,7 +137,7 @@ hookNode(char *s)
 	}
     }
     
-    return (ssgBranch*)NULL;
+    return (ssgBranch*)nullptr;
 }
 
 extern char *optarg;
@@ -149,7 +149,7 @@ void saveSkin(void)
     unsigned char	*img;
     
     img = (unsigned char*)malloc(ImgSize * ImgSize * 3);
-    if (img == NULL) {
+    if (img == nullptr) {
 	return;
     }
     glPixelStorei(GL_PACK_ROW_LENGTH, 0);
@@ -222,7 +222,7 @@ void init_graphics ()
     char *fake_argv[3] ;
     fake_argv[0] = strdup("TexMapper") ;
     fake_argv[1] = strdup("Texture Auto Mapper") ;
-    fake_argv[2] = NULL ;
+    fake_argv[2] = nullptr ;
 
     /*
       Initialise GLUT
@@ -545,7 +545,7 @@ void load_params(void)
     tFace	*curFace;
     const char	*s;
     
-    ImgSize  = (int)GfParmGetNum(ParamHandle, "image", "size", NULL, 256);
+    ImgSize  = (int)GfParmGetNum(ParamHandle, "image", "size", nullptr, 256);
 
     NbRows = GfParmGetEltNb(ParamHandle, "faces");
     
@@ -560,15 +560,15 @@ void load_params(void)
 	for (j = 0; j < nbcol; j++) {
 	    curFace = (tFace*)calloc(1, sizeof(tFace));
 	    GF_TAILQ_INSERT_TAIL(&(Row[i].faces), curFace, link);
-	    curFace->faceName = GfParmGetCurStr(ParamHandle, buf, "face name", NULL);
+	    curFace->faceName = GfParmGetCurStr(ParamHandle, buf, "face name", nullptr);
 	    if ((curFace->faceName != 0) && (strlen(curFace->faceName) != 0)) {
 		curFace->isPresent = true;
-		curFace->xform.hpr[1] =  GfParmGetCurNum(ParamHandle, buf, "rotX", NULL, 0.0);
-		curFace->xform.hpr[2] = -GfParmGetCurNum(ParamHandle, buf, "rotZ", NULL, 0.0);
-		curFace->xform.hpr[0] =  GfParmGetCurNum(ParamHandle, buf, "rotY", NULL, 0.0);
-		curFace->lscale[0] =  GfParmGetCurNum(ParamHandle, buf, "scaleX", NULL, 1.0);
-		curFace->lscale[1] =  GfParmGetCurNum(ParamHandle, buf, "scaleZ", NULL, 1.0);
-		curFace->lscale[2] =  GfParmGetCurNum(ParamHandle, buf, "scaleY", NULL, 1.0);
+		curFace->xform.hpr[1] =  GfParmGetCurNum(ParamHandle, buf, "rotX", nullptr, 0.0);
+		curFace->xform.hpr[2] = -GfParmGetCurNum(ParamHandle, buf, "rotZ", nullptr, 0.0);
+		curFace->xform.hpr[0] =  GfParmGetCurNum(ParamHandle, buf, "rotY", nullptr, 0.0);
+		curFace->lscale[0] =  GfParmGetCurNum(ParamHandle, buf, "scaleX", nullptr, 1.0);
+		curFace->lscale[1] =  GfParmGetCurNum(ParamHandle, buf, "scaleZ", nullptr, 1.0);
+		curFace->lscale[2] =  GfParmGetCurNum(ParamHandle, buf, "scaleY", nullptr, 1.0);
 		s = GfParmGetCurStr(ParamHandle, buf, "align", "");
 		switch (s[0]) {
 		case 'X':
@@ -661,7 +661,7 @@ void init_args(int argc, char **argv)
 	}
     }
 
-    if (OutputFileName == NULL) {
+    if (OutputFileName == nullptr) {
 	OutputFileName = strdup("car-out.ac");
     }
 
@@ -675,13 +675,13 @@ void init_args(int argc, char **argv)
     }
 	
     ParamHandle = GfParmReadFile(ParamFileName, GFPARM_RMODE_STD);
-    if (ParamHandle == NULL) {
+    if (ParamHandle == nullptr) {
 	fprintf(stderr, "The parameters file should not be empty\n");
 	usage();
 	exit(1);
     }
 
-    if (SkinFileName == NULL) {
+    if (SkinFileName == nullptr) {
 	SkinFileName = strdup("skin.rgb");
     }
 }

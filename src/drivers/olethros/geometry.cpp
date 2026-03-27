@@ -20,12 +20,12 @@
 
 #include "geometry.h"
 #include <cstdlib>
-#include <math.h>
+#include <cmath>
 #include <cstdio>
 #include <exception>
 #include <stdexcept>
 #ifdef WIN32
-#include <float.h>
+#include <cfloat>
 #define isnan _isnan
 #endif
 
@@ -36,7 +36,7 @@ Vector::Vector(int N_, enum BoundsCheckingStatus check)
 	n = N_;
 	maxN = n;
 	if (n==0) {
-		x = NULL;
+		x = nullptr;
 	} else {
 		x = (float*) malloc(sizeof(float)*n);
 		for (int i=0; i<n; i++) {
@@ -51,7 +51,7 @@ Vector::Vector (const Vector& rhs)
 	n = rhs.n;
 	maxN = n;
 	if (n==0) {
-		x = NULL;
+		x = nullptr;
 	} else {
 		x = (float*) malloc(sizeof(float)*n);
 		for (int i=0; i<n; i++) {

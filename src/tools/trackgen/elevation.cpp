@@ -24,14 +24,14 @@
  */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
+#include <cstdlib>
 #ifndef WIN32
 #include <unistd.h>
 #endif
-#include <math.h>
+#include <cmath>
 
 #include <tgfclient.h>
 #include <track.h>
@@ -63,7 +63,7 @@ void LoadElevation(tTrack *track, void *TrackHandle, char *imgFile)
 
 	printf("Loading Elevation Map %s\n", imgFile);
 
-	Margin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, NULL, Margin);
+	Margin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, nullptr, Margin);
 
 	xmin = track->min.x - Margin;
 	xmax = track->max.x + Margin;
@@ -76,8 +76,8 @@ void LoadElevation(tTrack *track, void *TrackHandle, char *imgFile)
 	dY = -ymin * kY;
 	ElvOk = 1;
 
-	zmin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MIN, NULL, track->min.z);
-	zmax = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MAX, NULL, track->max.z);
+	zmin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MIN, nullptr, track->min.z);
+	zmax = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MAX, nullptr, track->max.z);
 
 	dZ = zmin;
 	kZ = (zmax - dZ) / MAX_CLR;
@@ -118,12 +118,12 @@ void SaveElevation(tTrack *track, void *TrackHandle, char *imgFile, char *meshFi
 
 	s = getenv("COLUMNS");
 	if (s) {
-		columns = strtol(getenv("COLUMNS"), NULL, 0);
+		columns = strtol(getenv("COLUMNS"), nullptr, 0);
 	} else {
 		columns = 80;
 	}
 
-	Margin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, NULL, Margin);
+	Margin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_BMARGIN, nullptr, Margin);
 
 	xmin = track->min.x - Margin;
 	xmax = track->max.x + Margin;
@@ -139,8 +139,8 @@ void SaveElevation(tTrack *track, void *TrackHandle, char *imgFile, char *meshFi
 	kY = (ymax - ymin) / height;
 	dY = ymin;
 
-	zmin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MIN, NULL, track->min.z);
-	zmax = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MAX, NULL, track->max.z);
+	zmin = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MIN, nullptr, track->min.z);
+	zmax = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_ALT_MAX, nullptr, track->max.z);
 
 	heightStep = (float)(zmax - zmin) / (float)HeightSteps;
 	if (dispf == 2) {
@@ -162,7 +162,7 @@ void SaveElevation(tTrack *track, void *TrackHandle, char *imgFile, char *meshFi
 	ssgModelPath(buf);
 	root = (ssgRoot*)ssgLoadAC(meshFile);
 
-	if (root == NULL) {
+	if (root == nullptr) {
 		printf("Could not load %s, ", meshFile);
 		printf("please generate it with \"trackgen -c %s -n %s -a\"\n", track->category, track->internalname);
 		return;

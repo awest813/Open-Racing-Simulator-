@@ -29,9 +29,9 @@
 #define isnan _isnan
 #endif
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
 #include <plib/js.h>
 
 #include <tgfclient.h>
@@ -63,8 +63,8 @@ static tTrack	*curTrack;
 
 static float color[] = {0.0, 0.0, 1.0, 1.0};
 
-static tCtrlJoyInfo	*joyInfo = NULL;
-static tCtrlMouseInfo	*mouseInfo = NULL;
+static tCtrlJoyInfo	*joyInfo = nullptr;
+static tCtrlMouseInfo	*mouseInfo = nullptr;
 static int		masterPlayer = -1;
 
 tHumanContext *HCtx[10] = {0};
@@ -109,8 +109,8 @@ shutdown(int index)
 		GfParmReleaseHandle(PrefHdle);
 		GfctrlJoyRelease(joyInfo);
 		GfctrlMouseRelease(mouseInfo);
-		GfuiKeyEventRegisterCurrent(NULL);
-		GfuiSKeyEventRegisterCurrent(NULL);
+		GfuiKeyEventRegisterCurrent(nullptr);
+		GfuiSKeyEventRegisterCurrent(nullptr);
 		firstTime = 0;
 	}
 }
@@ -210,7 +210,7 @@ human(tModInfo *modInfo)
 	snprintf(buf, BUFSIZE, "%sdrivers/human/human.xml", GetLocalDir());
 	void *DrvInfo = GfParmReadFile(buf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
 
-	if (DrvInfo != NULL) {
+	if (DrvInfo != nullptr) {
 		for (i = 0; i < 10; i++) {
 			snprintf(sstring, BUFSIZE, "Robots/index/%d", i+1);
 			driver = GfParmGetStr(DrvInfo, sstring, "name", "");
@@ -267,11 +267,11 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	snprintf(buf, BUFSIZE, "%sdrivers/human/human.xml", GetLocalDir());
 	void *DrvInfo = GfParmReadFile(buf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
 	carname = "";
-	if (DrvInfo != NULL) {
+	if (DrvInfo != nullptr) {
 		carname = GfParmGetStr(DrvInfo, sstring, "car name", "");
 	}
 
-	*carParmHandle = NULL;
+	*carParmHandle = nullptr;
 	// If session type is "race" and we have a race setup use it
 	if (s->_raceType == RM_TYPE_RACE) {
 		*carParmHandle = RtParmReadSetup(RACE, "human", index, track->internalname, carname);
@@ -279,18 +279,18 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 
 	// If session type is "qualifying" and we have a qualifying setup use it, use qualifying setup as 
 	// fallback if not race setup is available
-	if (s->_raceType == RM_TYPE_QUALIF || (*carParmHandle == NULL && s->_raceType == RM_TYPE_RACE)) {
+	if (s->_raceType == RM_TYPE_QUALIF || (*carParmHandle == nullptr && s->_raceType == RM_TYPE_RACE)) {
 		*carParmHandle = RtParmReadSetup(QUALIFYING, "human", index, track->internalname, carname);
 	}
 
 	// If we have not yet loaded a setup we have not found a fitting one or want to use the practice setup,
 	// so try to load this
-	if (*carParmHandle == NULL) {
+	if (*carParmHandle == nullptr) {
 		*carParmHandle = RtParmReadSetup(PRACTICE, "human", index, track->internalname, carname);
 	}
 
 	// Absolute fallback, nothing found
-	if (*carParmHandle == NULL) {
+	if (*carParmHandle == nullptr) {
 		snprintf(sstring, BUFSIZE, "%sdrivers/human/car.xml", GetLocalDir ());
 		*carParmHandle = GfParmReadFile(sstring, GFPARM_RMODE_REREAD);
 	}
@@ -298,17 +298,17 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 
 	if (curTrack->pits.type != TR_PIT_NONE) {
 		snprintf(sstring, BUFSIZE, "%s/%s/%d", HM_SECT_PREF, HM_LIST_DRV, index);
-		HCtx[idx]->NbPitStopProg = (int)GfParmGetNum(PrefHdle, sstring, HM_ATT_NBPITS, (char*)NULL, 0);
+		HCtx[idx]->NbPitStopProg = (int)GfParmGetNum(PrefHdle, sstring, HM_ATT_NBPITS, (char*)nullptr, 0);
 		GfOut("Player: index %d , Pits stops %d\n", index, HCtx[idx]->NbPitStopProg);
 	} else {
 		HCtx[idx]->NbPitStopProg = 0;
 	}
 	fuel = 0.0008 * curTrack->length * (s->_totLaps + 1) / (1.0 + ((tdble)HCtx[idx]->NbPitStopProg)) + 20.0;
 	if (*carParmHandle) {
-		GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)NULL, fuel);
+		GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, fuel);
 	}
 	Vtarget = curTrack->pits.speedLimit;
-	if (DrvInfo != NULL) {
+	if (DrvInfo != nullptr) {
 		GfParmReleaseHandle(DrvInfo);
 	}
 }
@@ -507,7 +507,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 		HCtx[idx]->ParamAbs = 1 - HCtx[idx]->ParamAbs;
 		snprintf(sstring, BUFSIZE, "%s/%s/%d", HM_SECT_PREF, HM_LIST_DRV, index);
 		GfParmSetStr(PrefHdle, sstring, HM_ATT_ABS, Yn[1 - HCtx[idx]->ParamAbs]);
-		GfParmWriteFile(NULL, PrefHdle, "Human");
+		GfParmWriteFile(nullptr, PrefHdle, "Human");
 	}
 
 	if (((cmd[CMD_ASR].type == GFCTRL_TYPE_JOY_BUT) && joyInfo->edgeup[cmd[CMD_ASR].val]) ||
@@ -517,7 +517,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 		HCtx[idx]->ParamAsr = 1 - HCtx[idx]->ParamAsr;
 		snprintf(sstring, BUFSIZE, "%s/%s/%d", HM_SECT_PREF, HM_LIST_DRV, index);
 		GfParmSetStr(PrefHdle, sstring, HM_ATT_ASR, Yn[1 - HCtx[idx]->ParamAsr]);
-		GfParmWriteFile(NULL, PrefHdle, "Human");
+		GfParmWriteFile(nullptr, PrefHdle, "Human");
 	}
 
 	const int bufsize = sizeof(car->_msgCmd[0]);

@@ -17,9 +17,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
 #include <memory.h>
 #ifdef WIN32
 #include <windows.h>
@@ -135,7 +135,7 @@ void cGrPerspCamera::loadDefaults(char *attr)
 	char path[BUFSIZE];
 	
 	snprintf(path, BUFSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
-	fovy = (float)GfParmGetNum(grHandle, path, attr, (char*)NULL, fovydflt);
+	fovy = (float)GfParmGetNum(grHandle, path, attr, (char*)nullptr, fovydflt);
 	limitFov();
 }
 
@@ -207,8 +207,8 @@ void cGrPerspCamera::setZoom(int cmd)
 
 	snprintf(buf, BUFSIZE, "%s-%d-%d", GR_ATT_FOVY, screen->getCurCamHead(), getId());
 	snprintf(path, PATHSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
-	GfParmSetNum(grHandle, path, buf, (char*)NULL, (tdble)fovy);
-	GfParmWriteFile(NULL, grHandle, "Graph");
+	GfParmSetNum(grHandle, path, buf, (char*)nullptr, (tdble)fovy);
+	GfParmWriteFile(nullptr, grHandle, "Graph");
 }
 
 void cGrOrthoCamera::setProjection(void)
@@ -751,7 +751,7 @@ class cGrCarCamCenter : public cGrPerspCamera
 		char path[PATHSIZE];
 
 		snprintf(path, PATHSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
-		locfovy = (float)GfParmGetNum(grHandle, path, attr, (char*)NULL, fovydflt);
+		locfovy = (float)GfParmGetNum(grHandle, path, attr, (char*)nullptr, fovydflt);
     }
 
     void setZoom(int cmd) {
@@ -877,7 +877,7 @@ class cGrCarCamRoadNoZoom : public cGrPerspCamera
 
 	curCam = car->_trkPos.seg->cam;
     
-	if (curCam == NULL) {
+	if (curCam == nullptr) {
 	    eye[0] = grWrldX * 0.5;
 	    eye[1] = grWrldY * 0.6;
 	    eye[2] = 120;
@@ -1049,7 +1049,7 @@ class cGrCarCamRoadZoom : public cGrPerspCamera
 
 	snprintf(path, PATHSIZE, "%s/%d", GR_SCT_DISPMODE, screen->getId());
 	locfovy = (float)GfParmGetNum(grHandle, path,
-				   attr, (char*)NULL, fovydflt);
+				   attr, (char*)nullptr, fovydflt);
     }
 
     void setZoom(int cmd) {
@@ -1064,7 +1064,7 @@ class cGrCarCamRoadZoom : public cGrPerspCamera
 
 	curCam = car->_trkPos.seg->cam;
     
-	if (curCam == NULL) {
+	if (curCam == nullptr) {
 	    eye[0] = grWrldX * 0.5;
 	    eye[1] = grWrldY * 0.6;
 	    eye[2] = 120;
@@ -1154,9 +1154,9 @@ class cGrCarCamRoadZoomTVD : public cGrCarCamRoadZoom
 
 	current = -1;
 
-	camChangeInterval = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_CHGCAMINT, (char*)NULL, 10.0);
-	camEventInterval  = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_EVTINT, (char*)NULL, 1.0);
-	proximityThld     = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_PROXTHLD, (char*)NULL, 10.0);
+	camChangeInterval = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_CHGCAMINT, (char*)nullptr, 10.0);
+	camEventInterval  = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_EVTINT, (char*)nullptr, 1.0);
+	proximityThld     = GfParmGetNum(grHandle, GR_SCT_TVDIR, GR_ATT_PROXTHLD, (char*)nullptr, 10.0);
     }
 
     ~cGrCarCamRoadZoomTVD() { free(schedView); }

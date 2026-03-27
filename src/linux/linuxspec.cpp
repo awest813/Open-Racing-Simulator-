@@ -18,13 +18,13 @@
  ***************************************************************************/
 
 
-#include <stdlib.h>
-#include <stddef.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstddef>
+#include <cstdio>
 #include <sys/types.h>
 #include <dirent.h>
 #include <dlfcn.h>
-#include <time.h>
+#include <ctime>
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -33,7 +33,7 @@
 #include "os.h"
 
 // Keep handle of ssggraph, it makes trouble when loaded multiple times dynamically
-static void * ssgHandle = NULL;
+static void * ssgHandle = nullptr;
 bool bKeepModules = false;
 
 
@@ -74,14 +74,14 @@ linuxModLoad(unsigned int /* gfid */, char *sopath, tModList **modlist)
 		handle = dlopen(sopath, RTLD_NOW);
 	}
 	
-	if (handle != NULL) {
-		if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != NULL) {
+	if (handle != nullptr) {
+		if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != nullptr) {
 			/* DLL loaded, init function exists, call it... */
 			if (fModInfo(curMod->modInfo) == 0) {
 				GfOut(">>> %s >>>\n", sopath);
 				curMod->handle = handle;
 				curMod->sopath = strdup(sopath);
-				if (*modlist == NULL) {
+				if (*modlist == nullptr) {
 					*modlist = curMod;
 					curMod->next = curMod;
 				} else {
@@ -145,14 +145,14 @@ linuxModInfo(unsigned int /* gfid */, char *sopath, tModList **modlist)
 	dname[strlen(dname) - 3] = 0; /* cut .so */
 	
 	handle = dlopen(sopath, RTLD_LAZY);
-	if (handle != NULL) {
-		if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != NULL) {
+	if (handle != nullptr) {
+		if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != nullptr) {
 			/* DLL loaded, init function exists, call it... */
 			if (fModInfo(curMod->modInfo) == 0) {
 				GfOut("Request Info for %s\n", sopath);
-				curMod->handle = NULL;
+				curMod->handle = nullptr;
 				curMod->sopath = strdup(sopath);
-				if (*modlist == NULL) {
+				if (*modlist == nullptr) {
 					*modlist = curMod;
 					curMod->next = curMod;
 				} else {
@@ -230,7 +230,7 @@ linuxModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 	
 	/* open the current directory */
 	dp = opendir(dir);
-	if (dp != NULL) {
+	if (dp != nullptr) {
 		/* some files in it */
 		while ((ep = readdir (dp)) != 0) {
 			if ((strlen(ep->d_name) > 4) &&
@@ -239,8 +239,8 @@ linuxModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 				snprintf(dname, sizeof(dname), "%s", ep->d_name);
 				dname[strlen(dname) - 3] = 0; /* cut .so */
 				handle = dlopen(sopath, RTLD_LAZY);
-				if (handle != NULL) {
-					if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != NULL) {
+				if (handle != nullptr) {
+					if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != nullptr) {
 						/* DLL loaded, init function exists, call it... */
 						if ((fModInfo(curMod->modInfo) == 0) && (curMod->modInfo[0].gfId == gfid)) {
 							GfOut(">>> %s loaded >>>\n", sopath);
@@ -248,7 +248,7 @@ linuxModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 							curMod->handle = handle;
 							curMod->sopath = strdup(sopath);
 							/* add the module in the list */
-							if (*modlist == NULL) {
+							if (*modlist == nullptr) {
 								*modlist = curMod;
 								curMod->next = curMod;
 							} else {
@@ -335,7 +335,7 @@ linuxModInfoDir(unsigned int /* gfid */, char *dir, int level, tModList **modlis
 
 	/* open the current directory */
 	dp = opendir(dir);
-	if (dp != NULL) {
+	if (dp != nullptr) {
 		/* some files in it */
 		while ((ep = readdir (dp)) != 0) {
 			if (((strlen(ep->d_name) > 4) && 
@@ -350,17 +350,17 @@ linuxModInfoDir(unsigned int /* gfid */, char *dir, int level, tModList **modlis
 					dname[strlen(dname) - 3] = 0; /* cut .so */
 				}
 				handle = dlopen(sopath, RTLD_LAZY);
-				if (handle != NULL) {
-					if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != NULL) {
+				if (handle != nullptr) {
+					if ((fModInfo = (tfModInfo)dlsym(handle, dname)) != nullptr) {
 						GfOut("Request Info for %s\n", sopath);
 						/* DLL loaded, init function exists, call it... */
 						if (fModInfo(curMod->modInfo) == 0) {
 							modnb++;
-							curMod->handle = NULL;
+							curMod->handle = nullptr;
 							curMod->sopath = strdup(sopath);
 
 							/* add the module in the list */
-							if (*modlist == NULL) {
+							if (*modlist == nullptr) {
 								*modlist = curMod;
 								curMod->next = curMod;
 							} else {
@@ -452,7 +452,7 @@ linuxModUnloadList(tModList **modlist)
 				snprintf(&dname[dnLen - 3], sizeof(dname) - dnLen + 3, "Shut"); /* cut .so */
 			}
 		}
-		if ((fModShut = (tfModShut)dlsym(curMod->handle, dname)) != NULL) {
+		if ((fModShut = (tfModShut)dlsym(curMod->handle, dname)) != nullptr) {
 			GfOut("Call %s\n", dname);
 			fModShut();
 		}
@@ -476,7 +476,7 @@ linuxModUnloadList(tModList **modlist)
 		free(curMod);
 	} while (curMod != *modlist);
 
-	*modlist = (tModList *)NULL;
+	*modlist = (tModList *)nullptr;
 	return 0;
 }
 
@@ -520,7 +520,7 @@ linuxModFreeInfoList(tModList **modlist)
 		free(curMod);
 	} while (curMod != *modlist);
 	
-	*modlist = (tModList *)NULL;
+	*modlist = (tModList *)nullptr;
 	return 0;
 }
 
@@ -542,18 +542,18 @@ linuxDirGetList(const char *dir)
 {
 	DIR *dp;
 	struct dirent *ep;
-	tFList *flist = (tFList*)NULL;
+	tFList *flist = (tFList*)nullptr;
 	tFList *curf;
 
 	/* open the current directory */
 	dp = opendir(dir);
-	if (dp != NULL) {
+	if (dp != nullptr) {
 		/* some files in it */
 		while ((ep = readdir(dp)) != 0) {
 			if ((strcmp(ep->d_name, ".") != 0) && (strcmp(ep->d_name, "..") != 0)) {
 				curf = (tFList*)calloc(1, sizeof(tFList));
 				curf->name = strdup(ep->d_name);
-				if (flist == (tFList*)NULL) {
+				if (flist == (tFList*)nullptr) {
 					curf->next = curf;
 					curf->prev = curf;
 					flist = curf;
@@ -600,12 +600,12 @@ linuxDirGetListFiltered(const char *dir, const char *suffix)
 {
 	DIR	*dp;
 	struct dirent *ep;
-	tFList *flist = (tFList*)NULL;
+	tFList *flist = (tFList*)nullptr;
 	tFList *curf;
 	int	suffixLg;
 	int	fnameLg;
 
-	if ((suffix == NULL) || (strlen(suffix) == 0)) {
+	if ((suffix == nullptr) || (strlen(suffix) == 0)) {
 		return linuxDirGetList(dir);
 	}
 
@@ -613,14 +613,14 @@ linuxDirGetListFiltered(const char *dir, const char *suffix)
 
 	/* open the current directory */
 	dp = opendir(dir);
-	if (dp != NULL) {
+	if (dp != nullptr) {
 		/* some files in it */
 		while ((ep = readdir(dp)) != 0) {
 			fnameLg = strlen(ep->d_name);
 			if ((fnameLg > suffixLg) && (strcmp(ep->d_name + fnameLg - suffixLg, suffix) == 0)) {
 				curf = (tFList*)calloc(1, sizeof(tFList));
 				curf->name = strdup(ep->d_name);
-				if (flist == (tFList*)NULL) {
+				if (flist == (tFList*)nullptr) {
 					curf->next = curf;
 					curf->prev = curf;
 					flist = curf;

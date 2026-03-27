@@ -23,27 +23,27 @@
 */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
 #include <cstring>
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
 
-#include <math.h>
+#include <cmath>
 
 #include "accc.h"
 /* -g  g-track-2.ac -l0 g2.ac -d3 200900 -d2 200 -d1 100 -S 200 >t */
 /* +es 80 p-gt1.ac porsche-gt1.ac>t */
 int distSplit=0;
-char	*InputFileName = NULL;
-char	*OutputFileName = NULL;
-char *fileL0=NULL;
-char *fileL1=NULL;
-char *fileL2=NULL;
-char *fileL3=NULL;
-char *OrderString=NULL;
+char	*InputFileName = nullptr;
+char	*OutputFileName = nullptr;
+char *fileL0=nullptr;
+char *fileL1=nullptr;
+char *fileL2=nullptr;
+char *fileL3=nullptr;
+char *OrderString=nullptr;
 int d1=0;
 int d2=0;
 int d3=0;
@@ -245,10 +245,10 @@ void init_args(int argc, char **argv)
 
 		}
 	} else {
-		if (InputFileName==NULL)
+		if (InputFileName==nullptr)
 			InputFileName = strdup(argv[2]);
 
-		if (OutputFileName==NULL)
+		if (OutputFileName==nullptr)
 			OutputFileName = strdup(argv[3]);
 
 		if (argc==7) {
@@ -284,7 +284,7 @@ main(int argc, char **argv)
 	/*const char *fake_argv[3] ;
 	fake_argv[0] = "ac3dto3ds" ;
 	fake_argv[1] = "converter" ;
-	fake_argv[2] = NULL ;
+	fake_argv[2] = nullptr ;
 	*/
 
 	init_args(argc, argv);

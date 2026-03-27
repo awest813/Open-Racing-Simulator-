@@ -23,7 +23,7 @@
 #include <cmath>
 #ifdef WIN32
 #include <windows.h>
-#include <float.h>
+#include <cfloat>
 #define isnan _isnan
 #endif
 
