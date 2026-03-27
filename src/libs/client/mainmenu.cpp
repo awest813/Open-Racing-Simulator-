@@ -22,6 +22,7 @@
 #include <tgfclient.h>
 #include <singleplayer.h>
 #include <driverconfig.h>
+#include <careermenu.h>
 
 #include "mainmenu.h"
 #include "exitmenu.h"
@@ -74,6 +75,10 @@ TorcsMainMenuInit(void)
 		    420,
 		    GFUI_ALIGN_HC_VB,
 		    0);
+
+    GfuiMenuButtonCreate(menuHandle,
+			 "Career", "Career mode - build your racing legacy across multiple seasons",
+			 CareerMenuInit(menuHandle), GfuiScreenActivate);
 
     GfuiMenuButtonCreate(menuHandle,
 			 "Race", "Start a race",
