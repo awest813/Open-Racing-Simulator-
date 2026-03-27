@@ -80,15 +80,17 @@ void Opponent::update(tSituation *s, Driver *driver)
 					mycar->_corner_y(FRNT_RGT)
 				);
 
-				float mindist = FLT_MAX;
+				float mindistSqr = FLT_MAX;
 				int i;
 				for (i = 0; i < 4; i++) {
 					v2d corner(car->_corner_x(i), car->_corner_y(i));
-					float dist = carFrontLine.dist(corner);
-					if (carFrontLine.dist(corner) < mindist) {
-						mindist = dist;
+					float distSqr = carFrontLine.distSqr(corner);
+					if (distSqr < mindistSqr) {
+						mindistSqr = distSqr;
 					}
 				}
+
+				float mindist = sqrt(mindistSqr);
 				if (mindist < distance) {
 					distance = mindist;
 				}
