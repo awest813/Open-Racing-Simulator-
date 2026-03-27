@@ -18,7 +18,10 @@ out vec4 fragPosLightSpace;
 void main() {
     vec4 worldPos = model * vec4(aPos, 1.0);
     fragPos       = worldPos.xyz;
-    fragNormal    = mat3(transpose(inverse(model))) * aNormal;
+    // All TORCS model matrices are rigid-body (rotation + translation, no
+    // non-uniform scale), so the normal matrix equals the upper-left 3x3 of
+    // the model matrix.  Avoids the expensive per-vertex mat4 inverse.
+    fragNormal    = mat3(model) * aNormal;
     fragTexCoord  = aTexCoord;
     fragTexCoord2 = aTexCoord2;
     fragPosLightSpace = lightSpaceMatrix * worldPos;
