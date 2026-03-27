@@ -27,11 +27,11 @@ These priorities apply across every release stream:
 
 These items should move first because they make every later release easier:
 
-- [ ] Refresh contributor documentation and setup guidance
-- [ ] Update the robot tutorial and race-manager documentation
-- [ ] Document important repository subsystems and extension points
+- [x] Refresh contributor documentation and setup guidance
+- [x] Update the robot tutorial and race-manager documentation
+- [x] Document important repository subsystems and extension points
 - [ ] Review bundled assets for licensing, redistribution, and trademark issues
-- [ ] Tighten the fork identity where old TORCS naming is confusing
+- [x] Tighten the fork identity where old TORCS naming is confusing
 
 ---
 
