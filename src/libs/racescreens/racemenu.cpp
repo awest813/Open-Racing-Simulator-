@@ -114,10 +114,10 @@ static void rmrpValidate(void * /* dummy */)
 
 static void rmrpAddKeys(void)
 {
-	GfuiAddKey(scrHandle, 27, "Cancel Modifications", rp->prevScreen, rmrpDeactivate, NULL);
+	GfuiAddKey(scrHandle, 27, "Cancel changes", rp->prevScreen, rmrpDeactivate, NULL);
 	GfuiAddSKey(scrHandle, GLUT_KEY_F1, "Help", scrHandle, GfuiHelpScreen, NULL);
-	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Screen-Shot", NULL, GfuiScreenShot, NULL);
-	GfuiAddKey(scrHandle, 13, "Validate Modifications", NULL, rmrpValidate, NULL);
+	GfuiAddSKey(scrHandle, GLUT_KEY_F12, "Take a screenshot", NULL, GfuiScreenShot, NULL);
+	GfuiAddKey(scrHandle, 13, "Accept changes", NULL, rmrpValidate, NULL);
 }
 
 
@@ -167,7 +167,7 @@ void RmRaceParamMenu(void *vrp)
 						0, 8, NULL, (tfuiCallback)NULL, rmrpUpdDist);
 
 		y -= dy;
-		GfuiLabelCreate(scrHandle, "Laps:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
+		GfuiLabelCreate(scrHandle, "Number of laps:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		if (rmrpLaps == 0) {
 			snprintf(buf, BUFSIZE, "---");
 		} else {
@@ -181,7 +181,7 @@ void RmRaceParamMenu(void *vrp)
 	}
 
 	if (rp->confMask & RM_CONF_DISP_MODE) {
-		GfuiLabelCreate(scrHandle, "Display:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
+		GfuiLabelCreate(scrHandle, "Display mode:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		GfuiGrButtonCreate(scrHandle, "data/img/arrow-left.png", "data/img/arrow-left.png",
 				"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 				x2, y, GFUI_ALIGN_HL_VB, 1,
