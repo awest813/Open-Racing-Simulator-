@@ -1,202 +1,200 @@
-# Open Racing Simulator — Roadmap
+# Open Racing Simulator Roadmap
 
-This document tracks planned features, improvements, and long-term goals for the
-Open Racing Simulator (based on TORCS v1.3.8). Items are grouped by release milestone
-and roughly ordered by priority within each milestone.
+This roadmap turns the historical TORCS backlog into a clearer plan for the Open
+Racing Simulator fork. It is intended to communicate direction and priorities, not
+to promise exact delivery dates.
 
----
+The project has two parallel responsibilities:
 
-## Current Release: v1.3.8 "worn & blown"
-
-Status: **active maintenance**
-
-- [x] Tire temperature / wear model
-- [x] Caster adjustable via setup
-- [x] Suspension slow/fast threshold configurable
-- [x] 3-D suspension calculations (replaced 2.5-D)
-- [x] Hidden Valley track added
-- [x] TRB race configuration generator
-- [ ] Car adjustments for tire wear / performance balance
-- [ ] Improved ranking with penalties for undamaged-but-out-of-fuel cars
-- [ ] Brake balance adjustable during a race session
-- [ ] Curb sound
-- [ ] Dynamic track surface (rubber build-up, etc.)
-- [ ] Wind & temperature effects
+1. keep the current 1.3.x line usable for players, modders, and researchers
+2. prepare a healthier foundation for larger architectural changes later
 
 ---
 
-## v1.3.9 "analysed" — Telemetry & Data Analysis
+## Guiding Priorities
 
-Goal: give drivers and robot developers insight into simulation data.
+These priorities apply across every release stream:
 
-- [ ] Data recorder ("Telemetry") — capture per-frame vehicle state to file
-- [ ] Data analyser — high/low-pass filtering, lap comparison, overlays
-- [ ] Speed / shock-absorber telemetry channels
-- [ ] Replay system (initial prototype)
-
----
-
-## v1.3.10 "ruled" — Race Rules
-
-Goal: add configurable rules without requiring a v1.4 API break.
-
-- [ ] Timed races (e.g. 24-hour endurance format)
-- [ ] Additional penalty / rule modes
-- [ ] Fix side-entering/exiting pit-lane repeated-violation bug
+- protect the headless / automation workflows used for AI and research
+- improve contributor documentation before expanding the feature surface
+- modernize carefully without breaking existing cars, tracks, and robots
+- reduce legal and licensing risk in bundled content
+- replace fragile legacy dependencies only when a clear migration path exists
 
 ---
 
-## v1.3.11 "tutored" — Tooling & Documentation
+## Current Focus — Documentation, Stability, and Project Hygiene
 
-Goal: lower barrier to entry for new robot developers.
+These items should move first because they make every later release easier:
 
-- [ ] Starting / race modes (multi-class support for TRB)
-- [ ] Visual Studio project update (VS 2015+)
-- [ ] Robot Tutorial refresh
-
----
-
-## v1.3.12 "managed" — Configuration & GUI
-
-- [ ] Document race-manager XML format
-- [ ] Expose hidden settings in GUI (e.g. button masking)
-- [ ] GUI for event blacklisting
+- [ ] Refresh contributor documentation and setup guidance
+- [ ] Update the robot tutorial and race-manager documentation
+- [ ] Document important repository subsystems and extension points
+- [ ] Review bundled assets for licensing, redistribution, and trademark issues
+- [ ] Tighten the fork identity where old TORCS naming is confusing
 
 ---
 
-## v1.3.13–v1.3.14 "artistic / everywhere" — Content & Platform
+## 1.3.x Stabilization Track
 
-**Content**
-- [ ] In-game track generation wizard (themed)
-- [ ] In-game car livery designer (themed)
+Goal: keep the existing simulator practical while avoiding unnecessary API breaks.
 
-**Physics / Simulation**
-- [ ] Merge simuv3 improvements into simuv2
-- [ ] ABS implementation review and merge (Wolf-Dieter patch)
-- [ ] 4WD analysis / patch review and merge
-- [ ] Differential(s) adjustable during a race session
-- [ ] Remove sound-property calculation from wheel.cpp
+### Simulation and Gameplay
 
-**Platform**
-- [ ] macOS build review and merge
-- [ ] MorphOS changes review and merge
-- [ ] Remove circular dependency between `raceman.h` and `simu.h`
+- [ ] Finish car adjustments for tire wear and performance balance
+- [ ] Improve ranking when damaged or stranded cars stay classified incorrectly
+- [ ] Make brake balance adjustable during a session
+- [ ] Add curb sound support
+- [ ] Investigate dynamic track-surface effects
+- [ ] Investigate wind and ambient-temperature effects
 
----
+### Analysis and Race Operations
 
-## v1.3.15 "stable" — Maintenance Only
+- [ ] Add a telemetry / data recorder
+- [ ] Add a data-analysis workflow for lap comparison and filtering
+- [ ] Expose more telemetry channels, including speed and suspension data
+- [ ] Prototype a replay pipeline
+- [ ] Add timed race formats
+- [ ] Expand configurable rules and penalty handling without forcing a 1.4 break
+- [ ] Fix repeated-violation edge cases when entering or exiting pit lanes
 
-- [ ] Compiler and library adoption fixes
-- [ ] Compatible content updates
-- [ ] Move new feature development to v1.4 branch
+### Tooling and UX
 
----
-
-## v1.4.x — API Modernisation
-
-Goal: clean break for incompatible improvements.
-
-**Robot API**
-- [ ] Optional `askfeatures` / `callonce` / `grid` / `postprocess` callbacks
-- [ ] Identify robots by name only (remove integer-index dependency)
-- [ ] Allow a robot module to carry an arbitrary number of drivers (remove static limit of 10)
-
-**Audio**
-- [ ] Update OpenAL to 1.1; remove deprecated ALUT calls
-- [ ] Replace WAV sounds with OGG Vorbis
-- [ ] Fix sound in split-screen multiplayer
-
-**Graphics**
-- [ ] Apply SDL 2.0 patch (replaces GLUT windowing)
-- [ ] Skid marks / shadows using stencil masking
-- [ ] Phong specular highlights / shadow occlusion
-- [ ] Skid-mark persistence moved to simulation layer (remove frame-rate dependency)
-- [ ] Store entire graphics-engine state in a context struct (enables telemetry overlay)
-- [ ] Reduce dynamic memory allocation during rendering
-
-**Physics / Simulation**
-- [ ] Brake / engine wear model with cooling simulation
-- [ ] Track wall properties
-- [ ] Track extensions: crossings, split/join segments, variable width
-
-**Content**
-- [ ] Pace car and track trucks to remove wrecks (replace virtual crane)
-
-**Compliance — replace or remove trademarked content**
-- [ ] Replace 155-DTM with car10-trb1
-- [ ] Replace acura-nsx with car9-trb1
-- [ ] Replace mc-larenf1 with car10-trb1
-- [ ] Replace p406 with car1-trb4
-- [ ] Rework buggy and baja-bug models
-- [ ] Replace rally cars
-- [ ] Remove invalid geometry from tracks
-- [ ] Convert force units internally from lbs to lbf
+- [ ] Update Visual Studio support to a more practical baseline
+- [ ] Expose hidden or difficult-to-find settings in the GUI
+- [ ] Add GUI support for event blacklisting
 
 ---
 
-## v1.9.x — Networking Pre-Release (no public release)
+## 1.4 Preparation Track
 
-Goal: design and prototype networking before committing to a 2.0 API.
+Goal: prepare breaking changes only after the 1.3.x line is better documented and
+more maintainable.
 
-- [ ] Network architecture design (how to embed into simulation loop)
-- [ ] Networking prototype / proof-of-concept
-- [ ] Gaming modes suitable for online races
-- [ ] Cockpit inside-view camera
-- [ ] Infrastructure for endianness-independent binary data files
+### Robot API
 
----
+- [ ] Review optional callbacks such as `askfeatures`, `callonce`, `grid`, and `postprocess`
+- [ ] Identify robots by stable names instead of integer slots where possible
+- [ ] Remove the fixed 10-driver-per-module limit
 
-## v2.0.0 — Networking
+### Graphics and Platform
 
-- [ ] Initial networked multiplayer (client/server)
-- [ ] Replays (final implementation)
+- [ ] Replace GLUT-era assumptions with a more modern windowing layer
+- [ ] Review and revive the SDL 2 path
+- [ ] Rework skid marks, masking, shadows, and frame-rate-dependent rendering behavior
+- [ ] Move graphics-engine state into an explicit context structure
+- [ ] Reduce dynamic allocation inside rendering hot paths
+- [ ] Review macOS support
+- [ ] Review MorphOS support
 
----
+### Audio
 
-## Long-Term / Aspirational
+- [ ] Update OpenAL usage and remove deprecated ALUT dependencies
+- [ ] Replace WAV-only assumptions with OGG Vorbis where appropriate
+- [ ] Fix split-screen multiplayer audio issues
 
-These items have no fixed milestone; they require significant design work or
-depend on earlier milestones.
+### Physics and Simulation
 
-- [ ] Modern rendering: OpenGL 3.x / OpenGL ES 2 or Vulkan (replace PLIB SSG)
-- [ ] Shadowmapped / stencilled dynamic car shadows
-- [ ] 3-D grass and vegetation
-- [ ] Dynamic sky (time of day, weather)
-- [ ] Weather model (rain, wind gusts)
-- [ ] Dynamic day/night cycle with car headlights
-- [ ] Animated driver model
-- [ ] Dirt accumulation on cars
-- [ ] Pit crew animations
-- [ ] Free-roam terrain
-- [ ] Procedural track generation
-- [ ] Separate pit path and Y-segment support
-- [ ] Force-feedback steering wheel support
-- [ ] Story / career mode
-- [ ] Traffic simulation mode
-- [ ] SMP (multi-core) simulation core
-- [ ] TORCS as a benchmark / screensaver mode
-- [ ] Free camera (mouse + keyboard) during replay/spectating
-- [ ] Opponent sets for human players (e.g. 20 open-wheel cars)
-- [ ] More driving aids + seamless AI hand-off and take-back
+- [ ] Review simuv3 changes for selective merge into simuv2
+- [ ] Review and merge the ABS work if it still applies cleanly
+- [ ] Review and merge 4WD-related work if it still applies cleanly
+- [ ] Add brake and engine wear with cooling effects
+- [ ] Add configurable track-wall properties
+- [ ] Extend track definitions for crossings, split/join segments, and variable width
+- [ ] Consider differential adjustment during a session
+
+### Content and Race Flow
+
+- [ ] Add support for better starting / race modes, including multi-class ideas
+- [ ] Add support vehicles such as pace cars or trucks for incident cleanup
+- [ ] Deliver a replay feature that is robust enough for long-term support
 
 ---
 
-## Code Quality & Tech Debt
+## Content and Compliance Track
 
-These are ongoing concerns that should be addressed incrementally across all milestones.
+Goal: keep the project redistributable and easier to package.
 
-- [ ] Migrate from pre-C++11 idioms to modern C++ (smart pointers, `nullptr`, `auto`, range-`for`)
-- [ ] Replace `malloc`/`free`/`FREEZ` macro with RAII types
-- [ ] Replace C-style casts with `static_cast` / `reinterpret_cast`
-- [ ] Replace `printf`-based logging with a structured logger
-- [ ] Replace remaining `strcpy`/`strcmp` calls with `std::string`
-- [ ] Add a unit-test suite (start with physics utilities and XML param handling)
-- [ ] Resolve circular dependency `raceman.h` ↔ `simu.h`
-- [ ] Move `berniw` / `bt` spline code into `src/libs/math` (shared library)
-- [ ] Eliminate `glGet*` calls inside the simulation loop
-- [ ] Refactor `trackgen` to eliminate left/right duplication
-- [ ] Replace remaining PLIB SSG usage with a maintained rendering library
+- [ ] Replace or retire trademark-sensitive car content
+- [ ] Rework buggy and baja-bug assets
+- [ ] Replace rally-car content that cannot be safely shipped long-term
+- [ ] Remove invalid geometry from bundled tracks
+- [ ] Audit car, track, and UI assets for missing licensing metadata
+
+Suggested replacements retained from the historical backlog:
+
+- [ ] Replace `155-DTM`
+- [ ] Replace `acura-nsx`
+- [ ] Replace `mc-larenf1`
+- [ ] Replace `p406`
 
 ---
 
-*Last updated: 2026-03-26*
+## Engineering Debt Track
+
+Goal: reduce maintenance cost without destabilizing the simulation.
+
+- [ ] Migrate away from pre-C++11 idioms where changes are low-risk
+- [ ] Replace raw allocation patterns with RAII-based ownership
+- [ ] Reduce C-style casts and narrow unsafe conversions
+- [ ] Replace `printf`-style diagnostics with a structured logging approach
+- [ ] Replace remaining fragile string handling with safer abstractions
+- [ ] Add an initial automated test suite for utility and parsing code
+- [ ] Remove the circular dependency between `raceman.h` and `simu.h`
+- [ ] Move reusable spline code into a shared math library
+- [ ] Eliminate `glGet*` usage in simulation-time paths
+- [ ] Refactor `trackgen` to reduce duplicated left/right logic
+- [ ] Review whether PLIB usage can be isolated or retired incrementally
+- [ ] Remove sound-property calculation from `wheel.cpp`
+- [ ] Convert internal force-unit handling consistently from lbs to lbf
+
+---
+
+## 2.0 Networking Track
+
+Goal: introduce multiplayer only after the simulation and APIs are easier to
+evolve safely.
+
+### Pre-release exploration
+
+- [ ] Design the network architecture and simulation-loop integration points
+- [ ] Build a networking proof of concept
+- [ ] Evaluate race formats that work well online
+- [ ] Add endianness-safe binary data infrastructure where needed
+
+### Public 2.0 goals
+
+- [ ] Ship an initial client/server multiplayer implementation
+- [ ] Finalize replays as a supported feature, not just a prototype
+
+---
+
+## Long-Term Exploration
+
+These items are valuable, but they sit behind the more practical work above:
+
+- [ ] Modern rendering beyond the fixed-function OpenGL pipeline
+- [ ] Dynamic sky, weather, and day/night systems
+- [ ] Improved vegetation, shadows, and environment detail
+- [ ] Procedural or in-game-assisted track creation
+- [ ] In-game livery editing
+- [ ] Animated driver and pit-crew support
+- [ ] Dirt accumulation and broader visual wear systems
+- [ ] Free camera and better spectating tools
+- [ ] Force-feedback wheel support
+- [ ] Story / career progression
+- [ ] Traffic or free-roam modes
+- [ ] Multi-core simulation work
+- [ ] Benchmark / screensaver-style modes
+- [ ] Better opponent-set presets for human players
+- [ ] Seamless hand-off between human control and AI assistance
+
+---
+
+## Success Criteria
+
+The roadmap is working if the project becomes easier to build, easier to
+understand, safer to redistribute, and still useful for both players and
+research-focused users.
+
+*Last updated: 2026-03-27*
