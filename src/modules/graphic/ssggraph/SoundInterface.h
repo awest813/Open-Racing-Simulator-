@@ -322,6 +322,8 @@ struct sharedSource {
 	ALuint source;
 	TorcsSound* currentOwner;
 	bool in_use;
+	int prev_free;
+	int next_free;
 };
 
 
@@ -333,13 +335,24 @@ class SharedSourcePool {
 			for (i = 0; i < nbsources; i++) {
 				pool[i].currentOwner = nullptr;
 				pool[i].in_use = false;
+				pool[i].prev_free = i - 1;
+				pool[i].next_free = i + 1;
 				alGenSources(1, &(pool[i].source));
 				int error = alGetError();
 				if (error != AL_NO_ERROR) {
 					printf("OpenAL error, allocating dynamic source index %d\n", i);
 					this->nbsources = i;
+					pool[i].next_free = -1;
 					break;
 				}
+			}
+			if (this->nbsources > 0) {
+				pool[this->nbsources - 1].next_free = -1;
+				first_free = 0;
+				last_free = this->nbsources - 1;
+			} else {
+				first_free = -1;
+				last_free = -1;
 			}
 			printf("  Dynamic Sources: requested: %d, created: %d\n", nbsources, this->nbsources);
 		}
@@ -353,32 +366,55 @@ class SharedSourcePool {
 			delete [] pool;
 		}
 
+		void removeFromFreeList(int index) {
+			if (pool[index].prev_free != -1) {
+				pool[pool[index].prev_free].next_free = pool[index].next_free;
+			} else {
+				first_free = pool[index].next_free;
+			}
+			if (pool[index].next_free != -1) {
+				pool[pool[index].next_free].prev_free = pool[index].prev_free;
+			} else {
+				last_free = pool[index].prev_free;
+			}
+			pool[index].prev_free = -1;
+			pool[index].next_free = -1;
+		}
+
+		void addToFreeListEnd(int index) {
+			pool[index].prev_free = last_free;
+			pool[index].next_free = -1;
+			if (last_free != -1) {
+				pool[last_free].next_free = index;
+			} else {
+				first_free = index;
+			}
+			last_free = index;
+		}
+
 		bool getSource(TorcsSound* sound, ALuint* source, bool* needs_init, int* index) {
 			if (*index >= 0 && *index < nbsources) {
 				if (sound == pool[*index].currentOwner) {
 					// Resurrect source from pool.
 					*source = pool[*index].source;
 					*needs_init = false;
-					pool[*index].in_use = true;
+					if (!pool[*index].in_use) {
+						removeFromFreeList(*index);
+						pool[*index].in_use = true;
+					}
 					return true;
 				}
 			}
 			
-			// TODO: Implement free list with ring buffer or whatever data structure
-			// to go from O(n) to O(1). If the ordering is done well it will automatically
-			// result in LRU (least recently used).
-			int i, firstfree = -1;
-			for (i = 0; i < nbsources; i++) {
-				if (pool[i].in_use == false && firstfree < 0) {
-					firstfree = i;
-					break;
-				}
-			}
+			// O(1) allocation using doubly linked free list (FIFO/LRU)
+			int firstfree = first_free;
 			
 			if (firstfree < 0) {
 				// No free source.
 				return false;
 			}
+
+			removeFromFreeList(firstfree);
 
 			pool[firstfree].currentOwner = sound;
 			pool[firstfree].in_use = true;
@@ -391,7 +427,10 @@ class SharedSourcePool {
 		bool releaseSource(TorcsSound* sound, int* index) {
 			if (*index >= 0 && *index < nbsources) {
 				if (sound == pool[*index].currentOwner) {
-					pool[*index].in_use = false;
+					if (pool[*index].in_use) {
+						pool[*index].in_use = false;
+						addToFreeListEnd(*index);
+					}
 					return true;
 				}
 			}
@@ -414,6 +453,8 @@ class SharedSourcePool {
 	protected:
 		int nbsources;
 		sharedSource *pool;
+		int first_free;
+		int last_free;
 };
 
 
