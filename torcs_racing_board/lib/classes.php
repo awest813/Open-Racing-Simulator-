@@ -157,7 +157,7 @@ class User {
 	{
 		$_SESSION['cookie'] = $cookie;
 		if ($save) {
-			$cookie = serialize(array($_SESSION['username'], $cookie));
+			$cookie = json_encode(array($_SESSION['username'], $cookie));
 			setcookie(COOKIE_NAME, $cookie, time() + COOKIE_EXPIRE,
 					  COOKIE_DIR, COOKIE_DOMAIN);
 		}
@@ -166,7 +166,11 @@ class User {
 
 	function _checkRemembered($cookie)
 	{
-		list($username, $cookie) = unserialize($cookie);
+		$decoded = json_decode($cookie, true);
+		if (!is_array($decoded) || count($decoded) < 2) {
+			return;
+		}
+		list($username, $cookie) = $decoded;
 		if (!$username or !$cookie) {
 			return;
 		} else {

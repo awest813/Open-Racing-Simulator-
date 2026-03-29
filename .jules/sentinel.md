@@ -1,4 +1,4 @@
-## 2024-05-18 - [CRITICAL] Prevent Command Injection and Path Traversal in Telemetry Module
-**Vulnerability:** Command injection and path traversal due to unsanitized `filename` input in `TlmStartMonitoring` being used in `snprintf` to generate a shell script and shell command executed via `system()`.
-**Learning:** Hardcoded calls to `system(buf)` where `buf` relies on external input can easily lead to arbitrary command execution. This pattern existed here to run gnuplot scripts.
-**Prevention:** Avoid `system()` where possible. If inevitable, strongly sanitize any external input before constructing shell commands (e.g., allow only alphanumeric characters and underscores, discarding or replacing shell metacharacters and path delimiters).
+## 2024-05-18 - Fixed PHP Object Injection vulnerability in User class
+**Vulnerability:** The `User` class in `torcs_racing_board/lib/classes.php` used `unserialize()` directly on user-controlled input (`$_COOKIE[COOKIE_NAME]`). This exposes the application to PHP Object Injection vulnerabilities, where an attacker could provide a malicious serialized string to instantiate arbitrary objects and potentially execute code via destructors or wakeup methods.
+**Learning:** Legacy PHP applications often use `serialize()` and `unserialize()` as a quick way to store complex data structures in cookies. This is an anti-pattern because cookies are completely user-controlled.
+**Prevention:** Always use `json_encode()` and `json_decode()` instead of `serialize()` and `unserialize()` for untrusted data like cookies, API payloads, or user input.
