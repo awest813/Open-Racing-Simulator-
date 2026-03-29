@@ -46,10 +46,10 @@
 
 		<tr bgcolor="{PC_COLOR_FIRSTNAME}">
 			<td class="filledlist">
-				First name:
+				<label for="account_firstname">First name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="account_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}"/>
+				<input type="text" id="account_firstname" name="account_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_FIRSTNAME}
@@ -58,10 +58,10 @@
 
 		<tr bgcolor="{PC_COLOR_LASTNAME}">
 			<td class="filledlist">
-				Last name:
+				<label for="account_lastname">Last name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="account_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}"/>
+				<input type="text" id="account_lastname" name="account_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_LASTNAME}
@@ -70,10 +70,10 @@
 
 		<tr bgcolor="{PC_COLOR_PASSWORD}">
 			<td class="filledlist">
-				Password:
+				<label for="account_password">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" name="account_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}"/>
+				<input type="password" id="account_password" name="account_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD}
@@ -82,10 +82,10 @@
 
 		<tr bgcolor="{PC_COLOR_PASSWORD2}">
 			<td class="filledlist">
-				Password:
+				<label for="account_password2">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" name="account_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}"/>
+				<input type="password" id="account_password2" name="account_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD2}
@@ -94,10 +94,10 @@
 
 		<tr bgcolor="{PC_COLOR_EMAIL}">
 			<td class="filledlist">
-				E-mail:
+				<label for="account_email">E-mail:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="account_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}"/>
+				<input type="text" id="account_email" name="account_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_EMAIL}
@@ -137,10 +137,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="filledlist">
-				Photo:
+				<label for="racer_image">Photo:</label>
 			</td>
 			<td class="filledlist">
-				<input name="racer_image" type="file" size="65" maxlength="20000" accept="image/jpeg"/>
+				<input id="racer_image" name="racer_image" type="file" size="65" maxlength="20000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
