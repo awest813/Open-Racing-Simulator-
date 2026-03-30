@@ -81,3 +81,26 @@ The next modernization slice focused on parameter-reading code that still relied
 
 **Why this matters:**
 These changes do not alter runtime behavior, but they make narrowing conversions explicit, easier to review, and less likely to hide accidental truncation in future edits.
+
+## 9. Track Loader Cast Cleanup
+
+The next pass continued the same cast-modernization pattern deeper into the track loaders and their interface glue.
+
+**Changes made:**
+- Replaced remaining pointer casts around `calloc`/`malloc` and interface initialization in `src/modules/track/track.cpp`, `src/modules/track/trackitf.cpp`, `src/modules/track/track3.cpp`, and `src/modules/track/track4.cpp`.
+- Converted subdivision and interpolation math from legacy `(tdble)` casts to explicit `static_cast<tdble>(...)` conversions in both track loader implementations.
+
+**Why this matters:**
+This keeps the loader behavior unchanged while making ownership and numeric-conversion intent clearer in some of the oldest code paths in the track subsystem.
+
+## 10. Track Allocation / Ownership Cleanup
+
+The next engineering-debt pass shifted from casts to legacy allocation and cleanup patterns in the same track-loader code.
+
+**Changes made:**
+- Added shared typed allocation helpers in `src/modules/track/trackinc.h` so track code can request zero-initialized objects and arrays without repeating `calloc` boilerplate and null checks.
+- Replaced repeated manual allocation sites in `track.cpp`, `track3.cpp`, and `track4.cpp` with those helpers for tracks, segments, barriers, surfaces, cameras, pit arrays, and segment-extension data.
+- Extracted small local cleanup helpers in `track.cpp` for freeing the camera ring and surface list, making `TrackShutdown()` reflect the ownership structure more directly.
+
+**Why this matters:**
+This keeps the legacy loader architecture intact while making allocation intent more uniform, reducing copy-paste error opportunities, and clarifying which code owns which data structures.

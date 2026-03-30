@@ -21,6 +21,34 @@
 #ifndef _TRACKINC_H__
 #define _TRACKINC_H__
 
+#include <cstddef>
+#include <cstdlib>
+
+template <typename T>
+T* trackCalloc(const char* context)
+{
+	T* pointer = static_cast<T*>(std::calloc(1, sizeof(T)));
+	if (pointer == nullptr) {
+		GfFatal("%s: Memory allocation failed\n", context);
+	}
+
+	return pointer;
+}
+
+template <typename T>
+T* trackCallocArray(std::size_t count, const char* context)
+{
+	if (count == 0) {
+		return nullptr;
+	}
+
+	T* pointer = static_cast<T*>(std::calloc(count, sizeof(T)));
+	if (pointer == nullptr) {
+		GfFatal("%s: Memory allocation failed\n", context);
+	}
+
+	return pointer;
+}
 
 extern void TrackShutdown(void);
 extern void ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext);

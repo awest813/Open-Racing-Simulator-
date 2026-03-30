@@ -103,10 +103,7 @@ AddTrackSurface(void *TrackHandle, tTrack *theTrack, const char *material)
 	}
 	
 	/* Create a new surface */
-	curSurf = (tTrackSurface*)malloc(sizeof(tTrackSurface));
-	if (!curSurf) {
-		GfFatal("AddTrackSurface: Memory allocation failed\n");
-	}
+	curSurf = trackCalloc<tTrackSurface>("AddTrackSurface");
 	
 	curSurf->material = material;
 	snprintf(path, BUFSIZE, "%s/%s/%s", TRK_SECT_SURFACES, TRK_LST_SURF, material);
@@ -239,13 +236,13 @@ AddSides(tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, in
 	    ew = sideEndWidth[side];
 	    bw = borderWidth[side];
 	}
-	Kew = (ew - sw) / (tdble)steps;
-	ew = sw + (tdble)(curStep+1) * Kew;
-	sw = sw + (tdble)(curStep) * Kew;
+	Kew = (ew - sw) / static_cast<tdble>(steps);
+	ew = sw + static_cast<tdble>(curStep + 1) * Kew;
+	sw = sw + static_cast<tdble>(curStep) * Kew;
 
 	/* Borders */
 	if (bw != 0.0) {
-	    curBorder = (tTrackSeg*)calloc(1, sizeof(tTrackSeg));
+	    curBorder = trackCalloc<tTrackSeg>("AddSides border");
 	    if (side == 1) {
 		curSeg->lside = curBorder;
 		curBorder->vertex[TR_SR] = curSeg->vertex[TR_SL];
@@ -267,8 +264,8 @@ AddSides(tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, in
 	    curBorder->height = borderHeight[side];
 	    curBorder->style = borderStyle[side];
 	    curBorder->envIndex = envIndex;
-	    curBorder->angle[TR_XS] = curSeg->angle[TR_XS] * (tdble)type;
-	    curBorder->angle[TR_XE] = curSeg->angle[TR_XE] * (tdble)type;
+	    curBorder->angle[TR_XS] = curSeg->angle[TR_XS] * static_cast<tdble>(type);
+	    curBorder->angle[TR_XE] = curSeg->angle[TR_XE] * static_cast<tdble>(type);
 	    curBorder->angle[TR_ZS] = curSeg->angle[TR_ZS];
 	    curBorder->angle[TR_ZE] = curSeg->angle[TR_ZE];
 	    curBorder->angle[TR_CS] = curSeg->angle[TR_CS];
@@ -479,7 +476,7 @@ AddSides(tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, in
 
 	/* Sides */
 	if ((sw != 0.0) || (ew != 0)) {
-	    curSide = (tTrackSeg*)calloc(1, sizeof(tTrackSeg));
+	    curSide = trackCalloc<tTrackSeg>("AddSides side");
 	    if (side == 1) {
 		curSeg->lside = curSide;
 		curSide->vertex[TR_SR] = curSeg->vertex[TR_SL];
@@ -708,10 +705,7 @@ AddSides(tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, in
 	}
 
 	/* Barrier */
-	curBarrier = (tTrackBarrier*)malloc(sizeof(tTrackBarrier));
-	if (!curBarrier) {
-	    GfFatal("AddSides: memory allocation error");
-	}
+	curBarrier = trackCalloc<tTrackBarrier>("AddSides barrier");
 	curBarrier->style = barrierStyle[side];
 	curBarrier->width = barrierWidth[side];
 	curBarrier->height = barrierHeight[side];
@@ -994,22 +988,22 @@ CreateSegRing3(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg 
 		T1l = stgtl * length;
 		T2l = etgtl * length;
 		tl = 0.0;
-		dtl = 1.0 / (tdble)steps;
+		dtl = 1.0 / static_cast<tdble>(steps);
 		T1r = stgtr * length;
 		T2r = etgtr * length;
 		tr = 0.0;
-		dtr = 1.0 / (tdble)steps;
+		dtr = 1.0 / static_cast<tdble>(steps);
 
 		curStep = 0;
 		curzel = zsl;
 		curzer = zsr;
-		curArc = arc / (tdble)steps;
-		curLength = length / (tdble)steps;
-		dradius = (radiusend - radius) / (tdble)steps;
+		curArc = arc / static_cast<tdble>(steps);
+		curLength = length / static_cast<tdble>(steps);
+		dradius = (radiusend - radius) / static_cast<tdble>(steps);
 		if (radiusend != radius) {
 			/* Compute the correct curLength... */
 			if (steps != 1) {
-			dradius = (radiusend - radius) / (tdble)(steps - 1);
+			dradius = (radiusend - radius) / static_cast<tdble>(steps - 1);
 			tdble tmpAngle = 0;
 			tdble tmpRadius = radius;
 			for (curStep = 0; curStep < steps; curStep++) {
@@ -1037,7 +1031,7 @@ CreateSegRing3(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg 
 			}
 
 			/* allocate a new segment */
-			curSeg = (tTrackSeg*)calloc(1, sizeof(tTrackSeg));
+			curSeg = trackCalloc<tTrackSeg>("CreateSegRing3 segment");
 			if (root == nullptr) {
 				root = curSeg;
 				curSeg->next = curSeg;
@@ -1058,8 +1052,8 @@ CreateSegRing3(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg 
 			curSeg->lgfromstart = totLength;
 
 			if (ext && ind) {
-				int	*mrks = static_cast<int*>(calloc(ind, sizeof(int)));
-				tSegExt	*segExt = (tSegExt*)calloc(1, sizeof(tSegExt));
+				int	*mrks = trackCallocArray<int>(ind, "CreateSegRing3 marks");
+				tSegExt	*segExt = trackCalloc<tSegExt>("CreateSegRing3 extension");
 
 				memcpy(mrks, mi, ind*sizeof(int));
 				segExt->nbMarks = ind;
@@ -1419,7 +1413,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    pits->nMaxPits = static_cast<int>((- pitStart->lgfromstart + pitEnd->lgfromstart +
 					     pitEnd->length + pits->len / 2.0) / pits->len);
 	}
-	pits->driversPits = (tTrackOwnPit*)calloc(pits->nMaxPits, sizeof(tTrackOwnPit));
+	pits->driversPits = trackCallocArray<tTrackOwnPit>(pits->nMaxPits, "ReadTrack3 pits");
 
 	mSeg = pits->pitStart->prev;
 	changeSeg = 1;
@@ -1519,10 +1513,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
     snprintf(path, BUFSIZE, "%s/%s", TRK_SECT_CAM, TRK_LST_CAM);
     if (GfParmListSeekFirst(TrackHandle, path) == 0) {
 	do {
-	    curCam = (tRoadCam*)calloc(1, sizeof(tRoadCam));
-	    if (!curCam) {
-		GfFatal("ReadTrack3: Memory allocation error");
-	    }
+	    curCam = trackCalloc<tRoadCam>("ReadTrack3 camera");
 	    if (*camList == nullptr) {
 		*camList = curCam;
 		curCam->next = curCam;

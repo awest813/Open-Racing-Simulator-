@@ -35,6 +35,33 @@ static void	*TrackHandle;
 
 static void GetTrackHeader(void *TrackHandle);
 
+namespace {
+
+void freeTrackCameraRing(tRoadCam* cameraList)
+{
+	if (cameraList == nullptr) {
+		return;
+	}
+
+	tRoadCam* currentCamera = cameraList;
+	do {
+		tRoadCam* nextCamera = currentCamera->next;
+		free(currentCamera);
+		currentCamera = nextCamera;
+	} while (currentCamera != cameraList);
+}
+
+void freeTrackSurfaceList(tTrackSurface* surfaceList)
+{
+	while (surfaceList != nullptr) {
+		tTrackSurface* nextSurface = surfaceList->next;
+		free(surfaceList);
+		surfaceList = nextSurface;
+	}
+}
+
+} // namespace
+
 
 /*
  * External function used to (re)build a track
@@ -45,8 +72,8 @@ TrackBuildv1(char *trackfile)
 {
     TrackShutdown();
 
-    theTrack = (tTrack*)calloc(1, sizeof(tTrack));
-    theCamList = (tRoadCam*)nullptr;
+    theTrack = trackCalloc<tTrack>("TrackBuildv1");
+    theCamList = nullptr;
 
     theTrack->params = TrackHandle = GfParmReadFile (trackfile, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
     
@@ -75,8 +102,8 @@ TrackBuildEx(char *trackfile)
 {
     void	*TrackHandle;
 
-    theTrack = (tTrack*)calloc(1, sizeof(tTrack));
-    theCamList = (tRoadCam*)nullptr;
+    theTrack = trackCalloc<tTrack>("TrackBuildEx");
+    theCamList = nullptr;
 
     theTrack->params = TrackHandle = GfParmReadFile (trackfile, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
     
@@ -153,7 +180,7 @@ GetTrackHeader(void *TrackHandle)
 		graphic->envnb = 1;
 	}
 
-	graphic->env = (const char**)calloc(graphic->envnb, sizeof(char*));
+	graphic->env = trackCallocArray<const char*>(graphic->envnb, "GetTrackHeader env");
 	env = graphic->env;
 	for (i = 1; i <= graphic->envnb; i++) {
 		snprintf(buf, BUFSIZE, "%s/%s/%d", TRK_SECT_GRAPH, TRK_LST_ENV, i);
@@ -209,10 +236,6 @@ TrackShutdown(void)
 {
 	tTrackSeg *curSeg;
 	tTrackSeg *nextSeg;
-	tTrackSurface *curSurf;
-	tTrackSurface *nextSurf;
-	tRoadCam *curCam;
-	tRoadCam *nextCam;
 
 	if (!theTrack) {
 		return;
@@ -225,21 +248,8 @@ TrackShutdown(void)
 		freeSeg(curSeg);
 	} while (curSeg != theTrack->seg);
 
-	curSurf = theTrack->surfaces;
-	while (curSurf) {
-		nextSurf = curSurf->next;
-		free(curSurf);
-		curSurf = nextSurf;
-	}
-
-	curCam = theCamList;
-	if (curCam) {
-	do {
-		nextCam = curCam->next;
-		free(curCam);
-		curCam = nextCam;
-	} while (curCam != theCamList);
-	}
+	freeTrackSurfaceList(theTrack->surfaces);
+	freeTrackCameraRing(theCamList);
 	theCamList = nullptr;
 
 	if (theTrack->pits.driversPits) free(theTrack->pits.driversPits);
