@@ -1,3 +1,3 @@
-## 2026-03-27 - Add labels to login and registration forms
-**Learning:** Explicitly associating `<label>` tags with `<input>` elements using the `for` and `id` attributes is a critical accessibility improvement, especially for checkboxes like "Remember Me", as it increases the clickable area and allows screen readers to correctly identify the input.
-**Action:** Always ensure that every input field in a form has an associated label, particularly in older web applications where this standard practice might have been overlooked.
+## 2026-03-29 - Fixed Missing Form Labels
+**Learning:** Legacy PHP/ihtml templates in this application often rely on raw text next to input fields rather than semantic `<label for="id">` tags. This creates a significant accessibility barrier as screen readers cannot associate the description with the input, and users cannot click the text to focus the input.
+**Action:** When working on legacy templates, actively check for unassociated text and wrap it in proper `<label for="id">` tags while adding the corresponding `id` to the `<input>`. This provides a massive accessibility win with zero visual disruption.
