@@ -305,7 +305,18 @@ ReManage(tCarElt *car)
 					info->topSpd = car->_speed_x;
 					info->botSpd = car->_speed_x;
 					car->_currentMinSpeedForLap = car->_speed_x;
-					if ((car->_remainingLaps < 0) || (s->_raceState == RM_RACE_FINISHING)) {
+					bool raceFinished = false;
+					if (s->_raceType == RM_TYPE_TIMED) {
+						if (s->currentTime >= s->_raceTime) {
+							raceFinished = true;
+						}
+					} else {
+						if (car->_remainingLaps < 0) {
+							raceFinished = true;
+						}
+					}
+
+					if (raceFinished || (s->_raceState == RM_RACE_FINISHING)) {
 						car->_state |= RM_CAR_STATE_FINISH;
 						s->_raceState = RM_RACE_FINISHING;
 						if (ReInfo->s->_raceType == RM_TYPE_RACE) {
@@ -379,7 +390,19 @@ static void ReSortCars(void)
 		while (j > 0) {
 			if ((s->cars[j]->_state & RM_CAR_STATE_FINISH) == 0) {
 				allfinish = 0;
-				if (s->cars[j]->_distRaced > s->cars[j-1]->_distRaced) {
+				bool car1_bad = (s->cars[j-1]->_state & (RM_CAR_STATE_DNF | RM_CAR_STATE_ELIMINATED | RM_CAR_STATE_BROKEN)) != 0;
+				bool car2_bad = (s->cars[j]->_state & (RM_CAR_STATE_DNF | RM_CAR_STATE_ELIMINATED | RM_CAR_STATE_BROKEN)) != 0;
+				bool swap = false;
+				
+				if (!car2_bad && car1_bad) {
+					swap = true;
+				} else if (car2_bad == car1_bad) {
+					if (s->cars[j]->_distRaced > s->cars[j-1]->_distRaced) {
+						swap = true;
+					}
+				}
+
+				if (swap) {
 					car = s->cars[j];
 					s->cars[j] = s->cars[j-1];
 					s->cars[j-1] = car;
@@ -500,13 +523,16 @@ ReRaceRules(tCarElt *car)
 	}
 
 	penalty = GF_TAILQ_FIRST(&(car->_penaltyList));
-	if (penalty) {
+	while (penalty) {
 		if (car->_laps > penalty->lapToClear) {
-			/* too late to clear the penalty, out of race */
 			car->_state |= RM_CAR_STATE_ELIMINATED;
 			return;
 		}
-	
+		penalty = GF_TAILQ_NEXT(penalty, link);
+	}
+
+	penalty = GF_TAILQ_FIRST(&(car->_penaltyList));
+	if (penalty) {
 		switch (penalty->penalty) {
 			case RM_PENALTY_DRIVETHROUGH:
 				snprintf(car->ctrl.msg[3], 32, "Drive Through Penalty");
@@ -546,8 +572,14 @@ ReRaceRules(tCarElt *car)
 			/* the car stopped in pits */
 			if (car->_state & RM_CAR_STATE_PIT) {
 				if (rules->ruleState & RM_PNST_DRIVETHROUGH) {
-					/* it's not more a drive through */
 					rules->ruleState &= ~RM_PNST_DRIVETHROUGH;
+					tCarPenalty *curPenalty = GF_TAILQ_FIRST(&(car->_penaltyList));
+					if (curPenalty && curPenalty->penalty == RM_PENALTY_DRIVETHROUGH) {
+						curPenalty->penalty = RM_PENALTY_STOPANDGO;
+						snprintf(buf, BUFSIZE, "%s STOP&GO PENALTY (drive-through not served)", car->_name);
+						ReRaceMsgSet(buf, 5);
+						rules->ruleState |= RM_PNST_STOPANDGO;
+					}
 				} else if (rules->ruleState & RM_PNST_STOPANDGO) {
 					rules->ruleState |= RM_PNST_STOPANDGO_OK;
 				}
@@ -582,7 +614,9 @@ ReRaceRules(tCarElt *car)
 			}
 		}
     } else if (seg->raceInfo & TR_PITEND) {
-		rules->ruleState = 0;
+		if (!(prevSeg->raceInfo & TR_PIT)) {
+			rules->ruleState &= RM_PNST_STNGO;
+		}
     } else if (seg->raceInfo & TR_PIT) {
 		/* entrered the pits not from the pit entry... */
 		/* it's a new stop and go... */
@@ -658,6 +692,7 @@ ReOneStep(double deltaTimeIncrement)
 	for (i = 0; i < s->_ncars; i++) {
 		ReManage(s->cars[i]);
 	}
+	ReTelemetryRecordStep(s);
 	STOP_PROFILE("_reSimItf.update*");
 
 	if ((ReInfo->_displayMode != RM_DISP_MODE_NONE) && (ReInfo->_displayMode != RM_DISP_MODE_CONSOLE)) {
@@ -671,6 +706,7 @@ ReStart(void)
 {
     ReInfo->_reRunning = 1;
     ReInfo->_reCurTime = GfTimeClock() - RCM_MAX_DT_SIMU;
+    ReTelemetryStartRecording(ReInfo->s);
 }
 
 void
@@ -678,6 +714,7 @@ ReStop(void)
 {
 	ReInfo->_reGraphicItf.muteformenu();
     ReInfo->_reRunning = 0;
+    ReTelemetryStopRecording();
 }
 
 static void

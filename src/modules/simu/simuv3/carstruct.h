@@ -95,6 +95,12 @@ typedef struct
     tRmInfo     *ReInfo;
     int		collisionAware;
     SimulationOptions* options;
+
+    tdble	localTemperature;	// Environment temperature for the car
+    tdble	localPressure;		// Environment pressure for the car
+    tdble	localWindX;		// Wind velocity component in car-local X (forward) axis
+    tdble	localWindY;		// Wind velocity component in car-local Y (left) axis
+    tdble	airDensity;		// Air density computed from temperature and pressure
 } tCar;
 
 #if 0

@@ -2,9 +2,9 @@
 
     file        : raceengine.h
     created     : Sat Nov 23 09:35:21 CET 2002
-    copyright   : (C) 2002 by Eric Espié                        
-    email       : eric.espie@torcs.org   
-    version     : $Id$                                  
+    copyright   : (C) 2002 by Eric Espie
+    email       : eric.espie@torcs.org
+    version     : $Id$
 
  ***************************************************************************/
 
@@ -17,25 +17,26 @@
  *                                                                         *
  ***************************************************************************/
  
-/** @file    
-    		
-    @author	<a href=mailto:torcs@free.fr>Eric Espie</a>
-    @version	$Id$
+/** @file
+
+    @author <a href=mailto:torcs@free.fr>Eric Espie</a>
+    @version $Id$
 */
 
 #ifndef _RACEENGINE_H_
 #define _RACEENGINE_H_
 
-
+#include <raceman.h>
 
 extern void ReStart(void);
 extern void ReStop(void);
 extern int  ReUpdate(void);
-extern void ReTimeMod (void *vcmd);
+extern void ReTimeMod(void *vcmd);
 
-extern tRmInfo	*ReInfo;
+extern void ReTelemetryStartRecording(tSituation *s);
+extern void ReTelemetryRecordStep(tSituation *s);
+extern void ReTelemetryStopRecording(void);
 
-#endif /* _RACEENGINE_H_ */ 
+extern tRmInfo *ReInfo;
 
-
-
+#endif /* _RACEENGINE_H_ */

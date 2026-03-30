@@ -42,6 +42,8 @@
 
 #define HM_ATT_LIGHT1_CMD	"Light1 cmd"
 #define HM_ATT_SPDLIM_CMD	"Speed Limiter"
+#define HM_ATT_BRAKE_BALANCE_FWD	"brake balance forward"
+#define HM_ATT_BRAKE_BALANCE_REAR	"brake balance rear"
 
 #define HM_ATT_AUTOREVERSE	"auto reverse"
 

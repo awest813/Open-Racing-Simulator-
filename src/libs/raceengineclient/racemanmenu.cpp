@@ -37,7 +37,6 @@
 #include "racestate.h"
 
 #include "racemanmenu.h"
-
 static float red[4]  = {1.0, 0.0, 0.0, 1.0};
 
 static void *racemanMenuHdle = nullptr;
@@ -174,11 +173,12 @@ reConfigRunState(void)
 			if (!strcmp(opt, RM_VAL_CONFRACELEN)) {
 			/* Configure race length */
 			rp.confMask |= RM_CONF_RACE_LEN;
-			} else {
-			if (!strcmp(opt, RM_VAL_CONFDISPMODE)) {
+			} else if (!strcmp(opt, RM_VAL_CONFRACETIME)) {
+			/* Configure race time */
+			rp.confMask |= RM_CONF_RACE_TIME;
+			} else if (!strcmp(opt, RM_VAL_CONFDISPMODE)) {
 				/* Configure display mode */
 				rp.confMask |= RM_CONF_DISP_MODE;
-			}
 			}
 		}
 		RmRaceParamMenu(&rp);
@@ -213,6 +213,9 @@ reSelectLoadFile(char *filename)
 	
 	snprintf(buf, BUFSIZE, "%sresults/%s/%s", GetLocalDir(), ReInfo->_reFilename, filename);
 	GfOut("Loading Saved File %s...\n", buf);
+	if (ReInfo->results) {
+		GfParmReleaseHandle(ReInfo->results);
+	}
 	ReInfo->results = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 	ReInfo->_reRaceName = ReInfo->_reName;
 	RmShowStandings(ReInfo->_reGameScreen, ReInfo);

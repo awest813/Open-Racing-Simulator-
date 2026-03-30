@@ -27,7 +27,7 @@ typedef struct
     tdble	lift[2];	/* front & rear lift force along car z axis */
 
     /* static */
-    tdble	SCx2;
+    tdble	baseSCx2;	/* base drag coefficient (without air density) */
     tdble	Clift[2];	/* front & rear lift due to body not wings */
     tdble	Cd;		/* for aspiration */
 } tAero;
@@ -43,6 +43,7 @@ typedef struct
     
     /* static */
     t3Dd	staticPos;
+    tdble	baseKx;		/* base wing coefficient (without air density) */
     
 } tWing;
 

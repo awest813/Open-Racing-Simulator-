@@ -112,13 +112,16 @@ void ReShutdown(void)
 
 		GfModUnloadList(&reEventModList);
 
+		ReRaceCleanDrivers();
+
 		if (ReInfo->results) {
-	    	GfParmReleaseHandle(ReInfo->results);
+    	GfParmReleaseHandle(ReInfo->results);
 		}
 		if (ReInfo->_reParam) {
 			GfParmReleaseHandle(ReInfo->_reParam);
 		}
 		FREEZ(ReInfo->s);
+		FREEZ(ReInfo->_reCarInfo);
 		FREEZ(ReInfo->carList);
 		FREEZ(ReInfo->rules);
 		FREEZ(ReInfo->_reFilename);
@@ -680,6 +683,7 @@ ReInitCars(void)
 						void* cathdle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 						if (GfParmCheckHandle(cathdle, carhdle)) {
 							GfTrace("Car %s not in Category %s (driver %s) !!!\n", elt->_carName, category, elt->_name);
+							GfParmReleaseHandle(cathdle);
 							break;
 						}
 						carhdle = GfParmMergeHandles(cathdle, carhdle,

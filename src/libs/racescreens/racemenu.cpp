@@ -1,11 +1,11 @@
 /***************************************************************************
-
-    file                 : racemenu.cpp
-    created              : Thu May  2 22:02:51 CEST 2002
-    copyright            : (C) 2001-2014 by Eric Espie, Bernhard Wymann
-    email                : eric.espie@torcs.org
-    version              : $Id$
-
+ *
+ *    file                 : racemenu.cpp
+ *    created              : Thu May  2 22:02:51 CEST 2002
+ *    copyright            : (C) 2001-2014 by Eric Espie, Bernhard Wymann
+ *    email                : eric.espie@torcs.org
+ *    version              : $Id$
+ *
  ***************************************************************************/
 
 /***************************************************************************
@@ -40,8 +40,10 @@ static void *scrHandle;
 static tRmRaceParam *rp;
 static int rmrpDistance;
 static int rmrpLaps;
+static int rmrpDuration;
 static int rmrpDistId;
 static int rmrpLapsId;
+static int rmrpDurationId;
 static int rmDispModeEditId;
 static int rmCurDispMode;
 static const char *rmCurDispModeList[] = { RM_VAL_VISIBLE, RM_VAL_INVISIBLE };
@@ -94,6 +96,18 @@ static void rmrpUpdLaps(void * /* dummy */)
 	GfuiEditboxSetString(scrHandle, rmrpLapsId, buf);
 }
 
+static void rmrpUpdDuration(void * /* dummy */)
+{
+	char *val;
+	const int BUFSIZE = 1024;
+	char buf[BUFSIZE];
+
+	val = GfuiEditboxGetString(scrHandle, rmrpDurationId);
+	rmrpDuration = strtol(val, nullptr, 0);
+	snprintf(buf, BUFSIZE, "%d", rmrpDuration);
+	GfuiEditboxSetString(scrHandle, rmrpDurationId, buf);
+}
+
 
 static void rmrpValidate(void * /* dummy */)
 {
@@ -102,6 +116,11 @@ static void rmrpValidate(void * /* dummy */)
 		rmrpUpdLaps(0);
 		GfParmSetNum(rp->param, rp->title, RM_ATTR_DISTANCE, "km", rmrpDistance);
 		GfParmSetNum(rp->param, rp->title, RM_ATTR_LAPS, nullptr, rmrpLaps);
+	}
+
+	if (rp->confMask & RM_CONF_RACE_TIME) {
+		rmrpUpdDuration(0);
+		GfParmSetNum(rp->param, rp->title, RM_ATTR_RACE_TIME, "s", rmrpDuration);
 	}
 
 	if (rp->confMask & RM_CONF_DISP_MODE) {
@@ -177,6 +196,17 @@ void RmRaceParamMenu(void *vrp)
 		rmrpLapsId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
 						x + dx, y,
 						0, 8, nullptr, nullptr, rmrpUpdLaps);
+		y -= dy;
+	}
+
+	if (rp->confMask & RM_CONF_RACE_TIME) {
+		GfuiLabelCreate(scrHandle, "Race Time (s):", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
+		rmrpDuration = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_RACE_TIME, "s", 60);
+		snprintf(buf, BUFSIZE, "%d", rmrpDuration);
+
+		rmrpDurationId = GfuiEditboxCreate(scrHandle, buf, GFUI_FONT_MEDIUM_C,
+						x + dx, y,
+						0, 8, nullptr, nullptr, rmrpUpdDuration);
 		y -= dy;
 	}
 

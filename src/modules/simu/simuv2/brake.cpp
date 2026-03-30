@@ -49,7 +49,8 @@ void SimBrakeSystemConfig(tCar *car)
 	void *hdle = car->params;
 
 	car->brkSyst.rep   = GfParmGetNum(hdle, SECT_BRKSYST, PRM_BRKREP, nullptr, 0.5);
-	car->brkSyst.coeff = GfParmGetNum(hdle, SECT_BRKSYST, PRM_BRKPRESS, nullptr, 1000000);    
+	car->brkSyst.coeff = GfParmGetNum(hdle, SECT_BRKSYST, PRM_BRKPRESS, nullptr, 1000000);
+	car->carElt->_brakeBalance = car->brkSyst.rep;
 }
 
 
@@ -58,6 +59,7 @@ void SimBrakeSystemReConfig(tCar *car)
 	tCarPitSetupValue* v = &car->carElt->pitcmd.setup.brakeRepartition;
 	if (SimAdjustPitCarSetupParam(v)) {
 		car->brkSyst.rep = v->value;
+		car->carElt->_brakeBalance = v->value;
 	}
 
 	v = &car->carElt->pitcmd.setup.brakePressure;
@@ -71,8 +73,13 @@ void SimBrakeSystemUpdate(tCar *car)
 {
 	tBrakeSyst	*brkSyst = &(car->brkSyst);
 	tdble	ctrl = car->ctrl->brakeCmd;
+	tdble	rep = brkSyst->rep;
+
+	if (car->carElt->_brakeBalance > 0.0f) {
+		rep = car->carElt->_brakeBalance;
+	}
 
 	ctrl *= brkSyst->coeff;
-	car->wheel[FRNT_RGT].brake.pressure = car->wheel[FRNT_LFT].brake.pressure = ctrl * brkSyst->rep;
-	car->wheel[REAR_RGT].brake.pressure = car->wheel[REAR_LFT].brake.pressure = ctrl * (1 - brkSyst->rep);
+	car->wheel[FRNT_RGT].brake.pressure = car->wheel[FRNT_LFT].brake.pressure = ctrl * rep;
+	car->wheel[REAR_RGT].brake.pressure = car->wheel[REAR_LFT].brake.pressure = ctrl * (1 - rep);
 }

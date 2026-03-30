@@ -69,6 +69,8 @@ extern const char *Yn[];
 #define CMD_LIGHT1	16
 #define CMD_CLUTCH	17
 #define CMD_SPDLIM	18
+#define CMD_BRAKE_BALANCE_FWD	19
+#define CMD_BRAKE_BALANCE_REAR	20
 
 
 extern void HmReadPrefs(int index);

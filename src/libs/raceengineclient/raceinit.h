@@ -26,6 +26,8 @@
 #ifndef _RACEINIT_H_
 #define _RACEINIT_H_
 
+#include <tgf.h>
+
 #define RACE_ENG_CFG	"config/raceengine.xml"
 
 extern void ReInit(void);

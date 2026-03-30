@@ -190,6 +190,11 @@ void ReInitRules(tRmInfo* ReInfo)
 	number = ReInfo->track->pits.speedLimit;
 	number = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_PIT_SPEED_LIMIT, nullptr, number);
 	ReInfo->track->pits.speedLimit = number;
+
+	// Environment: ambient temperature (Celsius), wind speed (m/s), wind direction (radians).
+	ReInfo->environment.ambientTemperature = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_AMBIENT_TEMP, nullptr, 20.0f);
+	ReInfo->environment.windSpeed = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_WIND_SPEED, nullptr, 0.0f);
+	ReInfo->environment.windDirection = GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_WIND_DIR, nullptr, 0.0f);
 }
 
 
@@ -221,6 +226,9 @@ int RePreRace(void)
 		ReInfo->s->_raceType = RM_TYPE_QUALIF;
 	} else if (!strcmp(raceType, RM_VAL_PRACTICE)) {
 		ReInfo->s->_raceType = RM_TYPE_PRACTICE;
+	} else if (!strcmp(raceType, "timed")) {
+		ReInfo->s->_raceType = RM_TYPE_TIMED;
+		ReInfo->s->_raceTime = (int)GfParmGetNum(params, raceName, RM_ATTR_RACE_TIME, nullptr, 600);
 	}
 
 	ReInfo->s->_raceState = 0;

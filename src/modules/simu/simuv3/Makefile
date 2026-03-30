@@ -34,6 +34,7 @@ SOURCES		= simu.cpp \
 	  	  differential.cpp \
 	  	  collide.cpp \
 		  categories.cpp \
+		  atmosphere.cpp \
 		  SimulationOptions.cpp
 
 LIBS		=  -lplibsg -lplibul -L${EXPORTBASE}/lib -lsolid

@@ -388,6 +388,10 @@
 		<attnum name="camber" min="-5" max="-3" unit="deg" val="-4"/>
 		<attnum name="dynamic friction" unit="%" val="80"/>
 		<attnum name="mu" val="1.6"/>
+		<attnum name="pressure" unit="Pa" val="300000"/>
+		<attnum name="hysteresis" val="1.05"/>
+		<attnum name="wear" val="1.25"/>
+		<attnum name="tread thickness" unit="mm" val="3"/>
 	</section>
 	
 	<section name="Front Left Wheel">
@@ -402,6 +406,10 @@
 		<attnum name="camber" min="-5" max="-3" unit="deg" val="-4"/>
 		<attnum name="dynamic friction" unit="%" val="80"/>
 		<attnum name="mu" val="1.6"/>
+		<attnum name="pressure" unit="Pa" val="300000"/>
+		<attnum name="hysteresis" val="1.05"/>
+		<attnum name="wear" val="1.25"/>
+		<attnum name="tread thickness" unit="mm" val="3"/>
 	</section>
 	
 	<section name="Rear Right Wheel">
@@ -416,6 +424,10 @@
 		<attnum name="dynamic friction" unit="%" val="80"/>
 		<attnum name="mu" val="1.6"/>
 		<attnum name="toe" unit="deg" min="-1" max="1" val="0"/>
+		<attnum name="pressure" unit="Pa" val="300000"/>
+		<attnum name="hysteresis" val="1.0"/>
+		<attnum name="wear" val="1.0"/>
+		<attnum name="tread thickness" unit="mm" val="3"/>
 	</section>
 	
 	<section name="Rear Left Wheel">
@@ -430,6 +442,10 @@
 		<attnum name="dynamic friction" unit="%" val="80"/>
 		<attnum name="mu" val="1.6"/>
 		<attnum name="toe" unit="deg" min="-1" max="1" val="0"/>
+		<attnum name="pressure" unit="Pa" val="300000"/>
+		<attnum name="hysteresis" val="1.0"/>
+		<attnum name="wear" val="1.0"/>
+		<attnum name="tread thickness" unit="mm" val="3"/>
 	</section>
 	
 	<section name="Front Anti-Roll Bar">

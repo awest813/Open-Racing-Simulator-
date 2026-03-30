@@ -71,7 +71,9 @@ typedef struct {
 #define RM_TYPE_PRACTICE	0 /* Please keep the order */
 #define RM_TYPE_QUALIF		1
 #define RM_TYPE_RACE		2
+#define RM_TYPE_TIMED		3
     int                 maxDammage;
+    int                 raceTime;  /**< duration in seconds */
     unsigned long	fps;
 } tRaceAdmInfo;
 
@@ -79,6 +81,7 @@ typedef struct {
 #define _totLaps	raceInfo.totLaps
 #define _raceState	raceInfo.state
 #define _raceType	raceInfo.type
+#define _raceTime	raceInfo.raceTime
 #define _maxDammage	raceInfo.maxDammage
 
 /** cars situation used to inform the GUI and the drivers */
@@ -170,6 +173,10 @@ typedef struct
 #define _displayMode	raceEngineInfo.displayMode
 #define _refreshDisplay	raceEngineInfo.refreshDisplay
 
+#define _ambientTemp	environment.ambientTemperature
+#define _windSpeed	environment.windSpeed
+#define _windDir	environment.windDirection
+
 #define RM_PNST_DRIVETHROUGH	0x00000001
 #define RM_PNST_STOPANDGO	0x00000002
 #define RM_PNST_STOPANDGO_OK	0x00000004
@@ -193,6 +200,13 @@ typedef struct RmRaceRules
 	tdble tireFactor;
 	tdble allTiresChangeTime;
 } tRmRaceRules;
+
+typedef struct RmEnvironment
+{
+	tdble ambientTemperature; /**< Ambient air temperature in degrees Celsius */
+	tdble windSpeed;          /**< Wind speed in m/s */
+	tdble windDirection;      /**< Wind direction in radians (0 = North, pi/2 = East) */
+} tRmEnvironment;
 
 typedef struct RmCarRules
 {
@@ -227,6 +241,7 @@ typedef struct RmInfo
     tRaceEngineInfo	raceEngineInfo;
     tRmMovieCapture	movieCapture;
 	tRmRaceRules raceRules;
+	tRmEnvironment environment;
 } tRmInfo;
 
 /*
@@ -280,6 +295,7 @@ typedef struct RmInfo
 #define RM_ATTR_MAX_DMG		"maximum dammage"
 #define RM_ATTR_DISTANCE	"distance"
 #define RM_ATTR_LAPS		"laps"
+#define RM_ATTR_RACE_TIME "duration"
 #define RM_ATTR_POLE		"pole position side"
 #define RM_ATTR_CARSPERPIT	"cars per pit"
 
@@ -295,12 +311,17 @@ typedef struct RmInfo
 #define RM_ATTR_PITSTOP_BASE_TIME "pitstop base time"
 #define RM_ATTR_ALL_TIRES_CHANGE_TIME "all tires change time"
 
+#define RM_ATTR_AMBIENT_TEMP "ambient temperature"
+#define RM_ATTR_WIND_SPEED "wind speed"
+#define RM_ATTR_WIND_DIR "wind direction"
+
 #define RM_ATTR_POINTS		"points"
 
 #define RM_VAL_TRACKSEL		"track select"
 #define RM_VAL_DRVSEL		"drivers select"
 #define RM_VAL_RACECONF		"race config"
 #define RM_VAL_CONFRACELEN	"race length"
+#define RM_VAL_CONFRACETIME "race time"
 #define RM_VAL_CONFDISPMODE	"display mode"
 
 #define RM_VAL_DRV_LIST_ORDER	"drivers list"

@@ -238,6 +238,13 @@ typedef struct SegExt
     int		*marks;		/**< marks array */
 } tSegExt;
 
+/** Dynamic per-segment surface state (evolves during the race) */
+typedef struct SegDynamicSurface {
+    tdble rubber;		/**< Rubber buildup on racing line [0..1] */
+    tdble gripMod;		/**< Resulting grip modifier [0..~0.15] */
+    tdble temperature;		/**< Track surface temperature in Kelvin */
+    tdble lastUpdate;		/**< Simulation time of last update */
+} tSegDynamicSurface;
 
 /** Surface */
 typedef struct trackSurface {
@@ -391,6 +398,7 @@ typedef struct trackSeg {
 
     /* optionnal extensions */
     tSegExt		*ext;
+    tSegDynamicSurface	*dynSurface; /**< Dynamic surface state (allocated at runtime) */
 
     tTrackSurface	*surface; /**< Segment surface */
 	tTrackBarrier	*barrier[2]; /**< Segment barriers */

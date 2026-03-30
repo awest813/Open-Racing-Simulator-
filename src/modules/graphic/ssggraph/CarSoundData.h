@@ -54,6 +54,8 @@ public:
 	QSoundChar grass_skid;
 	QSoundChar grass;
 	QSoundChar road;
+	QSoundChar curb_ride;
+	QSoundChar curb_skid;
 	QSoundChar skid_metal;
 	int prev_gear;
 

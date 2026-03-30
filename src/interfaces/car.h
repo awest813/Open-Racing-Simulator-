@@ -260,6 +260,7 @@ typedef struct {
 	tdble Fx;
 	tdble Fy;
 	tdble Fz;
+	tdble suspDeflection;	/**< suspension compression (positive = compressed) */
 	tdble currentPressure;		// current tire pressure considering temperature
 	tdble currentTemperature;	// current temperature
 	tdble currentWear;			// [0..1], 1 means totally worn (tread thickness 0)
@@ -314,6 +315,7 @@ typedef struct {
     int		debug;
 	tCollisionState collision_state; /**< collision state */
 	tdble localPressure;	// Environment pressure at cars location
+	tdble brakeBalance;	/**< Front brake bias ratio (0.0 to 1.0), dynamic during session */
 } tPrivCar;
 /* structure access */
 #define _driverIndex	priv.driverIndex
@@ -336,6 +338,7 @@ typedef struct {
 #define _skid		priv.skid
 #define _reaction	priv.reaction
 #define _dammage	priv.dammage
+#define _brakeBalance	priv.brakeBalance
 
 /** Info returned by driver during the race */
 typedef struct {

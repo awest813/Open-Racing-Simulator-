@@ -45,6 +45,11 @@ extern void SimShutdown(void);
 void SimAtmosphereConfig(tCar *car);
 void SimAtmosphereUpdate(tCar *car, tSituation *s);
 
+void SimTrackSurfaceInit(tTrack *track);
+void SimTrackSurfaceUpdate(tCar *car, tSituation *s);
+void SimTrackSurfaceShutdown(void);
+tdble SimTrackSurfaceGripMod(tTrackSeg *seg);
+
 extern void SimAxleConfig(tCar *car, int index);
 extern void SimAxleReConfig(tCar *car, int index);
 extern void SimAxleUpdate(tCar *car, int index);

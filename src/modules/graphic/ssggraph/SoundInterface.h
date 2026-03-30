@@ -90,6 +90,8 @@ class SoundInterface {
 	TorcsSound* road_ride_sound; ///< rolling on normal road
 	TorcsSound* grass_ride_sound; ///< rolling on dirt/grass
 	TorcsSound* grass_skid_sound; ///< skidding on dirt/grass
+	TorcsSound* curb_ride_sound; ///< rolling on curbs
+	TorcsSound* curb_skid_sound; ///< skidding on curbs
 	TorcsSound* metal_skid_sound; ///< metal skidding on metal 
 	TorcsSound* axle_sound; ///< axle/gear spinning sound
 	TorcsSound* turbo_sound; ///< turbo spinning sound
@@ -107,6 +109,8 @@ class SoundInterface {
 	QueueSoundMap road; 
 	QueueSoundMap grass; 
 	QueueSoundMap grass_skid;
+	QueueSoundMap curb_ride;
+	QueueSoundMap curb_skid;
 	QueueSoundMap metal_skid;
 	QueueSoundMap backfire_loop;
 	QueueSoundMap turbo;
@@ -163,6 +167,16 @@ class SoundInterface {
 	{
 		TorcsSound* sound = addSample (sound_name, ACTIVE_VOLUME|ACTIVE_PITCH, true);
 		grass_skid_sound = sound;
+	}
+	void setCurbRideSound (const char* sound_name)
+	{
+		TorcsSound* sound = addSample (sound_name, ACTIVE_VOLUME|ACTIVE_PITCH, true);
+		curb_ride_sound = sound;
+	}
+	void setCurbSkidSound (const char* sound_name)
+	{
+		TorcsSound* sound = addSample (sound_name, ACTIVE_VOLUME|ACTIVE_PITCH, true);
+		curb_skid_sound = sound;
 	}
 	void setMetalSkidSound (const char* sound_name)
 	{

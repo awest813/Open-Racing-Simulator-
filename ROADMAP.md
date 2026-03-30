@@ -41,26 +41,26 @@ Goal: keep the existing simulator practical while avoiding unnecessary API break
 
 ### Simulation and Gameplay
 
-- [ ] Finish car adjustments for tire wear and performance balance
-- [ ] Improve ranking when damaged or stranded cars stay classified incorrectly
-- [ ] Make brake balance adjustable during a session
-- [ ] Add curb sound support
-- [ ] Investigate dynamic track-surface effects
+- [x] Finish car adjustments for tire wear and performance balance
+- [x] Improve ranking when damaged or stranded cars stay classified incorrectly
+- [x] Make brake balance adjustable during a session
+- [x] Add curb sound support
+- [x] Investigate dynamic track-surface effects
 - [ ] Investigate wind and ambient-temperature effects
 
 ### Analysis and Race Operations
 
-- [ ] Add a telemetry / data recorder
+- [x] Add a telemetry / data recorder
 - [ ] Add a data-analysis workflow for lap comparison and filtering
-- [ ] Expose more telemetry channels, including speed and suspension data
+- [x] Expose more telemetry channels, including speed and suspension data
 - [ ] Prototype a replay pipeline
-- [ ] Add timed race formats
+- [x] Add timed race formats
 - [ ] Expand configurable rules and penalty handling without forcing a 1.4 break
-- [ ] Fix repeated-violation edge cases when entering or exiting pit lanes
+- [x] Fix repeated-violation edge cases when entering or exiting pit lanes
 
 ### Tooling and UX
 
-- [ ] Update Visual Studio support to a more practical baseline
+- [x] Update Visual Studio support to a more practical baseline
 - [ ] Expose hidden or difficult-to-find settings in the GUI
 - [ ] Add GUI support for event blacklisting
 
@@ -135,7 +135,7 @@ Suggested replacements retained from the historical backlog:
 Goal: reduce maintenance cost without destabilizing the simulation.
 
 - [x] Migrate away from pre-C++11 idioms where changes are low-risk
-- [ ] Replace raw allocation patterns with RAII-based ownership
+- [x] Replace raw allocation patterns with RAII-based ownership
 - [ ] Reduce C-style casts and narrow unsafe conversions
 - [ ] Replace `printf`-style diagnostics with a structured logging approach
 - [ ] Replace remaining fragile string handling with safer abstractions

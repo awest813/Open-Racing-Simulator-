@@ -211,7 +211,15 @@ void RmPitMenuStart(tCarElt *car, tRmInfo *reInfo, void *userdata, tfuiCallback 
 	buttonid = GfuiButtonCreate(menuHandle, "Stop & Go", GFUI_FONT_LARGE, 320, 40, 130, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				nullptr, rmStopAndGo, nullptr, nullptr, nullptr);
 	tCarPenalty *penalty = GF_TAILQ_FIRST(&(car->_penaltyList));
-	if (!penalty || (penalty && penalty->penalty != RM_PENALTY_STOPANDGO)) {
+	bool hasStopAndGo = false;
+	while (penalty) {
+		if (penalty->penalty == RM_PENALTY_STOPANDGO) {
+			hasStopAndGo = true;
+			break;
+		}
+		penalty = GF_TAILQ_NEXT(penalty, link);
+	}
+	if (!hasStopAndGo) {
 		GfuiEnable(menuHandle, buttonid, GFUI_DISABLE);
 	}
 

@@ -1,11 +1,11 @@
 /***************************************************************************
-
-    file                 : racemantools.h
-    created              : Sat Mar 18 23:33:01 CET 2000
-    copyright            : (C) 2000-2013 by Eric Espie, Bernhard Wymann
-    email                : torcs@free.fr
-    version              : $Id$
-
+ *
+ *    file                 : racemantools.h
+ *    created              : Sat Mar 18 23:33:01 CET 2000
+ *    copyright            : (C) 2000-2013 by Eric Espie, Bernhard Wymann
+ *    email                : torcs@free.fr
+ *    version              : $Id$
+ *
  ***************************************************************************/
 
 /***************************************************************************
@@ -61,6 +61,7 @@ typedef struct
 	unsigned int confMask;	/**< Tell what to configure */
 #define RM_CONF_RACE_LEN	0x00000001
 #define RM_CONF_DISP_MODE	0x00000002
+#define RM_CONF_RACE_TIME	0x00000004
 } tRmRaceParam;
 
 
@@ -130,4 +131,3 @@ extern void RmShowStandings(void *prevHdle, tRmInfo *info);
 extern void RmFileSelect(void *vs);
 
 #endif /* __RACEMANTOOLS_H__ */
-

@@ -76,6 +76,12 @@ CarSoundData::CarSoundData(int id, SoundInterface* sound_interface)
     road.a=0.0f;
     road.f=0.0f;
     road.lp=0.0f;
+    curb_ride.a=0.0f;
+    curb_ride.f=0.0f;
+    curb_ride.lp=0.0f;
+    curb_skid.a=0.0f;
+    curb_skid.f=0.0f;
+    curb_skid.lp=0.0f;
     skid_metal.a=0.0f;
     skid_metal.f=0.0f;
     skid_metal.lp=0.0f;
@@ -202,6 +208,10 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
     grass.f = 1.0f;
     road.a = 0.0;
     road.f = 0.0f;
+    curb_ride.a = 0.0f;
+    curb_ride.f = 0.0f;
+    curb_skid.a = 0.0f;
+    curb_skid.f = 0.0f;
     bool flag = false;
     int i;
     for (i = 0; i<4; i++) {
@@ -260,6 +270,7 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
         }
 
         int out_of_road = false;
+        int on_curb = false;
 
         if ((s)
             &&((strcmp(s, TRK_VAL_GRASS)==0)
@@ -272,12 +283,29 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
                ||(strstr(s, "mud"))
                )) {
             out_of_road = true;
+        } else if ((s) && strstr(s, "curb")) {
+            on_curb = true;
         }
 
         wheel[i].skid.a = 0.0f;
         wheel[i].skid.f = 1.0f;
 
-        if (out_of_road==false) {
+        if (on_curb) {
+            float curb_boost = 1.0f + 0.5f*roughness;
+            float tmppitch = tmpvol*(0.75f+0.5f*roughnessFreq);
+            tmpvol = tmpvol*curb_boost*(1.0f + 0.002f*car->_reaction[i]);
+            if (curb_ride.a < tmpvol) {
+                curb_ride.a = tmpvol;
+                curb_ride.f = tmppitch;
+            }
+            if (car->_skid[i] > 0.05f) {
+                curb_skid.a = (float)car->_skid[i];
+                curb_skid.f = (0.5f+0.5f*roughnessFreq);
+            } else {
+                curb_skid.a = 0.0f;
+                curb_skid.f = 1.0f;
+            }
+        } else if (out_of_road==false) {
             float tmppitch = tmpvol*(0.75f+0.25f*roughnessFreq);
             float wind_noise = 1.0f;
             float road_noise = 0.25f;

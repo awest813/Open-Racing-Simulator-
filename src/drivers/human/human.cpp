@@ -374,6 +374,8 @@ void newrace(int index, tCarElt* car, tSituation *s)
 		HCtx[idx]->autoClutch = 1;
 	else
 		HCtx[idx]->autoClutch = 0;
+	// Initialize brake balance from car setup
+	HCtx[idx]->brakeBalance = GfParmGetNum(car->_carHandle, SECT_BRKSYST, PRM_BRKREP, nullptr, 0.5);
 }
 
 static void
@@ -523,6 +525,25 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 	const int bufsize = sizeof(car->_msgCmd[0]);
 	snprintf(car->_msgCmd[0], bufsize, "%s %s", (HCtx[idx]->ParamAbs ? "ABS" : ""), (HCtx[idx]->ParamAsr ? "ASR" : ""));
 	memcpy(car->_msgColorCmd, color, sizeof(car->_msgColorCmd));
+	// Brake balance adjustment
+	if (((cmd[CMD_BRAKE_BALANCE_FWD].type == GFCTRL_TYPE_KEYBOARD) && keyInfo[cmd[CMD_BRAKE_BALANCE_FWD].val].edgeUp) ||
+		((cmd[CMD_BRAKE_BALANCE_FWD].type == GFCTRL_TYPE_SKEYBOARD) && skeyInfo[cmd[CMD_BRAKE_BALANCE_FWD].val].edgeUp) ||
+		((cmd[CMD_BRAKE_BALANCE_FWD].type == GFCTRL_TYPE_JOY_BUT) && joyInfo->edgeup[cmd[CMD_BRAKE_BALANCE_FWD].val])) {
+		HCtx[idx]->brakeBalance += 0.01f;
+		if (HCtx[idx]->brakeBalance > 0.7f) HCtx[idx]->brakeBalance = 0.7f;
+		snprintf(car->_msgCmd[2], bufsize, "Brake Bias: %.0f%%", HCtx[idx]->brakeBalance * 100.0f);
+	}
+
+	if (((cmd[CMD_BRAKE_BALANCE_REAR].type == GFCTRL_TYPE_KEYBOARD) && keyInfo[cmd[CMD_BRAKE_BALANCE_REAR].val].edgeUp) ||
+		((cmd[CMD_BRAKE_BALANCE_REAR].type == GFCTRL_TYPE_SKEYBOARD) && skeyInfo[cmd[CMD_BRAKE_BALANCE_REAR].val].edgeUp) ||
+		((cmd[CMD_BRAKE_BALANCE_REAR].type == GFCTRL_TYPE_JOY_BUT) && joyInfo->edgeup[cmd[CMD_BRAKE_BALANCE_REAR].val])) {
+		HCtx[idx]->brakeBalance -= 0.01f;
+		if (HCtx[idx]->brakeBalance < 0.3f) HCtx[idx]->brakeBalance = 0.3f;
+		snprintf(car->_msgCmd[2], bufsize, "Brake Bias: %.0f%%", HCtx[idx]->brakeBalance * 100.0f);
+	}
+
+	car->_brakeBalance = HCtx[idx]->brakeBalance;
+
 
 	if (((cmd[CMD_SPDLIM].type == GFCTRL_TYPE_JOY_BUT) && (joyInfo->levelup[cmd[CMD_SPDLIM].val] == 1)) ||
 		((cmd[CMD_SPDLIM].type == GFCTRL_TYPE_KEYBOARD) && (keyInfo[cmd[CMD_SPDLIM].val].state == GFUI_KEY_DOWN)) ||

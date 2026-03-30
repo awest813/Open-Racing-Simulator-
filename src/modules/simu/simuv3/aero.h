@@ -34,7 +34,8 @@ typedef struct
 	sgVec3   rot_lateral; 
 	sgVec3   rot_vertical;
     /* static */
-    tdble	SCx2;
+    tdble	SCx2;		/* fixed-density drag coefficient used by simuv3 */
+    tdble	baseSCx2;	/* reserved for future variable-density support */
     tdble	Clift[2];	/* front & rear lift due to body not wings */
     tdble	Cd;		/* for aspiration */
 } tAero;

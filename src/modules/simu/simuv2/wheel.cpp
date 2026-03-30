@@ -309,6 +309,7 @@ void SimWheelUpdateForce(tCar *car, int index)
 	mu = wheel->mu * (wheel->lfMin + (wheel->lfMax - wheel->lfMin) * exp(wheel->lfK * zforce / wheel->opLoad));
 
 	F *= zforce * mu * wheel->trkPos.seg->surface->kFriction * (1.0f + 0.05f * sin((-wheel->staticPos.ax + camberDelta) * 18.0f));	/* coeff */
+	F *= (1.0f + SimTrackSurfaceGripMod(wheel->trkPos.seg));
 	F *= wheel->currentGripFactor;
 	
 	wheel->rollRes = zforce * wheel->trkPos.seg->surface->kRollRes;
@@ -470,8 +471,11 @@ void SimWheelUpdateTire(tCar *car, int index) {
 		wheel->currentGraining = 0.0f;
 	}
 	
-	tdble di = (wheel->currentTemperature - wheel->idealTemperature)/(wheel->idealTemperature - wheel->initialTemperature);
-	wheel->currentGripFactor = ((1.0f-(MIN((di*di), 1.0f)))/4.0f + 3.0f/4.0f)*(1.0f - wheel->currentGraining/10.0f);
+tdble di = (wheel->currentTemperature - wheel->idealTemperature)/(wheel->idealTemperature - wheel->initialTemperature);
+/* Base grip factor from temperature and graining */
+tdble gripFactor = ((1.0f-(MIN((di*di), 1.0f)))/4.0f + 3.0f/4.0f)*(1.0f - wheel->currentGraining/10.0f);
+/* Additional grip loss from tire wear - 30% loss at full wear */
+wheel->currentGripFactor = gripFactor * (1.0f - 0.3f * wheel->currentWear);
 }
 
 

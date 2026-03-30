@@ -360,6 +360,8 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 
 
 		CHECK(car);
+		SimAtmosphereUpdate(car, s);
+		CHECK(car);
 		ctrlCheck(car);
 		CHECK(car);
 		SimSteerUpdate(car);
@@ -444,6 +446,17 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 			carElt->priv.wheel[i].relPos = car->wheel[i].relPos;
 			carElt->_wheelSeg(i) = car->wheel[i].trkPos.seg;
 			carElt->_brakeTemp(i) = car->wheel[i].brake.temp;
+			carElt->_wheelSpinVel(i) = car->wheel[i].spinVel;
+			carElt->priv.wheel[i].rollRes = car->wheel[i].rollRes;
+			carElt->priv.wheel[i].slipSide = car->wheel[i].sa;
+			carElt->priv.wheel[i].slipAccel = car->wheel[i].sx;
+			carElt->priv.wheel[i].Fx = car->wheel[i].forces.x;
+			carElt->priv.wheel[i].Fy = car->wheel[i].forces.y;
+			carElt->priv.wheel[i].Fz = car->wheel[i].forces.z;
+			carElt->priv.wheel[i].suspDeflection = car->wheel[i].susp.x;
+			carElt->priv.wheel[i].currentPressure = car->wheel[i].pressure;
+			carElt->priv.wheel[i].currentTemperature = car->wheel[i].T_current;
+			carElt->priv.wheel[i].currentWear = MAX(0.0f, 1.0f - car->wheel[i].condition);
 			carElt->pub.corner[i] = car->corner[i].pos;
 		}
 		carElt->_gear = car->transmission.gearbox.gear;

@@ -45,10 +45,8 @@
 #include <tgf.h>
 #include <portability.h>
 
-#if 0
 static tTelemItf	tlm;
 static tModList		*modlist = nullptr;
-#endif
 
 /** Initialization of a telemetry session.
     @ingroup	telemetry
@@ -58,7 +56,6 @@ static tModList		*modlist = nullptr;
  */
 void RtTelemInit(tdble ymin, tdble ymax)
 {
-#ifdef later
 	const int BUFSIZE = 256;
     char	buf[BUFSIZE];
     tModInfo	*curModInfo;
@@ -71,7 +68,6 @@ void RtTelemInit(tdble ymin, tdble ymax)
     curModInfo->fctInit(curModInfo->index, &tlm);
 
     tlm.init(ymin, ymax);
-#endif
 }
 
 
@@ -85,9 +81,7 @@ void RtTelemInit(tdble ymin, tdble ymax)
  */
 void RtTelemNewChannel(const char * name, tdble * var, tdble min, tdble max)
 {
-#if 0
     tlm.newChannel(name, var, min, max);
-#endif
 }
 
 /** Start recording into a file.
@@ -97,9 +91,7 @@ void RtTelemNewChannel(const char * name, tdble * var, tdble min, tdble max)
  */
 void RtTelemStartMonitoring(const char * filename)
 {
-#if 0
     tlm.startMonitoring(filename);
-#endif
 }
 
 /** Stop recording and close the file.
@@ -108,9 +100,7 @@ void RtTelemStartMonitoring(const char * filename)
  */
 void RtTelemStopMonitoring(void)
 {
-#if 0
     tlm.stopMonitoring();
-#endif
 }
 
 /** Record a new set of values.
@@ -120,9 +110,7 @@ void RtTelemStopMonitoring(void)
  */
 void RtTelemUpdate(double time)
 {
-#if 0
     tlm.update(time);
-#endif
 }
 
 /** Deinstall the telemetry module.
@@ -131,9 +119,7 @@ void RtTelemUpdate(double time)
  */
 void RtTelemShutdown(void)
 {
-#if 0
     tlm.shutdown();
     GfModUnloadList(&modlist);
-#endif
 }
 

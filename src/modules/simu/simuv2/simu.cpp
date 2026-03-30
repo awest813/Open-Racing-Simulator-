@@ -127,6 +127,7 @@ SimConfig(tCarElt *carElt, RmInfo *info)
     car->trkPos = carElt->_trkPos;
     car->ctrl   = &carElt->ctrl;
     car->params = carElt->_carHandle;
+    car->ReInfo = info;
 
     SimCarConfig(car);
 
@@ -355,6 +356,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 		}
 		
 		SimAtmosphereUpdate(car, s);
+		SimTrackSurfaceUpdate(car, s);
 		CHECK(car);
 		ctrlCheck(car);
 		CHECK(car);
@@ -438,6 +440,14 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 			wheelState->relPos = wheel->relPos;
 			wheelState->seg = wheel->trkPos.seg;
 			wheelState->brakeTemp = wheel->brake.temp;
+			wheelState->spinVel = wheel->spinVel;
+			wheelState->rollRes = wheel->rollRes;
+			wheelState->slipSide = wheel->sa;
+			wheelState->slipAccel = wheel->sx;
+			wheelState->Fx = wheel->forces.x;
+			wheelState->Fy = wheel->forces.y;
+			wheelState->Fz = wheel->forces.z;
+			wheelState->suspDeflection = wheel->susp.x;
 			wheelState->currentGraining = wheel->currentGraining;
 			wheelState->currentPressure = wheel->currentPressure;
 			wheelState->currentTemperature = wheel->currentTemperature;
@@ -466,6 +476,7 @@ SimInit(int nbcars, tTrack* track, tdble fuelFactor, tdble damageFactor, tdble t
     SimNbCars = nbcars;
     SimCarTable = (tCar*)calloc(nbcars, sizeof(tCar));
     SimCarCollideInit(track);
+    SimTrackSurfaceInit(track);
 }
 
 void
@@ -475,6 +486,7 @@ SimShutdown(void)
     int	 ncar;
 
     SimCarCollideShutdown(SimNbCars);
+    SimTrackSurfaceShutdown();
     if (SimCarTable) {
 	for (ncar = 0; ncar < SimNbCars; ncar++) {
 	    car = &(SimCarTable[ncar]);

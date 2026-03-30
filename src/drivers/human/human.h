@@ -55,6 +55,7 @@ typedef struct HumanContext
 	tControlCmd	*CmdControl;
 	int		MouseControlUsed;
 	int		lightCmd;
+	tdble	brakeBalance;	/* Front brake bias ratio (0.0 to 1.0) */
 } tHumanContext;
 
 

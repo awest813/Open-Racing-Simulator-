@@ -374,34 +374,10 @@
     <attnum name="stiffness" val="20"/>
     <attnum name="dynamic friction" unit="%" val="100"/>
     <attnum name="mu" val="1.5"/>
-  </section>
-
-  <section name="Front Left Wheel">
-    <attnum name="ypos" unit="m" val="0.71"/>
-    <attnum name="rim diameter" unit="in" val="14"/>
-    <attnum name="tire width" unit="mm" val="300"/>
-    <attnum name="tire height-width ratio" unit="%" val="50"/>
-    <attnum name="inertia" unit="kg.m2" val="1.22"/>
-    <attnum name="ride height" min="100" max="200" unit="mm" val="150"/>
-    <attnum name="toe" min="-5" max="5" unit="deg" val="0"/>
-    <attnum name="camber" min="-5" max="0" unit="deg" val="0"/>
-    <attnum name="stiffness" val="20"/>
-    <attnum name="dynamic friction" unit="%" val="100"/>
-    <attnum name="mu" val="1.5"/>
-  </section>
-
-  <section name="Rear Right Wheel">
-    <attnum name="ypos" unit="m" val="-0.70"/>
-    <attnum name="rim diameter" unit="in" val="14"/>
-    <attnum name="tire width" unit="mm" val="335"/>
-    <attnum name="tire height-width ratio" unit="%" val="45"/>
-    <attnum name="inertia" unit="kg.m2" val="1.24"/>
-    <attnum name="ride height" min="100" max="200" unit="mm" val="150"/>
-    <attnum name="toe" min="-5" max="5" unit="deg" val="0.1"/>
-    <attnum name="camber" min="-5" max="0" unit="deg" val="-4"/>
-    <attnum name="stiffness" val="20"/>
-    <attnum name="dynamic friction" unit="%" val="100"/>
-    <attnum name="mu" val="1.5"/>
+		<attnum name="pressure" unit="Pa" val="250000"/>
+		<attnum name="hysteresis" val="1.0"/>
+		<attnum name="wear" val="1.0"/>
+		<attnum name="tread thickness" unit="mm" val="3"/>
   </section>
 
   <section name="Rear Left Wheel">
@@ -416,6 +392,10 @@
     <attnum name="stiffness" val="20"/>
     <attnum name="dynamic friction" unit="%" val="100"/>
     <attnum name="mu" val="1.5"/>
+		<attnum name="pressure" unit="Pa" val="250000"/>
+		<attnum name="hysteresis" val="1.0"/>
+	<attnum name="wear" val="1.0"/>
+	<attnum name="tread thickness" unit="mm" val="3"/>
   </section>
 
   <section name="Front Anti-Roll Bar">

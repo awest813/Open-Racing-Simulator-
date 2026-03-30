@@ -30,8 +30,9 @@ void SimAeroConfig(tCar *car)
 	FrntArea = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FRNTAREA, nullptr, 2.5f);
 	car->aero.Clift[0] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, nullptr, 0.0f);
 	car->aero.Clift[1] = GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, nullptr, 0.0f);
-	car->aero.SCx2 = 0.645f * Cx * FrntArea;
-	car->aero.Cd += car->aero.SCx2;
+	// Base coefficient will be computed with actual air density in Update
+	car->aero.baseSCx2 = Cx * FrntArea;
+	car->aero.Cd += car->aero.baseSCx2 * car->airDensity;
 }
 
 
@@ -47,8 +48,16 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	x = car->DynGCg.pos.x;
 	y = car->DynGCg.pos.y;
 	yaw = car->DynGCg.pos.az;
-	airSpeed = car->DynGC.vel.x;
-	spdang = atan2(car->DynGCg.vel.y, car->DynGCg.vel.x);
+	
+	// Compute effective airspeed by subtracting wind from car velocity
+	tdble carVelX = car->DynGC.vel.x;
+	tdble carVelY = car->DynGC.vel.y;
+	tdble windX = car->localWindX;
+	tdble windY = car->localWindY;
+	tdble relVelX = carVelX - windX;
+	tdble relVelY = carVelY - windY;
+	tdble airSpeed = sqrt(relVelX * relVelX + relVelY * relVelY);
+	spdang = atan2(relVelY, relVelX);
 
     if (airSpeed > 10.0f) {
 		for (i = 0; i < s->_ncars; i++) {
@@ -74,7 +83,9 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 					}
 				} else if (fabs(tmpsdpang) < 0.1396f) {	    /* 8 degrees */
 					// before another car, lower drag by maximum 15% (this is just another guess)
-					tmpas = 1.0f - 0.15f * exp(- 8.0f * DIST(x, y, otherCar->DynGCg.pos.x, otherCar->DynGCg.pos.y) / (car->aero.Cd * car->DynGC.vel.x));
+					// Use effective airspeed for drafting calculations
+					tdble effAirSpeed = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y);
+					tmpas = 1.0f - 0.15f * exp(- 8.0f * DIST(x, y, otherCar->DynGCg.pos.x, otherCar->DynGCg.pos.y) / (car->aero.Cd * effAirSpeed));
 					if (tmpas < dragK) {
 						dragK = tmpas;
 					}
@@ -87,6 +98,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	tdble v2 = car->airSpeed2;
 	
 	// simulate ground effect drop off caused by non-frontal airflow (diffusor stops working etc.)
+	// Use car's forward velocity for ground effect, not wind-adjusted
 	tdble cosa = 1.0f;	
 	if (car->speed > 1.0f) {
 		cosa = car->DynGC.vel.x/car->speed;
@@ -96,7 +108,8 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 		cosa = 0.0f;
 	}
 			
-	car->aero.drag = -SIGN(car->DynGC.vel.x) * car->aero.SCx2 * v2 * (1.0f + (tdble)car->dammage / 10000.0f) * dragK * dragK;
+	// Use variable air density in drag calculation
+	car->aero.drag = -SIGN(car->DynGC.vel.x) * car->aero.baseSCx2 * car->airDensity * v2 * (1.0f + (tdble)car->dammage / 10000.0f) * dragK * dragK;
 
 	hm = 1.5f * (car->wheel[0].rideHeight + car->wheel[1].rideHeight + car->wheel[2].rideHeight + car->wheel[3].rideHeight);
 	hm = hm*hm;
@@ -120,11 +133,13 @@ void SimWingConfig(tCar *car, int index)
 	wing->staticPos.z = GfParmGetNum(hdle, WingSect[index], PRM_ZPOS, nullptr, 0);
 	wing->staticPos.x -= car->statGC.x;
 	
-	wing->Kx = -1.23f * area;
+	// Base coefficient will be computed with actual air density in Update
+	wing->baseKx = -area;
+	wing->Kx = wing->baseKx * car->airDensity;
 	wing->Kz = 4.0f * wing->Kx;
 
 	if (index == 1) {
-		car->aero.Cd -= wing->Kx*sin(wing->angle);
+		car->aero.Cd -= wing->baseKx * sin(wing->angle) * car->airDensity;
 	}
 }
 
@@ -134,12 +149,16 @@ void SimWingReConfig(tCar *car, int index)
 	tCarPitSetupValue* v = &car->carElt->pitcmd.setup.wingangle[index];
 	if (SimAdjustPitCarSetupParam(v)) {
 		tWing *wing = &(car->wing[index]);
-		tdble oldCd = wing->Kx*sin(wing->angle);
+		tdble oldCd = wing->baseKx * sin(wing->angle) * car->airDensity;
 		wing->angle = v->value;
+		
+		// Recompute Kx with current air density
+		wing->Kx = wing->baseKx * car->airDensity;
+		wing->Kz = 4.0f * wing->Kx;
 		
 		if (index == 1) {
 			car->aero.Cd += oldCd;
-			car->aero.Cd -= wing->Kx*sin(wing->angle);
+			car->aero.Cd -= wing->baseKx * sin(wing->angle) * car->airDensity;
 		}
 	}
 }
@@ -149,13 +168,13 @@ void SimWingUpdate(tCar *car, int index, tSituation* s)
 {
 	tWing  *wing = &(car->wing[index]);
 	tdble vt2 = car->airSpeed2;
-	// compute angle of attack
-	tdble aoa = atan2(car->DynGC.vel.z, car->DynGC.vel.x);
+	// compute angle of attack using wind-adjusted velocity
+	tdble aoa = atan2(car->DynGC.vel.z, sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y));
 	aoa += wing->angle;
 	// the sinus of the angle of attack
 	tdble sinaoa = sin(aoa);
 
-	if (car->DynGC.vel.x > 0.0f) {
+	if (sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y) > 0.0f) {
 		wing->forces.x = wing->Kx * vt2 * (1.0f + (tdble)car->dammage / 10000.0f) * sinaoa;
 		wing->forces.z = wing->Kz * vt2 * sinaoa;
 	} else {

@@ -1,8 +1,8 @@
 /***************************************************************************
     file                 : atmosphere.cpp
-    created              : Sun Feb 12 17:37:50 CET 2017
-    copyright            : (C) 2017-2017 by Bernhard Wymann
-    email                : berniw@bluewin.ch
+    created              : Sun Mar 29 2026
+    copyright            : (C) 2026 by Open Racing Simulator Team
+    email                : info@opencarrsim.org
     version              : $Id$
  ***************************************************************************/
 
@@ -17,10 +17,6 @@
 
 #include "sim.h"
 #include <cmath>
-
-void SimAtmosphereConfig(tCar *car)
-{
-}
 
 void SimAtmosphereUpdate(tCar *car, tSituation *s)
 {

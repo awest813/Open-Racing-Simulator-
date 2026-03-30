@@ -95,7 +95,7 @@ static void ReApplyRaceTimePenalties(void)
 	tCarPenalty *penalty;
 	tCarElt* car;
 
-	if (ReInfo->track->pits.type == TR_PIT_ON_TRACK_SIDE) {
+	if (ReInfo->track->pits.type != TR_PIT_NONE) {
 		const tdble drivethrough = 10.0f;
 		const tdble stopandgo = 6.0f + drivethrough;
 
@@ -129,38 +129,53 @@ static void ReApplyRaceTimePenalties(void)
 	for (i = 1; i < s->_ncars; i++) {
 		j = i;
 		while (j > 0) {
-			// Order without penalties is already ok, so if there is no penalty we do not move down
-			if (s->cars[j-1]->_penaltyTime > 0.0f) {
-				int l1 = MIN(s->cars[j-1]->_laps, s->_totLaps + 1) - 1;
-				int l2 = MIN(s->cars[j]->_laps, s->_totLaps + 1) - 1;
-				// If the drivers did not at least complete one lap we cannot apply the rule, check.
-				// If the cars are wrecked we do not care about penalties.
-				if (
-					l1 < 1 ||
-					l2 < 1 ||
-					(s->raceInfo.maxDammage < s->cars[j-1]->_dammage) ||
-					(s->raceInfo.maxDammage < s->cars[j]->_dammage))
-				{
-					// Because the cars came already presorted, all following cars must be even worse,
-					// so we can break the iteration here.
-					i = s->_ncars;	// Break outer loop
-					break;			// Break inner loop
-				}
-				
-				tdble t1 = s->cars[j-1]->_curTime + s->cars[j-1]->_penaltyTime;
-				tdble t2 = s->cars[j]->_curTime*tdble(l1)/tdble(l2) + s->cars[j]->_penaltyTime;
+            bool swap = false;
+            tCarElt *car1 = s->cars[j-1];
+            tCarElt *car2 = s->cars[j];
+            bool car1_bad = (car1->_state & (RM_CAR_STATE_DNF | RM_CAR_STATE_ELIMINATED | RM_CAR_STATE_BROKEN)) != 0 || (s->raceInfo.maxDammage < car1->_dammage);
+            bool car2_bad = (car2->_state & (RM_CAR_STATE_DNF | RM_CAR_STATE_ELIMINATED | RM_CAR_STATE_BROKEN)) != 0 || (s->raceInfo.maxDammage < car2->_dammage);
 
-				if (t1 > t2) {
-					// Swap
-					car = s->cars[j];
-					s->cars[j] = s->cars[j-1];
-					s->cars[j-1] = car;
-					s->cars[j]->_pos = j+1;
-					s->cars[j-1]->_pos = j;
-					j--;
-					continue;
-				}
-			}
+            // Classification rule: must complete at least 70% of winner's laps
+            if (s->_totLaps > 5) { // Only for reasonably long races
+                int winner_laps = s->cars[0]->_laps;
+                if (car1->_laps < winner_laps * 0.7) car1_bad = true;
+                if (car2->_laps < winner_laps * 0.7) car2_bad = true;
+            }
+
+            if (!car2_bad && car1_bad) {
+                // Classified car always above non-classified car
+                swap = true;
+            } else if (!car1_bad && !car2_bad) {
+                // Both classified, apply penalty-based comparison
+                if (s->_raceType == RM_TYPE_TIMED) {
+                    tdble t1 = car1->_curTime + car1->_penaltyTime;
+                    tdble t2 = car2->_curTime + car2->_penaltyTime;
+                    if (t1 > t2) swap = true;
+                } else {
+                    int l1 = MIN(car1->_laps, s->_totLaps + 1) - 1;
+                    int l2 = MIN(car2->_laps, s->_totLaps + 1) - 1;
+                    if (l1 >= 1 && l2 >= 1) {
+                        tdble t1 = car1->_curTime + car1->_penaltyTime;
+                        tdble t2 = car2->_curTime*tdble(l1)/tdble(l2) + car2->_penaltyTime;
+                        if (t1 > t2) swap = true;
+                    } else if (l1 < l2) {
+                        swap = true;
+                    }
+                }
+            } else if (car1_bad && car2_bad) {
+                // Both bad, sort by distance (which they were already presorted by)
+                if (car1->_distRaced < car2->_distRaced) swap = true;
+            }
+
+            if (swap) {
+                // Swap
+                s->cars[j] = car1;
+                s->cars[j-1] = car2;
+                s->cars[j]->_pos = j+1;
+                s->cars[j-1]->_pos = j;
+                j--;
+                continue;
+            }
 			j = 0;
 		}
 	}
@@ -338,6 +353,7 @@ void ReStoreRaceResults(const char *race)
 	/* Store the number of laps of the race */
 	switch (ReInfo->s->_raceType) {
 		case RM_TYPE_RACE:
+		case RM_TYPE_TIMED:
 			car = s->cars[0];
 			if (car->_laps > s->_totLaps) car->_laps = s->_totLaps + 1;
 
