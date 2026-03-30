@@ -70,3 +70,14 @@ The remaining `sscanf` warning sites were in `src/libs/tgfclient/fg_gm.cpp`, ins
 
 **Why this matters:**
 This removes the last `sscanf` usage from `src/libs/tgfclient` while making the accepted grammar easier to understand and maintain.
+
+## 8. Parameter-Conversion Type-Safety Pass
+
+The next modernization slice focused on parameter-reading code that still relied on C-style numeric casts in `src/libs/tgfclient` and the legacy track loaders.
+
+**Changes made:**
+- Replaced parameter-read casts with explicit `static_cast` conversions in `src/libs/tgfclient/glfeatures.cpp`, `src/modules/track/track.cpp`, `src/modules/track/track3.cpp`, and `src/modules/track/track4.cpp`.
+- Kept the legacy `DoVfactor` behavior in `track4.cpp`, but documented that it is intentionally quantized through an integer conversion before being stored in a floating-point field.
+
+**Why this matters:**
+These changes do not alter runtime behavior, but they make narrowing conversions explicit, easier to review, and less likely to hide accidental truncation in future edits.

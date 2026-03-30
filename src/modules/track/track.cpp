@@ -127,7 +127,7 @@ GetTrackHeader(void *TrackHandle)
 	char *s;
 	
 	theTrack->name = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_NAME, "no name");
-	theTrack->version = (int)GfParmGetNum(TrackHandle, TRK_SECT_HDR, TRK_ATT_VERSION, nullptr, 0);
+	theTrack->version = static_cast<int>(GfParmGetNum(TrackHandle, TRK_SECT_HDR, TRK_ATT_VERSION, nullptr, 0));
 	theTrack->width = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, nullptr, 15.0);
 	theTrack->author = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_AUTHOR, "none");
 	theTrack->category = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_CAT, "road");
@@ -137,14 +137,14 @@ GetTrackHeader(void *TrackHandle)
 	
 	graphic->background = GfParmGetStr(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BKGRND,
 						"background.png");
-	graphic->bgtype = (int)GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGTYPE, nullptr, 0.0);
+	graphic->bgtype = static_cast<int>(GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGTYPE, nullptr, 0.0));
 /*     if (graphic->bgtype > 2) { */
 /* 	graphic->background2 = GfParmGetStr(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BKGRND2, */
 /* 					    "background.png"); */
 /*     } */
-	graphic->bgColor[0] = (float)GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGCLR_R, nullptr, 0.0f);
-	graphic->bgColor[1] = (float)GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGCLR_G, nullptr, 0.0f);
-	graphic->bgColor[2] = (float)GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGCLR_B, nullptr, 0.1f);
+	graphic->bgColor[0] = static_cast<float>(GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGCLR_R, nullptr, 0.0f));
+	graphic->bgColor[1] = static_cast<float>(GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGCLR_G, nullptr, 0.0f));
+	graphic->bgColor[2] = static_cast<float>(GfParmGetNum(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BGCLR_B, nullptr, 0.1f));
 	
 	/* env map images */
 	snprintf(buf, BUFSIZE, "%s/%s", TRK_SECT_GRAPH, TRK_LST_ENV);
