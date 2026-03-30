@@ -1,0 +1,41 @@
+# Build SOLID-2.0 collision library first
+add_subdirectory(SOLID-2.0)
+
+add_library(simuv2 MODULE
+    aero.cpp
+    atmosphere.cpp
+    axle.cpp
+    brake.cpp
+    car.cpp
+    categories.cpp
+    collide.cpp
+    differential.cpp
+    engine.cpp
+    simu.cpp
+    simuitf.cpp
+    steer.cpp
+    susp.cpp
+    tracksurface.cpp
+    transmission.cpp
+    wheel.cpp
+)
+
+target_include_directories(simuv2 PRIVATE ${CMAKE_SOURCE_DIR}/src/interfaces)
+target_include_directories(simuv2 PRIVATE ${CMAKE_SOURCE_DIR}/src/modules)
+target_include_directories(simuv2 PRIVATE ${CMAKE_SOURCE_DIR}/src/libs)
+
+if(WIN32)
+    target_compile_definitions(simuv2 PRIVATE WIN32 _WINDOWS)
+    set_target_properties(simuv2 PROPERTIES PREFIX "")
+endif()
+
+if(MSVC)
+    target_compile_options(simuv2 PRIVATE /wd4996)
+endif()
+
+# solid's PUBLIC include_directories propagate <SOLID/solid.h> and <3D/*.h>
+if(WIN32)
+    target_link_libraries(simuv2 tgf txml robottools solid sg ul)
+else()
+    target_link_libraries(simuv2 tgf txml robottools solid)
+endif()

@@ -113,7 +113,7 @@ SimEngineConfig(tCar *car)
     car->carElt->_enginerpmMaxTq = rpmMaxTq;
     car->carElt->_engineMaxPw = car->engine.curve.maxPw;
     car->carElt->_enginerpmMaxPw = car->engine.curve.rpmMaxPw;
-	//printf ("%fNm@%frpm, %fKW@%f rpm\n",
+	//GfOut ("%fNm@%frpm, %fKW@%f rpm\n",
 	//  car->carElt->_engineMaxTq,
 	//	car->carElt->_enginerpmMaxTq * (30.0 / M_PI),
 	//	car->carElt->_engineMaxPw * 0.001,
@@ -126,7 +126,7 @@ SimEngineConfig(tCar *car)
 	// TEST TORQUE FUNCTION
 	for (float rads=1.0; rads<car->engine.revsMax; rads+=1.0) {
 		float Tq = CalculateTorque(&(car->engine), rads);
-		printf ("%f %f #TORQUE\n", 30.0*rads/M_PI, Tq);
+		GfOut ("%f %f #TORQUE\n", 30.0*rads/M_PI, Tq);
 	}
 #endif
     free(edesc);

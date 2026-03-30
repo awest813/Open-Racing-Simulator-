@@ -20,6 +20,19 @@
 #include "SoundInterface.h"
 #include "CarSoundData.h"
 
+static inline float getWheelSkid(tCarElt *car, int i) {
+    float wrl = car->_wheelSpinVel(i) * car->_wheelRadius(i);
+    float v = car->pub.speed;
+    if (fabs(v) < 2.0f && fabs(wrl) < 2.0f) {
+        return 0.0f;
+    }
+    float slipAccel = car->_wheelSlipAccel(i);
+    float slipSide = car->_wheelSlipSide(i);
+    float slipVel = sqrt(slipAccel * slipAccel + slipSide * slipSide);
+    float reaction_force = car->_reaction[i];
+    return MIN(1.0f, (slipVel / MAX(fabs(v), 0.0001f) * reaction_force * 0.0002f));
+}
+
 CarSoundData::CarSoundData(int id, SoundInterface* sound_interface)
 {
     eng_pri.id = id;
@@ -315,10 +328,11 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
                 road.f = tmppitch;
             }
 
-            if (car->_skid[i] > 0.05f) {
+            float wheel_skid = getWheelSkid(car, i);
+            if (wheel_skid > 0.05f) {
                 //skvol[i] = (float)car->_skid[i];
                 //skpitch[i] = 0.7+0.3*roughnessFreq;
-                wheel[i].skid.a = (float)car->_skid[i]-0.05f;
+                wheel[i].skid.a = wheel_skid-0.05f;
                 float wsa = tanh((car->_wheelSlipAccel(i)+10.0f)*0.01f);
                 wheel[i].skid.f = (0.3f - 0.3f*wsa + 0.3f*roughnessFreq)/(1.0f+0.5f*tanh(car->_reaction[i]*0.0001f));
             } else {
@@ -335,8 +349,8 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
                 grass.a = tmpvol;
                 grass.f = tmppitch;
             }
-            if (grass_skid.a < car->_skid[i]) {
-                grass_skid.a = (float) car->_skid[i];
+            if (grass_skid.a < wheel_skid) {
+                grass_skid.a = wheel_skid;
                 grass_skid.f = 1.0f;
             }
         }

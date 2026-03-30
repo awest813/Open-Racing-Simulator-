@@ -54,6 +54,12 @@ GLuint Shader::compileShader(GLenum type, const std::string& source) {
 }
 
 bool Shader::load(const std::string& vertPath, const std::string& fragPath) {
+    if (m_program) {
+        glDeleteProgram(m_program);
+        m_program = 0;
+    }
+    m_uniformCache.clear();
+
     std::string vsrc = readFile(vertPath);
     std::string fsrc = readFile(fragPath);
     if (vsrc.empty() || fsrc.empty()) {
@@ -93,6 +99,12 @@ bool Shader::load(const std::string& vertPath, const std::string& fragPath) {
 }
 
 bool Shader::loadWithGeom(const std::string& vertPath, const std::string& geomPath, const std::string& fragPath) {
+    if (m_program) {
+        glDeleteProgram(m_program);
+        m_program = 0;
+    }
+    m_uniformCache.clear();
+
     std::string vsrc = readFile(vertPath);
     std::string gsrc = readFile(geomPath);
     std::string fsrc = readFile(fragPath);
@@ -117,13 +129,20 @@ bool Shader::loadWithGeom(const std::string& vertPath, const std::string& geomPa
         char log[1024];
         glGetProgramInfoLog(m_program, sizeof(log), nullptr, log);
         GfOut("Shader link error (geom): %s\n", log);
+        glDetachShader(m_program, vs);
+        glDetachShader(m_program, gs);
+        glDetachShader(m_program, fs);
+        glDeleteShader(vs);
+        glDeleteShader(gs);
+        glDeleteShader(fs);
         glDeleteProgram(m_program);
         m_program = 0;
+        return false;
     }
     glDetachShader(m_program, vs); glDeleteShader(vs);
     glDetachShader(m_program, gs); glDeleteShader(gs);
     glDetachShader(m_program, fs); glDeleteShader(fs);
-    return m_program != 0;
+    return true;
 }
 
 void Shader::use() const {

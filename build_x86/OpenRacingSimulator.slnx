@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Solution>
+	<Configurations>
+		<BuildType Name="Debug"/>
+		<BuildType Name="Release"/>
+		<BuildType Name="MinSizeRel"/>
+		<BuildType Name="RelWithDebInfo"/>
+		<Platform Name="Win32"/>
+	</Configurations>
+	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b7052d10-bdef-3861-a74d-7ab7047df8b3" DefaultStartup="true">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/client/client.vcxproj"/>
+		<BuildDependency Project="src/libs/confscreens/confscreens.vcxproj"/>
+		<BuildDependency Project="src/libs/learning/learning.vcxproj"/>
+		<BuildDependency Project="src/libs/musicplayer/musicplayer.vcxproj"/>
+		<BuildDependency Project="src/libs/raceengineclient/raceengineclient.vcxproj"/>
+		<BuildDependency Project="src/libs/racescreens/racescreens.vcxproj"/>
+		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
+		<BuildDependency Project="src/modules/simu/simuv2/simuv2.vcxproj"/>
+		<BuildDependency Project="src/modules/simu/simuv3/simuv3.vcxproj"/>
+		<BuildDependency Project="src/modules/simu/simuv2/SOLID-2.0/solid.vcxproj"/>
+		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
+		<BuildDependency Project="src/libs/tgfclient/tgfclient.vcxproj"/>
+		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
+		<Build Solution="Debug|*" Project="false"/>
+		<Build Solution="Release|*" Project="false"/>
+		<Build Solution="MinSizeRel|*" Project="false"/>
+		<Build Solution="RelWithDebInfo|*" Project="false"/>
+	</Project>
+	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b9070f6b-353d-3f82-9ec7-14c52ccf37af"/>
+	<Project Path="src/libs/client/client.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="63f650ff-ffbe-3381-9c14-36f41310d863">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/confscreens/confscreens.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="01080abd-c23e-3a69-ba62-c1816d596910">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/learning/learning.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="1a87b388-9be6-3e51-aa18-4530fd3a299a">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/musicplayer/musicplayer.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="8e1cb917-945c-3da6-abe2-9ad4b5ac8eba">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/raceengineclient/raceengineclient.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4326204d-c366-309d-851f-afb7c7b9dd9b">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/racescreens/racescreens.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="64a6b6d5-daab-371f-84a3-7ff09256995a">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/robottools/robottools.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="0d0ea34c-4067-32d3-a27c-1dad19ae307e">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/modules/simu/simuv2/simuv2.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="aabd8036-30ad-36e3-894a-663356842e7d">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
+		<BuildDependency Project="src/modules/simu/simuv2/SOLID-2.0/solid.vcxproj"/>
+		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
+		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
+	</Project>
+	<Project Path="src/modules/simu/simuv3/simuv3.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="9224da31-7591-3b27-b371-de2a903625c1">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
+		<BuildDependency Project="src/modules/simu/simuv2/SOLID-2.0/solid.vcxproj"/>
+		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
+		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
+	</Project>
+	<Project Path="src/modules/simu/simuv2/SOLID-2.0/solid.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="9ddf3946-175c-3900-b039-57c9044c29e2">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/tgf/tgf.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ace2d0b5-aa06-3c50-b4f3-45e734368ba7">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/tgfclient/tgfclient.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="2575b1c5-0222-355e-9b74-c45bd391e995">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/libs/txml/txml.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="c8c56be2-0800-3301-b2d8-fab1e64feb47">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+</Solution>

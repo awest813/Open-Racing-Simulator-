@@ -11,10 +11,12 @@
 #include "Texture.h"
 
 #include <tgfclient.h>
+#include <graphic.h>
 #include <track.h>
 #include <car.h>
 #include <raceman.h>
 
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <cstdio>
@@ -34,6 +36,10 @@ OGLRenderer::OGLRenderer()
     m_lightDir[0]    = 0.5f;  m_lightDir[1]    = 0.5f;  m_lightDir[2]    = 1.0f;
     m_lightColor[0]  = 0.9f;  m_lightColor[1]  = 0.9f;  m_lightColor[2]  = 0.9f;
     m_ambientColor[0]= 0.3f;  m_ambientColor[1]= 0.3f;  m_ambientColor[2]= 0.3f;
+    m_hdrExposure = 1.0f;
+    m_bloomStrength = 0.75f;
+    m_shadowMapSize = 2048;
+    m_bloomPasses = 5;
     m_winX = m_winY = 0;
     m_winW = 800; m_winH = 600;
 }
@@ -53,6 +59,26 @@ OGLRenderer::~OGLRenderer() {
 std::string OGLRenderer::getShaderPath(const std::string& name) {
     std::string dir = std::string(GetDataDir()) + "modules/graphic/oglgraph/shaders/";
     return dir + name;
+}
+
+void OGLRenderer::loadRenderConfig() {
+    const std::string configPath = std::string(GetDataDir()) + "modules/graphic/oglgraph/oglgraph.xml";
+    void* cfgHandle = GfParmReadFile(configPath.c_str(), GFPARM_RMODE_STD);
+    if (!cfgHandle) {
+        GfOut("OGLRenderer: WARNING - could not read renderer config '%s', using defaults\n", configPath.c_str());
+        return;
+    }
+
+    m_shadowMapSize = std::max(256, (int)GfParmGetNum(cfgHandle, GR_SCT_GLFEATURES,
+        "shadow map size", nullptr, (tdble)m_shadowMapSize));
+    m_bloomPasses = std::max(0, (int)GfParmGetNum(cfgHandle, GR_SCT_GLFEATURES,
+        "bloom passes", nullptr, (tdble)m_bloomPasses));
+    m_hdrExposure = std::max(0.1f, (float)GfParmGetNum(cfgHandle, GR_SCT_GLFEATURES,
+        "HDR exposure", nullptr, (tdble)m_hdrExposure));
+    m_bloomStrength = std::max(0.0f, (float)GfParmGetNum(cfgHandle, GR_SCT_GLFEATURES,
+        "bloom strength", nullptr, (tdble)m_bloomStrength));
+
+    GfParmReleaseHandle(cfgHandle);
 }
 
 bool OGLRenderer::loadShaders(const std::string& shaderDir) {
@@ -93,9 +119,10 @@ bool OGLRenderer::loadShaders(const std::string& shaderDir) {
 bool OGLRenderer::init(int x, int y, int width, int height) {
     m_winX = x; m_winY = y; m_winW = width; m_winH = height;
 
+    loadRenderConfig();
     loadShaders(getShaderPath(""));
 
-    if (!m_shadowMap.init(2048)) {
+    if (!m_shadowMap.init(m_shadowMapSize)) {
         GfOut("OGLRenderer: WARNING - shadow map init failed\n");
     }
 
@@ -560,7 +587,7 @@ void OGLRenderer::refresh(tSituation* s) {
 
     // Tone mapping + bloom
     glViewport(m_winX, m_winY, m_winW, m_winH);
-    m_postProcess.render(1.0f);
+    m_postProcess.render(m_hdrExposure, m_bloomPasses, m_bloomStrength);
 
     // 2D HUD on top of composited frame
     renderHUD(s);

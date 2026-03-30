@@ -9,7 +9,7 @@ set(TGF_SOURCES
     trace.cpp
 )
 
-add_library(tgf SHARED ${TGF_SOURCES})
+add_library(tgf STATIC ${TGF_SOURCES})
 
 target_include_directories(tgf PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -18,5 +18,7 @@ target_include_directories(tgf PUBLIC
 )
 
 if(WIN32)
-    target_link_libraries(tgf PUBLIC ws2_32)
+    target_link_libraries(tgf PUBLIC ws2_32 txml)
+else()
+    target_link_libraries(tgf PUBLIC txml)
 endif()

@@ -49,13 +49,13 @@ public:
 	virtual ~ANN_Policy() override;
 	/// Select an action, given a vector of real numbers which
 	/// represents the state.
-	virtual int SelectAction(real* s, real r, int forced_a=-1) override;
+	virtual int SelectAction(real* s, real r, int forced_a=-1);
 	/// Reset eligibility traces.
 	virtual void Reset() override;
 	/// Return the last action value.
 	virtual real getLastActionValue () override {return J_ps_pa;} 
 	/// \deprecated Get the probabilities of all actions - call after SelectAction().
-	virtual real* getActionProbabilities () override {
+	virtual real* getActionProbabilities () {
 		real sum = 0.0;
 		int i;
 		for (i=0; i<n_actions; i++) {
@@ -66,7 +66,7 @@ public:
 		}
 		return eval;
 	}
-	virtual bool useConfidenceEstimates(bool confidence, real zeta=0.01) override;
+	virtual bool useConfidenceEstimates(bool confidence, real zeta=0.01);
 };
 
 

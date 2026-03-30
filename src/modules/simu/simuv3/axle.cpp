@@ -67,9 +67,9 @@ SimAxleUpdate(tCar *car, int index)
 #endif
     car->wheel[index*2].axleFz =  sgn * axle->arbSusp.force;
     car->wheel[index*2+1].axleFz = - sgn * axle->arbSusp.force;
-    //    printf ("%f %f %f ", stl, str, axle->arbSusp.force);
+    //    GfOut ("%f %f %f ", stl, str, axle->arbSusp.force);
     //    if (index==0) {
-    //        printf ("# SUSP\n");
+    //        GfOut ("# SUSP\n");
     //    }
 }
  

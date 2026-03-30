@@ -33,7 +33,7 @@ void SimCarCollideAddDeformation(tCar* car, sgVec3 pos, sgVec3 force)
         for (int i=0; i<3; i++) {
             collision_state->pos[i] = pos[i];// + k*collision_state->pos[i])/(k+1.0);
             collision_state->force[i] = 0.0001*force[i];// + k*collision_state->force[i])/(k+1.0);
-            //printf ("F:%f\n", collision_state->force[i]);
+            //GfOut ("F:%f\n", collision_state->force[i]);
         }
     }
 }
@@ -104,7 +104,7 @@ SimCarCollideZ(tCar *car)
                  && (car->DynGCg.pos.z - delta.z < wheel->zRoad))
                 || (rel_normal.z > 0)) {
                         
-                //printf ("C[%d] %f (%f)\n", i, rel_normal.z, delta.z);
+                //GfOut ("C[%d] %f (%f)\n", i, rel_normal.z, delta.z);
                 if (rel_normal.z <= 0) {
                     delta.z =  -(car->DynGCg.pos.z - delta.z - wheel->zRoad);
                 }
@@ -176,7 +176,7 @@ SimCarCollideZ(tCar *car)
 
                     NaiveRotate (normal, angles, &rel_normal);
                     // dotProd = (car->DynGC.vel.x * rel_normal.x + car->DynGC.vel.y * rel_normal.y + car->DynGC.vel.z * rel_normal.z) * wheel->trkPos.seg->surface->kRebound;
-                    //          printf ("%f\n", dotProd);
+                    //          GfOut ("%f\n", dotProd);
 #if 1
                     if (1) {//rel_normal.z <= 0) {
                         t3Dd forces;

@@ -74,6 +74,10 @@ private:
     float m_lightDir[3];
     float m_lightColor[3];
     float m_ambientColor[3];
+    float m_hdrExposure;
+    float m_bloomStrength;
+    int   m_shadowMapSize;
+    int   m_bloomPasses;
 
     // Viewport
     int m_winX, m_winY, m_winW, m_winH;
@@ -83,6 +87,7 @@ private:
 
     // Private methods
     bool loadShaders(const std::string& shaderDir);
+    void loadRenderConfig();
     std::string getShaderPath(const std::string& name);
 
     void updateCamera(tSituation* s);

@@ -35,7 +35,7 @@
 #define _SIMUV1_H_
 
 #include <track.h>
-#include <raceman.h>
+#include <car.h>
 
 #define SIM_IDENT	0
 

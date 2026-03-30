@@ -212,14 +212,7 @@ SimWheelUpdateForce(tCar *car, int index)
 	s = sqrt(sx*sx+sy*sy);
 
 	{
-		// calculate _skid and _reaction for sound.
-		if (fabs(v) < 2.0f && fabs(wrl) < 2.0f) {
-			car->carElt->_skid[index] = 0.0f;
-		} else {
-			car->carElt->_skid[index] =  MIN(1.0f, (s*reaction_force*0.0002f));
-		}
-		car->carElt->_reaction[index] = reaction_force;
-	}
+	car->carElt->_reaction[index] = reaction_force;
 
 	stmp = MIN(s, 1.5f);
 
@@ -233,7 +226,6 @@ SimWheelUpdateForce(tCar *car, int index)
 	F *= wheel->forces.z * mu * wheel->trkPos.seg->surface->kFriction * (1.0f + 0.05f * sin(-wheel->staticPos.ax * 18.0f));	/* coeff */
 
 	wheel->rollRes = wheel->forces.z * wheel->trkPos.seg->surface->kRollRes;
-    car->carElt->priv.wheel[index].rollRes = wheel->rollRes;
 
 	if (s > 0.000001f) {
 		// wheel axis based
@@ -259,6 +251,7 @@ SimWheelUpdateForce(tCar *car, int index)
 	car->carElt->_wheelSlipSide(index) = sy*v;
 	car->carElt->_wheelSlipAccel(index) = sx*v;
 	car->carElt->_reaction[index] = reaction_force;
+	}
 }
 
 

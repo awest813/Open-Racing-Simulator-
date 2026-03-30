@@ -16,7 +16,7 @@ public:
     ~PostProcess();
     bool init(int width, int height);
     void bindHDRFramebuffer();
-    void render(float exposure);
+    void render(float exposure, int bloomPassPairs, float bloomStrength);
     void resize(int width, int height);
     void cleanup();
 private:
@@ -29,5 +29,5 @@ private:
     int m_width, m_height;
     bool m_initialized;
     void setupQuad();
-    void renderBloom();
+    GLuint renderBloom(int bloomPassPairs);
 };

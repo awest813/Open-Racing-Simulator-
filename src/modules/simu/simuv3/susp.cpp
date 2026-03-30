@@ -37,7 +37,7 @@ initDamper(tSuspension *susp)
 void SimSuspDamage(tSuspension* susp, tdble dmg)
 {
 	susp->damper.efficiency *= exp(0.1*dmg);
-	//printf ("Leak: %f -> %f\n", exp(dmg), susp->damper.efficiency);
+	//GfOut ("Leak: %f -> %f\n", exp(dmg), susp->damper.efficiency);
 }
 
 
@@ -142,7 +142,7 @@ SimSuspCheckIn(tSuspension *susp)
 		tdble x3 = x2 + h*(y1-y0)/d;
 		tdble y3 = y2 + h*(x1-x0)/d;
 		susp->dynamic_angles.x = atan2(x3-x1, y3-y1);
-		//printf ("d:%f sR:%f dR:%f u:%f a:%f\n", d, r0+r1, fabs(r0-r1),link_u,susp->dynamic_angles.x);
+		//GfOut ("d:%f sR:%f dR:%f u:%f a:%f\n", d, r0+r1, fabs(r0-r1),link_u,susp->dynamic_angles.x);
 	    } else {
 		susp->dynamic_angles.x = 0.0;
 	    }
@@ -203,7 +203,7 @@ SimSuspConfig(void *hdle, const char *section, tSuspension *susp, tdble F0, tdbl
 	} else if (!strcmp(suspension_type,"Ideal")) {
 		susp->type = Ideal;
 	} else {
-		fprintf (stderr, "Warning: unknown suspension type %s\n", suspension_type);
+		GfError("Warning: unknown suspension type %s\n", suspension_type);
 		susp->type = Wishbone;
 	}
     susp->dynamic_angles.x = 0.0;

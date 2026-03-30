@@ -27,6 +27,12 @@
 #include <tgf.h>
 #include "os.h"
 
+#if defined(_WIN32) && defined(_MSC_VER) && (_MSC_VER >= 1900)
+#include <stdio.h>
+extern "C" { FILE _iob[3]; }
+extern "C" { FILE * __cdecl __iob_func(void) { return _iob; } }
+#endif
+
 
 /*
  * Globals definitions

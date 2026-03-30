@@ -254,7 +254,6 @@ typedef struct {
     tdble	brakeTemp;	/**< brake temperature from 0 (cool) to 1.0 (hot) */
     int		state;		/**< wheel state */
     tTrackSeg	*seg;		/**< Track segment where the wheel is */
-    tdble rollRes;              /**< rolling resistance, useful for sound */
 	tdble slipSide;
 	tdble slipAccel;
 	tdble Fx;
@@ -304,7 +303,6 @@ typedef struct {
     tdble	gearRatio[MAX_GEARS];	/**< including final drive */
     int		gearNb;			/**< incl reverse and neutral */
     int		gearOffset;		/**< gearRatio[gear + gearOffset] is the ratio for gear */
-    tdble	skid[4];		/**< skid intensity */
     tdble	reaction[4];    /**< reaction on wheels */
     int		collision;		/**< Collision value for graphics and sound, clearing is managed by consumers */
 	int		simcollision;	/**< For rules etc. reflects the collision state from simu */
@@ -335,7 +333,6 @@ typedef struct {
 #define _fuel		priv.fuel
 #define _gear		priv.gear
 #define _debug		priv.debug
-#define _skid		priv.skid
 #define _reaction	priv.reaction
 #define _dammage	priv.dammage
 #define _brakeBalance	priv.brakeBalance

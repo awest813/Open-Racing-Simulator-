@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\SimulationOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\aero.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\atmosphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\axle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\brake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\car.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\categories.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\collide.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\differential.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\simu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\simuitf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\steer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\susp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\transmission.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\wheel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Games\Open-Racing-Simulator-\src\modules\simu\simuv3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{C0705C8A-BAC3-377D-A669-0F80921B3108}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

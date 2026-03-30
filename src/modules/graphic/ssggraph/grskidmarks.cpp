@@ -51,6 +51,19 @@
 
 static ssgSimpleState *skidState = nullptr;
 
+static inline float getWheelSkid(tCarElt *car, int i) {
+    float wrl = car->_wheelSpinVel(i) * car->_wheelRadius(i);
+    float v = car->pub.speed;
+    if (fabs(v) < 2.0f && fabs(wrl) < 2.0f) {
+        return 0.0f;
+    }
+    float slipAccel = car->_wheelSlipAccel(i);
+    float slipSide = car->_wheelSlipSide(i);
+    float slipVel = sqrt(slipAccel * slipAccel + slipSide * slipSide);
+    float reaction_force = car->_reaction[i];
+    return MIN(1.0f, (slipVel / MAX(fabs(v), 0.0001f) * reaction_force * 0.0002f));
+}
+
 int grSkidMaxStripByWheel;
 int grSkidMaxPointByStrip;
 double grSkidDeltaT;
@@ -199,8 +212,9 @@ void grUpdateSkidmarks(tCarElt *car, double t)
 			}
 		}
 
-		if (car->_skid[i] > 0.1f) {
-			cur_clr[3] = tanh(skid_sensitivity*car->_skid[i]);
+		float wheel_skid = getWheelSkid(car, i);
+		if (wheel_skid > 0.1f) {
+			cur_clr[3] = tanh(skid_sensitivity*wheel_skid);
 		} else {
 			cur_clr[3] = 0.0f;
 		}

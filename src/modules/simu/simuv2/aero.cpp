@@ -56,7 +56,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	tdble windY = car->localWindY;
 	tdble relVelX = carVelX - windX;
 	tdble relVelY = carVelY - windY;
-	tdble airSpeed = sqrt(relVelX * relVelX + relVelY * relVelY);
+	airSpeed = sqrt(relVelX * relVelX + relVelY * relVelY);
 	spdang = atan2(relVelY, relVelX);
 
     if (airSpeed > 10.0f) {

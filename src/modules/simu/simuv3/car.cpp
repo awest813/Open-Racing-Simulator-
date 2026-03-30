@@ -185,13 +185,13 @@ SimCarUpdateForces(tCar *car)
         tWheel* wheel = &(car->wheel[i]);
         /* forces */
         tdble susp_pos_y = wheel->staticPos.y - sin(wheel->staticPos.ax)*SIGN(wheel->staticPos.y);
-        //printf ("%f %f\n", wheel->staticPos.y, sin(wheel->staticPos.ax)*SIGN(wheel->staticPos.y));
+        //GfOut ("%f %f\n", wheel->staticPos.y, sin(wheel->staticPos.ax)*SIGN(wheel->staticPos.y));
 
         F.F.x += wheel->forces.x;
         F.F.y += wheel->forces.y;
         F.F.z += wheel->forces.z;
 
-        //printf ("%f\n", car->statGC.z + wheel->rideHeight);
+        //GfOut ("%f\n", car->statGC.z + wheel->rideHeight);
         /* moments */
         t3Dd d;
         d.y = susp_pos_y;
@@ -418,7 +418,7 @@ SimCarUpdatePos(tCar *car)
     car->DynGCg.pos.ax = car->DynGC.pos.ax;
     car->DynGCg.pos.ay = car->DynGC.pos.ay;
     car->DynGCg.pos.az = car->DynGC.pos.az;    
-    //printf ("a %f %f %f\n", car->DynGC.pos.ax, car->DynGC.pos.ay, car->DynGC.pos.az);
+    //GfOut ("a %f %f %f\n", car->DynGC.pos.ax, car->DynGC.pos.ay, car->DynGC.pos.az);
     RtTrackGlobal2Local(car->trkPos.seg, car->DynGCg.pos.x, car->DynGCg.pos.y, &(car->trkPos), TR_LPOS_MAIN);
 }
 
@@ -470,31 +470,31 @@ SimTelemetryOut(tCar *car)
 {
     tdble Fzf, Fzr;
     int i;
-    printf("-----------------------------\nCar: %d %s ---\n", car->carElt->index, car->carElt->_name);
-    printf("Seg: %d (%s)  Ts:%f  Tr:%f\n",
+    GfOut("-----------------------------\nCar: %d %s ---\n", car->carElt->index, car->carElt->_name);
+    GfOut("Seg: %d (%s)  Ts:%f  Tr:%f\n",
            car->trkPos.seg->id, car->trkPos.seg->name, car->trkPos.toStart, car->trkPos.toRight);
-    printf("---\nMx: %f  My: %f  Mz: %f (N/m)\n", car->DynGC.acc.ax, car->DynGC.acc.ay, car->DynGC.acc.az);
-    printf("Wx: %f  Wy: %f  Wz: %f (rad/s)\n", car->DynGC.vel.ax, car->DynGC.vel.ay, car->DynGC.vel.az);
-    printf("Ax: %f  Ay: %f  Az: %f (rad)\n", car->DynGC.pos.ax, car->DynGC.pos.ay, car->DynGC.pos.az);
-    printf("---\nAx: %f  Ay: %f  Az: %f (Gs)\n", car->DynGC.acc.x/9.81, car->DynGC.acc.y/9.81, car->DynGC.acc.z/9.81);
-    printf("Vx: %f  Vy: %f  Vz: %f (m/s)\n", car->DynGC.vel.x, car->DynGC.vel.y, car->DynGC.vel.z);
-    printf("Px: %f  Py: %f  Pz: %f (m)\n---\n", car->DynGC.pos.x, car->DynGC.pos.y, car->DynGC.pos.z);
-    printf("As: %f\n---\n", sqrt(car->airSpeed2));
+    GfOut("---\nMx: %f  My: %f  Mz: %f (N/m)\n", car->DynGC.acc.ax, car->DynGC.acc.ay, car->DynGC.acc.az);
+    GfOut("Wx: %f  Wy: %f  Wz: %f (rad/s)\n", car->DynGC.vel.ax, car->DynGC.vel.ay, car->DynGC.vel.az);
+    GfOut("Ax: %f  Ay: %f  Az: %f (rad)\n", car->DynGC.pos.ax, car->DynGC.pos.ay, car->DynGC.pos.az);
+    GfOut("---\nAx: %f  Ay: %f  Az: %f (Gs)\n", car->DynGC.acc.x/9.81, car->DynGC.acc.y/9.81, car->DynGC.acc.z/9.81);
+    GfOut("Vx: %f  Vy: %f  Vz: %f (m/s)\n", car->DynGC.vel.x, car->DynGC.vel.y, car->DynGC.vel.z);
+    GfOut("Px: %f  Py: %f  Pz: %f (m)\n---\n", car->DynGC.pos.x, car->DynGC.pos.y, car->DynGC.pos.z);
+    GfOut("As: %f\n---\n", sqrt(car->airSpeed2));
 
     for (i = 0; i < 4; i++) {
-        printf("wheel %d - RH:%f susp:%f zr:%.2f ", i, car->wheel[i].rideHeight, car->wheel[i].susp.x, car->wheel[i].zRoad);
-        printf("sx:%f sa:%f w:%f ", car->wheel[i].sx, car->wheel[i].sa, car->wheel[i].spinVel);
-        printf("fx:%f fy:%f fz:%f\n", car->wheel[i].forces.x, car->wheel[i].forces.y, car->wheel[i].forces.z);
+        GfOut("wheel %d - RH:%f susp:%f zr:%.2f ", i, car->wheel[i].rideHeight, car->wheel[i].susp.x, car->wheel[i].zRoad);
+        GfOut("sx:%f sa:%f w:%f ", car->wheel[i].sx, car->wheel[i].sa, car->wheel[i].spinVel);
+        GfOut("fx:%f fy:%f fz:%f\n", car->wheel[i].forces.x, car->wheel[i].forces.y, car->wheel[i].forces.z);
     }
 
     Fzf = (car->aero.lift[0] + car->wing[0].forces.z) / 9.81;
     Fzr = (car->aero.lift[1] + car->wing[1].forces.z) / 9.81;
-    printf("%f %f %f %f %f\n", car->aero.drag / 9.81, Fzf + Fzr,
+    GfOut("%f %f %f %f %f\n", car->aero.drag / 9.81, Fzf + Fzr,
            Fzf, Fzr, (Fzf + Fzr) / (car->aero.drag + 0.1) * 9.81);
     //    for (i=0; i<4; i++) {
-    //   printf ("%f ", car->wheel[i].spinVel);
+    //   GfOut ("%f ", car->wheel[i].spinVel);
     //}
-    //printf ("| %f %f\n", car->engine.jointI, car->engine.rads);
+    //GfOut ("| %f %f\n", car->engine.jointI, car->engine.rads);
 
 }
 
@@ -527,7 +527,7 @@ SimCarUpdate2(tCar *car, tSituation * /* s */)
     if (cnt<=0) {
 
         for (int i = 0; i < 4; i++) {
-            printf("%f %f %f ",
+            GfOut("%f %f %f ",
                    car->wheel[i].forces.x,
                    car->wheel[i].forces.y,
                    car->wheel[i].forces.z
@@ -536,9 +536,9 @@ SimCarUpdate2(tCar *car, tSituation * /* s */)
         }
         float Fzf = (car->aero.lift[0] + car->wing[0].forces.z) / 9.81f;
         float Fzr = (car->aero.lift[1] + car->wing[1].forces.z) / 9.81f;
-        printf("%f %f\n", Fzf, Fzr);
+        GfOut("%f %f\n", Fzf, Fzr);
 #if 0
-        printf(" %f %f %f %f\n",
+        GfOut(" %f %f %f %f\n",
                car->DynGCg.pos.x,
                car->DynGCg.pos.y,
                car->DynGCg.pos.z,
@@ -618,7 +618,7 @@ void NaiveInverseRotate (t3Dd v, t3Dd u, t3Dd* v0)
     v0->x = vx_0;
     v0->y = vy_0;
     v0->z = vz_0;
-    //        printf ("..(%f %f %f)\n..[%f %f %f]\n->[%f %f %f]\n",
+    //        GfOut ("..(%f %f %f)\n..[%f %f %f]\n->[%f %f %f]\n",
     //    	    u.x, u.y, u.z,
     //    	    v.x, v.y, v.z,
     //    	    v0->x, v0->y, v0->z);
@@ -688,7 +688,7 @@ void SimCarAddAngularVelocity (tCar* car)
     car->DynGC.vel.ay = -2.0f*car->rot_mom[SG_Y] * car->Iinv.y;
     car->DynGC.vel.az = -2.0f*car->rot_mom[SG_Z] * car->Iinv.z;
 
-    //printf ("%f %f %f#AXYZ\n",
+    //GfOut ("%f %f %f#AXYZ\n",
     //			car->DynGC.vel.ax, 
     //			car->DynGC.vel.ay, 
     //			car->DynGC.vel.az); 

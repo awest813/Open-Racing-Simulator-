@@ -549,8 +549,7 @@ public:
   ulDynamicLibrary ( const char *libname )
   {
     char dllname[1024];
-    strcpy ( dllname, libname ) ;
-    strcat ( dllname, ".dll"  ) ;
+    snprintf ( dllname, sizeof(dllname), "%s.dll", libname ) ;
     handle = (HMODULE) LoadLibrary ( dllname ) ;
   }
 
@@ -658,8 +657,7 @@ public:
   ulDynamicLibrary ( const char *libname )
   {
     char addonname[1024] ;
-    strcpy ( addonname, libname ) ;
-    strcat ( addonname, ".so" ) ;
+    snprintf ( addonname, sizeof(addonname), "%s.so", libname ) ;
     handle = new image_id ;
 
     *handle = load_add_on ( addonname ) ;
@@ -707,8 +705,7 @@ public:
   ulDynamicLibrary ( const char *libname )
   {
     char dsoname [ 1024 ] ;
-    strcpy ( dsoname, libname ) ;
-    strcat ( dsoname, ".so"  ) ;
+    snprintf ( dsoname, sizeof(dsoname), "%s.so", libname ) ;
     handle = (void *) dlopen ( dsoname, RTLD_NOW | RTLD_GLOBAL ) ;
 
     if ( handle == NULL )

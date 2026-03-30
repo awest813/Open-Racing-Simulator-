@@ -4,6 +4,7 @@
   <section name="OpenGL Features">
     <attnum name="shadow map size" val="2048"/>
     <attnum name="bloom passes" val="5"/>
+    <attnum name="bloom strength" val="0.75"/>
     <attnum name="HDR exposure" val="1.0"/>
   </section>
   <section name="Graphic">

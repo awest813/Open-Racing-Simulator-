@@ -57,6 +57,19 @@ double grSmokeLife;
 
 static tgrSmokeManager *smokeManager = 0;
 
+static inline float getWheelSkid(tCarElt *car, int i) {
+    float wrl = car->_wheelSpinVel(i) * car->_wheelRadius(i);
+    float v = car->pub.speed;
+    if (fabs(v) < 2.0f && fabs(wrl) < 2.0f) {
+        return 0.0f;
+    }
+    float slipAccel = car->_wheelSlipAccel(i);
+    float slipSide = car->_wheelSlipSide(i);
+    float slipVel = sqrt(slipAccel * slipAccel + slipSide * slipSide);
+    float reaction_force = car->_reaction[i];
+    return MIN(1.0f, (slipVel / MAX(fabs(v), 0.0001f) * reaction_force * 0.0002f));
+}
+
 // Cached modelview matrix for billboard smoke rendering.
 // Updated once per simulation step in grUpdateSmoke() so that each smoke
 // particle's draw_geometry() can read camera orientation without calling
@@ -314,7 +327,8 @@ void grAddSmoke(tCarElt *car, double t)
 
 				smoke_life_coefficient = smoke_life_coefficient * (1.0f - urandom()*urandom());
 				tdble spd_fx=tanh(0.001f*car->_reaction[i])*smoke_speed_coefficient*car->pub.speed;
-				if (car->_skid[i] + 0.025f*urandom()*spd_fx>urandom() + threshold) {// instead of 0.3, to randomize
+				float wheel_skid = getWheelSkid(car, i);
+				if (wheel_skid + 0.025f*urandom()*spd_fx>urandom() + threshold) {// instead of 0.3, to randomize
 
 					float init_speed_z = 0.1f;
 					float stretch_factor = 0.5f;
@@ -350,7 +364,7 @@ void grAddSmoke(tCarElt *car, double t)
 
 					//printf("%f\n", car->_reaction[i]);
 					tmp->smoke->max_life = grSmokeLife *
-						(car->_skid[i]*car->pub.speed+urandom()*spd_fx)/ smoke_life_coefficient;
+						(wheel_skid*car->pub.speed+urandom()*spd_fx)/ smoke_life_coefficient;
 					for (int c = 0; c < 3; c++) {
 						tmp->smoke->cur_col[c] = cur_clr[c];
 					}
@@ -361,7 +375,7 @@ void grAddSmoke(tCarElt *car, double t)
 					tmp->smoke->sizez = VZ_INIT + 0.1f * spd_fx;
 
 					tmp->smoke->init_alpha = 1.0/(1.0+0.1*spd_fx);
-					tmp->smoke->vexp = V_EXPANSION+(car->_skid[i]+.1*spd_fx)*(((float)rand()/(float)RAND_MAX));
+					tmp->smoke->vexp = V_EXPANSION+(wheel_skid+.1*spd_fx)*(((float)rand()/(float)RAND_MAX));
 					tmp->smoke->smokeType = SMOKE_TYPE_TIRE;
 					tmp->smoke->smokeTypeStep = 0;
 					tmp->next = nullptr;

@@ -58,7 +58,9 @@ static char *strndup(const char *str, int len)
 
 
 #ifdef WIN32
+#if _MSC_VER < 1900 
 #define snprintf _snprintf
+#endif
 #if _MSC_VER < 1500 
 #define vsnprintf _vsnprintf
 #endif
@@ -67,11 +69,12 @@ static char *strndup(const char *str, int len)
 #ifdef WIN32
 #include <cmath>
 
+#if _MSC_VER < 1800
 static float round(float x)
 {
 	return floor(x+0.5f);
 }
+#endif
 #endif 
 
 #endif // _TORCS_PORTABILITY_H_
-

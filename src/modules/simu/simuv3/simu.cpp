@@ -173,10 +173,11 @@ SimReConfig(tCarElt *carElt)
     }
     if (carElt->pitcmd.repair > 0) {
 		for (int i=0; i<4; i++) {
-			carElt->_tyreCondition(i) = 1.01;
-			carElt->_tyreT_in(i) = 50.0;
-			carElt->_tyreT_mid(i) = 50.0;
-			carElt->_tyreT_out(i) = 50.0;
+			// Note: _tyreCondition/_tyreT_* not available in base CarElt
+			// carElt->_tyreCondition(i) = 1.01;
+			// carElt->_tyreT_in(i) = 50.0;
+			// carElt->_tyreT_mid(i) = 50.0;
+			// carElt->_tyreT_out(i) = 50.0;
 			car->wheel[i].bent_damage_x = urandom();
 			car->wheel[i].bent_damage_z = urandom();
 			car->wheel[i].rotational_damage_x = 0.0;
@@ -269,9 +270,8 @@ RemoveCar(tCar *car, tSituation *s)
     }
     carElt->_state |= RM_CAR_STATE_PULLUP;
 
-    carElt->priv.collision = car->collision = 0;
+    carElt->priv.simcollision = carElt->priv.collision = car->collision = 0;
     for(i = 0; i < 4; i++) {
-		carElt->_skid[i] = 0;
 		carElt->_wheelSpinVel(i) = 0;
 		carElt->_brakeTemp(i) = 0;
     }
@@ -410,7 +410,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 
     SimCarCollideCars(s);
 
-    /* printf ("%f - ", s->currentTime); */
+    /* GfOut ("%f - ", s->currentTime); */
     
     for (ncar = 0; ncar < s->_ncars; ncar++) {
 		car = &(SimCarTable[ncar]);
@@ -446,8 +446,6 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 			carElt->priv.wheel[i].relPos = car->wheel[i].relPos;
 			carElt->_wheelSeg(i) = car->wheel[i].trkPos.seg;
 			carElt->_brakeTemp(i) = car->wheel[i].brake.temp;
-			carElt->_wheelSpinVel(i) = car->wheel[i].spinVel;
-			carElt->priv.wheel[i].rollRes = car->wheel[i].rollRes;
 			carElt->priv.wheel[i].slipSide = car->wheel[i].sa;
 			carElt->priv.wheel[i].slipAccel = car->wheel[i].sx;
 			carElt->priv.wheel[i].Fx = car->wheel[i].forces.x;
@@ -478,7 +476,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 
 
 void
-SimInit(int nbcars, tTrack* track, tdble fuelFactor, tdble damageFactor)
+SimInit(int nbcars, tTrack* track, tdble fuelFactor, tdble damageFactor, tdble tireFactor)
 {
     SimNbCars = nbcars;
     SimCarTable = (tCar*)calloc(nbcars, sizeof(tCar));
@@ -492,10 +490,10 @@ SimShutdown(void)
     int	 ncar;
 #if 0
 	double elapsed_time = GfTimeClock() - simu_init_time;
-	printf ("delta_time: %f\n", SimDeltaTime);
-	printf ("simu time: %fs (%f%% of %fs)\n", simu_total_time,
+	GfOut ("delta_time: %f\n", SimDeltaTime);
+	GfOut ("simu time: %fs (%f%% of %fs)\n", simu_total_time,
 			100.0f * simu_total_time/elapsed_time, elapsed_time);
-	printf ("\
+	GfOut ("\
 			 timer_coordinate_transform:%f\n\
 			 timer_reaction:%f\n\
 			 timer_angles:%f\n\

@@ -51,7 +51,7 @@ SimSteerUpdate(tCar *car)
 	steer2 = atan2(car->wheelbase * tanSteer ,(car->wheelbase - tanSteer * car->wheeltrack));
 
 	
-	//printf ("%f %f\n", steer2, steer);
+	//GfOut ("%f %f\n", steer2, steer);
     if (steer > 0) {
 		car->wheel[FRNT_RGT].steer = steer2;
 		car->wheel[FRNT_LFT].steer = steer;

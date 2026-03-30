@@ -1,5 +1,9 @@
 set(TXML_SOURCES
-    txml.cpp
+    xml.cpp
+    xmlparse.c
+    xmlrole.c
+    xmltok.c
+    hashtable.c
 )
 
 add_library(txml STATIC ${TXML_SOURCES})

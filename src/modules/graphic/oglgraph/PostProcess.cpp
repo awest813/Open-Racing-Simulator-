@@ -9,6 +9,7 @@
 
 #include "PostProcess.h"
 #include "Shader.h"
+#include <algorithm>
 #include <cstring>
 #include <tgfclient.h>
 
@@ -44,6 +45,10 @@ static GLuint createHDRTexture(int w, int h) {
 }
 
 bool PostProcess::init(int width, int height) {
+    if (m_initialized) {
+        cleanup();
+    }
+
     m_width  = width;
     m_height = height;
 
@@ -80,6 +85,7 @@ bool PostProcess::init(int width, int height) {
         m_pingpongBufs[i] = createHDRTexture(width, height);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                GL_TEXTURE_2D, m_pingpongBufs[i], 0);
+        glDrawBuffer(GL_COLOR_ATTACHMENT0);
         GLenum ppStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
         if (ppStatus != GL_FRAMEBUFFER_COMPLETE) {
             GfOut("PostProcess::init: ping-pong FBO %d incomplete (%d)\n", i, (int)ppStatus);
@@ -123,51 +129,71 @@ void PostProcess::bindHDRFramebuffer() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void PostProcess::renderBloom() {
-    if (!g_bloomShader || !g_bloomShader->id()) return;
+GLuint PostProcess::renderBloom(int bloomPassPairs) {
+    if (!g_bloomShader || !g_bloomShader->id() || !m_quadVAO) {
+        return m_colorBufs[1];
+    }
+
+    if (bloomPassPairs <= 0) {
+        return m_colorBufs[1];
+    }
 
     bool horizontal = true;
-    int passes = 10; // 5 passes each direction
+    const int passes = std::max(1, bloomPassPairs * 2);
+    GLuint lastTexture = m_colorBufs[1];
+
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+    glViewport(0, 0, m_width, m_height);
     g_bloomShader->use();
     g_bloomShader->setInt("image", 0);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_colorBufs[1]); // bright-pass source
-
     for (int i = 0; i < passes; i++) {
-        glBindFramebuffer(GL_FRAMEBUFFER, m_pingpongFBO[horizontal ? 1 : 0]);
+        const int targetIdx = i % 2;
+        glBindFramebuffer(GL_FRAMEBUFFER, m_pingpongFBO[targetIdx]);
         g_bloomShader->setInt("horizontal", horizontal ? 1 : 0);
-        glBindTexture(GL_TEXTURE_2D, i == 0 ? m_colorBufs[1] : m_pingpongBufs[horizontal ? 0 : 1]);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, i == 0 ? m_colorBufs[1] : m_pingpongBufs[1 - targetIdx]);
         glBindVertexArray(m_quadVAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
+        lastTexture = m_pingpongBufs[targetIdx];
         horizontal = !horizontal;
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    return lastTexture;
 }
 
-void PostProcess::render(float exposure) {
+void PostProcess::render(float exposure, int bloomPassPairs, float bloomStrength) {
     if (!m_initialized) return;
 
-    renderBloom();
+    const GLuint bloomTexture = renderBloom(bloomPassPairs);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+    glViewport(0, 0, m_width, m_height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    if (!g_postShader || !g_postShader->id()) return;
+    if (!g_postShader || !g_postShader->id()) {
+        glEnable(GL_DEPTH_TEST);
+        return;
+    }
 
     g_postShader->use();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_colorBufs[0]);
     g_postShader->setInt("hdrBuffer", 0);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, m_pingpongBufs[0]);
+    glBindTexture(GL_TEXTURE_2D, bloomTexture);
     g_postShader->setInt("bloomBlur", 1);
     g_postShader->setFloat("exposure", exposure);
+    g_postShader->setFloat("bloomStrength", bloomStrength);
 
     glBindVertexArray(m_quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void PostProcess::resize(int width, int height) {

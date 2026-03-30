@@ -107,27 +107,27 @@ typedef struct
 
 #define CHECK_VAR(_var_, _msg_) do {						\
     if (isnan(_var_) || isinf(_var_)) {						\
-	printf("%s = %f  in %s line %d\n", _msg_, _var_, __FILE__, __LINE__);	\
+	GfOut("%s = %f  in %s line %d\n", _msg_, _var_, __FILE__, __LINE__);	\
         assert (0);								\
 	exit(0);								\
     }										\
 } while (0)
 
 #define DUMP_CAR(_car_) do {					\
-	printf("DynGC.acc.x  = %f\n", (_car_)->DynGC.acc.x);	\
-	printf("DynGC.acc.y  = %f\n", (_car_)->DynGC.acc.y);	\
-	printf("DynGC.acc.y  = %f\n", (_car_)->DynGC.acc.y);	\
-	printf("DynGC.vel.x  = %f\n", (_car_)->DynGC.vel.x);	\
-	printf("DynGC.vel.y  = %f\n", (_car_)->DynGC.vel.y);	\
-	printf("DynGC.pos.x  = %f\n", (_car_)->DynGC.pos.x);	\
-	printf("DynGC.pos.y  = %f\n", (_car_)->DynGC.pos.y);	\
-	printf("DynGCg.acc.x = %f\n", (_car_)->DynGCg.acc.x);	\
-	printf("DynGCg.acc.y = %f\n", (_car_)->DynGCg.acc.y);	\
-	printf("DynGCg.vel.x = %f\n", (_car_)->DynGCg.vel.x);	\
-	printf("DynGCg.vel.y = %f\n", (_car_)->DynGCg.vel.y);	\
-	printf("DynGCg.pos.x = %f\n", (_car_)->DynGCg.pos.x);	\
-	printf("DynGCg.pos.y = %f\n", (_car_)->DynGCg.pos.y);	\
-	printf("aero.drag    = %f\n", (_car_)->aero.drag);	\
+	GfOut("DynGC.acc.x  = %f\n", (_car_)->DynGC.acc.x);	\
+	GfOut("DynGC.acc.y  = %f\n", (_car_)->DynGC.acc.y);	\
+	GfOut("DynGC.acc.y  = %f\n", (_car_)->DynGC.acc.y);	\
+	GfOut("DynGC.vel.x  = %f\n", (_car_)->DynGC.vel.x);	\
+	GfOut("DynGC.vel.y  = %f\n", (_car_)->DynGC.vel.y);	\
+	GfOut("DynGC.pos.x  = %f\n", (_car_)->DynGC.pos.x);	\
+	GfOut("DynGC.pos.y  = %f\n", (_car_)->DynGC.pos.y);	\
+	GfOut("DynGCg.acc.x = %f\n", (_car_)->DynGCg.acc.x);	\
+	GfOut("DynGCg.acc.y = %f\n", (_car_)->DynGCg.acc.y);	\
+	GfOut("DynGCg.vel.x = %f\n", (_car_)->DynGCg.vel.x);	\
+	GfOut("DynGCg.vel.y = %f\n", (_car_)->DynGCg.vel.y);	\
+	GfOut("DynGCg.pos.x = %f\n", (_car_)->DynGCg.pos.x);	\
+	GfOut("DynGCg.pos.y = %f\n", (_car_)->DynGCg.pos.y);	\
+	GfOut("aero.drag    = %f\n", (_car_)->aero.drag);	\
 } while (0)
 
 
@@ -145,7 +145,7 @@ typedef struct
 	isnan((_car_)->DynGCg.pos.x) || isinf((_car_)->DynGCg.pos.x) ||				\
 	isnan((_car_)->DynGCg.pos.y) || isinf((_car_)->DynGCg.pos.y) ||				\
 	isnan((_car_)->aero.drag) || isinf((_car_)->aero.drag)) {				\
-	printf("Problem for %s in %s line %d\n", (_car_)->carElt->_name, __FILE__, __LINE__);	\
+	GfOut("Problem for %s in %s line %d\n", (_car_)->carElt->_name, __FILE__, __LINE__);	\
 	DUMP_CAR(_car_);									\
 	assert (0);										\
 	/* GfScrShutdown(); */									\

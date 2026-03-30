@@ -79,7 +79,7 @@ SimTransmissionConfig(tCar *car)
     }
 
     trans->gearbox.gearMax = 0;
-    //printf ("engine I %f\n", car->engine.I);
+    //GfOut ("engine I %f\n", car->engine.I);
     for (i = MAX_GEARS - 1; i >= 0; i--) {
 		snprintf(path, BUFSIZE, "%s/%s/%s", SECT_GEARBOX, ARR_GEARS, gearname[i]);
 		gRatio = GfParmGetNum(hdle, path, PRM_RATIO, nullptr, 0.0f);
@@ -98,7 +98,7 @@ SimTransmissionConfig(tCar *car)
 		if (gEff < 0.0f) gEff = 0.0f;
 		gearI = GfParmGetNum(hdle, path, PRM_INERTIA, nullptr, 0.0f);
 		trans->driveI[i] = (car->engine.I + gearI) * (gRatio * gRatio * fRatio * fRatio);
-		//printf ("drivetrain %d = %f %f\n", i, trans->driveI[i], gearI);
+		//GfOut ("drivetrain %d = %f %f\n", i, trans->driveI[i], gearI);
 		trans->freeI[i] = gearI * (gRatio * gRatio * fRatio * fRatio);
 		trans->gearEff[i] = gEff;
     }
@@ -259,7 +259,7 @@ SimTransmissionUpdate(tCar *car)
 		differential->in.Tq = (car->engine.responseTq + car->engine.Tq) * trans->curOverallRatio * transfer;
 		SimDifferentialUpdate(car, differential, 1);
 		SimUpdateFreeWheels(car, 0);
-		/* 	printf("s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
+		/* 	GfOut("s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
 		/* 	       differential->outAxis[0]->spinVel, differential->outAxis[1]->spinVel, differential->outAxis[0]->spinVel - differential->outAxis[1]->spinVel, */
 		/* 	       differential->in.Tq, */
 		/* 	       differential->outAxis[0]->Tq, differential->outAxis[1]->Tq, differential->outAxis[0]->Tq - differential->outAxis[1]->Tq); */
@@ -269,7 +269,7 @@ SimTransmissionUpdate(tCar *car)
 		differential->in.Tq = (car->engine.responseTq + car->engine.Tq) * trans->curOverallRatio * transfer;
 		SimDifferentialUpdate(car, differential, 1);
 		SimUpdateFreeWheels(car, 1);
-		/* 	printf("s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
+		/* 	GfOut("s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
 		/* 	       differential->outAxis[0]->spinVel, differential->outAxis[1]->spinVel, differential->outAxis[0]->spinVel - differential->outAxis[1]->spinVel, */
 		/* 	       differential->in.Tq, */
 		/* 	       differential->outAxis[0]->Tq, differential->outAxis[1]->Tq, differential->outAxis[0]->Tq - differential->outAxis[1]->Tq); */
@@ -288,21 +288,21 @@ SimTransmissionUpdate(tCar *car)
 		differential->inAxis[1]->brkTq = (differential1->inAxis[0]->brkTq + differential1->inAxis[1]->brkTq) / differential->ratio;
 
 		SimDifferentialUpdate(car, differential, 1);
-		/* 	printf("\nCentral : s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
+		/* 	GfOut("\nCentral : s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
 		/* 	       differential->outAxis[0]->spinVel, differential->outAxis[1]->spinVel, differential->outAxis[0]->spinVel - differential->outAxis[1]->spinVel, */
 		/* 	       differential->in.Tq, */
 		/* 	       differential->outAxis[0]->Tq, differential->outAxis[1]->Tq, differential->outAxis[0]->Tq - differential->outAxis[1]->Tq); */
 
 		differential = differential0;
 		SimDifferentialUpdate(car, differential, 0);
-		/* 	printf("Front   : s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
+		/* 	GfOut("Front   : s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
 		/* 	       differential->outAxis[0]->spinVel, differential->outAxis[1]->spinVel, differential->outAxis[0]->spinVel - differential->outAxis[1]->spinVel, */
 		/* 	       differential->in.Tq, */
 		/* 	       differential->outAxis[0]->Tq, differential->outAxis[1]->Tq, differential->outAxis[0]->Tq - differential->outAxis[1]->Tq); */
 
 		differential = differential1;
 		SimDifferentialUpdate(car, differential, 0);
-		/* 	printf("Rear    : s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
+		/* 	GfOut("Rear    : s0 %f - s1 %f (%f)	inTq %f -- Tq0 %f - Tq1 %f (%f)\n", */
 		/* 	       differential->outAxis[0]->spinVel, differential->outAxis[1]->spinVel, differential->outAxis[0]->spinVel - differential->outAxis[1]->spinVel, */
 		/* 	       differential->in.Tq, */
 		/* 	       differential->outAxis[0]->Tq, differential->outAxis[1]->Tq, differential->outAxis[0]->Tq - differential->outAxis[1]->Tq); */

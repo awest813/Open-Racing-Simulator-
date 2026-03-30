@@ -39,7 +39,7 @@ SimAeroConfig(tCar *car)
     float max_lift = MaximumLiftGivenDrag (car->aero.SCx2, FrntArea);
     float current_lift = 2.0f * (car->aero.Clift[0] + car->aero.Clift[1]);
     if (current_lift > max_lift) {
-        fprintf (stderr, "Warning: car %s, driver %s: lift coefficients (%f, %f), generate a lift of %f, while maximum theoretical value is %f\n",
+        GfError("Warning: car %s, driver %s: lift coefficients (%f, %f), generate a lift of %f, while maximum theoretical value is %f\n",
                  car->carElt->_carName,
                  car->carElt->_name,
                  car->aero.Clift[0],
@@ -50,8 +50,8 @@ SimAeroConfig(tCar *car)
 
     GfParmSetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, nullptr, car->aero.Clift[0]);
     GfParmSetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, nullptr, car->aero.Clift[1]);
-    //printf ("%f %f\n", GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)NULL, 0.0), GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)NULL, 0.0));
-    //printf ("cl: %f\n", car->aero.Clift[0]+car->aero.Clift[1]);
+    //GfOut ("%f %f\n", GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_FCL, (char*)NULL, 0.0), GfParmGetNum(hdle, SECT_AERODYNAMICS, PRM_RCL, (char*)NULL, 0.0));
+    //GfOut ("cl: %f\n", car->aero.Clift[0]+car->aero.Clift[1]);
     car->aero.Cd += car->aero.SCx2;
     car->aero.rot_front[0] = 0.0;
     car->aero.rot_front[1] = 0.0;
@@ -176,7 +176,7 @@ void SimAeroDamage(tCar *car, sgVec3 poc, tdble F)
         sgNormaliseVec3 (car->aero.rot_vertical);
     }
 
-    //printf ("aero damage:%f (->%f %f %f)\n", dmg, sgLengthVec3(car->aero.rot_front),
+    //GfOut ("aero damage:%f (->%f %f %f)\n", dmg, sgLengthVec3(car->aero.rot_front),
     //			sgLengthVec3(car->aero.rot_lateral), sgLengthVec3(car->aero.rot_vertical));
 
 
@@ -209,12 +209,12 @@ SimWingConfig(tCar *car, int index)
         wing->Kz = wing->Kx;
         break;
     case OPTIMAL:
-		fprintf (stderr, "Using optimal wings\n");
+		GfOut("Using optimal wings\n");
         wing->Kx = -AIR_DENSITY * area; ///< \bug: there should be a 1/2 here.
         wing->Kz = car->options->aero_factor * wing->Kx;
         break;
     default:
-        fprintf (stderr, "Unimplemented option %d for aeroflow model\n", car->options->aeroflow_model);
+        GfError("Unimplemented option %d for aeroflow model\n", car->options->aeroflow_model);
     }
 
 
@@ -289,7 +289,7 @@ SimWingUpdate(tCar *car, int index, tSituation* s)
         hm = 1.0 + exp(-3.0*hm);
         car->aero.lift[index] = - car->aero.Clift[index] * vt2b * hm;
         //car->aero.lift[1] = - car->aero.Clift[1] * vt2b *  hm;
-        //printf ("%f\n", car->aero.lift[0]+car->aero.lift[1]);
+        //GfOut ("%f\n", car->aero.lift[0]+car->aero.lift[1]);
     }
 
 
@@ -318,7 +318,7 @@ SimWingUpdate(tCar *car, int index, tSituation* s)
             wing->forces.x = wing->Kx * vt2 * (1.0f + (tdble)car->dammage / 10000.0f) * sinaoa;
             break;
 	default:
-            fprintf (stderr, "Unimplemented option %d for aeroflow model\n", car->options->aeroflow_model);
+            GfError("Unimplemented option %d for aeroflow model\n", car->options->aeroflow_model);
         }
     } else {
         wing->forces.x = wing->forces.z = 0.0f;

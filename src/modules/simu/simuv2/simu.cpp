@@ -274,7 +274,6 @@ RemoveCar(tCar *car, tSituation *s)
 
 	carElt->priv.simcollision = carElt->priv.collision = car->collision = 0;
 	for(i = 0; i < 4; i++) {
-		carElt->_skid[i] = 0;
 		carElt->_wheelSpinVel(i) = 0;
 		carElt->_brakeTemp(i) = 0;
 	}
@@ -410,7 +409,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 	
 	SimCarCollideCars(s);
 	
-	/* printf ("%f - ", s->currentTime); */
+	/* GfOut ("%f - ", s->currentTime); */
 	
 	for (ncar = 0; ncar < s->_ncars; ncar++) {
 		car = &(SimCarTable[ncar]);
@@ -441,7 +440,6 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 			wheelState->seg = wheel->trkPos.seg;
 			wheelState->brakeTemp = wheel->brake.temp;
 			wheelState->spinVel = wheel->spinVel;
-			wheelState->rollRes = wheel->rollRes;
 			wheelState->slipSide = wheel->sa;
 			wheelState->slipAccel = wheel->sx;
 			wheelState->Fx = wheel->forces.x;

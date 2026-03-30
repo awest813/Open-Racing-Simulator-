@@ -42,6 +42,9 @@
 	2004/10/03 Bernhard Wymann: Added Randr support, bugfixes.
 */
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cstdio>
