@@ -87,7 +87,7 @@ changes, or race-manager configuration without the full rendering stack.
 
 ## Code Conventions
 
-The codebase is pre-C++11 C and C++.  Please match the style of the file
+The build is configured with `-std=c++14`.  Please match the style of the file
 you are editing:
 
 - Indentation follows the existing file — most C++ uses tabs.
@@ -95,8 +95,9 @@ you are editing:
 - Prefer `const` over magic numbers where practical.
 - Avoid introducing new dependencies unless the ROADMAP already calls for
   the change.
-- Do not introduce C++11 or later constructs unless explicitly coordinated
-  on the roadmap; the build still needs to work on older toolchains.
+- C++14 constructs (`nullptr`, range-for, `auto`, `override`, etc.) are
+  acceptable in files that have already been modernized; avoid them in
+  untouched legacy files to keep diffs reviewable.
 - Prefer fixing one thing per commit to make history readable.
 
 ---
