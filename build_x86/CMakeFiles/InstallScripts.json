@@ -14,7 +14,8 @@
 		"D:/Games/Open-Racing-Simulator-/build_x86/src/libs/txml/cmake_install.cmake",
 		"D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv2/cmake_install.cmake",
 		"D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv2/SOLID-2.0/cmake_install.cmake",
-		"D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv3/cmake_install.cmake"
+		"D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv3/cmake_install.cmake",
+		"D:/Games/Open-Racing-Simulator-/build_x86/src/modules/track/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

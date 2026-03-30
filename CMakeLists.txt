@@ -4,6 +4,10 @@ project(OpenRacingSimulator)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(MSVC)
+    list(APPEND CMAKE_VS_GLOBALS VcpkgXUseBuiltInApplocalDeps=true)
+endif()
+
 # Default build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -57,4 +61,5 @@ add_subdirectory(src/libs/tgfclient)
 add_subdirectory(src/libs/txml)
 add_subdirectory(src/modules/simu/simuv2)
 add_subdirectory(src/modules/simu/simuv3)
+add_subdirectory(src/modules/track)
 # Add more as needed

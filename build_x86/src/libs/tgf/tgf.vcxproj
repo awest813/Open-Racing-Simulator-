@@ -24,6 +24,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ACE2D0B5-AA06-3C50-B4F3-45E734368BA7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <VcpkgXUseBuiltInApplocalDeps>true</VcpkgXUseBuiltInApplocalDeps>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>tgf</ProjectName>
@@ -98,12 +99,12 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;TGF_EXPORTS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;TGF_EXPORTS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Games\Open-Racing-Simulator-\build_x86;D:\Games\Open-Racing-Simulator-\src\interfaces;D:\Games\Open-Racing-Simulator-\src\libs;D:\Games\Open-Racing-Simulator-\src\libs\client;D:\Games\Open-Racing-Simulator-\src\libs\confscreens;D:\Games\Open-Racing-Simulator-\src\libs\learning;D:\Games\Open-Racing-Simulator-\src\libs\math;D:\Games\Open-Racing-Simulator-\src\libs\musicplayer;D:\Games\Open-Racing-Simulator-\src\libs\portability;D:\Games\Open-Racing-Simulator-\src\libs\raceengineclient;D:\Games\Open-Racing-Simulator-\src\libs\racescreens;D:\Games\Open-Racing-Simulator-\src\libs\robottools;D:\Games\Open-Racing-Simulator-\src\libs\tgf;D:\Games\Open-Racing-Simulator-\src\libs\tgfclient;D:\Games\Open-Racing-Simulator-\src\libs\txml;D:\Games\Open-Racing-Simulator-\src\modules;D:\Games\Open-Racing-Simulator-\src\windows;D:\Games\Open-Racing-Simulator-\src\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -139,14 +140,14 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;TGF_EXPORTS;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;TGF_EXPORTS;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Games\Open-Racing-Simulator-\build_x86;D:\Games\Open-Racing-Simulator-\src\interfaces;D:\Games\Open-Racing-Simulator-\src\libs;D:\Games\Open-Racing-Simulator-\src\libs\client;D:\Games\Open-Racing-Simulator-\src\libs\confscreens;D:\Games\Open-Racing-Simulator-\src\libs\learning;D:\Games\Open-Racing-Simulator-\src\libs\math;D:\Games\Open-Racing-Simulator-\src\libs\musicplayer;D:\Games\Open-Racing-Simulator-\src\libs\portability;D:\Games\Open-Racing-Simulator-\src\libs\raceengineclient;D:\Games\Open-Racing-Simulator-\src\libs\racescreens;D:\Games\Open-Racing-Simulator-\src\libs\robottools;D:\Games\Open-Racing-Simulator-\src\libs\tgf;D:\Games\Open-Racing-Simulator-\src\libs\tgfclient;D:\Games\Open-Racing-Simulator-\src\libs\txml;D:\Games\Open-Racing-Simulator-\src\modules;D:\Games\Open-Racing-Simulator-\src\windows;D:\Games\Open-Racing-Simulator-\src\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -182,14 +183,14 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;TGF_EXPORTS;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;TGF_EXPORTS;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Games\Open-Racing-Simulator-\build_x86;D:\Games\Open-Racing-Simulator-\src\interfaces;D:\Games\Open-Racing-Simulator-\src\libs;D:\Games\Open-Racing-Simulator-\src\libs\client;D:\Games\Open-Racing-Simulator-\src\libs\confscreens;D:\Games\Open-Racing-Simulator-\src\libs\learning;D:\Games\Open-Racing-Simulator-\src\libs\math;D:\Games\Open-Racing-Simulator-\src\libs\musicplayer;D:\Games\Open-Racing-Simulator-\src\libs\portability;D:\Games\Open-Racing-Simulator-\src\libs\raceengineclient;D:\Games\Open-Racing-Simulator-\src\libs\racescreens;D:\Games\Open-Racing-Simulator-\src\libs\robottools;D:\Games\Open-Racing-Simulator-\src\libs\tgf;D:\Games\Open-Racing-Simulator-\src\libs\tgfclient;D:\Games\Open-Racing-Simulator-\src\libs\txml;D:\Games\Open-Racing-Simulator-\src\modules;D:\Games\Open-Racing-Simulator-\src\windows;D:\Games\Open-Racing-Simulator-\src\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -226,12 +227,12 @@
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;TGF_EXPORTS;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;TGF_EXPORTS;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Games\Open-Racing-Simulator-\build_x86;D:\Games\Open-Racing-Simulator-\src\interfaces;D:\Games\Open-Racing-Simulator-\src\libs;D:\Games\Open-Racing-Simulator-\src\libs\client;D:\Games\Open-Racing-Simulator-\src\libs\confscreens;D:\Games\Open-Racing-Simulator-\src\libs\learning;D:\Games\Open-Racing-Simulator-\src\libs\math;D:\Games\Open-Racing-Simulator-\src\libs\musicplayer;D:\Games\Open-Racing-Simulator-\src\libs\portability;D:\Games\Open-Racing-Simulator-\src\libs\raceengineclient;D:\Games\Open-Racing-Simulator-\src\libs\racescreens;D:\Games\Open-Racing-Simulator-\src\libs\robottools;D:\Games\Open-Racing-Simulator-\src\libs\tgf;D:\Games\Open-Racing-Simulator-\src\libs\tgfclient;D:\Games\Open-Racing-Simulator-\src\libs\txml;D:\Games\Open-Racing-Simulator-\src\modules;D:\Games\Open-Racing-Simulator-\src\windows;D:\Games\Open-Racing-Simulator-\src\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>

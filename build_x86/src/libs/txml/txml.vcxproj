@@ -24,6 +24,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C8C56BE2-0800-3301-B2D8-FAB1E64FEB47}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <VcpkgXUseBuiltInApplocalDeps>true</VcpkgXUseBuiltInApplocalDeps>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>txml</ProjectName>

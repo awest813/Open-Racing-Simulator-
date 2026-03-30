@@ -46,6 +46,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("D:/Games/Open-Racing-Simulator-/build_x86/src/libs/txml/cmake_install.cmake")
   include("D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv2/cmake_install.cmake")
   include("D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv3/cmake_install.cmake")
+  include("D:/Games/Open-Racing-Simulator-/build_x86/src/modules/track/cmake_install.cmake")
 
 endif()
 

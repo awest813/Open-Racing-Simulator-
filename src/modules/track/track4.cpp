@@ -398,7 +398,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
     type = 0;
     
     width = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, nullptr, 15.0);
-    wi2 = width / 2.0;
+    wi2 = static_cast<tdble>(width / 2.0);
 
     grade = -100000.0;
     root = nullptr;
@@ -464,14 +464,14 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 			radiusend = GfParmGetCurNum(TrackHandle, path, TRK_ATT_RADIUSEND, nullptr, radius);
 			arc = GfParmGetCurNum(TrackHandle, path, TRK_ATT_ARC, nullptr, 0);
 			type = TR_LFT;
-			length = (radius + radiusend) / 2.0 * arc;
+			length = static_cast<tdble>((radius + radiusend) / 2.0 * arc);
 		} else if (strcmp(segtype, TRK_VAL_RGT) == 0) {
 			/* right curve */
 			radius = GfParmGetCurNum(TrackHandle, path, TRK_ATT_RADIUS, nullptr, 0);
 			radiusend = GfParmGetCurNum(TrackHandle, path, TRK_ATT_RADIUSEND, nullptr, radius);
 			arc = GfParmGetCurNum(TrackHandle, path, TRK_ATT_ARC, nullptr, 0);
 			type = TR_RGT;
-			length = (radius + radiusend) / 2.0 * arc;
+			length = static_cast<tdble>((radius + radiusend) / 2.0 * arc);
 		}
 		segName = GfParmListGetCurEltName(TrackHandle, path);
 		if (ext) {
@@ -493,23 +493,23 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 		if (zs != -100000.0) {
 			zsr = zsl = zs;
 		} else {
-			zs = (zsl + zsr) / 2.0;
+			zs = static_cast<tdble>((zsl + zsr) / 2.0);
 		}
 		if (ze != -100000.0) {
 			zer = zel = ze;
 		} else if (grade != -100000.0) {
 			ze = zs + length * grade;
 		} else {
-			ze = (zel + zer) / 2.0;
+			ze = static_cast<tdble>((zel + zer) / 2.0);
 		}
 		bankings = atan2(zsl - zsr, width);
 		bankinge = atan2(zel - zer, width);
 		bankings = GfParmGetCurNum(TrackHandle, path, TRK_ATT_BKS, nullptr, bankings);
 		bankinge = GfParmGetCurNum(TrackHandle, path, TRK_ATT_BKE, nullptr, bankinge);
-		dz = tan(bankings) * width / 2.0;
+		dz = static_cast<tdble>(tan(bankings) * width / 2.0);
 		zsl = zs + dz;
 		zsr = zs - dz;
-		dz = tan(bankinge) * width / 2.0;
+		dz = static_cast<tdble>(tan(bankinge) * width / 2.0);
 		zel = ze + dz;
 		zer = ze - dz;
 
@@ -555,11 +555,11 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 		T1l = stgtl * length;
 		T2l = etgtl * length;
 		tl = 0.0;
-		dtl = 1.0 / static_cast<tdble>(steps);
+		dtl = static_cast<tdble>(1.0 / static_cast<tdble>(steps));
 		T1r = stgtr * length;
 		T2r = etgtr * length;
 		tr = 0.0;
-		dtr = 1.0 / static_cast<tdble>(steps);
+		dtr = static_cast<tdble>(1.0 / static_cast<tdble>(steps));
 
 		curStep = 0;
 		curzel = zsl;
@@ -688,7 +688,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 			curSeg->center.y = ceny;
 
 			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_CS] = alf - PI / 2.0;
+			curSeg->angle[TR_CS] = static_cast<tdble>(alf - PI / 2.0);
 			alf += curArc;
 			curSeg->angle[TR_ZE] = alf;
 
@@ -723,7 +723,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 			curSeg->Kyl = 0;
 		    
 			/* to find the boundary */
-			al = curArc / 36.0;
+			al = static_cast<tdble>(curArc / 36.0);
 			alfl = curSeg->angle[TR_CS];
 
 			for (j = 0; j < 36; j++) {
@@ -754,7 +754,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 			curSeg->center.y = ceny;
 
 			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_CS] = alf + PI / 2.0;
+			curSeg->angle[TR_CS] = static_cast<tdble>(alf + PI / 2.0);
 			alf -= curSeg->arc;
 			curSeg->angle[TR_ZE] = alf;
 
@@ -789,7 +789,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 			curSeg->Kyl = 0;
 
 			/* to find the boundaries */
-			al = curSeg->arc / 36.0;
+			al = static_cast<tdble>(curSeg->arc / 36.0);
 			alfl = curSeg->angle[TR_CS];
 
 			for (j = 0; j < 36; j++) {
@@ -1017,17 +1017,21 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    }
 	    
 	    pits->driversPits[i].pos.seg = mSeg;
-	    pits->driversPits[i].pos.toStart = toStart + pits->len / 2.0;
+	    pits->driversPits[i].pos.toStart = static_cast<tdble>(toStart + pits->len / 2.0);
 	    switch (pits->side) {
 	    case TR_RGT:
-		pits->driversPits[i].pos.toRight  = -offset - RtTrackGetWidth(curPitSeg, toStart) + pits->width / 2.0;
+		pits->driversPits[i].pos.toRight  = static_cast<tdble>(
+			-offset - RtTrackGetWidth(curPitSeg, toStart) + pits->width / 2.0);
 		pits->driversPits[i].pos.toLeft   = mSeg->width - pits->driversPits[i].pos.toRight;
-		pits->driversPits[i].pos.toMiddle = mSeg->width / 2.0 - pits->driversPits[i].pos.toRight;
+		pits->driversPits[i].pos.toMiddle = static_cast<tdble>(
+			mSeg->width / 2.0 - pits->driversPits[i].pos.toRight);
 		break;
 	    case TR_LFT:
-		pits->driversPits[i].pos.toLeft   = -offset - RtTrackGetWidth(curPitSeg, toStart) + pits->width / 2.0;
+		pits->driversPits[i].pos.toLeft   = static_cast<tdble>(
+			-offset - RtTrackGetWidth(curPitSeg, toStart) + pits->width / 2.0);
 		pits->driversPits[i].pos.toRight  = mSeg->width - pits->driversPits[i].pos.toLeft;
-		pits->driversPits[i].pos.toMiddle = mSeg->width / 2.0 - pits->driversPits[i].pos.toLeft;
+		pits->driversPits[i].pos.toMiddle = static_cast<tdble>(
+			mSeg->width / 2.0 - pits->driversPits[i].pos.toLeft);
 		break;
 	    }
 	    toStart += pits->len;
@@ -1188,7 +1192,7 @@ static void updateMinMaxForTurn(const tTrackSeg* const curBorder, const tdble ra
 	int j;
 
 	// to find the boundary (global min/max, approximation)
-	al = curBorder->arc / 36.0 * sign;
+	al = static_cast<tdble>(curBorder->arc / 36.0 * sign);
 	alfl = curBorder->angle[TR_CS];
 
 	for (j = 0; j < 36; j++) {
@@ -1259,7 +1263,7 @@ static void initSideForTurn(
 	// Tried it, but the setup code is then as long as the copy and less readable because of the additional 8 variables
 	switch(side) {
 		case 1:
-			curBorder->radius = curSeg->radiusl - sign * startwidth / 2.0;
+			curBorder->radius = static_cast<tdble>(curSeg->radiusl - sign * startwidth / 2.0);
 			curBorder->radiusr = curSeg->radiusl;
 			curBorder->radiusl = curSeg->radiusl - sign * maxwidth;
 			curBorder->arc = curSeg->arc;
@@ -1277,7 +1281,7 @@ static void initSideForTurn(
 			break;
 
 		case 0:
-			curBorder->radius = curSeg->radiusr + sign * startwidth / 2.0;
+			curBorder->radius = static_cast<tdble>(curSeg->radiusr + sign * startwidth / 2.0);
 			curBorder->radiusl = curSeg->radiusr;
 			curBorder->radiusr = curSeg->radiusr + sign * maxwidth;
 			curBorder->arc = curSeg->arc;

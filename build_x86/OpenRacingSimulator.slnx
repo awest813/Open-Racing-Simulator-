@@ -21,6 +21,7 @@
 		<BuildDependency Project="src/modules/simu/simuv2/SOLID-2.0/solid.vcxproj"/>
 		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
 		<BuildDependency Project="src/libs/tgfclient/tgfclient.vcxproj"/>
+		<BuildDependency Project="src/modules/track/track.vcxproj"/>
 		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 		<Build Solution="Debug|*" Project="false"/>
 		<Build Solution="Release|*" Project="false"/>
@@ -72,6 +73,12 @@
 	</Project>
 	<Project Path="src/libs/tgfclient/tgfclient.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="2575b1c5-0222-355e-9b74-c45bd391e995">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="src/modules/track/track.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="a2241ad9-5473-3f73-8ab5-1dac2a954da7">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
+		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
+		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 	</Project>
 	<Project Path="src/libs/txml/txml.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="c8c56be2-0800-3301-b2d8-fab1e64feb47">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>

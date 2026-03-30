@@ -24,6 +24,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4326204D-C366-309D-851F-AFB7C7B9DD9B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <VcpkgXUseBuiltInApplocalDeps>true</VcpkgXUseBuiltInApplocalDeps>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>raceengineclient</ProjectName>

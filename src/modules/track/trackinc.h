@@ -29,7 +29,7 @@
 template <typename T>
 T* trackCalloc(const char* context)
 {
-	T* pointer = static_cast<T*>(std::calloc(1, sizeof(T)));
+	T* pointer = static_cast<T*>(::calloc(1, sizeof(T)));
 	if (pointer == nullptr) {
 		GfFatal("%s: Memory allocation failed\n", context);
 	}
@@ -44,7 +44,7 @@ T* trackCallocArray(std::size_t count, const char* context)
 		return nullptr;
 	}
 
-	T* pointer = static_cast<T*>(std::calloc(count, sizeof(T)));
+	T* pointer = static_cast<T*>(::calloc(count, sizeof(T)));
 	if (pointer == nullptr) {
 		GfFatal("%s: Memory allocation failed\n", context);
 	}
@@ -59,12 +59,12 @@ inline char* trackDuplicateString(const char* source, const char* context)
 	}
 
 	const std::size_t length = std::strlen(source) + 1;
-	char* copy = static_cast<char*>(std::malloc(length));
+	char* copy = static_cast<char*>(::malloc(length));
 	if (copy == nullptr) {
 		GfFatal("%s: Memory allocation failed\n", context);
 	}
 
-	std::memcpy(copy, source, length);
+	::memcpy(copy, source, length);
 	return copy;
 }
 
@@ -86,7 +86,7 @@ inline int trackParseMarkIds(const char* marks, int* values, int maxCount)
 		}
 
 		char* end = nullptr;
-		values[count] = static_cast<int>(std::strtol(cursor, &end, 0));
+		values[count] = static_cast<int>(::strtol(cursor, &end, 0));
 		if (end != cursor) {
 			++count;
 			cursor = end;
@@ -111,7 +111,7 @@ inline tSegExt* trackCreateMarkExtension(const int* values, int count, const cha
 
 	tSegExt* extension = trackCalloc<tSegExt>(context);
 	int* marks = trackCallocArray<int>(count, context);
-	std::memcpy(marks, values, static_cast<std::size_t>(count) * sizeof(*marks));
+	::memcpy(marks, values, static_cast<std::size_t>(count) * sizeof(*marks));
 	extension->nbMarks = count;
 	extension->marks = marks;
 	return extension;
@@ -134,15 +134,15 @@ inline tRoadCam* trackAppendCamera(tRoadCam** cameraList, const char* context)
 
 inline int trackParseBankingType(const char* value)
 {
-	return (std::strcmp(value, TRK_VAL_LEVEL) == 0) ? 0 : 1;
+	return (::strcmp(value, TRK_VAL_LEVEL) == 0) ? 0 : 1;
 }
 
 inline int trackParseBorderStyle(const char* style)
 {
-	if (std::strcmp(style, TRK_VAL_PLAN) == 0) {
+	if (::strcmp(style, TRK_VAL_PLAN) == 0) {
 		return TR_PLAN;
 	}
-	if (std::strcmp(style, TRK_VAL_CURB) == 0) {
+	if (::strcmp(style, TRK_VAL_CURB) == 0) {
 		return TR_CURB;
 	}
 
@@ -163,7 +163,7 @@ inline const char* trackBorderStyleValue(int style)
 
 inline int trackParseBarrierStyle(const char* style)
 {
-	return (std::strcmp(style, TRK_VAL_FENCE) == 0) ? TR_FENCE : TR_WALL;
+	return (::strcmp(style, TRK_VAL_FENCE) == 0) ? TR_FENCE : TR_WALL;
 }
 
 inline const char* trackBarrierStyleValue(int style)
@@ -174,7 +174,7 @@ inline const char* trackBarrierStyleValue(int style)
 inline tTrackSurface* trackFindSurface(tTrack* track, const char* material)
 {
 	for (tTrackSurface* surface = track->surfaces; surface != nullptr; surface = surface->next) {
-		if (std::strcmp(surface->material, material) == 0) {
+		if (::strcmp(surface->material, material) == 0) {
 			return surface;
 		}
 	}
@@ -199,8 +199,10 @@ inline void trackLoadSurfaceProperties(
 {
 	surface->kFriction = GfParmGetNum(trackHandle, path, TRK_ATT_FRICTION, nullptr, 0.8f);
 	surface->kRollRes = GfParmGetNum(trackHandle, path, TRK_ATT_ROLLRES, nullptr, 0.001f);
-	surface->kRoughness = GfParmGetNum(trackHandle, path, TRK_ATT_ROUGHT, nullptr, 0.0f) / 2.0f;
-	surface->kRoughWaveLen = 2.0 * PI / GfParmGetNum(trackHandle, path, TRK_ATT_ROUGHTWL, nullptr, 1.0f);
+	surface->kRoughness = static_cast<tdble>(
+		GfParmGetNum(trackHandle, path, TRK_ATT_ROUGHT, nullptr, 0.0f) / 2.0f);
+	surface->kRoughWaveLen = static_cast<tdble>(
+		2.0 * PI / GfParmGetNum(trackHandle, path, TRK_ATT_ROUGHTWL, nullptr, 1.0f));
 	surface->kDammage = GfParmGetNum(trackHandle, path, TRK_ATT_DAMMAGE, nullptr, 10.0f);
 	surface->kRebound = GfParmGetNum(trackHandle, path, TRK_ATT_REBOUND, nullptr, reboundDefault);
 }

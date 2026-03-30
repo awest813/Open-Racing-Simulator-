@@ -195,3 +195,40 @@ The next pass targeted the duplicated surface lookup and property-loading code s
 
 **Why this matters:**
 This keeps surface behavior unchanged while consolidating another repeated ownership-and-initialization pattern, making future surface-property fixes less likely to land in only one loader.
+
+## 19. Track CMake Build Integration
+
+The next pass focused on getting a real Windows compile path for the track module inside the current CMake/MSBuild workflow.
+
+**Changes made:**
+- Added `src/modules/track/CMakeLists.txt` to define a real `track` module target for the existing CMake build.
+- Registered that new target from the root `CMakeLists.txt`, preserving the Windows module shape, `.def` export file, and library links used by the legacy project files.
+- Fixed the shared track helper header to use global C allocation/string functions so the code compiles correctly under the Windows portability macros used by this project.
+- Regenerated `build_x86` and successfully built the module with `cmake --build build_x86 --config Release --target track`.
+
+**Why this matters:**
+This moves the track subsystem from "edited but not actually buildable in the current tree" to a real repeatable compile target in the active Windows build system, which makes future modernization passes much safer to verify.
+
+## 20. Track Warning / AppLocal Build Cleanup
+
+The next pass tightened the new Windows compile path by removing the active narrowing warnings in the track math and cleaning up the noisy vcpkg applocal fallback path.
+
+**Changes made:**
+- Added explicit `static_cast<tdble>(...)` conversions across the remaining warning sites in `src/modules/track/track.cpp`, `src/modules/track/trackinc.h`, `src/modules/track/track3.cpp`, and `src/modules/track/track4.cpp` so the active `track` build no longer emits the previous `C4244` narrowing warnings.
+- Enabled vcpkg's built-in applocal deployment path for Visual Studio generators in the root `CMakeLists.txt`, which stops MSBuild from probing `pwsh.exe` before falling back to Windows PowerShell.
+- Re-ran `cmake -S . -B build_x86` and `cmake --build build_x86 --config Release --target track`, verifying a successful build with dependency deployment and without the previous `pwsh.exe` message.
+
+**Why this matters:**
+This keeps the track target buildable with less warning noise and a cleaner MSBuild output, which makes compiler regressions easier to spot in future modernization work.
+
+## 21. Track Link Warning Cleanup
+
+The next pass removed the remaining linker-warning noise that was still showing up specifically on the `track` target.
+
+**Changes made:**
+- Updated `src/libs/tgf/CMakeLists.txt` so the static `tgf` library builds with `TGF_EXPORTS` on Windows, aligning the `GfOs` import/export decoration with how the library is actually compiled and linked into module DLLs.
+- Updated `src/modules/track/CMakeLists.txt` to pass `/NODEFAULTLIB:LIBCMT` and `/NODEFAULTLIB:LIBCMTD` on MSVC, suppressing the CRT conflict warning caused by the prebuilt third-party `sg`/`ul` libraries.
+- Re-ran `cmake -S . -B build_x86` and `cmake --build build_x86 --config Release --target track`, verifying that `LNK4098`, `LNK4217`, and `LNK4286` no longer appear on the `track` link step.
+
+**Why this matters:**
+This makes the `track` build output materially quieter and more trustworthy, so new linker regressions in that module are easier to spot instead of getting buried under inherited warning noise.

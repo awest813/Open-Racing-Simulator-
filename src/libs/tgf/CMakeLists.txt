@@ -18,6 +18,10 @@ target_include_directories(tgf PUBLIC
 )
 
 if(WIN32)
+    target_compile_definitions(tgf PRIVATE TGF_EXPORTS)
+endif()
+
+if(WIN32)
     target_link_libraries(tgf PUBLIC ws2_32 txml)
 else()
     target_link_libraries(tgf PUBLIC txml)

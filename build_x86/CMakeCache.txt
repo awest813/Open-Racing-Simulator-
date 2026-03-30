@@ -237,6 +237,9 @@ tgf_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;ws2_32;gener
 tgfclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 
 //Dependencies for the target
+track_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;txml;general;robottools;general;sg;general;ul;
+
+//Dependencies for the target
 txml_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 
 
@@ -326,7 +329,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=14
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=15
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib

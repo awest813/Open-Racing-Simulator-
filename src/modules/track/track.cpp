@@ -27,7 +27,7 @@
 #include <portability.h>
 #include "trackinc.h"
 
-const tdble DEGPRAD = 180.0 / PI;   /* degrees per radian */
+const tdble DEGPRAD = static_cast<tdble>(180.0 / PI);   /* degrees per radian */
 
 static tTrack	*theTrack = nullptr;
 static tRoadCam *theCamList = nullptr;
