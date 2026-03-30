@@ -59,3 +59,14 @@ Two pre-existing MSVC deprecation warnings remained in the GUI library: `localti
 
 **Why this matters:**
 This removes the warning noise from the `tgfclient` build without relying on blanket warning suppression and makes the parsing/error paths more explicit.
+
+## 7. Game-Mode Parser Cleanup
+
+The remaining `sscanf` warning sites were in `src/libs/tgfclient/fg_gm.cpp`, inside the non-Windows GLUT game-mode string parser.
+
+**Changes made:**
+- Replaced the nested `sscanf` cascade with an explicit `strtol`-based parser that accepts the same optional game-mode components (`widthxheight`, `:depth`, `@refresh`) in the same combinations.
+- Kept the existing fallback behavior: invalid strings still log an error and leave the default mode values in place.
+
+**Why this matters:**
+This removes the last `sscanf` usage from `src/libs/tgfclient` while making the accepted grammar easier to understand and maintain.

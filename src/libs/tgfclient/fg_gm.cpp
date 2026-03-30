@@ -67,6 +67,72 @@
 #include <X11/extensions/xf86vmode.h>
 #endif // USE_RANDR_EXT
 
+namespace {
+
+bool parseGameModeInteger(const char** cursor, int* value)
+{
+	if ((cursor == nullptr) || (*cursor == nullptr) || (value == nullptr)) {
+		return false;
+	}
+
+	char* end = nullptr;
+	const long parsedValue = std::strtol(*cursor, &end, 10);
+	if (end == *cursor) {
+		return false;
+	}
+
+	*value = static_cast<int>(parsedValue);
+	*cursor = end;
+	return true;
+}
+
+bool parseGameModeString(const char* string, int* width, int* height, int* depth, int* refresh)
+{
+	if ((string == nullptr) || (width == nullptr) || (height == nullptr) ||
+		(depth == nullptr) || (refresh == nullptr))
+	{
+		return false;
+	}
+
+	const char* cursor = string;
+	bool parsedAnyComponent = false;
+
+	if ((*cursor != ':') && (*cursor != '@') && (*cursor != '\0')) {
+		if (!parseGameModeInteger(&cursor, width) || (*cursor != 'x')) {
+			return false;
+		}
+
+		++cursor;
+		if (!parseGameModeInteger(&cursor, height)) {
+			return false;
+		}
+
+		parsedAnyComponent = true;
+	}
+
+	if (*cursor == ':') {
+		++cursor;
+		if (!parseGameModeInteger(&cursor, depth)) {
+			return false;
+		}
+
+		parsedAnyComponent = true;
+	}
+
+	if (*cursor == '@') {
+		++cursor;
+		if (!parseGameModeInteger(&cursor, refresh)) {
+			return false;
+		}
+
+		parsedAnyComponent = true;
+	}
+
+	return parsedAnyComponent && (*cursor == '\0');
+}
+
+} // namespace
+
 
 static int fgInitDone = 0;
 
@@ -480,14 +546,9 @@ void fglutGameModeString( const char* string )
      * that I assumed it is: "[width]x[height]:[depth]@[refresh rate]", which
      * appears in all GLUT game mode programs I have seen to date.
      */
-    if( sscanf( string, "%ix%i:%i@%i", &width, &height, &depth, &refresh ) != 4 )
-        if( sscanf( string, "%ix%i:%i", &width, &height, &depth ) != 3 )
-            if( sscanf( string, "%ix%i@%i", &width, &height, &refresh ) != 3 )
-                if( sscanf( string, "%ix%i", &width, &height ) != 2 )
-                    if( sscanf( string, ":%i@%i", &depth, &refresh ) != 2 )
-                        if( sscanf( string, ":%i", &depth ) != 1 )
-                            if( sscanf( string, "@%i", &refresh ) != 1 )
-                                GfOut( "unable to parse game mode string `%s'", string );
+    if (!parseGameModeString(string, &width, &height, &depth, &refresh)) {
+        GfOut("unable to parse game mode string `%s'", string);
+    }
 
     /*
      * Hopefully it worked, and if not, we still have the default values
