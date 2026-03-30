@@ -104,3 +104,25 @@ The next engineering-debt pass shifted from casts to legacy allocation and clean
 
 **Why this matters:**
 This keeps the legacy loader architecture intact while making allocation intent more uniform, reducing copy-paste error opportunities, and clarifying which code owns which data structures.
+
+## 11. Track String-Ownership Cleanup
+
+The next pass targeted the remaining raw `strdup` ownership sites in the track subsystem.
+
+**Changes made:**
+- Added a shared `trackDuplicateString()` helper in `src/modules/track/trackinc.h` so string duplication uses the same fatal-on-allocation-failure behavior as the typed allocation helpers.
+- Replaced raw `strdup` usage for track filenames, internal names, module metadata, and temporary mark-tokenization buffers in `track.cpp`, `track3.cpp`, `track4.cpp`, and `trackitf.cpp`.
+
+**Why this matters:**
+This keeps the track loader's lifetime model unchanged while removing one more category of ad hoc manual ownership code and making allocation failure behavior consistent across the subsystem.
+
+## 12. Track Geometry Cast Cleanup
+
+The next pass returned to the remaining old-style numeric casts inside the side and border geometry helpers in the track loaders.
+
+**Changes made:**
+- Replaced the remaining legacy `(tdble)` conversions in `src/modules/track/track3.cpp` and `src/modules/track/track4.cpp` with explicit `static_cast<tdble>(...)` calls in border banking, side banking, and track-index writeback code.
+- Kept the formulas and control flow unchanged so this stayed a reviewable mechanical cleanup rather than a geometry refactor.
+
+**Why this matters:**
+This removes one of the last concentrated pockets of implicit-looking legacy numeric conversion syntax in the track subsystem, making the geometry code more consistent with the earlier type-safety modernization passes.

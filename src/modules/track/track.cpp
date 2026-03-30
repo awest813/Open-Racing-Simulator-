@@ -77,7 +77,7 @@ TrackBuildv1(char *trackfile)
 
     theTrack->params = TrackHandle = GfParmReadFile (trackfile, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
     
-    theTrack->filename = strdup(trackfile);
+    theTrack->filename = trackDuplicateString(trackfile, "TrackBuildv1 filename");
 
     GetTrackHeader(TrackHandle);
 
@@ -107,7 +107,7 @@ TrackBuildEx(char *trackfile)
 
     theTrack->params = TrackHandle = GfParmReadFile (trackfile, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
     
-    theTrack->filename = strdup(trackfile);
+    theTrack->filename = trackDuplicateString(trackfile, "TrackBuildEx filename");
 
     GetTrackHeader(TrackHandle);
 
@@ -197,7 +197,7 @@ GetTrackHeader(void *TrackHandle)
 		s++;
 	}
 	
-	theTrack->internalname = strdup(s);
+	theTrack->internalname = trackDuplicateString(s, "GetTrackHeader internalname");
 	s = strrchr(theTrack->internalname, '.');
 	if (s != nullptr) {
 		*s = 0;

@@ -475,7 +475,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 			const char *marks = GfParmGetCurStr(TrackHandle, path, TRK_ATT_MARKS, nullptr);
 			ind = 0;
 			if (marks) {
-				char* tmpmarks = strdup(marks);
+				char* tmpmarks = trackDuplicateString(marks, "CreateSegRing marks");
 				char *s = strtok(tmpmarks, ";");
 				while ((s != nullptr) && (ind < MAX_TMP_INTS)) {
 					mi[ind] = static_cast<int>(strtol(s, nullptr, 0));
@@ -1325,10 +1325,10 @@ static void initSideForTurn(
 
 			curBorder->vertex[TR_SL].x = curBorder->vertex[TR_SR].x - sign * startwidth * cos(curBorder->angle[TR_CS]);
 			curBorder->vertex[TR_SL].y = curBorder->vertex[TR_SR].y - sign * startwidth * sin(curBorder->angle[TR_CS]);
-			curBorder->vertex[TR_SL].z = curBorder->vertex[TR_SR].z + (tdble)bankingtype * startwidth * tan(curSeg->angle[TR_XS]);
+			curBorder->vertex[TR_SL].z = curBorder->vertex[TR_SR].z + static_cast<tdble>(bankingtype) * startwidth * tan(curSeg->angle[TR_XS]);
 			curBorder->vertex[TR_EL].x = curBorder->vertex[TR_ER].x - sign * endwidth * cos(curBorder->angle[TR_CS] + sign * curBorder->arc);	    
 			curBorder->vertex[TR_EL].y = curBorder->vertex[TR_ER].y - sign * endwidth * sin(curBorder->angle[TR_CS] + sign * curBorder->arc);
-			z = curBorder->vertex[TR_EL].z = curBorder->vertex[TR_ER].z + (tdble)bankingtype * endwidth * tan(curSeg->angle[TR_XE]);
+			z = curBorder->vertex[TR_EL].z = curBorder->vertex[TR_ER].z + static_cast<tdble>(bankingtype) * endwidth * tan(curSeg->angle[TR_XE]);
 
 			initAnglesAndGradients(curBorder, startwidth, endwidth);
 			updateMinMaxForTurn(curBorder, curBorder->radiusl, sign, z);
@@ -1343,10 +1343,10 @@ static void initSideForTurn(
 
 			curBorder->vertex[TR_SR].x = curBorder->vertex[TR_SL].x + sign * startwidth * cos(curBorder->angle[TR_CS]);
 			curBorder->vertex[TR_SR].y = curBorder->vertex[TR_SL].y + sign * startwidth * sin(curBorder->angle[TR_CS]);
-			curBorder->vertex[TR_SR].z = curBorder->vertex[TR_SL].z - (tdble)bankingtype * startwidth * tan(curSeg->angle[TR_XS]);
+			curBorder->vertex[TR_SR].z = curBorder->vertex[TR_SL].z - static_cast<tdble>(bankingtype) * startwidth * tan(curSeg->angle[TR_XS]);
 			curBorder->vertex[TR_ER].x = curBorder->vertex[TR_EL].x + sign * endwidth * cos(curBorder->angle[TR_CS] + sign * curBorder->arc);	    
 			curBorder->vertex[TR_ER].y = curBorder->vertex[TR_EL].y + sign * endwidth * sin(curBorder->angle[TR_CS] + sign * curBorder->arc);
-			z = curBorder->vertex[TR_ER].z = curBorder->vertex[TR_EL].z - (tdble)bankingtype * endwidth * tan(curSeg->angle[TR_XE]);
+			z = curBorder->vertex[TR_ER].z = curBorder->vertex[TR_EL].z - static_cast<tdble>(bankingtype) * endwidth * tan(curSeg->angle[TR_XE]);
 
 			initAnglesAndGradients(curBorder, startwidth, endwidth);
 			updateMinMaxForTurn(curBorder, curBorder->radiusr, sign, z);
@@ -1382,18 +1382,18 @@ static void initSideForStraight(
 		case 1:
 			curBorder->vertex[TR_SL].x = curBorder->vertex[TR_SR].x + startwidth * curSeg->rgtSideNormal.x;
 			curBorder->vertex[TR_SL].y = curBorder->vertex[TR_SR].y + startwidth * curSeg->rgtSideNormal.y;
-			curBorder->vertex[TR_SL].z = curBorder->vertex[TR_SR].z + (tdble) bankingtype * startwidth * tan(curSeg->angle[TR_XS]);
+			curBorder->vertex[TR_SL].z = curBorder->vertex[TR_SR].z + static_cast<tdble>(bankingtype) * startwidth * tan(curSeg->angle[TR_XS]);
 			x = curBorder->vertex[TR_EL].x = curBorder->vertex[TR_ER].x + endwidth * curSeg->rgtSideNormal.x;	    
 			y = curBorder->vertex[TR_EL].y = curBorder->vertex[TR_ER].y + endwidth * curSeg->rgtSideNormal.y;
-			z = curBorder->vertex[TR_EL].z = curBorder->vertex[TR_ER].z + (tdble) bankingtype * endwidth * tan(curSeg->angle[TR_XE]);
+			z = curBorder->vertex[TR_EL].z = curBorder->vertex[TR_ER].z + static_cast<tdble>(bankingtype) * endwidth * tan(curSeg->angle[TR_XE]);
 			break;
 		case 0:
 			curBorder->vertex[TR_SR].x = curBorder->vertex[TR_SL].x - startwidth * curSeg->rgtSideNormal.x;
 			curBorder->vertex[TR_SR].y = curBorder->vertex[TR_SL].y - startwidth * curSeg->rgtSideNormal.y;
-			curBorder->vertex[TR_SR].z = curBorder->vertex[TR_SL].z - (tdble) bankingtype * startwidth * tan(curSeg->angle[TR_XS]);
+			curBorder->vertex[TR_SR].z = curBorder->vertex[TR_SL].z - static_cast<tdble>(bankingtype) * startwidth * tan(curSeg->angle[TR_XS]);
 			x = curBorder->vertex[TR_ER].x = curBorder->vertex[TR_EL].x - endwidth * curSeg->rgtSideNormal.x;	    
 			y = curBorder->vertex[TR_ER].y = curBorder->vertex[TR_EL].y - endwidth * curSeg->rgtSideNormal.y;
-			z = curBorder->vertex[TR_ER].z = curBorder->vertex[TR_EL].z - (tdble) bankingtype * endwidth * tan(curSeg->angle[TR_XE]);
+			z = curBorder->vertex[TR_ER].z = curBorder->vertex[TR_EL].z - static_cast<tdble>(bankingtype) * endwidth * tan(curSeg->angle[TR_XE]);
 			break;
 	}
 
@@ -1465,8 +1465,8 @@ static tTrackSeg* commonSideInit(
 	curBorder->style = borderstyle;
 	curBorder->envIndex = envIndex;		// TODO: Global?
 	curBorder->DoVfactor = DoVfactor;	// TODO: Global?
-	curBorder->angle[TR_XS] = curSeg->angle[TR_XS] * (tdble) bankingtype;
-	curBorder->angle[TR_XE] = curSeg->angle[TR_XE] * (tdble) bankingtype;
+	curBorder->angle[TR_XS] = curSeg->angle[TR_XS] * static_cast<tdble>(bankingtype);
+	curBorder->angle[TR_XE] = curSeg->angle[TR_XE] * static_cast<tdble>(bankingtype);
 	curBorder->angle[TR_ZS] = curSeg->angle[TR_ZS];
 	curBorder->angle[TR_ZE] = curSeg->angle[TR_ZE];
 	curBorder->angle[TR_CS] = curSeg->angle[TR_CS];

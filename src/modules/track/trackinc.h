@@ -23,6 +23,7 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <cstring>
 
 template <typename T>
 T* trackCalloc(const char* context)
@@ -48,6 +49,22 @@ T* trackCallocArray(std::size_t count, const char* context)
 	}
 
 	return pointer;
+}
+
+inline char* trackDuplicateString(const char* source, const char* context)
+{
+	if (source == nullptr) {
+		return nullptr;
+	}
+
+	const std::size_t length = std::strlen(source) + 1;
+	char* copy = static_cast<char*>(std::malloc(length));
+	if (copy == nullptr) {
+		GfFatal("%s: Memory allocation failed\n", context);
+	}
+
+	std::memcpy(copy, source, length);
+	return copy;
 }
 
 extern void TrackShutdown(void);

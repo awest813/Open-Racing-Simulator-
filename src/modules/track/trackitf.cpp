@@ -84,8 +84,8 @@ trackInit(int /* index */, void *pt)
 extern "C" int
 track(tModInfo *modInfo)
 {
-    modInfo->name = strdup("trackv1");		/* name of the module (short) */
-    modInfo->desc = strdup("Track V1.0");	/* description of the module (can be long) */
+    modInfo->name = trackDuplicateString("trackv1", "track module name");		/* name of the module (short) */
+    modInfo->desc = trackDuplicateString("Track V1.0", "track module description");	/* description of the module (can be long) */
     modInfo->fctInit = trackInit;	/* init function */
     modInfo->gfId = TRK_IDENT;		/* always loaded  */
     modInfo->index = 0;
