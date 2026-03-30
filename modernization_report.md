@@ -149,3 +149,49 @@ The next pass widened the same null-style cleanup into the core track ownership 
 
 **Why this matters:**
 This keeps behavior unchanged while making the central track lifetime code read more consistently with modern C++ pointer and null-character style.
+
+## 15. Track Mark-Extension Helper Cleanup
+
+The next pass finished consolidating the turn-mark parsing and ownership path shared by the v3 and v4 track loaders.
+
+**Changes made:**
+- Added a shared `trackCreateMarkExtension()` helper in `src/modules/track/trackinc.h` to allocate and populate `tSegExt` mark arrays in one place.
+- Replaced the duplicated `trackCallocArray` + `memcpy` + manual field assignment blocks in `src/modules/track/track3.cpp` and `src/modules/track/track4.cpp` with the helper.
+
+**Why this matters:**
+This keeps track-mark behavior unchanged while removing another small pocket of duplicated low-level memory code, so future fixes to mark ownership only need to land in one place.
+
+## 16. Track Camera / Pit Null-Style Cleanup
+
+The next pass cleaned up another pair of duplicated loader utilities and finished a few leftover bool-era idioms in pit processing.
+
+**Changes made:**
+- Added a shared `trackAppendCamera()` helper in `src/modules/track/trackinc.h` so both loader versions build the circular camera list through the same insertion code.
+- Replaced the duplicated camera allocation/linking blocks in `src/modules/track/track3.cpp` and `src/modules/track/track4.cpp` with the helper.
+- Converted the remaining `changeSeg = 1` assignments to `true` and the remaining `if (curSeg2)` checks to explicit `!= nullptr` tests in both pit-lane setup paths.
+
+**Why this matters:**
+This keeps the loader behavior unchanged while reducing another duplicated ownership pattern and making the remaining pit code read consistently with the earlier modern C++ bool and pointer cleanup.
+
+## 17. Track Style-Parsing Helper Cleanup
+
+The next pass consolidated the repeated string-to-style parsing logic shared by the legacy and newer track loaders.
+
+**Changes made:**
+- Added shared helpers in `src/modules/track/trackinc.h` for banking-type parsing plus border/barrier style parsing and default-string lookup.
+- Replaced the duplicated `strcmp` cascades in `src/modules/track/track3.cpp` and `src/modules/track/track4.cpp` with those helpers.
+- Removed the per-file `ValStyle` lookup arrays, including the stale duplicate-entry TODO in `track4.cpp`.
+
+**Why this matters:**
+This keeps style behavior unchanged while centralizing one more piece of track-definition decoding logic, reducing the chance that the v3 and v4 loaders drift apart on border or barrier style handling.
+
+## 18. Track Surface Helper Cleanup
+
+The next pass targeted the duplicated surface lookup and property-loading code still split between the v3 and v4 track loaders.
+
+**Changes made:**
+- Added shared `trackFindSurface()`, `trackAppendSurface()`, and `trackLoadSurfaceProperties()` helpers in `src/modules/track/trackinc.h`.
+- Updated `src/modules/track/track3.cpp` and `src/modules/track/track4.cpp` to reuse those helpers while preserving each loader's existing parameter-path format and rebound defaults.
+
+**Why this matters:**
+This keeps surface behavior unchanged while consolidating another repeated ownership-and-initialization pattern, making future surface-property fixes less likely to land in only one loader.

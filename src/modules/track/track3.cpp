@@ -60,8 +60,6 @@ static const char *KeyBarrierWidth[2]   = {TRK_ATT_RBAW, TRK_ATT_LBAW};
 static const char *KeyBarrierStyle[2]   = {TRK_ATT_RBAS, TRK_ATT_LBAS};
 static const char *KeyBarrierHeight[2]  = {TRK_ATT_RBAH, TRK_ATT_LBAH};
 
-static const char *ValStyle[4] = {TRK_VAL_PLAN, TRK_VAL_WALL, TRK_VAL_CURB, TRK_VAL_FENCE};
-
 
 static tdble sideEndWidth[2];
 static tdble sideStartWidth[2];
@@ -94,28 +92,15 @@ AddTrackSurface(void *TrackHandle, tTrack *theTrack, const char *material)
 	tTrackSurface	*curSurf;
 	
 	/* search within existing surfaces */
-	curSurf = theTrack->surfaces;
-	while (curSurf) {
-		if (strcmp(curSurf->material, material) == 0) {
-			return curSurf;
-		}
-		curSurf = curSurf->next;
+	curSurf = trackFindSurface(theTrack, material);
+	if (curSurf != nullptr) {
+		return curSurf;
 	}
 	
 	/* Create a new surface */
-	curSurf = trackCalloc<tTrackSurface>("AddTrackSurface");
-	
-	curSurf->material = material;
+	curSurf = trackAppendSurface(theTrack, material, "AddTrackSurface");
 	snprintf(path, BUFSIZE, "%s/%s/%s", TRK_SECT_SURFACES, TRK_LST_SURF, material);
-	curSurf->kFriction     = GfParmGetNum(TrackHandle, path, TRK_ATT_FRICTION, nullptr, 0.8f);
-	curSurf->kRollRes      = GfParmGetNum(TrackHandle, path, TRK_ATT_ROLLRES, nullptr, 0.001f);
-	curSurf->kRoughness    = GfParmGetNum(TrackHandle, path, TRK_ATT_ROUGHT, nullptr, 0.0f) /  2.0f;
-	curSurf->kRoughWaveLen = 2.0 * PI / GfParmGetNum(TrackHandle, path, TRK_ATT_ROUGHTWL, nullptr, 1.0f);
-	curSurf->kDammage      = GfParmGetNum(TrackHandle, path, TRK_ATT_DAMMAGE, nullptr, 10.0f);
-	curSurf->kRebound      = GfParmGetNum(TrackHandle, path, TRK_ATT_REBOUND, nullptr, 1.0f);
-	
-	curSurf->next = theTrack->surfaces;
-	theTrack->surfaces = curSurf;
+	trackLoadSurfaceProperties(curSurf, TrackHandle, path, 1.0f);
 	
 	return curSurf;
 }
@@ -132,37 +117,25 @@ InitSides(void *TrackHandle, tTrack *theTrack)
 		sideEndWidth[side] = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, KeySideWidth[side], nullptr, 0.0);
 
 		/* banking of borders */
-		if (strcmp(TRK_VAL_LEVEL, GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeySideBankType[side], TRK_VAL_LEVEL)) == 0) {
-			sideBankType[side] = 0;
-		} else {
-			sideBankType[side] = 1;
-		}
+		sideBankType[side] = trackParseBankingType(
+			GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeySideBankType[side], TRK_VAL_LEVEL));
 
 		borderMaterial[side] = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeyBorderSurface[side], TRK_VAL_GRASS);
 		borderSurface[side] = AddTrackSurface(TrackHandle, theTrack, borderMaterial[side]);
 		borderWidth[side] = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, KeyBorderWidth[side], nullptr, 0.0);
 		borderHeight[side] = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, KeyBorderHeight[side], nullptr, 0.0);
 		const char* style = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeyBorderStyle[side], TRK_VAL_PLAN);
-
-		if (strcmp(style, TRK_VAL_PLAN) == 0) {
-			borderStyle[side] = TR_PLAN;
-		} else if (strcmp(style, TRK_VAL_CURB) == 0) {
-			borderStyle[side] = TR_CURB;
-		} else {
-			borderStyle[side] = TR_WALL;
-		}
+		borderStyle[side] = trackParseBorderStyle(style);
 		
 		/* Barrier parameters */
 		barrierMaterial[side] = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeyBarrierSurface[side], TRK_VAL_BARRIER);
 		barrierSurface[side] = AddTrackSurface(TrackHandle, theTrack, barrierMaterial[side]);
 		barrierHeight[side] = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, KeyBarrierHeight[side], nullptr, 1.0);
 		style = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeyBarrierStyle[side], TRK_VAL_FENCE);
-
-		if (strcmp(style, TRK_VAL_FENCE) == 0) {
-			barrierStyle[side] = TR_FENCE;
+		barrierStyle[side] = trackParseBarrierStyle(style);
+		if (barrierStyle[side] == TR_FENCE) {
 			barrierWidth[side] = 0;
 		} else {
-			barrierStyle[side] = TR_WALL;
 			barrierWidth[side] = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, KeyBarrierWidth[side], nullptr, 0.5);
 		}
 	}
@@ -210,25 +183,20 @@ AddSides(tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, in
 	    borderHeight[side] = GfParmGetCurNum(TrackHandle, path, KeyBorderHeight[side], nullptr, 0.0);
 	    borderMaterial[side] = GfParmGetCurStr(TrackHandle, path, KeyBorderSurface[side], borderMaterial[side]);
 	    borderSurface[side] = AddTrackSurface(TrackHandle, theTrack, borderMaterial[side]);
-	    const char* style = GfParmGetCurStr(TrackHandle, path, KeyBorderStyle[side], ValStyle[borderStyle[side]]);
-	    if (strcmp(style, TRK_VAL_PLAN) == 0) {
-			borderStyle[side] = TR_PLAN;
-	    } else if (strcmp(style, TRK_VAL_CURB) == 0) {
-			borderStyle[side] = TR_CURB;
-	    } else {
-			borderStyle[side] = TR_WALL;
-	    }
+	    const char* style = GfParmGetCurStr(TrackHandle, path, KeyBorderStyle[side],
+						trackBorderStyleValue(borderStyle[side]));
+	    borderStyle[side] = trackParseBorderStyle(style);
 
 	    /* Barrier parameters */
 	    barrierMaterial[side] = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeyBarrierSurface[side], barrierMaterial[side]);
 	    barrierSurface[side] = AddTrackSurface(TrackHandle, theTrack, barrierMaterial[side]);
 	    barrierHeight[side] = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, KeyBarrierHeight[side], nullptr, barrierHeight[side]);
-	    style = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeyBarrierStyle[side], ValStyle[barrierStyle[side]]);
-	    if (strcmp(style, TRK_VAL_FENCE) == 0) {
-		barrierStyle[side] = TR_FENCE;
+	    style = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, KeyBarrierStyle[side],
+				 trackBarrierStyleValue(barrierStyle[side]));
+	    barrierStyle[side] = trackParseBarrierStyle(style);
+	    if (barrierStyle[side] == TR_FENCE) {
 		barrierWidth[side] = 0;
 	    } else {
-		barrierStyle[side] = TR_WALL;
 		barrierWidth[side] = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, KeyBarrierWidth[side], nullptr, barrierWidth[side]);
 	    }
 	} else {
@@ -871,17 +839,7 @@ CreateSegRing3(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg 
 		/* Turn Marks */
 		if (ext) {
 			const char *marks = GfParmGetCurStr(TrackHandle, path, TRK_ATT_MARKS, nullptr);
-			ind = 0;
-			if (marks) {
-				char* tmpmarks = trackDuplicateString(marks, "CreateSegRing3 marks");
-				char *s = strtok(tmpmarks, ";");
-				while ((s != nullptr) && (ind < MAX_TMP_INTS)) {
-					mi[ind] = static_cast<int>(strtol(s, nullptr, 0));
-					ind++;
-					s = strtok(nullptr, ";");
-				}
-				free(tmpmarks);
-			}
+			ind = trackParseMarkIds(marks, mi, MAX_TMP_INTS);
 		}
 
 		/* surface change */
@@ -1052,13 +1010,7 @@ CreateSegRing3(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg 
 			curSeg->lgfromstart = totLength;
 
 			if (ext && ind) {
-				int	*mrks = trackCallocArray<int>(ind, "CreateSegRing3 marks");
-				tSegExt	*segExt = trackCalloc<tSegExt>("CreateSegRing3 extension");
-
-				memcpy(mrks, mi, ind*sizeof(int));
-				segExt->nbMarks = ind;
-				segExt->marks = mrks;
-				curSeg->ext = segExt;
+				curSeg->ext = trackCreateMarkExtension(mi, ind, "CreateSegRing3 extension");
 				ind = 0;
 			}
 
@@ -1286,13 +1238,13 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
     int			segId;
     tRoadCam		*curCam;
     tTrkLocPos		trkPos;
-    int			found = 0;
+    bool		found = false;
     const char		*paramVal;
     const char		*pitType;
     const int BUFSIZE = 256;
 	char		path[BUFSIZE];
     char		path2[BUFSIZE];
-    int			changeSeg;
+    bool		changeSeg = false;
     tdble		offset = 0;
     tdble		toStart;
 
@@ -1312,10 +1264,10 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 			snprintf(path, BUFSIZE, "%s/%s/%s", TRK_SECT_MAIN, TRK_LST_SEG, segName);
 			segId = static_cast<int>(GfParmGetNum(TrackHandle, path, TRK_ATT_ID, nullptr, -1));
 			pitEntrySeg = theTrack->seg;
-			found = 0;
+			found = false;
 			for(i = 0; i < theTrack->nseg; i++)  {
 				if (pitEntrySeg->id == segId) {
-					found = 1;
+					found = true;
 				} else if (found) {
 					pitEntrySeg = pitEntrySeg->next;
 					break;
@@ -1330,11 +1282,11 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 		segName = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_EXIT, nullptr);
 		if (segName != nullptr) {
 			pitExitSeg = theTrack->seg->next;
-			found = 0;
+			found = false;
 			for(i = 0; i < theTrack->nseg; i++)  {
 				/* set the flag on the last segment of pit_exit */
 				if (!strcmp(segName, pitExitSeg->name)) {
-					found = 1;
+					found = true;
 				} else if (found) {
 					pitExitSeg = pitExitSeg->prev;
 					break;
@@ -1349,10 +1301,10 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 		segName = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_START, nullptr);
 		if (segName != nullptr) {
 			pitStart = theTrack->seg;
-			found = 0;
+			found = false;
 			for(i = 0; i < theTrack->nseg; i++)  {
 				if (!strcmp(segName, pitStart->name)) {
-					found = 1;
+					found = true;
 				} else if (found) {
 					pitStart = pitStart->next;
 					break;
@@ -1367,10 +1319,10 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 		segName = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_END, nullptr);
 		if (segName != nullptr) {
 			pitEnd = theTrack->seg->next;
-			found = 0;
+			found = false;
 			for(i = 0; i < theTrack->nseg; i++)  {
 			if (!strcmp(segName, pitEnd->name)) {
-				found = 1;
+				found = true;
 			} else if (found) {
 				pitEnd = pitEnd->prev;
 				break;
@@ -1397,9 +1349,9 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    pitExitSeg->raceInfo |= TR_PITEXIT;
 	    pits->len   = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_LEN, nullptr, 15.0);
 	    pits->width = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_WIDTH, nullptr, 5.0);
-	    found = 1;
+	    found = true;
 	} else {
-	    found = 0;
+	    found = false;
 	}
     }
 
@@ -1416,13 +1368,13 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	pits->driversPits = trackCallocArray<tTrackOwnPit>(pits->nMaxPits, "ReadTrack3 pits");
 
 	mSeg = pits->pitStart->prev;
-	changeSeg = 1;
+	changeSeg = true;
 	toStart = 0;
 	i =  0;
 	while (i < pits->nMaxPits) {
 	    pits->driversPits[i].pos.type = TR_LPOS_MAIN;
 	    if (changeSeg) {
-		changeSeg = 0;
+		changeSeg = false;
 		offset = 0;
 		mSeg = mSeg->next;
 		switch (pits->side) {
@@ -1443,7 +1395,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 		}
 		if (toStart >= mSeg->length) {
 		    toStart -= mSeg->length;
-		    changeSeg = 1;
+		    changeSeg = true;
 		    continue;
 		}
 	    }
@@ -1464,7 +1416,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    toStart += pits->len;
 	    if (toStart >= mSeg->length) {
 		toStart -= mSeg->length;
-		changeSeg = 1;
+		changeSeg = true;
 	    }
 	    i++;
 	}
@@ -1489,17 +1441,17 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    }
 	    if ((mSeg != pitStart->prev) && (mSeg != pitEnd->next)) {
 		curSeg->raceInfo |= TR_PIT | TR_SPEEDLIMIT;
-		if (curSeg2) {
+		if (curSeg2 != nullptr) {
 		    curSeg2->raceInfo |= TR_PIT | TR_SPEEDLIMIT;
 		}
 	    } else if (mSeg == pitStart->prev) {
 		curSeg->raceInfo |= TR_PITSTART;
-		if (curSeg2) {
+		if (curSeg2 != nullptr) {
 		    curSeg2->raceInfo |= TR_PITSTART;
 		}
 	    } else if (mSeg == pitEnd->next) {
 		curSeg->raceInfo |= TR_PITEND;
-		if (curSeg2) {
+		if (curSeg2 != nullptr) {
 		    curSeg2->raceInfo |= TR_PITEND;
 		}
 	    }
@@ -1513,15 +1465,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
     snprintf(path, BUFSIZE, "%s/%s", TRK_SECT_CAM, TRK_LST_CAM);
     if (GfParmListSeekFirst(TrackHandle, path) == 0) {
 	do {
-	    curCam = trackCalloc<tRoadCam>("ReadTrack3 camera");
-	    if (*camList == nullptr) {
-		*camList = curCam;
-		curCam->next = curCam;
-	    } else {
-		curCam->next = (*camList)->next;
-		(*camList)->next = curCam;
-		*camList = curCam;
-	    }
+	    curCam = trackAppendCamera(camList, "ReadTrack3 camera");
 	    curCam->name = GfParmListGetCurEltName(TrackHandle, path);
 	    segName = GfParmGetCurStr(TrackHandle, path, TRK_ATT_SEGMENT, nullptr);
 	    if (segName == nullptr) {

@@ -57,8 +57,6 @@ static const char *SectSide[2]    = {TRK_SECT_RSIDE, TRK_SECT_LSIDE};
 static const char *SectBorder[2]  = {TRK_SECT_RBORDER, TRK_SECT_LBORDER};
 static const char *SectBarrier[2] = {TRK_SECT_RBARRIER, TRK_SECT_LBARRIER};
 
-static const char *ValStyle[] = {TRK_VAL_PLAN, TRK_VAL_CURB, TRK_VAL_WALL, TRK_VAL_FENCE, TRK_VAL_FENCE}; // TODO: TRK_VAL_FENCE 2 times, remove?
-
 static tdble sideEndWidth[2];
 static tdble sideStartWidth[2];
 static int sideBankType[2];
@@ -134,28 +132,15 @@ static tTrackSurface* getTrackSurface(void *trackHandle, tTrack *theTrack, const
 	tTrackSurface *curSurf;
 
 	// Search within existing surfaces
-	curSurf = theTrack->surfaces;
-	while (curSurf) {
-		if (strcmp(curSurf->material, material) == 0) {
-			return curSurf;
-		}
-		curSurf = curSurf->next;
+	curSurf = trackFindSurface(theTrack, material);
+	if (curSurf != nullptr) {
+		return curSurf;
 	}
 
 	// Create a new surface
-	curSurf = trackCalloc<tTrackSurface>("getTrackSurface");
-
-	curSurf->material = material;
+	curSurf = trackAppendSurface(theTrack, material, "getTrackSurface");
 	snprintf(path, BUFSIZE, "%s/%s", TRK_SECT_SURFACES, material);
-	curSurf->kFriction     = GfParmGetNum(trackHandle, path, TRK_ATT_FRICTION, nullptr, 0.8f);
-	curSurf->kRollRes      = GfParmGetNum(trackHandle, path, TRK_ATT_ROLLRES, nullptr, 0.001f);
-	curSurf->kRoughness    = GfParmGetNum(trackHandle, path, TRK_ATT_ROUGHT, nullptr, 0.0f) /  2.0f;
-	curSurf->kRoughWaveLen = 2.0 * PI / GfParmGetNum(trackHandle, path, TRK_ATT_ROUGHTWL, nullptr, 1.0f);
-	curSurf->kDammage      = GfParmGetNum(trackHandle, path, TRK_ATT_DAMMAGE, nullptr, 10.0f);
-	curSurf->kRebound      = GfParmGetNum(trackHandle, path, TRK_ATT_REBOUND, nullptr, 0.5f);
-
-	curSurf->next = theTrack->surfaces;
-	theTrack->surfaces = curSurf;
+	trackLoadSurfaceProperties(curSurf, trackHandle, path, 0.5f);
 
 	return curSurf;
 }
@@ -182,11 +167,8 @@ static void readDefaultSideParameters(void *trackHandle, tTrack *theTrack)
 		sideEndWidth[side] = GfParmGetNum(trackHandle, path, TRK_ATT_WIDTH, nullptr, 0.0);
 		
 		// Banking of sides
-		if (strcmp(TRK_VAL_LEVEL, GfParmGetStr(trackHandle, path, TRK_ATT_BANKTYPE, TRK_VAL_LEVEL)) == 0) {
-			sideBankType[side] = 0;
-		} else {
-			sideBankType[side] = 1;
-		}
+		sideBankType[side] = trackParseBankingType(
+			GfParmGetStr(trackHandle, path, TRK_ATT_BANKTYPE, TRK_VAL_LEVEL));
 
 		// Border parameters
 		snprintf(path, BUFSIZE, "%s/%s", TRK_SECT_MAIN, SectBorder[side]);
@@ -195,14 +177,7 @@ static void readDefaultSideParameters(void *trackHandle, tTrack *theTrack)
 		borderWidth[side] = GfParmGetNum(trackHandle, path, TRK_ATT_WIDTH, nullptr, 0.0);
 		borderHeight[side] = GfParmGetNum(trackHandle, path, TRK_ATT_HEIGHT, nullptr, 0.0);
 		style = GfParmGetStr(trackHandle, path, TRK_ATT_STYLE, TRK_VAL_PLAN);
-		
-		if (strcmp(style, TRK_VAL_PLAN) == 0) {
-			borderStyle[side] = TR_PLAN;
-		} else if (strcmp(style, TRK_VAL_CURB) == 0) {
-			borderStyle[side] = TR_CURB;
-		} else {
-			borderStyle[side] = TR_WALL;
-		}
+		borderStyle[side] = trackParseBorderStyle(style);
 
 		// Barrier parameters
 		snprintf(path, BUFSIZE, "%s/%s", TRK_SECT_MAIN, SectBarrier[side]);
@@ -210,11 +185,10 @@ static void readDefaultSideParameters(void *trackHandle, tTrack *theTrack)
 		barrierSurface[side] = getTrackSurface(trackHandle, theTrack, barrierMaterial[side]);
 		barrierHeight[side] = GfParmGetNum(trackHandle, path, TRK_ATT_HEIGHT, nullptr, 0.6f);
 		style = GfParmGetStr(trackHandle, path, TRK_ATT_STYLE, TRK_VAL_FENCE);
-		if (strcmp(style, TRK_VAL_FENCE) == 0) {
-			barrierStyle[side] = TR_FENCE;
+		barrierStyle[side] = trackParseBarrierStyle(style);
+		if (barrierStyle[side] == TR_FENCE) {
 			barrierWidth[side] = 0;
 		} else {
-			barrierStyle[side] = TR_WALL;
 			barrierWidth[side] = GfParmGetNum(trackHandle, path, TRK_ATT_WIDTH, nullptr, 0.5);
 		}
     }
@@ -271,28 +245,21 @@ static void addSides(tTrackSeg *curSeg, void *trackHandle, tTrack *theTrack, int
 			borderHeight[side] = GfParmGetNum(trackHandle, path2, TRK_ATT_HEIGHT, nullptr, borderHeight[side]);
 			borderMaterial[side] = GfParmGetStr(trackHandle, path2, TRK_ATT_SURF, borderMaterial[side]);
 			borderSurface[side] = getTrackSurface(trackHandle, theTrack, borderMaterial[side]);
-			style = GfParmGetStr(trackHandle, path2, TRK_ATT_STYLE, ValStyle[borderStyle[side]]);
-			
-			if (strcmp(style, TRK_VAL_PLAN) == 0) {
-				borderStyle[side] = TR_PLAN;
-			} else if (strcmp(style, TRK_VAL_CURB) == 0) {
-				borderStyle[side] = TR_CURB;
-			} else {
-				borderStyle[side] = TR_WALL;
-			}
+			style = GfParmGetStr(trackHandle, path2, TRK_ATT_STYLE,
+					      trackBorderStyleValue(borderStyle[side]));
+			borderStyle[side] = trackParseBorderStyle(style);
 
 			// Barrier parameters
 			snprintf(path2, BUFSIZE, "%s/%s", path, SectBarrier[side]);
 			barrierMaterial[side] = GfParmGetStr(trackHandle, path2, TRK_ATT_SURF, barrierMaterial[side]);
 			barrierSurface[side] = getTrackSurface(trackHandle, theTrack, barrierMaterial[side]);
 			barrierHeight[side] = GfParmGetNum(trackHandle, path2, TRK_ATT_HEIGHT, nullptr, barrierHeight[side]);
-			style = GfParmGetStr(trackHandle, path2, TRK_ATT_STYLE, ValStyle[barrierStyle[side]]);
-			
-			if (strcmp(style, TRK_VAL_FENCE) == 0) {
-				barrierStyle[side] = TR_FENCE;
+			style = GfParmGetStr(trackHandle, path2, TRK_ATT_STYLE,
+					      trackBarrierStyleValue(barrierStyle[side]));
+			barrierStyle[side] = trackParseBarrierStyle(style);
+			if (barrierStyle[side] == TR_FENCE) {
 				barrierWidth[side] = 0;
 			} else {
-				barrierStyle[side] = TR_WALL;
 				barrierWidth[side] = GfParmGetNum(trackHandle, path2, TRK_ATT_WIDTH, nullptr, barrierWidth[side]);
 			}
 		} else {
@@ -473,17 +440,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 		/* Turn Marks */
 		if (ext) {
 			const char *marks = GfParmGetCurStr(TrackHandle, path, TRK_ATT_MARKS, nullptr);
-			ind = 0;
-			if (marks) {
-				char* tmpmarks = trackDuplicateString(marks, "CreateSegRing marks");
-				char *s = strtok(tmpmarks, ";");
-				while ((s != nullptr) && (ind < MAX_TMP_INTS)) {
-					mi[ind] = static_cast<int>(strtol(s, nullptr, 0));
-					ind++;
-					s = strtok(nullptr, ";");
-				}
-				free(tmpmarks);
-			}
+			ind = trackParseMarkIds(marks, mi, MAX_TMP_INTS);
 		}
 		
 		/* surface change */
@@ -519,8 +476,7 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 		segName = GfParmListGetCurEltName(TrackHandle, path);
 		if (ext) {
 			if (GfHashGetStr(segNameHash, segName)) {
-			printf(">>>>>>>>> DUPLICATED SEGMENT NAME \"%s\" PLEASE CHANGE IT !!!!\n", segName);
-			exit(1);
+				GfFatal("Duplicated segment name \"%s\" in track definition\n", segName);
 			}
 			GfHashAddStr(segNameHash, segName, segName);
 		}
@@ -665,14 +621,8 @@ static void CreateSegRing(void *TrackHandle, tTrack *theTrack, int ext)
 			curSeg->lgfromstart = totLength;
 		    
 			if (ext && ind) {
-			int	*mrks = trackCallocArray<int>(ind, "CreateSegRing marks");
-			tSegExt	*segExt = trackCalloc<tSegExt>("CreateSegRing extension");
-
-			memcpy(mrks, mi, ind*sizeof(int));
-			segExt->nbMarks = ind;
-			segExt->marks = mrks;
-			curSeg->ext = segExt;
-			ind = 0;
+				curSeg->ext = trackCreateMarkExtension(mi, ind, "CreateSegRing extension");
+				ind = 0;
 			}
 			
 
@@ -906,12 +856,12 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
     int			segId;
     tRoadCam		*curCam;
     tTrkLocPos		trkPos;
-    int			found = 0;
+    bool		found = false;
     const char		*paramVal;
     const int BUFSIZE = 256;
 	char		path[BUFSIZE];
     char		path2[BUFSIZE];
-    int			changeSeg;
+    bool		changeSeg = false;
     tdble		offset = 0;
     tdble		toStart;
 
@@ -930,10 +880,10 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	snprintf(path, BUFSIZE, "%s/%s/%s", TRK_SECT_MAIN, TRK_LST_SEGMENTS, segName);
 	segId = static_cast<int>(GfParmGetNum(TrackHandle, path, TRK_ATT_ID, nullptr, -1));
 	pitEntrySeg = theTrack->seg;
-	found = 0;
+	found = false;
 	for(i = 0; i < theTrack->nseg; i++)  {
 	    if (pitEntrySeg->id == segId) {
-		found = 1;
+		found = true;
 	    } else if (found) {
 		pitEntrySeg = pitEntrySeg->next;
 		break;
@@ -949,11 +899,11 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	if (segName != nullptr) {
 	    /* Search backward the last segment with that name */
 	    pitExitSeg = theTrack->seg; /* last track segment */
-	    found = 0;
+	    found = false;
 	    for(i = 0; i < theTrack->nseg; i++)  {
 		/* set the flag on the last segment of pit_exit */
 		if (!strcmp(segName, pitExitSeg->name)) {
-		    found = 1;
+		    found = true;
 		    break;
 		}
 		pitExitSeg = pitExitSeg->prev;
@@ -967,10 +917,10 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	segName = GfParmGetStr(TrackHandle, path2, TRK_ATT_START, nullptr);
 	if (segName != nullptr) {
 	    pitStart = theTrack->seg;
-	    found = 0;
+	    found = false;
 	    for(i = 0; i < theTrack->nseg; i++)  {
 		if (!strcmp(segName, pitStart->name)) {
-		    found = 1;
+		    found = true;
 		} else if (found) {
 		    pitStart = pitStart->next;
 		    break;
@@ -987,10 +937,10 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	if (segName != nullptr) {
 	    /* Search backward the last segment with that name */
 	    pitEnd = theTrack->seg; /* last track segment */
-	    found = 0;
+	    found = false;
 	    for(i = 0; i < theTrack->nseg; i++)  {
 		if (!strcmp(segName, pitEnd->name)) {
-		    found = 1;
+		    found = true;
 		    break;
 		}
 		pitEnd = pitEnd->prev;
@@ -1015,9 +965,9 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    pitExitSeg->raceInfo |= TR_PITEXIT;
 	    pits->len   = GfParmGetNum(TrackHandle, path2, TRK_ATT_LEN, nullptr, 15.0);
 	    pits->width = GfParmGetNum(TrackHandle, path2, TRK_ATT_WIDTH, nullptr, 5.0);
-	    found = 1;
+	    found = true;
 	} else {
-	    found = 0;
+	    found = false;
 	}
     }
 
@@ -1034,18 +984,18 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	pits->driversPits = trackCallocArray<tTrackOwnPit>(pits->nMaxPits, "ReadTrack4 pits");
 
 	mSeg = pitStart->prev;
-	changeSeg = 1;
+	changeSeg = true;
 	toStart = 0;
 	i = 0; 
 	while (i < pits->nMaxPits) {
 	    pits->driversPits[i].pos.type = TR_LPOS_MAIN;
 	    if (changeSeg) {
-		changeSeg = 0;
+		changeSeg = false;
 		offset = 0;
 		mSeg = mSeg->next;
 		if (toStart >= mSeg->length) {
 		    toStart -= mSeg->length;
-		    changeSeg = 1;
+		    changeSeg = true;
 		    continue;
 		}
 		switch (pits->side) {
@@ -1083,7 +1033,7 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    toStart += pits->len;
 	    if (toStart >= mSeg->length) {
 		toStart -= mSeg->length;
-		changeSeg = 1;
+		changeSeg = true;
 	    }
 	    i++;
 	}
@@ -1108,17 +1058,17 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    }
 	    if ((mSeg != pitStart->prev) && (mSeg != pitEnd->next)) {
 		curSeg->raceInfo |= TR_PIT | TR_SPEEDLIMIT;
-		if (curSeg2) {
+		if (curSeg2 != nullptr) {
 		    curSeg2->raceInfo |= TR_PIT | TR_SPEEDLIMIT;
 		}
 	    } else if (mSeg == pitStart->prev) {
 		curSeg->raceInfo |= TR_PITSTART;
-		if (curSeg2) {
+		if (curSeg2 != nullptr) {
 		    curSeg2->raceInfo |= TR_PITSTART;
 		}
 	    } else if (mSeg == pitEnd->next) {
 		curSeg->raceInfo |= TR_PITEND;
-		if (curSeg2) {
+		if (curSeg2 != nullptr) {
 		    curSeg2->raceInfo |= TR_PITEND;
 		}
 	    }
@@ -1130,15 +1080,7 @@ ReadTrack4(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
      */
     if (GfParmListSeekFirst(TrackHandle, TRK_SECT_CAM) == 0) {
 	do {
-	    curCam = trackCalloc<tRoadCam>("ReadTrack4 camera");
-	    if (*camList == nullptr) {
-		*camList = curCam;
-		curCam->next = curCam;
-	    } else {
-		curCam->next = (*camList)->next;
-		(*camList)->next = curCam;
-		*camList = curCam;
-	    }
+	    curCam = trackAppendCamera(camList, "ReadTrack4 camera");
 	    curCam->name = GfParmListGetCurEltName(TrackHandle, TRK_SECT_CAM);
 	    segName = GfParmGetCurStr(TrackHandle, TRK_SECT_CAM, TRK_ATT_SEGMENT, nullptr);
 	    if (segName == nullptr) {
