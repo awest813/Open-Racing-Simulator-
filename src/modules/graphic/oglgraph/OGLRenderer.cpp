@@ -177,8 +177,7 @@ bool OGLRenderer::initTrack(tTrack* track) {
 
     // Extract directory from track filename
     char trackDir[1024];
-    strncpy(trackDir, track->filename, sizeof(trackDir)-1);
-    trackDir[sizeof(trackDir)-1] = '\0';
+    snprintf(trackDir, sizeof(trackDir), "%s", (track->filename != nullptr) ? track->filename : "");
     char* lastSlash = strrchr(trackDir, '/');
     if (lastSlash) *(lastSlash+1) = '\0';
     else trackDir[0] = '\0';

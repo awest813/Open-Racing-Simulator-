@@ -24,3 +24,27 @@ It is highly likely that previous modernization sweeps successfully purged legac
 ## 3. Next Actions for Codebase Stabilization
 1. **Build Environment Regeneration**: Persistent "file not found" and unresolved dependencies regarding core headers like `tgf.h` and primitive types (`tdble`) point to issues with MSBuild and configuration definitions. Replacing `.dsp`/`.vcproj` generation with a robust `CMakeLists.txt` is an absolute necessity to compile and validate the decoupled physics and structured logging changes.
 2. **Deterministic Regression Tests**: Once the compiler environment is cleanly established, assert the physics decoupling (calculated skid parameters in smoke/fx modules) through isolated unit testing.
+
+## 4. Race Initialization String-Safety Pass
+
+The race-engine client still had a startup-time cluster of repeated `strncpy(..., MAX_NAME_LEN - 1)` patterns in `src/libs/raceengineclient/raceinit.cpp` when populating driver, team, car, module, and category metadata.
+
+**Changes made:**
+- Added a local `copyCString()` helper that accepts fixed-size character arrays, tolerates `nullptr`, truncates safely, and always writes a trailing null terminator.
+- Replaced the repeated manual `strncpy` + sentinel writes for `_modName`, `_name`, `_teamname`, `_carName`, and `_category` with the helper.
+- Verified the change by rebuilding the `raceengineclient` target successfully from the existing `build_x86` tree.
+
+**Why this matters:**
+This keeps a frequently exercised initialization path behaviorally identical while reducing copy/paste string handling and eliminating the risk of future max-length edits forgetting the explicit null terminator.
+
+## 5. GUI / Telemetry / Renderer String-Safety Pass
+
+The remaining active `strncpy` call sites were clustered in GUI text widgets, telemetry filename sanitizing, and the OpenGL renderer's track-path handling.
+
+**Changes made:**
+- Added a shared `gfuiCopyLabelText()` helper for GUI labels and reused it in label, button, and edit-box setup/update paths.
+- Replaced edit-box cursor scratch buffers with length-aware `std::string` prefix calculations, removing a fixed-size intermediate buffer from cursor placement logic.
+- Replaced the telemetry filename copy and the OpenGL renderer track-directory copy with bounded `snprintf()`-based copies that preserve explicit truncation and null termination.
+
+**Why this matters:**
+This consolidates text-buffer handling in the GUI code, removes a hidden overflow risk in edit-box cursor math, and keeps the remaining non-GUI string copies consistent with the broader modernization direction.

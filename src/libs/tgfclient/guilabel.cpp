@@ -24,6 +24,8 @@
 */
 
 #include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -34,6 +36,18 @@
 void
 gfuiLabelInit(void)
 {
+}
+
+void
+gfuiCopyLabelText(tGfuiLabel *label, const char *text)
+{
+	if ((label == nullptr) || (label->text == nullptr) || (label->maxlen < 0)) {
+		return;
+	}
+
+	const char* safeText = (text != nullptr) ? text : "";
+	const size_t capacity = static_cast<size_t>(label->maxlen) + 1;
+	std::snprintf(label->text, capacity, "%s", safeText);
 }
 
 /** Create a new label (extended version).
@@ -66,6 +80,7 @@ GfuiLabelCreateEx(void *scr, const char *text, float *fgColor, int font, int x, 
 	tGfuiObject	*object;
 	int width;
 	tGfuiScreen	*screen = (tGfuiScreen*)scr;
+	const char* safeText = (text != nullptr) ? text : "";
 	
 	object = (tGfuiObject*)calloc(1, sizeof(tGfuiObject));
 	object->widget = GFUI_LABEL;
@@ -73,12 +88,11 @@ GfuiLabelCreateEx(void *scr, const char *text, float *fgColor, int font, int x, 
 	object->visible = 1;
 	object->id = screen->curId++;
 	
-	if (maxlen == 0) maxlen = strlen(text);
+	if (maxlen == 0) maxlen = static_cast<int>(std::strlen(safeText));
 	label = &(object->u.label);
 	label->text = (char*)calloc(maxlen+1, 1);
-	strncpy(label->text, text, maxlen);
-	label->text[maxlen] = '\0';
 	label->maxlen = maxlen;
+	gfuiCopyLabelText(label, safeText);
 	
 	label->bgColor = screen->bgColor;
 	//label->fgColor = fgColor;
@@ -182,8 +196,7 @@ gfuiSetLabelText(tGfuiObject *curObject, tGfuiLabel *label, const char *text)
 	}
 
 	pw = label->font->getWidth((const char *)label->text);
-	strncpy(label->text, text, label->maxlen);
-	label->text[label->maxlen] = '\0';
+	gfuiCopyLabelText(label, text);
 	w = label->font->getWidth((const char *)label->text);
 	
 	switch(label->align&0xF0) {

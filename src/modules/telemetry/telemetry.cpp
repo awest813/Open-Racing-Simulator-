@@ -124,8 +124,7 @@ TlmStartMonitoring(const char *filename)
     
     GfOut("Telemetry: start monitoring\n");
 
-    strncpy(clean_filename, filename, sizeof(clean_filename) - 1);
-    clean_filename[sizeof(clean_filename) - 1] = '\0';
+    snprintf(clean_filename, sizeof(clean_filename), "%s", (filename != nullptr) ? filename : "");
     for (int j = 0; clean_filename[j] != '\0'; j++) {
         if (!isalnum((unsigned char)clean_filename[j])) {
             clean_filename[j] = '_';

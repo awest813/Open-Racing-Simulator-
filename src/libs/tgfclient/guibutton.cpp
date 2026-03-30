@@ -286,12 +286,11 @@ GfuiButtonCreate(void *scr, const char *text, int font, int x, int y, int width,
 
 	label = &(button->label);
 	label->text = (char*)calloc(1, 100);
-	strncpy(label->text, text, 100);
-	label->text[99] = '\0';
 	label->font = gfuiFont[font];
 	label->maxlen = 99;
+	gfuiCopyLabelText(label, text);
 	if (width == 0) {
-		width = gfuiFont[font]->getWidth((const char *)text);
+		width = gfuiFont[font]->getWidth((const char *)label->text);
 	}
 
 	label->align = align;
@@ -306,7 +305,7 @@ GfuiButtonCreate(void *scr, const char *text, int font, int x, int y, int width,
 			break;
 		case 0x10 /* CENTER */:
 			object->xmin = x - width / 2;
-			label->x = x - gfuiFont[font]->getWidth((const char *)text) / 2;
+			label->x = x - gfuiFont[font]->getWidth((const char *)label->text) / 2;
 			label->y = y - 2 * gfuiFont[font]->getDescender();
 			object->ymin = y;
 			object->xmax = x + width / 2;

@@ -286,6 +286,7 @@ extern void gfuiSelectId(void *scr, int id);
 extern void gfuiAddObject(tGfuiScreen *screen, tGfuiObject *object);
 extern tGfuiObject *gfuiGetObject(void *scr, int id);
 
+extern void gfuiCopyLabelText(tGfuiLabel *label, const char *text);
 extern void gfuiSetLabelText(tGfuiObject *object, tGfuiLabel *label, const char *text);
 
 extern void gfuiDrawLabel(tGfuiObject *obj);

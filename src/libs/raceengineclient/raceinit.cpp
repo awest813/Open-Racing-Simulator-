@@ -28,6 +28,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <cstring>
 #include <tgfclient.h>
 #include <raceman.h>
 #include <robot.h>
@@ -51,6 +52,22 @@ static const char *level_str[] = { ROB_VAL_ROOKIE, ROB_VAL_AMATEUR, ROB_VAL_SEMI
 
 static tModList *reEventModList = 0;
 tModList *ReRaceModList = 0;
+
+namespace {
+
+template <size_t N>
+void copyCString(char (&destination)[N], const char* source)
+{
+	const char* safeSource = (source != nullptr) ? source : "";
+	const size_t maxLength = N - 1;
+	const size_t sourceLength = std::strlen(safeSource);
+	const size_t copiedLength = (sourceLength < maxLength) ? sourceLength : maxLength;
+
+	std::memcpy(destination, safeSource, copiedLength);
+	destination[copiedLength] = '\0';
+}
+
+} // namespace
 
 typedef struct 
 {
@@ -631,17 +648,13 @@ ReInitCars(void)
 					elt->robot = curRobot;
 					elt->_paramsHandle = robhdle;
 					elt->_driverIndex = robotIdx;
-					strncpy(elt->_modName, cardllname, MAX_NAME_LEN - 1);
-					elt->_modName[MAX_NAME_LEN - 1] = 0;
+					copyCString(elt->_modName, cardllname);
 
 					snprintf(path, BUFSIZE, "%s/%s/%d", ROB_SECT_ROBOTS, ROB_LIST_INDEX, robotIdx);
-					strncpy(elt->_name, GfParmGetStr(robhdle, path, ROB_ATTR_NAME, "<none>"), MAX_NAME_LEN - 1);
-					elt->_name[MAX_NAME_LEN - 1] = 0;
-					strncpy(elt->_teamname, GfParmGetStr(robhdle, path, ROB_ATTR_TEAM, "<none>"), MAX_NAME_LEN - 1);
-					elt->_teamname[MAX_NAME_LEN - 1] = 0;
+					copyCString(elt->_name, GfParmGetStr(robhdle, path, ROB_ATTR_NAME, "<none>"));
+					copyCString(elt->_teamname, GfParmGetStr(robhdle, path, ROB_ATTR_TEAM, "<none>"));
 					
-					strncpy(elt->_carName, GfParmGetStr(robhdle, path, ROB_ATTR_CAR, ""), MAX_NAME_LEN - 1);
-					elt->_carName[MAX_NAME_LEN - 1] = 0;
+					copyCString(elt->_carName, GfParmGetStr(robhdle, path, ROB_ATTR_CAR, ""));
 					elt->_raceNumber = (int)GfParmGetNum(robhdle, path, ROB_ATTR_RACENUM, nullptr, 0);
 					if (strcmp(GfParmGetStr(robhdle, path, ROB_ATTR_TYPE, ROB_VAL_ROBOT), ROB_VAL_ROBOT)) {
 						elt->_driverType = RM_DRV_HUMAN;
@@ -673,8 +686,7 @@ ReInitCars(void)
 					snprintf(buf, BUFSIZE, "Loading Driver %-20s... Car: %s", curModInfo->name, elt->_carName);
 					RmLoadingScreenSetText(buf);
 					if (category != 0) {
-						strncpy(elt->_category, category, MAX_NAME_LEN - 1);
-						elt->_category[MAX_NAME_LEN - 1] = '\0';
+						copyCString(elt->_category, category);
 
 						/* Read Car Category specifications */
 						// TODO: eventually use new Rt function
