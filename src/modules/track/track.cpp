@@ -30,8 +30,8 @@
 const tdble DEGPRAD = 180.0 / PI;   /* degrees per radian */
 
 static tTrack	*theTrack = nullptr;
-static tRoadCam *theCamList;
-static void	*TrackHandle;
+static tRoadCam *theCamList = nullptr;
+static void	*TrackHandle = nullptr;
 
 static void GetTrackHeader(void *TrackHandle);
 
@@ -200,7 +200,7 @@ GetTrackHeader(void *TrackHandle)
 	theTrack->internalname = trackDuplicateString(s, "GetTrackHeader internalname");
 	s = strrchr(theTrack->internalname, '.');
 	if (s != nullptr) {
-		*s = 0;
+		*s = '\0';
 	}
 	
 	graphic->turnMarksInfo.height = GfParmGetNum(TrackHandle, TRK_SECT_TURNMARKS, TRK_ATT_HEIGHT, nullptr, 1);
@@ -212,20 +212,20 @@ GetTrackHeader(void *TrackHandle)
 static void
 freeSeg(tTrackSeg *seg)
 {
-	if (seg->barrier[0]) {
+	if (seg->barrier[0] != nullptr) {
 		free(seg->barrier[0]);
 	}
-	if (seg->barrier[1]) {
+	if (seg->barrier[1] != nullptr) {
 		free(seg->barrier[1]);
 	}
-	if (seg->ext) {
+	if (seg->ext != nullptr) {
 		free(seg->ext->marks);
 		free(seg->ext);
 	}
-	if (seg->lside) {
+	if (seg->lside != nullptr) {
 		freeSeg(seg->lside);
 	}
-	if (seg->rside) {
+	if (seg->rside != nullptr) {
 		freeSeg(seg->rside);
 	}
 	free(seg);
@@ -237,7 +237,7 @@ TrackShutdown(void)
 	tTrackSeg *curSeg;
 	tTrackSeg *nextSeg;
 
-	if (!theTrack) {
+	if (theTrack == nullptr) {
 		return;
 	}
 
@@ -252,7 +252,9 @@ TrackShutdown(void)
 	freeTrackCameraRing(theCamList);
 	theCamList = nullptr;
 
-	if (theTrack->pits.driversPits) free(theTrack->pits.driversPits);
+	if (theTrack->pits.driversPits != nullptr) {
+		free(theTrack->pits.driversPits);
+	}
 	free(theTrack->graphic.env);
 	free(theTrack->internalname);
 	free(theTrack->filename);

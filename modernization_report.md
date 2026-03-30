@@ -126,3 +126,26 @@ The next pass returned to the remaining old-style numeric casts inside the side 
 
 **Why this matters:**
 This removes one of the last concentrated pockets of implicit-looking legacy numeric conversion syntax in the track subsystem, making the geometry code more consistent with the earlier type-safety modernization passes.
+
+## 13. Track Null-Pointer Cleanup
+
+The next pass cleaned up the remaining typed-null and pointer-style C remnants near the track loader entry points.
+
+**Changes made:**
+- Replaced the last `(tTrackSeg*)nullptr` casts in `src/modules/track/track3.cpp` and `src/modules/track/track4.cpp` with plain `nullptr`.
+- Updated adjacent `segtype` and `segName` pointer checks in the same files from `== 0` / `!= 0` to `== nullptr` / `!= nullptr`.
+
+**Why this matters:**
+This keeps behavior unchanged while removing one more small pocket of legacy pointer syntax, so the loader code now reads more consistently with modern C++ null handling.
+
+## 14. Track Core Null-Style Cleanup
+
+The next pass widened the same null-style cleanup into the core track ownership file outside the loader entry points.
+
+**Changes made:**
+- Initialized the remaining global track pointers in `src/modules/track/track.cpp` with `nullptr`, including the shared parameter handle.
+- Replaced boolean-style pointer checks in `freeSeg()` and `TrackShutdown()` with explicit `nullptr` comparisons.
+- Switched the internal-name truncation write from `0` to `'\0'` in `GetTrackHeader()`.
+
+**Why this matters:**
+This keeps behavior unchanged while making the central track lifetime code read more consistently with modern C++ pointer and null-character style.
