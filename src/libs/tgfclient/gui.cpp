@@ -47,6 +47,27 @@ static double LastTimeClick;
 #define REPEAT1	1.0
 #define REPEAT2 0.2
 
+namespace {
+
+bool gfuiGetLocalTime(const time_t* timeValue, tm* localTime)
+{
+#ifdef WIN32
+	return localtime_s(localTime, timeValue) == 0;
+#elif defined(_POSIX_THREAD_SAFE_FUNCTIONS)
+	return localtime_r(timeValue, localTime) != nullptr;
+#else
+	const tm* resolvedTime = localtime(timeValue);
+	if (resolvedTime == nullptr) {
+		return false;
+	}
+
+	*localTime = *resolvedTime;
+	return true;
+#endif
+}
+
+} // namespace
+
 static void
 gfuiColorInit(void)
 {
@@ -915,7 +936,7 @@ GfuiScreenShot(void * /* notused */)
 	unsigned char *img;
 	const int BUFSIZE = 1024;
 	char buf[BUFSIZE];
-	struct tm *stm;
+	struct tm stm;
 	time_t t;
 	int sw, sh, vw, vh;
 	char path[BUFSIZE];
@@ -936,15 +957,18 @@ GfuiScreenShot(void * /* notused */)
 		glReadPixels((sw-vw)/2, (sh-vh)/2, vw, vh, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid*)img);
 		
 		t = time(nullptr);
-		stm = localtime(&t);
+		if (!gfuiGetLocalTime(&t, &stm)) {
+			free(img);
+			return;
+		}
 		snprintf(buf, BUFSIZE, "%s/torcs-%4d%02d%02d%02d%02d%02d.png",
 			path,
-			stm->tm_year+1900,
-			stm->tm_mon+1,
-			stm->tm_mday,
-			stm->tm_hour,
-			stm->tm_min,
-			stm->tm_sec);
+			stm.tm_year+1900,
+			stm.tm_mon+1,
+			stm.tm_mday,
+			stm.tm_hour,
+			stm.tm_min,
+			stm.tm_sec);
 		GfImgWritePng(img, buf, vw, vh);
 		
 		free(img);

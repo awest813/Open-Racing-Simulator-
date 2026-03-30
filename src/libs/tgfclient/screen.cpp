@@ -23,6 +23,7 @@
 */
 
 #include <cstdio>
+#include <cstdlib>
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -61,6 +62,49 @@ static int GfViewWidth;
 static int GfViewHeight;
 static int GfScrCenX;
 static int GfScrCenY;
+
+namespace {
+
+bool parseIntegerValue(const char* text, int* value)
+{
+	if ((text == nullptr) || (value == nullptr)) {
+		return false;
+	}
+
+	char* end = nullptr;
+	const long parsedValue = std::strtol(text, &end, 10);
+	if ((end == text) || (end == nullptr) || (*end != '\0')) {
+		return false;
+	}
+
+	*value = static_cast<int>(parsedValue);
+	return true;
+}
+
+bool parseResolutionValue(const char* text, int* width, int* height)
+{
+	if ((text == nullptr) || (width == nullptr) || (height == nullptr)) {
+		return false;
+	}
+
+	char* separator = nullptr;
+	const long parsedWidth = std::strtol(text, &separator, 10);
+	if ((separator == text) || (separator == nullptr) || (*separator != 'x')) {
+		return false;
+	}
+
+	char* end = nullptr;
+	const long parsedHeight = std::strtol(separator + 1, &end, 10);
+	if ((end == separator + 1) || (end == nullptr) || (*end != '\0')) {
+		return false;
+	}
+
+	*width = static_cast<int>(parsedWidth);
+	*height = static_cast<int>(parsedHeight);
+	return true;
+}
+
+} // namespace
 
 static void	*scrHandle = nullptr;
 
@@ -458,8 +502,15 @@ saveParams(void)
 {
 	int x, y, bpp;
 	
-	sscanf(Res[curRes], "%dx%d", &x, &y);
-	sscanf(Depthlist[curDepth], "%d", &bpp);
+	if (!parseResolutionValue(Res[curRes], &x, &y)) {
+		GfError("Screen configuration uses an invalid resolution '%s'\n", Res[curRes]);
+		return;
+	}
+
+	if (!parseIntegerValue(Depthlist[curDepth], &bpp)) {
+		GfError("Screen configuration uses an invalid color depth '%s'\n", Depthlist[curDepth]);
+		return;
+	}
 
 	const int BUFSIZE = 1024;
 	char buf[BUFSIZE];

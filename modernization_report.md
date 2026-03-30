@@ -48,3 +48,14 @@ The remaining active `strncpy` call sites were clustered in GUI text widgets, te
 
 **Why this matters:**
 This consolidates text-buffer handling in the GUI code, removes a hidden overflow risk in edit-box cursor math, and keeps the remaining non-GUI string copies consistent with the broader modernization direction.
+
+## 6. MSVC GUI Warning Cleanup
+
+Two pre-existing MSVC deprecation warnings remained in the GUI library: `localtime` in screenshot naming and `sscanf` in screen-configuration persistence.
+
+**Changes made:**
+- Added a small cross-platform `gfuiGetLocalTime()` helper in `src/libs/tgfclient/gui.cpp` that uses `localtime_s` on Windows and safe fallbacks elsewhere.
+- Replaced `sscanf`-based parsing in `src/libs/tgfclient/screen.cpp` with explicit `strtol`-based integer and resolution parsers.
+
+**Why this matters:**
+This removes the warning noise from the `tgfclient` build without relying on blanket warning suppression and makes the parsing/error paths more explicit.
