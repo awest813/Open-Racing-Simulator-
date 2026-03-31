@@ -50,14 +50,24 @@ static const char *CAREER_RACEMAN_PATH = "config/raceman/career.xml";
 #define CS_ATTR_SEASON   "season"
 #define CS_ATTR_WINS     "total wins"
 #define CS_ATTR_CHAMPS   "championships"
+#define CS_ATTR_LAST_TRK "last track"    /* last CUR_TRACK seen from results  */
+#define CS_ATTR_SEA_DONE "season done"   /* "yes" when all 8 rounds complete  */
 
-/* Number of tracks in one career season (must match career.xml) */
+/* Race name in career.xml - must match the <Races><1><name> attribute */
+static const char *CAREER_RACE_NAME = "Career Race";
 static const int NUM_SEASON_TRACKS = 8;
 
 /* Human-readable track names matching the career.xml order */
 static const char *seasonTrackNames[NUM_SEASON_TRACKS] = {
     "Forza", "Corkscrew", "Brondehach", "E-Track 3",
     "Wheel 1", "G-Track 1", "Street 1", "Aalborg"
+};
+
+/* Internal track directory names matching the career.xml order (used to read
+   per-round race results from the results XML). */
+static const char *seasonTrackKeys[NUM_SEASON_TRACKS] = {
+    "forza", "corkscrew", "brondehach", "e-track-3",
+    "wheel-1", "g-track-1", "street-1", "aalborg"
 };
 
 /* ==================== Screen Handles ==================== */
@@ -72,11 +82,14 @@ static void *careerHubHandle  = nullptr; /* career hub (main overview) screen */
 static int newNameEditId = -1;
 
 /* Career hub screen - dynamic labels refreshed on every activation */
-static int hubTitleId  = -1;
-static int hubSeasonId = -1;
-static int hubRaceId   = -1;
-static int hubWinsId   = -1;
-static int hubChampsId = -1;
+static int hubTitleId      = -1;
+static int hubSeasonId     = -1;
+static int hubRaceId       = -1;
+static int hubWinsId       = -1;
+static int hubChampsId     = -1;
+static int hubSeaDoneId    = -1; /* "Season complete!" banner */
+static int hubRaceNextBtnId  = -1; /* "Race Next Event" button */
+static int hubNewSeasonBtnId = -1; /* "Start New Season" button */
 
 /* ==================== Career Save Helpers ==================== */
 
@@ -184,6 +197,103 @@ static int readLatestCareerResults(char namesOut[][72], int *numOut, int maxLine
     return curTrack;
 }
 
+/**
+ * Open the latest career results file and return its handle.
+ * The caller must call GfParmReleaseHandle() on the returned handle.
+ * Returns nullptr if no results file exists.
+ */
+static void *openLatestCareerResults()
+{
+    char resultsDir[1024];
+    snprintf(resultsDir, sizeof(resultsDir), "%sresults/career", GetLocalDir());
+
+    tFList *files = GfDirGetListFiltered(resultsDir, "xml");
+    if (!files) {
+        return nullptr;
+    }
+
+    tFList *latest = files;
+    tFList *cur = files->next;
+    while (cur != files) {
+        if (strcmp(cur->name, latest->name) > 0) {
+            latest = cur;
+        }
+        cur = cur->next;
+    }
+
+    char resultPath[1024];
+    snprintf(resultPath, sizeof(resultPath), "%sresults/career/%s",
+             GetLocalDir(), latest->name);
+    GfDirFreeList(files, nullptr, true, false);
+
+    return GfParmReadFile(resultPath, GFPARM_RMODE_STD | GFPARM_RMODE_PRIVATE);
+}
+
+/**
+ * Count the number of race wins (P1 finishes) for the human driver in a
+ * completed season.  Iterates over each of the NUM_SEASON_TRACKS tracks and
+ * checks whether the rank-1 driver name matches the human driver's name as
+ * stored in the standings.
+ *
+ * @param results  Handle to the latest career results XML file.
+ * @return Number of rounds won by the human driver.
+ */
+static int careerCountSeasonWins(void *results)
+{
+    if (!results) {
+        return 0;
+    }
+
+    /* Find the human driver's name from the standings */
+    const char *humanName = nullptr;
+    int n = GfParmGetEltNb(results, RE_SECT_STANDINGS);
+    for (int i = 1; i <= n; i++) {
+        char secPath[256];
+        snprintf(secPath, sizeof(secPath), "%s/%d", RE_SECT_STANDINGS, i);
+        const char *mod = GfParmGetStr(results, secPath, RE_ATTR_MODULE, "");
+        if (strcmp(mod, "human") == 0) {
+            humanName = GfParmGetStr(results, secPath, RE_ATTR_NAME, nullptr);
+            break;
+        }
+    }
+    if (!humanName) {
+        return 0;
+    }
+
+    /* Count rounds where human was rank 1 */
+    int wins = 0;
+    for (int t = 0; t < NUM_SEASON_TRACKS; t++) {
+        char path[512];
+        snprintf(path, sizeof(path), "%s/%s/%s/%s/1",
+                 seasonTrackKeys[t], RE_SECT_RESULTS, CAREER_RACE_NAME, RE_SECT_RANK);
+        const char *winner = GfParmGetStr(results, path, RE_ATTR_NAME, nullptr);
+        if (winner && strcmp(winner, humanName) == 0) {
+            wins++;
+        }
+    }
+    return wins;
+}
+
+/**
+ * Return true when the human driver is the season champion (rank 1 in the
+ * final standings with module == "human").
+ *
+ * @param results  Handle to the latest career results XML file.
+ */
+static bool careerIsChampion(void *results)
+{
+    if (!results) {
+        return false;
+    }
+    if (GfParmGetEltNb(results, RE_SECT_STANDINGS) < 1) {
+        return false;
+    }
+    char secPath[256];
+    snprintf(secPath, sizeof(secPath), "%s/1", RE_SECT_STANDINGS);
+    const char *mod = GfParmGetStr(results, secPath, RE_ATTR_MODULE, "");
+    return (strcmp(mod, "human") == 0);
+}
+
 /* ==================== Season Standings Screen ==================== */
 
 /** Build and activate the season standings screen. */
@@ -218,10 +328,15 @@ static void showStandingsScreen(void *prevMenu)
 
     if (curTrack > 0) {
         char subTitle[128];
-        /* CUR_TRACK points to the next race to run, so completed = curTrack - 1 */
-        int racesCompleted = curTrack - 1;
-        snprintf(subTitle, sizeof(subTitle),
-                 "After round %d of %d", racesCompleted, NUM_SEASON_TRACKS);
+        if (curTrack == 1 && numDrivers > 0) {
+            /* curTrack wrapped back to 1 — all rounds are complete */
+            snprintf(subTitle, sizeof(subTitle), "Final Standings - Season %d", season);
+        } else {
+            /* CUR_TRACK points to the next race to run, so completed = curTrack - 1 */
+            int racesCompleted = curTrack - 1;
+            snprintf(subTitle, sizeof(subTitle),
+                     "After round %d of %d", racesCompleted, NUM_SEASON_TRACKS);
+        }
         GfuiLabelCreate(standsHandle, subTitle, GFUI_FONT_MEDIUM_C,
                         320, 418, GFUI_ALIGN_HC_VB, 0);
 
@@ -264,7 +379,8 @@ static void showStandingsScreen(void *prevMenu)
 
 /** Called every time the career hub screen is activated (including on return
  *  from the race engine).  Re-initialises the race engine and refreshes all
- *  dynamic labels from the career save and the latest results file. */
+ *  dynamic labels from the career save and the latest results file.
+ *  Also detects end-of-season and updates wins/championships in the save. */
 static void careerHubActivate(void * /* dummy */)
 {
     /* Re-init race engine (same pattern as singleplayer.cpp).
@@ -279,36 +395,85 @@ static void careerHubActivate(void * /* dummy */)
         return;
     }
 
-    const char *name  = GfParmGetStr(saveH, CS_SECT_PLAYER, CS_ATTR_NAME,  "Player");
-    int season        = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON, nullptr, 1);
-    int wins          = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_WINS,   nullptr, 0);
-    int champs        = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_CHAMPS, nullptr, 0);
+    const char *nameStr = GfParmGetStr(saveH, CS_SECT_PLAYER, CS_ATTR_NAME,  "Player");
+    char        playerName[64];
+    snprintf(playerName, sizeof(playerName), "%s", nameStr ? nameStr : "Player");
+    int season        = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON,   nullptr, 1);
+    int wins          = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_WINS,     nullptr, 0);
+    int champs        = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_CHAMPS,   nullptr, 0);
+    int lastTrack     = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, 0);
+    const char *seaDone = GfParmGetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE, "no");
+    bool seasonDone   = (strcmp(seaDone, "yes") == 0);
+
+    /* Determine current race position from the latest results file. */
+    char dummy[20][72];
+    int  nDummy   = 0;
+    int  curTrack = readLatestCareerResults(dummy, &nDummy, 20);
+
+    /* ---- Season completion detection ----
+       The race engine resets CUR_TRACK to 1 after the final round.
+       Condition: we last saw track NUM_SEASON_TRACKS and now it wrapped to 1
+       (and there are standings, meaning races were actually played). */
+    if (!seasonDone && lastTrack == NUM_SEASON_TRACKS && curTrack == 1 && nDummy > 0) {
+        seasonDone = true;
+
+        /* Count race wins and award championship from completed season results */
+        void *results = openLatestCareerResults();
+        int seasonWins = careerCountSeasonWins(results);
+        bool champion  = careerIsChampion(results);
+        if (results) {
+            GfParmReleaseHandle(results);
+        }
+
+        wins  += seasonWins;
+        if (champion) {
+            champs++;
+        }
+
+        /* Persist updated statistics in the career save */
+        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_WINS,     nullptr, (tdble)wins);
+        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_CHAMPS,   nullptr, (tdble)champs);
+        GfParmSetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE, "yes");
+        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, 0);
+        writeCareerSave(saveH);
+    } else if (!seasonDone && curTrack > lastTrack) {
+        /* Advance lastTrack so we can detect the season end next time */
+        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, (tdble)curTrack);
+        writeCareerSave(saveH);
+        lastTrack = curTrack;
+    }
+
     GfParmReleaseHandle(saveH);
 
     char buf[128];
 
-    snprintf(buf, sizeof(buf), "CAREER  -  %s", name);
+    snprintf(buf, sizeof(buf), "CAREER  -  %s", playerName);
     GfuiLabelSetText(careerHubHandle, hubTitleId, buf);
 
     snprintf(buf, sizeof(buf), "Season %d", season);
     GfuiLabelSetText(careerHubHandle, hubSeasonId, buf);
 
-    /* Determine current race from latest results file.
-       CUR_TRACK is 1-based and points to the NEXT race to run.
-       It resets to 1 after all tracks are complete (handled by the race engine),
-       so 0 means no results file found and >=1 means the Nth round is next. */
-    char dummy[20][72];
-    int  nDummy   = 0;
-    int  curTrack = readLatestCareerResults(dummy, &nDummy, 20);
-
-    if (curTrack >= 1 && curTrack <= NUM_SEASON_TRACKS) {
-        snprintf(buf, sizeof(buf), "Next event: %s  (Round %d / %d)",
-                 seasonTrackNames[curTrack - 1], curTrack, NUM_SEASON_TRACKS);
+    if (seasonDone) {
+        /* Season is over: show completion banner and swap buttons */
+        GfuiLabelSetText(careerHubHandle, hubSeaDoneId,
+                         "Season complete!  Start a new season to continue.");
+        GfuiLabelSetText(careerHubHandle, hubRaceId, "All rounds finished.");
+        GfuiVisibilitySet(careerHubHandle, hubRaceNextBtnId,  GFUI_INVISIBLE);
+        GfuiVisibilitySet(careerHubHandle, hubNewSeasonBtnId, GFUI_VISIBLE);
     } else {
-        snprintf(buf, sizeof(buf), "Round 1 / %d: %s",
-                 NUM_SEASON_TRACKS, seasonTrackNames[0]);
+        GfuiLabelSetText(careerHubHandle, hubSeaDoneId, "");
+        GfuiVisibilitySet(careerHubHandle, hubRaceNextBtnId,  GFUI_VISIBLE);
+        GfuiVisibilitySet(careerHubHandle, hubNewSeasonBtnId, GFUI_INVISIBLE);
+
+        if (curTrack >= 1 && curTrack <= NUM_SEASON_TRACKS) {
+            snprintf(buf, sizeof(buf), "Next event: %s  (Round %d / %d)",
+                     seasonTrackNames[curTrack - 1], curTrack, NUM_SEASON_TRACKS);
+        } else {
+            snprintf(buf, sizeof(buf), "Round 1 / %d: %s",
+                     NUM_SEASON_TRACKS, seasonTrackNames[0]);
+        }
+        GfuiLabelSetText(careerHubHandle, hubRaceId, buf);
     }
-    GfuiLabelSetText(careerHubHandle, hubRaceId, buf);
 
     snprintf(buf, sizeof(buf), "Career wins: %d", wins);
     GfuiLabelSetText(careerHubHandle, hubWinsId, buf);
@@ -336,6 +501,27 @@ static void careerRaceNextEvent(void * /* dummy */)
         return;
     }
     ReLaunchRaceman(params);
+}
+
+/** Advance to the next career season.
+ *  Increments the season counter, clears the season-done flag, resets
+ *  the last-track cursor, then re-launches career.xml to start fresh. */
+static void careerStartNewSeason(void * /* dummy */)
+{
+    void *saveH = openCareerSave(false);
+    if (!saveH) {
+        return;
+    }
+    int season = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON, nullptr, 1);
+    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON,   nullptr, (tdble)(season + 1));
+    GfParmSetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE, "no");
+    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, (tdble)0);
+    writeCareerSave(saveH);
+    GfParmReleaseHandle(saveH);
+
+    /* Launch a fresh career race; ReInitResults() inside the race engine
+       creates a new timestamped results file for the new season. */
+    careerRaceNextEvent(nullptr);
 }
 
 /** Show the season standings screen. */
@@ -393,11 +579,30 @@ static void *careerHubInit(void *prevMenu)
                                    320, 372,
                                    GFUI_ALIGN_HC_VB, 64);
 
+    /* Season-complete banner (hidden until season ends) */
+    {
+        float goldColor[4] = {1.0f, 0.85f, 0.0f, 1.0f};
+        hubSeaDoneId = GfuiLabelCreateEx(careerHubHandle,
+                                          "",
+                                          goldColor,
+                                          GFUI_FONT_MEDIUM_C,
+                                          320, 350,
+                                          GFUI_ALIGN_HC_VB, 80);
+        GfuiVisibilitySet(careerHubHandle, hubSeaDoneId, GFUI_INVISIBLE);
+    }
+
     /* --- Buttons --- */
-    GfuiMenuButtonCreate(careerHubHandle,
+    hubRaceNextBtnId = GfuiMenuButtonCreate(careerHubHandle,
                          "Race Next Event",
                          "Start the next race in your career season",
                          nullptr, careerRaceNextEvent);
+
+    hubNewSeasonBtnId = GfuiMenuButtonCreate(careerHubHandle,
+                          "Start New Season",
+                          "Begin the next season of your racing career",
+                          nullptr, careerStartNewSeason);
+    /* Hidden until the season is complete */
+    GfuiVisibilitySet(careerHubHandle, hubNewSeasonBtnId, GFUI_INVISIBLE);
 
     GfuiMenuButtonCreate(careerHubHandle,
                          "Season Standings",
