@@ -452,12 +452,16 @@ int
 initTrack(tTrack *track)
 {
 	int i;
+	const int BUFSIZE = 1024;
+	char trackPath[BUFSIZE];
 
 	// The inittrack does as well init the context, that is highly inconsistent, IMHO.
 	// TODO: Find a solution to init the graphics first independent of objects.
 	grContext.makeCurrent();
 
-	grTrackHandle = GfParmReadFile(track->filename, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
+	snprintf(trackPath, BUFSIZE, "%sdata/%s", GetDataDir(), (track && track->filename) ? track->filename : "");
+	trackPath[BUFSIZE - 1] = '\0';
+	grTrackHandle = GfParmReadFile(trackPath, GFPARM_RMODE_STD);
 	grLoadScene(track);
 
 	for (i = 0; i < GR_NB_MAX_SCREEN; i++) {

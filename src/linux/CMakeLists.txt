@@ -42,3 +42,5 @@ target_link_libraries(torcs
 
 # Linux binary is usually named 'torcs-bin' because a shell script launches it.
 set_target_properties(torcs PROPERTIES OUTPUT_NAME "torcs-bin")
+
+add_dependencies(torcs torcs_runtime_assets)

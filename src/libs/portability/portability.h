@@ -56,6 +56,23 @@ static char *strndup(const char *str, int len)
 
 #endif
 
+static const char* GfPathBaseName(const char* path)
+{
+	if (path == nullptr) {
+		return "";
+	}
+
+	const char* forwardSlash = strrchr(path, '/');
+	const char* backwardSlash = strrchr(path, '\\');
+	const char* separator = forwardSlash;
+
+	if (separator == nullptr || (backwardSlash != nullptr && backwardSlash > separator)) {
+		separator = backwardSlash;
+	}
+
+	return (separator != nullptr) ? separator + 1 : path;
+}
+
 
 #ifdef WIN32
 #if _MSC_VER < 1900 

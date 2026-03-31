@@ -1,0 +1,46 @@
+^D:\GAMES\OPEN-RACING-SIMULATOR-\BUILD_X86\CMAKEFILES\A8D0292756A7EB171AA31670803AA882\TORCS_RUNTIME_ASSETS.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/Games/Open-Racing-Simulator-/build_x86/runtime
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/Games/Open-Racing-Simulator-/build_x86/runtime/modules
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory_if_different D:/Games/Open-Racing-Simulator-/data D:/Games/Open-Racing-Simulator-/build_x86/runtime/data
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory_if_different D:/Games/Open-Racing-Simulator-/data/data D:/Games/Open-Racing-Simulator-/build_x86/runtime/data
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory_if_different D:/Games/Open-Racing-Simulator-/runtime/config D:/Games/Open-Racing-Simulator-/build_x86/runtime/config
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory_if_different D:/Games/Open-Racing-Simulator-/runtime/drivers D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory_if_different D:/Games/Open-Racing-Simulator-/runtime/results D:/Games/Open-Racing-Simulator-/build_x86/runtime/results
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory_if_different D:/Games/Open-Racing-Simulator-/runtime/telemetry D:/Games/Open-Racing-Simulator-/build_x86/runtime/telemetry
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Games/Open-Racing-Simulator-/build_x86/CMakeFiles/torcs_runtime_assets.stamp
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different D:/Games/Open-Racing-Simulator-/src/windows/dll/OpenAL32.dll D:/Games/Open-Racing-Simulator-/src/windows/dll/glut32.dll D:/Games/Open-Racing-Simulator-/src/windows/dll/libogg.dll D:/Games/Open-Racing-Simulator-/src/windows/dll/libvorbis.dll D:/Games/Open-Racing-Simulator-/src/windows/dll/libvorbisfile.dll D:/Games/Open-Racing-Simulator-/build_x86/runtime
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GAMES\OPEN-RACING-SIMULATOR-\BUILD_X86\CMAKEFILES\A8D0292756A7EB171AA31670803AA882\TORCS_RUNTIME_ASSETS.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\GAMES\OPEN-RACING-SIMULATOR-\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Games/Open-Racing-Simulator- -BD:/Games/Open-Racing-Simulator-/build_x86 --check-stamp-file D:/Games/Open-Racing-Simulator-/build_x86/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -252,7 +252,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 {
 	int 	idx = index - 1;
 	void	*hdle;
-	char	*str;
+	const char *str;
 	const int BUFSIZE = 256;
 	char	buf[BUFSIZE];
 	tdble	fuel;
@@ -260,7 +260,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 			
 			
 	DmTrack = track;
-	str = strrchr(track->filename, '/') + 1;
+	str = GfPathBaseName(track->filename);
 	snprintf(buf, BUFSIZE, "drivers/inferno2/%d/tracksdata/car_%s", index, str);
 	*carParmHandle = GfParmReadFile(buf, GFPARM_RMODE_REREAD);
 	

@@ -107,7 +107,7 @@ void grInitSound(tSituation* s, int ncars)
 		tdble rpm_scale;
 		param = GfParmGetStr(handle, "Sound", "engine sample", "engine-1.wav");
 		rpm_scale = GfParmGetNum(handle, "Sound", "rpm scale", nullptr, 1.0);
-        snprintf (buf, BUFSIZE, "cars/%s/%s", car->_carName, param);
+        snprintf (buf, BUFSIZE, "data/cars/models/%s/%s", car->_carName, param);
         file = fopen(buf, "r");
         if (!file)
         {

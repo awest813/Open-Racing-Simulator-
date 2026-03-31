@@ -89,6 +89,7 @@ static int currentSKey[256];
 static double lastKeyUpdate = -10.0;
 
 static int	firstTime = 0;
+static int controlsRegistered = 0;
 
 #ifdef _WIN32
 /* should be present in mswindows */
@@ -111,6 +112,7 @@ shutdown(int index)
 		GfctrlMouseRelease(mouseInfo);
 		GfuiKeyEventRegisterCurrent(nullptr);
 		GfuiSKeyEventRegisterCurrent(nullptr);
+		controlsRegistered = 0;
 		firstTime = 0;
 	}
 }
@@ -462,17 +464,14 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 	const int BUFSIZE = 1024;
 	char sstring[BUFSIZE];
 
-
-	static int firstTime = 1;
-
-	if (firstTime) {
+	if (!controlsRegistered && GfuiHasCurrentScreen()) {
 		if (HCtx[idx]->MouseControlUsed) {
 	    	GfuiMouseShow();
 	    	GfctrlMouseInitCenter();
 		}
 		GfuiKeyEventRegisterCurrent(onKeyAction);
 		GfuiSKeyEventRegisterCurrent(onSKeyAction);
-		firstTime = 0;
+		controlsRegistered = 1;
     }
 
 

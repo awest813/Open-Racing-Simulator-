@@ -116,7 +116,6 @@ TrackDesc::TrackDesc(const tTrack* track)
 			double dzr = (seg->vertex[TR_ER].z - seg->vertex[TR_SR].z) / (seg->length / TRACKRES);
 
 			for (int i = 0; curseglen < seg->length && currentts < nTrackSegments; i++) {
-
 				l.x = seg->vertex[TR_SL].x + dxl*curseglen;
 				l.y = seg->vertex[TR_SL].y + dyl*curseglen;
 				l.z = seg->vertex[TR_SL].z + dzl*curseglen;

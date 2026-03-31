@@ -54,6 +54,7 @@ target_link_libraries(wtorcs
 )
 
 add_dependencies(wtorcs
+    torcs_runtime_assets
     simuv2
     simuv3
     track

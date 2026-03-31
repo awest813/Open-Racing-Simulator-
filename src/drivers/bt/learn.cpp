@@ -209,11 +209,14 @@ FILE* SegLearn::getKarmaFilename(tTrack* track, tSituation *s, int driverindex)
 {
 	const int TBUFSIZE = 256;
 	char tbuf[TBUFSIZE];
-	char* trackname = strrchr(track->filename, '/') + 1;
-	char* tracknameend = strchr(trackname, '.') - 1;
-
-	strncpy(tbuf, trackname, tracknameend-trackname+1);
-	tbuf[tracknameend-trackname+1] = 0;
+	const char* trackname = GfPathBaseName(track->filename);
+	const char* tracknameend = strrchr(trackname, '.');
+	size_t tracknameLength = (tracknameend != nullptr) ? static_cast<size_t>(tracknameend - trackname) : strlen(trackname);
+	if (tracknameLength >= TBUFSIZE) {
+		tracknameLength = TBUFSIZE - 1;
+	}
+	memcpy(tbuf, trackname, tracknameLength);
+	tbuf[tracknameLength] = 0;
 
 	FILE* fd;
 	char buffer[sizeof(filename)];

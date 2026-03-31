@@ -255,7 +255,7 @@ static ssgTransform *initWheel(tCarElt *car, int wheel_index)
 			char buf[bufsize];
 			const char* wheel_dir = GfParmGetStr(car->_carHandle, SECT_GROBJECTS, PRM_WHEEL_3D_DIR, 0);
 			if (wheel_dir != 0) {
-				snprintf(buf, bufsize, "wheels/%s", wheel_dir);
+				snprintf(buf, bufsize, "data/cars/wheels/%s", wheel_dir);
 				ssgModelPath(buf);
 				ssgTexturePath(buf);
 			}
@@ -429,8 +429,9 @@ void grInitShadow(tCarElt *car)
 	ssgNormalArray	*shd_nrm = new ssgNormalArray(1);
 	ssgTexCoordArray	*shd_tex = new ssgTexCoordArray(GR_SHADOW_POINTS+1);
 
-	snprintf(buf, BUFSIZE, "cars/%s;", car->_carName);
-	grFilePath = buf;
+	snprintf(buf, BUFSIZE, "data/cars/models/%s;", car->_carName);
+	FREEZ(grFilePath);
+	grFilePath = strdup(buf);
 
 	shdTexName = GfParmGetStr(car->_carHandle, SECT_GROBJECTS, PRM_SHADOW_TEXTURE, "");
 
@@ -591,7 +592,7 @@ grInitCar(tCarElt *car)
 	lg += snprintf(grFilePath + lg, BUFSIZE - lg, "drivers/%s/%d;", car->_modName, car->_driverIndex);
 	lg += snprintf(grFilePath + lg, BUFSIZE - lg, "drivers/%s/%s;", car->_modName, car->_carName);
 	lg += snprintf(grFilePath + lg, BUFSIZE - lg, "drivers/%s;", car->_modName);
-	lg += snprintf(grFilePath + lg, BUFSIZE - lg, "cars/%s", car->_carName);
+	lg += snprintf(grFilePath + lg, BUFSIZE - lg, "data/cars/models/%s", car->_carName);
 
 	param = GfParmGetStr(handle, SECT_GROBJECTS, PRM_WHEEL_TEXTURE, "");
 	if (strlen(param) != 0) {
@@ -624,10 +625,10 @@ grInitCar(tCarElt *car)
 	DBG_SET_NAME(carBody, "LOD", index, 0);
 	LODSel->addKid(carBody);
 
-	/* The car's model is under cars/<model> */
-	snprintf(buf, BUFSIZE, "cars/%s", car->_carName);
+	/* The car's model is under data/cars/models/<model> */
+	snprintf(buf, BUFSIZE, "data/cars/models/%s", car->_carName);
 	ssgModelPath(buf);
-	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;cars/%s", car->_modName, car->_driverIndex, car->_modName, car->_carName);
+	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;data/cars/models/%s", car->_modName, car->_driverIndex, car->_modName, car->_carName);
 	ssgTexturePath(buf);
 	grTexturePath = strdup(buf);
 
@@ -639,6 +640,12 @@ grInitCar(tCarElt *car)
 	grCarInfo[index].LODThreshold[selIndex] = GfParmGetNum(handle, path, PRM_THRESHOLD, nullptr, 0.0);
 	/*carEntity = ssgLoad(param);*/
 	carEntity = grssgCarLoadAC3D(param, nullptr, index);
+	if (carEntity == nullptr) {
+		FREEZ(grTexturePath);
+		FREEZ(grFilePath);
+		options.endLoad();
+		return;
+	}
 	grCarInfo[index].carEntity = carEntity;
 
 	/* Set a selector on the driver */
@@ -679,6 +686,9 @@ grInitCar(tCarElt *car)
 		grCarInfo[index].LODThreshold[selIndex] = GfParmGetNum(handle, buf, PRM_THRESHOLD, nullptr, 0.0);
 		/* carEntity = ssgLoad(param); */
 		carEntity = grssgCarLoadAC3D(param, nullptr, index);;
+		if (carEntity == nullptr) {
+			continue;
+		}
 		DBG_SET_NAME(carEntity, "LOD", index, i-1);
 		carBody->addKid(carEntity);
 		if (!strcmp(GfParmGetStr(handle, buf, PRM_WHEELSON, "no"), "yes")) {

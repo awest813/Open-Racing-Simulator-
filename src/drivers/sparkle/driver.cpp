@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "driver.h"
+#include <portability.h>
 
 #define BT_SECT_PRIV "bt private"
 #define BT_ATT_FUELPERLAP "fuelperlap"
@@ -67,8 +68,7 @@ void Driver::initTrack(tTrack* t, void *carHandle, void **carParmHandle, tSituat
 
 	const int BUFSIZE = 256;
 	char buffer[BUFSIZE];
-	/* get a pointer to the first char of the track filename */
-	char* trackname = strrchr(track->filename, '/') + 1;
+	const char* trackname = GfPathBaseName(track->filename);
 
 	switch (s->_raceType) {
 		case RM_TYPE_PRACTICE:
