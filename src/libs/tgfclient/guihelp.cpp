@@ -58,16 +58,16 @@ GfuiHelpScreen(void *prevScreen)
 		      "Keys Definition",
 		      fgColor2,
 		      GFUI_FONT_BIG,
-		      320,
-		      440,
+		      640,
+		      660,
 		      GFUI_ALIGN_HC_VB,
 		      0);
 
-    x  = 30;
-    dx = 80;
-    x2 = 330;
-    y  = 380;
-    
+    x  = 60;
+    dx = 160;
+    x2 = 660;
+    y  = 570;
+
     curSKey = pscr->userSpecKeys;
     curKey = pscr->userKeys;
     do {
@@ -82,19 +82,19 @@ GfuiHelpScreen(void *prevScreen)
 	    GfuiLabelCreateEx(scrHandle, curKey->name, fgColor1, GFUI_FONT_SMALL_C, x2, y, GFUI_ALIGN_HL_VB, 0);
 	    GfuiLabelCreateEx(scrHandle, curKey->descr, fgColor2, GFUI_FONT_SMALL_C, x2 + dx, y, GFUI_ALIGN_HL_VB, 0);
 	}
-	y -= 12;
-	
+	y -= 18;
+
 	if (curKey == pscr->userKeys) curKey = nullptr;
 	if (curSKey == pscr->userSpecKeys) curSKey = nullptr;
 
     } while ((curKey != nullptr) || (curSKey != nullptr));
-    
+
 
     GfuiButtonCreate(scrHandle,
 		     "Back",
 		     GFUI_FONT_LARGE,
-		     320,
-		     40,
+		     640,
+		     60,
 		     GFUI_BTNSZ,
 		     GFUI_ALIGN_HC_VB,
 		     0,

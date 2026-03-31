@@ -190,7 +190,7 @@ extern int  GfuiFontWidth(int font, const char *text);
 
 
 /* buttons */
-#define GFUI_BTNSZ	300
+#define GFUI_BTNSZ	450
 extern int GfuiButtonCreate(void *scr, const char *text, int font,
 			    int x, int y, int width, int align, int mouse,
 			    void *userDataOnPush, tfuiCallback onPush, 
