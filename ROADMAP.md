@@ -27,11 +27,11 @@ These apply across every work stream:
 ## Status at a Glance
 
 | Track | Status |
-|-------|--------|
-| Documentation & hygiene | Largely complete |
-| 1.3.x stabilization | Active |
+| :--- | :--- |
+| Documentation & hygiene | Complete |
+| 1.3.x stabilization | Complete (Core) |
 | Engineering debt | Active / ongoing |
-| 1.4 preparation | Planning |
+| 1.4 preparation (Phase 2) | Active |
 | Content & compliance | Planning |
 | 2.0 Networking | Future |
 | Long-term exploration | Future |
@@ -47,7 +47,7 @@ These items move first because they make every later release easier.
 - [x] Update the robot tutorial and race-manager documentation
 - [x] Document important repository subsystems and extension points
 - [x] Tighten the fork identity where old TORCS naming is confusing
-- [ ] Review bundled assets for licensing, redistribution, and trademark issues
+- [x] Audit bundled assets for licensing, redistribution, and trademark issues
 
 ---
 
@@ -70,15 +70,15 @@ These items move first because they make every later release easier.
 - [x] Expose more telemetry channels, including speed and suspension data
 - [x] Add timed race formats
 - [x] Fix repeated-violation edge cases when entering or exiting pit lanes
-- [ ] Add a data-analysis workflow for lap comparison and filtering
+- [x] Add a data-analysis workflow for lap comparison and filtering
 - [ ] Prototype a replay pipeline
-- [ ] Expand configurable rules and penalty handling without forcing a 1.4 break
+- [ ] Expand configurable rules and penalty handling (1.4 breaking)
 
 ### Tooling and UX
 
-- [x] Update Visual Studio project files to a more practical baseline
-- [ ] Expose hidden or difficult-to-find settings in the GUI
-- [ ] Add GUI support for event blacklisting
+- [x] Update Visual Studio project files and transition to CMake (Active)
+- [x] Expose hidden or difficult-to-find settings in the GUI
+- [x] Add GUI support for event blacklisting
 
 ---
 
@@ -157,12 +157,15 @@ Specific replacements from the historical backlog:
 - [x] Migrate C headers (`<stdio.h>` etc.) to C++ equivalents (`<cstdio>` etc.)
 - [x] Remove `register` keyword usage
 - [x] Add `override` where missing in learning, music-player, and sound modules
+- [x] Replace `printf`-style diagnostics with a structured logging approach
+- [x] Replace remaining fragile string handling (`strcpy`, `sprintf`) with safer alternatives
+- [x] Consolidate track loader allocation and parsing helpers
 
 ### Remaining
 
-- [ ] Reduce C-style casts and narrow unsafe conversions
-- [ ] Replace `printf`-style diagnostics with a structured logging approach
-- [ ] Replace remaining fragile string handling (`strcpy`, `strcmp`) with safer alternatives
+- [ ] Reduce C-style casts and narrow unsafe conversions (Ongoing)
+- [x] Implement CMake build system for core libraries and modules
+- [ ] Remove the circular dependency between `raceman.h` and `simu.h`
 - [ ] Remove the circular dependency between `raceman.h` and `simu.h`
 - [ ] Move reusable spline code into a shared math library
 - [ ] Eliminate `glGet*` usage in simulation-time paths
@@ -221,4 +224,4 @@ The roadmap is working if the project becomes **easier to build**, **easier to
 understand**, **safer to redistribute**, and remains **useful for both players
 and research-focused users**.
 
-*Last updated: 2026-03-30*
+Last updated: 2026-03-31

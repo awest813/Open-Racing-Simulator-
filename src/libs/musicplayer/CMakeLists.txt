@@ -12,3 +12,14 @@ target_include_directories(musicplayer PUBLIC
     ${PROJECT_SOURCE_DIR}/src/interfaces
     ${PROJECT_SOURCE_DIR}/src/libs
 )
+
+target_link_libraries(musicplayer PUBLIC tgf)
+
+if(WIN32)
+    target_link_libraries(musicplayer PUBLIC
+        OpenAL32
+        libvorbis
+        libvorbisfile
+        libogg
+    )
+endif()

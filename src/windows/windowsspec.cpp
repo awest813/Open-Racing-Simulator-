@@ -32,6 +32,38 @@
 extern "C" int
 ssggraph(tModInfo *modInfo);
 
+static bool isStaticSsggraphPath(const char *sopath)
+{
+    return sopath != nullptr && strcmp(sopath, "modules/graphic/ssggraph.dll") == 0;
+}
+
+static char *findLastPathSeparator(char *path)
+{
+    char *forwardSlash = strrchr(path, '/');
+    char *backwardSlash = strrchr(path, '\\');
+    if (forwardSlash == nullptr) {
+        return backwardSlash;
+    }
+    if (backwardSlash == nullptr) {
+        return forwardSlash;
+    }
+    return (forwardSlash > backwardSlash) ? forwardSlash : backwardSlash;
+}
+
+static void addStaticSsggraphModule(tModList *curMod, tModList **modlist, const char *sopath)
+{
+    ssggraph(curMod->modInfo);
+    curMod->sopath = strdup(sopath);
+    if (*modlist == nullptr) {
+        *modlist = curMod;
+        curMod->next = curMod;
+    } else {
+        curMod->next = (*modlist)->next;
+        (*modlist)->next = curMod;
+        *modlist = curMod;
+    }
+}
+
 /*
  * Function
  *	windowsModLoad
@@ -58,26 +90,18 @@ static int windowsModLoad(unsigned int gfid, char *sopath, tModList **modlist)
 	
 	curMod = (tModList*)calloc(1, sizeof(tModList));
 	GfOut("loading windows module %s\n",sopath);
-	lastSlash = strrchr(sopath, '/');
+	lastSlash = findLastPathSeparator(sopath);
 	snprintf(dname, sizeof(dname), "%s", lastSlash ? lastSlash+1 : sopath);
 	dname[strlen(dname) - 4] = 0; /* cut .dll */
 	
 	GfOut("LoadLibrary from %s\n",sopath);
 
 	/* This one doesn't load dynamically... */
-	if (strcmp(sopath,"modules/graphic/ssggraph.dll") == 0) {
-		ssggraph(curMod->modInfo);
-		if (*modlist == nullptr) {
-			*modlist = curMod;
-			curMod->next = curMod;
-		} else {
-			curMod->next = (*modlist)->next;
-			(*modlist)->next = curMod;
-			*modlist = curMod;
-		}
-		GfOut("%s loaded staticaly\n",sopath);
-		return 0;
-	} 
+    if (isStaticSsggraphPath(sopath)) {
+        addStaticSsggraphModule(curMod, modlist, sopath);
+        GfOut("%s loaded staticaly\n",sopath);
+        return 0;
+    } 
 
 	handle = LoadLibrary( sopath ); 
 	GfOut("LoadLibrary return from %s\n",sopath);
@@ -144,11 +168,16 @@ static int windowsModInfo(unsigned int gfid, char *sopath, tModList **modlist)
     
 	curMod = (tModList*)calloc(1, sizeof(tModList));
     
-	lastSlash = strrchr(sopath, '/');
-	snprintf(dname, sizeof(dname), "%s", lastSlash ? lastSlash+1 : sopath);
-	dname[strlen(dname) - 4] = 0; /* cut .dll */
+    lastSlash = findLastPathSeparator(sopath);
+    snprintf(dname, sizeof(dname), "%s", lastSlash ? lastSlash+1 : sopath);
+    dname[strlen(dname) - 4] = 0; /* cut .dll */
+
+    if (isStaticSsggraphPath(sopath)) {
+        addStaticSsggraphModule(curMod, modlist, sopath);
+        return 0;
+    }
     
-	handle = LoadLibrary( sopath );
+    handle = LoadLibrary( sopath );
 	if (handle != nullptr) {
 		if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != nullptr) {
 			/* DLL loaded, init function exists, call it... */
@@ -237,6 +266,8 @@ static int windowsModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 	if ( Dirent != -1 )
 		do {
 		snprintf(sopath, sizeof(sopath), "%s\\%s", dir, FData.name);
+		snprintf(dname, sizeof(dname), "%s", FData.name);
+		dname[strlen(dname) - 4] = 0; /* cut .dll */
 		handle = LoadLibrary( sopath );
 		if (handle != nullptr) {
 			if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != nullptr) {
@@ -284,6 +315,12 @@ static int windowsModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 		} while ( _findnext( Dirent, &FData ) != -1 );
 
 		_findclose( Dirent );
+
+		if ((strcmp(dir, "modules/graphic") == 0) && (gfid == 1)) {
+			addStaticSsggraphModule(curMod, modlist, "modules/graphic/ssggraph.dll");
+			modnb++;
+			curMod = (tModList*)calloc(1, sizeof(tModList));
+		}
 
 		free(curMod);
 		return modnb;
@@ -387,6 +424,12 @@ static int windowsModInfoDir(unsigned int gfid, char *dir, int level, tModList *
 						   }
 		} while ( _findnext( Dirent, &FData ) != -1 );
 	}
+
+    if ((strcmp(dir, "modules/graphic") == 0) && (gfid == 1) && (level == 0)) {
+        addStaticSsggraphModule(curMod, modlist, "modules/graphic/ssggraph.dll");
+        modnb++;
+        curMod = (tModList*)calloc(1, sizeof(tModList));
+    }
     
 	_findclose( Dirent );
 	free(curMod);

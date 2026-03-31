@@ -23,7 +23,12 @@ target_include_directories(simuv3 PRIVATE ${CMAKE_SOURCE_DIR}/src/libs)
 
 if(WIN32)
     target_compile_definitions(simuv3 PRIVATE WIN32 _WINDOWS)
-    set_target_properties(simuv3 PROPERTIES PREFIX "")
+    set_target_properties(simuv3 PROPERTIES
+        PREFIX ""
+        LINK_FLAGS "/DEF:\"${CMAKE_CURRENT_SOURCE_DIR}/simuv3.def\""
+        LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/simuv3.def"
+    )
+    torcs_set_runtime_output(simuv3 "modules/simu")
 endif()
 
 if(MSVC)

@@ -53,7 +53,7 @@ build files, and binaries. The two names refer to the same project.
 
 ## Repository Layout
 
-```
+```text
 Open-Racing-Simulator-/
 ├── src/                  Engine code, interfaces, libraries, tools, and driver modules
 │   ├── doc/              Architecture overview and developer notes
@@ -79,7 +79,7 @@ Open-Racing-Simulator-/
 The simulator is organized around three major layers:
 
 | Layer | Responsibility |
-|-------|---------------|
+| :--- | :--- |
 | **Orchestration** | Startup, menus, race-state management, and session flow |
 | **Shared APIs and libraries** | XML parameter handling, math utilities, robot tools, portability layers, and common interfaces |
 | **Runtime-loaded modules** | Graphics, simulation, track, and robot plugins loaded via `GfModLoad()` |
@@ -118,7 +118,7 @@ sudo apt-get install \
 Other distributions will need the equivalent packages for:
 
 | Dependency | Minimum version |
-|-----------|----------------|
+| :--- | :--- |
 | GCC / G++ | any version with C++14 support |
 | GNU Make | — |
 | PLIB | 1.8.3 or newer |
@@ -141,7 +141,7 @@ make datainstall
 ### Useful configure flags
 
 | Flag | Effect |
-|------|--------|
+| :--- | :--- |
 | `--enable-debug` | Enable debug symbols and assertions |
 | `--disable-xrandr` | Disable XRandR (use if it causes issues on your system) |
 
@@ -156,34 +156,27 @@ make doc          # requires Doxygen
 
 ## Building on Windows
 
-The repository ships Visual Studio project files and helper batch scripts for
-older toolchains. Modern Windows toolchain support is still a roadmap item.
+**Modern build (CMake - Recommended):**
 
-**Release build:**
-
-```
-setup_win32.bat
-setup_win32-data-from-CVS.bat
-# Open TORCS.sln (or TORCS.dsw for very old toolchains)
-# Build the w32-Release configuration
-# Run runtime/wtorcs.exe
+```powershell
+# Create a build directory
+cmake -S . -B build_x86
+# Build the project
+cmake --build build_x86 --config Release
+# Run the simulator from the bin directory
+./build_x86/bin/wtorcs.exe
 ```
 
-**Debug build:**
+**Legacy build:**
 
-```
-setup_win32_debug.bat
-setup_win32-data-from-CVS_debug.bat
-# Build the w32-Debug configuration
-# Run runtimed/wtorcs.exe
-```
+The repository still carries older Visual Studio project files and helper batch scripts.
 
 ---
 
 ## Running the Simulator
 
 | Command | Description |
-|---------|-------------|
+| :--- | :--- |
 | `torcs` | Start the interactive GUI application |
 | `torcs -r <race-config.xml>` | Run a race from the command line (no GUI) |
 | `torcs -d` | Enable debug stack-trace support |
@@ -199,7 +192,7 @@ synchronized with real time — useful for fast batch experiments and AI trainin
 ## Documentation and Learning Resources
 
 | Resource | Location |
-|----------|----------|
+| :--- | :--- |
 | Architecture overview | [`src/doc/architecture.md`](src/doc/architecture.md) |
 | Robot development tutorial | [`doc/tutorials/robot/README`](doc/tutorials/robot/README) |
 | API reference | `make doc` → `doc/manual/api/index.html` |

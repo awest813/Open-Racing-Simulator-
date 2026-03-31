@@ -303,6 +303,8 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
         wheel[i].skid.a = 0.0f;
         wheel[i].skid.f = 1.0f;
 
+        float wheel_skid = getWheelSkid(car, i);
+
         if (on_curb) {
             float curb_boost = 1.0f + 0.5f*roughness;
             float tmppitch = tmpvol*(0.75f+0.5f*roughnessFreq);
@@ -311,8 +313,8 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
                 curb_ride.a = tmpvol;
                 curb_ride.f = tmppitch;
             }
-            if (car->_skid[i] > 0.05f) {
-                curb_skid.a = (float)car->_skid[i];
+            if (wheel_skid > 0.05f) {
+                curb_skid.a = (float)wheel_skid;
                 curb_skid.f = (0.5f+0.5f*roughnessFreq);
             } else {
                 curb_skid.a = 0.0f;
@@ -328,7 +330,6 @@ void CarSoundData::calculateTyreSound(tCarElt* car)
                 road.f = tmppitch;
             }
 
-            float wheel_skid = getWheelSkid(car, i);
             if (wheel_skid > 0.05f) {
                 //skvol[i] = (float)car->_skid[i];
                 //skpitch[i] = 0.7+0.3*roughnessFreq;

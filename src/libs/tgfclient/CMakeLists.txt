@@ -25,3 +25,20 @@ target_include_directories(tgfclient PUBLIC
     ${PROJECT_SOURCE_DIR}/src/interfaces
     ${PROJECT_SOURCE_DIR}/src/libs
 )
+
+target_link_libraries(tgfclient PUBLIC
+    tgf
+    txml
+    musicplayer
+)
+
+if(WIN32)
+    target_link_libraries(tgfclient PUBLIC
+        js_vs2008_32
+        libpng15_vs2008_32
+        zlib1_vs2008_32
+        glut32
+        opengl32
+        glu32
+    )
+endif()

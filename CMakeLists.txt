@@ -3,6 +3,7 @@ project(OpenRacingSimulator)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(TORCS_RUNTIME_DIRECTORY "${CMAKE_BINARY_DIR}/runtime")
 
 if(MSVC)
     list(APPEND CMAKE_VS_GLOBALS VcpkgXUseBuiltInApplocalDeps=true)
@@ -17,6 +18,36 @@ endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+function(torcs_set_runtime_output target relative_dir)
+    set(output_dir "${TORCS_RUNTIME_DIRECTORY}/${relative_dir}")
+    set_target_properties(${target} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${output_dir}"
+        LIBRARY_OUTPUT_DIRECTORY "${output_dir}"
+    )
+    foreach(cfg Debug Release MinSizeRel RelWithDebInfo)
+        string(TOUPPER "${cfg}" cfg_upper)
+        set_target_properties(${target} PROPERTIES
+            "RUNTIME_OUTPUT_DIRECTORY_${cfg_upper}" "${output_dir}"
+            "LIBRARY_OUTPUT_DIRECTORY_${cfg_upper}" "${output_dir}"
+        )
+    endforeach()
+endfunction()
+
+file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}")
+file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}/modules")
+file(COPY "${CMAKE_SOURCE_DIR}/data" DESTINATION "${TORCS_RUNTIME_DIRECTORY}")
+file(COPY
+    "${CMAKE_SOURCE_DIR}/runtime/config"
+    "${CMAKE_SOURCE_DIR}/runtime/drivers"
+    "${CMAKE_SOURCE_DIR}/runtime/results"
+    "${CMAKE_SOURCE_DIR}/runtime/telemetry"
+    DESTINATION "${TORCS_RUNTIME_DIRECTORY}"
+)
+
+if(WIN32)
+    file(COPY "${CMAKE_SOURCE_DIR}/src/windows/dll/" DESTINATION "${TORCS_RUNTIME_DIRECTORY}")
+endif()
 
 # Include directories
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
@@ -62,4 +93,12 @@ add_subdirectory(src/libs/txml)
 add_subdirectory(src/modules/simu/simuv2)
 add_subdirectory(src/modules/simu/simuv3)
 add_subdirectory(src/modules/track)
+add_subdirectory(src/modules/graphic)
+add_subdirectory(src/drivers)
+
+if(WIN32)
+    add_subdirectory(src/windows)
+else()
+    add_subdirectory(src/linux)
+endif()
 # Add more as needed
