@@ -18,8 +18,8 @@
 <params name="screen" type="params" mode="mw">
 
   <section name="Screen Properties">
-    <attnum name="x" val="640"/>
-    <attnum name="y" val="480"/>
+    <attnum name="x" val="1280"/>
+    <attnum name="y" val="720"/>
     <attnum name="bpp" val="24"/>
     <attstr name="fullscreen" in="yes,no" val="no"/>
     <attnum name="gamma" val="2.0"/>
@@ -27,23 +27,23 @@
 
   <section name="Menu Font">
     <attstr name="name"        val="b5.glf"/>
-    <attnum name="size big"    val="16"/>
-    <attnum name="size large"  val="12"/>
-    <attnum name="size medium" val="9"/>
-    <attnum name="size small"  val="7"/>
+    <attnum name="size big"    val="32"/>
+    <attnum name="size large"  val="24"/>
+    <attnum name="size medium" val="18"/>
+    <attnum name="size small"  val="14"/>
   </section>
 
   <section name="Console Font">
     <attstr name="name"        val="b7.glf"/>
-    <attnum name="size big"    val="14"/>
-    <attnum name="size large"  val="10"/>
-    <attnum name="size medium" val="6"/>
-    <attnum name="size small"  val="5"/>
+    <attnum name="size big"    val="28"/>
+    <attnum name="size large"  val="20"/>
+    <attnum name="size medium" val="12"/>
+    <attnum name="size small"  val="10"/>
   </section>
 
   <section name="Digital Font">
     <attstr name="name"        val="digital.glf"/>
-    <attnum name="size big"    val="6"/>
+    <attnum name="size big"    val="12"/>
   </section>
 
   <section name="Menu Colors">
