@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\CarSoundData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grcam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grcar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grcarlight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grloadac.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grmultitexstate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grscreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grshadow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grskidmarks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grsmoke.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grsound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grtexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grtrackmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grutil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\grvtxtable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\OpenalSoundInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\PlibSoundInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\SoundInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\ssggraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\TorcsSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Games\Open-Racing-Simulator-\src\modules\graphic\ssggraph\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{C0705C8A-BAC3-377D-A669-0F80921B3108}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

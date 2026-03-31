@@ -175,6 +175,22 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\berniw.vcxproj">
+      <Project>{DC3BC215-73F8-3DA0-8A39-A759059F61E0}</Project>
+      <Name>berniw</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\berniw2.vcxproj">
+      <Project>{0D14639B-5E6F-3E0C-ADE3-9067A40011EB}</Project>
+      <Name>berniw2</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\berniw3.vcxproj">
+      <Project>{EC5F680F-17A6-3AA6-96F7-CCDE42E9361A}</Project>
+      <Name>berniw3</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\bt.vcxproj">
+      <Project>{D4DBA5B6-A3DE-3F85-BD40-116F1093065E}</Project>
+      <Name>bt</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\client\client.vcxproj">
       <Project>{63F650FF-FFBE-3381-9C14-36F41310D863}</Project>
       <Name>client</Name>
@@ -183,13 +199,37 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{01080ABD-C23E-3A69-BA62-C1816D596910}</Project>
       <Name>confscreens</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\damned.vcxproj">
+      <Project>{A30EEE10-13BE-34CE-8E63-5FFCCDBE5475}</Project>
+      <Name>damned</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\human.vcxproj">
+      <Project>{5385D898-CE35-3ADA-9C27-A6F01046A088}</Project>
+      <Name>human</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\inferno.vcxproj">
+      <Project>{02AAAF4F-A903-3E11-BDB9-5350B6DA156F}</Project>
+      <Name>inferno</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\inferno2.vcxproj">
+      <Project>{6A189ADE-FC40-34E8-9D4A-C9047A5AE81C}</Project>
+      <Name>inferno2</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\learning\learning.vcxproj">
       <Project>{1A87B388-9BE6-3E51-AA18-4530FD3A299A}</Project>
       <Name>learning</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\lliaw.vcxproj">
+      <Project>{F31830B5-F300-35EB-BC90-A5D854B7C848}</Project>
+      <Name>lliaw</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\musicplayer\musicplayer.vcxproj">
       <Project>{8E1CB917-945C-3DA6-ABE2-9AD4B5AC8EBA}</Project>
       <Name>musicplayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\olethros.vcxproj">
+      <Project>{FF32D329-2E12-31B3-B46A-AB51BC24680D}</Project>
+      <Name>olethros</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\raceengineclient\raceengineclient.vcxproj">
       <Project>{4326204D-C366-309D-851F-AFB7C7B9DD9B}</Project>
@@ -219,6 +259,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{9DDF3946-175C-3900-B039-57C9044C29E2}</Project>
       <Name>solid</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\sparkle.vcxproj">
+      <Project>{A265DB71-FE2C-3DC5-8787-0D7D7C334CEC}</Project>
+      <Name>sparkle</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\modules\graphic\ssggraph\ssggraph.vcxproj">
+      <Project>{172ECDAF-C83B-37A0-9777-A09797D8E62E}</Project>
+      <Name>ssggraph</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\tgf\tgf.vcxproj">
       <Project>{ACE2D0B5-AA06-3C50-B4F3-45E734368BA7}</Project>
       <Name>tgf</Name>
@@ -226,6 +274,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\tgfclient\tgfclient.vcxproj">
       <Project>{2575B1C5-0222-355E-9B74-C45BD391E995}</Project>
       <Name>tgfclient</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\drivers\tita.vcxproj">
+      <Project>{ED23E39D-2EAE-343E-82FA-52110511EB1E}</Project>
+      <Name>tita</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\modules\track\track.vcxproj">
       <Project>{A2241AD9-5473-3F73-8AB5-1DAC2A954DA7}</Project>
@@ -236,6 +288,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\txml\txml.vcxproj">
       <Project>{C8C56BE2-0800-3301-B2D8-FAB1E64FEB47}</Project>
       <Name>txml</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\windows\wtorcs.vcxproj">
+      <Project>{41B0587D-B562-3F9F-ADB3-D171880F60FF}</Project>
+      <Name>wtorcs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

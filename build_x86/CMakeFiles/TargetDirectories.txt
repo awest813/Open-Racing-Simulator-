@@ -14,3 +14,17 @@ D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv2/CMakeFiles/sim
 D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv2/SOLID-2.0/CMakeFiles/solid.dir
 D:/Games/Open-Racing-Simulator-/build_x86/src/modules/simu/simuv3/CMakeFiles/simuv3.dir
 D:/Games/Open-Racing-Simulator-/build_x86/src/modules/track/CMakeFiles/track.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/modules/graphic/ssggraph/CMakeFiles/ssggraph.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/berniw.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/berniw2.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/berniw3.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/bt.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/damned.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/human.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/inferno.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/inferno2.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/lliaw.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/olethros.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/sparkle.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/drivers/CMakeFiles/tita.dir
+D:/Games/Open-Racing-Simulator-/build_x86/src/windows/CMakeFiles/wtorcs.dir

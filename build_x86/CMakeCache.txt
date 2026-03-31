@@ -201,16 +201,46 @@ OpenRacingSimulator_IS_TOP_LEVEL:STATIC=ON
 OpenRacingSimulator_SOURCE_DIR:STATIC=D:/Games/Open-Racing-Simulator-
 
 //Dependencies for the target
+berniw2_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
+berniw3_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
+berniw_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
+bt_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
 client_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 
 //Dependencies for the target
 confscreens_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 
 //Dependencies for the target
+damned_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
+human_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
+inferno2_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
+inferno_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
 learning_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 
 //Dependencies for the target
+lliaw_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
 musicplayer_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
+
+//Dependencies for the target
+olethros_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
 
 //Dependencies for the target
 raceengineclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
@@ -231,10 +261,19 @@ simuv3_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;gener
 solid_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 
 //Dependencies for the target
+sparkle_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+
+//Dependencies for the target
+ssggraph_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;txml;general;ssg_vs2008_32;general;ssgAux_vs2008_32;general;sg_vs2008_32;general;sl_vs2008_32;general;ul_vs2008_32;general;js_vs2008_32;general;OpenAL32;general;ALut;general;opengl32;general;glu32;general;glut32;general;libpng15_vs2008_32;general;zlib1_vs2008_32;
+
+//Dependencies for the target
 tgf_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;ws2_32;general;txml;
 
 //Dependencies for the target
 tgfclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
+
+//Dependencies for the target
+tita_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
 
 //Dependencies for the target
 track_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;txml;general;robottools;general;sg;general;ul;
@@ -329,7 +368,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=15
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=19
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib

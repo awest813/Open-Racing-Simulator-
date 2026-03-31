@@ -62,4 +62,12 @@ add_subdirectory(src/libs/txml)
 add_subdirectory(src/modules/simu/simuv2)
 add_subdirectory(src/modules/simu/simuv3)
 add_subdirectory(src/modules/track)
+add_subdirectory(src/modules/graphic)
+add_subdirectory(src/drivers)
+
+if(WIN32)
+    add_subdirectory(src/windows)
+else()
+    add_subdirectory(src/linux)
+endif()
 # Add more as needed
