@@ -65,6 +65,17 @@ tDrvListHead DrvList;
 
 static void rmFreeDrvList(void);
 
+namespace {
+
+void buildCarModelPath(char* destination, size_t destinationSize, const char* carName)
+{
+	const char* safeCarName = (carName != nullptr) ? carName : "";
+	snprintf(destination, destinationSize, "%sdata/cars/models/%s/%s.xml", GetDataDir(), safeCarName, safeCarName);
+	destination[destinationSize - 1] = '\0';
+}
+
+} // namespace
+
 
 static void rmdsActivate(void * /* notused */)
 {
@@ -342,7 +353,7 @@ void RmDriversSelect(void *vs)
 					} else {
 						human = 0;
 					}
-					snprintf(path, BUFSIZE, "cars/%s/%s.xml", carName, carName);
+					buildCarModelPath(path, BUFSIZE, carName);
 					if (!stat(path, &st)) {
 						carhdle = GfParmReadFile(path, GFPARM_RMODE_STD);
 						if (carhdle) {

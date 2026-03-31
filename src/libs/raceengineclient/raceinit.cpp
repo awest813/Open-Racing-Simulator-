@@ -67,6 +67,20 @@ void copyCString(char (&destination)[N], const char* source)
 	destination[copiedLength] = '\0';
 }
 
+void buildCarModelPath(char* destination, size_t destinationSize, const char* carName)
+{
+	const char* safeCarName = (carName != nullptr) ? carName : "";
+	snprintf(destination, destinationSize, "%sdata/cars/models/%s/%s.xml", GetDataDir(), safeCarName, safeCarName);
+	destination[destinationSize - 1] = '\0';
+}
+
+void buildCarCategoryPath(char* destination, size_t destinationSize, const char* categoryName)
+{
+	const char* safeCategoryName = (categoryName != nullptr) ? categoryName : "";
+	snprintf(destination, destinationSize, "%sdata/cars/categories/%s/%s.xml", GetDataDir(), safeCategoryName, safeCategoryName);
+	destination[destinationSize - 1] = '\0';
+}
+
 } // namespace
 
 typedef struct 
@@ -679,9 +693,13 @@ ReInitCars(void)
 
 					/* handle contains the drivers modifications to the car */
 					/* Read Car model specifications */
-					snprintf(buf, BUFSIZE, "cars/%s/%s.xml", elt->_carName, elt->_carName);
+					buildCarModelPath(buf, BUFSIZE, elt->_carName);
 					GfOut("Car Specification: %s\n", buf);
-					void* carhdle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
+					void* carhdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
+					if (carhdle == nullptr) {
+						GfTrace("Missing car specification for %s (driver %s)\n", elt->_carName, elt->_name);
+						break;
+					}
 					const char* category = GfParmGetStr(carhdle, SECT_CAR, PRM_CATEGORY, nullptr);
 					snprintf(buf, BUFSIZE, "Loading Driver %-20s... Car: %s", curModInfo->name, elt->_carName);
 					RmLoadingScreenSetText(buf);
@@ -690,11 +708,17 @@ ReInitCars(void)
 
 						/* Read Car Category specifications */
 						// TODO: eventually use new Rt function
-						snprintf(buf, BUFSIZE, "categories/%s.xml", category);
+						buildCarCategoryPath(buf, BUFSIZE, category);
 						GfOut("Category Specification: %s\n", buf);
-						void* cathdle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
+						void* cathdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
+						if (cathdle == nullptr) {
+							GfTrace("Missing category specification %s for driver %s\n", category, elt->_name);
+							GfParmReleaseHandle(carhdle);
+							break;
+						}
 						if (GfParmCheckHandle(cathdle, carhdle)) {
 							GfTrace("Car %s not in Category %s (driver %s) !!!\n", elt->_carName, category, elt->_name);
+							GfParmReleaseHandle(carhdle);
 							GfParmReleaseHandle(cathdle);
 							break;
 						}
