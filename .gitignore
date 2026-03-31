@@ -1,4 +1,28 @@
 # Since we build in place, we'll need to ignore all build artifacts.
+
+# CMake out-of-tree builds (Windows README uses build_x86; common names below)
+build_x86/
+/build/
+[Bb]uild-*/
+out/
+cmake-build-*/
+
+# Captured build / test logs at repo root (local only)
+build_human*.txt
+build_log.txt
+build_race_fix.log
+build_ssggraph*.txt
+build_wtorcs_log.txt
+build_x86_output.txt
+cmake_config_log*.txt
+log.txt
+log2.txt
+menu_asset_verify_*.txt
+race_*_stderr.txt
+race_*_stdout.txt
+wtorcs_stderr.txt
+wtorcs_stdout.txt
+
 *.o
 *.a
 *.so
