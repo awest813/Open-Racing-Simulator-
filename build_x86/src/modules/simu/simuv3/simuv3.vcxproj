@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\lib\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\simu\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">simuv3.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">simuv3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\lib\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\simu\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">simuv3.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">simuv3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\lib\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\simu\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">simuv3.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">simuv3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\lib\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\simu\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">simuv3.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">simuv3</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.dll</TargetExt>
@@ -134,7 +134,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Debug/simuv3.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/lib/Debug/simuv3.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/modules/simu/simuv3/simuv3.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/modules/simu/simuv3.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -192,7 +193,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Release/simuv3.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/lib/Release/simuv3.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/modules/simu/simuv3/simuv3.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/modules/simu/simuv3.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -250,7 +252,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/MinSizeRel/simuv3.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/lib/MinSizeRel/simuv3.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/modules/simu/simuv3/simuv3.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/modules/simu/simuv3.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -307,7 +310,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/RelWithDebInfo/simuv3.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/lib/RelWithDebInfo/simuv3.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/modules/simu/simuv3/simuv3.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/modules/simu/simuv3.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>

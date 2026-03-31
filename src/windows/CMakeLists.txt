@@ -5,6 +5,7 @@ set(WTORCS_SOURCES
 )
 
 add_executable(wtorcs ${WTORCS_SOURCES})
+torcs_set_runtime_output(wtorcs ".")
 
 target_include_directories(wtorcs PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -52,5 +53,9 @@ target_link_libraries(wtorcs
     glu32
 )
 
-# Output handling: wtorcs expects to be in a runtime/bin-like structure
-# CMake root sets runtime output to bin, so this works if data is in the right place.
+add_dependencies(wtorcs
+    simuv2
+    simuv3
+    track
+    ${TORCS_ROBOT_TARGETS}
+)

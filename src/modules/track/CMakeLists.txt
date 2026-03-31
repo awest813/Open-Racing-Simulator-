@@ -17,6 +17,7 @@ if(WIN32)
         LINK_FLAGS "/DEF:\"${CMAKE_CURRENT_SOURCE_DIR}/track.def\""
         LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/track.def"
     )
+    torcs_set_runtime_output(track "modules/track")
 endif()
 
 if(MSVC)

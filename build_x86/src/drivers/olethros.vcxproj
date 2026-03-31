@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\olethros\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\olethros\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">olethros.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">olethros</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\olethros\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\olethros\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">olethros.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">olethros</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\olethros\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\olethros\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">olethros.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">olethros</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\olethros\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\olethros\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">olethros.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">olethros</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.dll</TargetExt>
@@ -125,7 +125,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Debug\tgf.lib;..\..\lib\Debug\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\Debug\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Debug\tgf.lib;..\..\lib\Debug\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Debug\learning.lib;ws2_32.lib;..\..\lib\Debug\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -134,7 +134,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Debug/olethros.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/olethros/Debug/olethros.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/olethros/olethros.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/olethros/olethros.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -182,7 +183,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Release\tgf.lib;..\..\lib\Release\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\Release\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Release\tgf.lib;..\..\lib\Release\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Release\learning.lib;ws2_32.lib;..\..\lib\Release\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -191,7 +192,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Release/olethros.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/olethros/Release/olethros.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/olethros/olethros.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/olethros/olethros.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -239,7 +241,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\MinSizeRel\tgf.lib;..\..\lib\MinSizeRel\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\MinSizeRel\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\MinSizeRel\tgf.lib;..\..\lib\MinSizeRel\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\MinSizeRel\learning.lib;ws2_32.lib;..\..\lib\MinSizeRel\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -248,7 +250,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/MinSizeRel/olethros.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/olethros/MinSizeRel/olethros.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/olethros/olethros.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/olethros/olethros.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -295,7 +298,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\RelWithDebInfo\tgf.lib;..\..\lib\RelWithDebInfo\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\RelWithDebInfo\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\RelWithDebInfo\tgf.lib;..\..\lib\RelWithDebInfo\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\RelWithDebInfo\learning.lib;ws2_32.lib;..\..\lib\RelWithDebInfo\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -304,7 +307,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/RelWithDebInfo/olethros.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/olethros/RelWithDebInfo/olethros.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/olethros/olethros.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/olethros/olethros.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -389,6 +393,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\learning\learning.vcxproj">
+      <Project>{1A87B388-9BE6-3E51-AA18-4530FD3A299A}</Project>
+      <Name>learning</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\robottools\robottools.vcxproj">
       <Project>{0D0EA34C-4067-32D3-A27C-1DAD19AE307E}</Project>

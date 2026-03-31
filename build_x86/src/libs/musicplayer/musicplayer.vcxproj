@@ -318,6 +318,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\tgf\tgf.vcxproj">
+      <Project>{ACE2D0B5-AA06-3C50-B4F3-45E734368BA7}</Project>
+      <Name>tgf</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\txml\txml.vcxproj">
+      <Project>{C8C56BE2-0800-3301-B2D8-FAB1E64FEB47}</Project>
+      <Name>txml</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

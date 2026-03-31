@@ -5,7 +5,52 @@
       <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\Release\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\bin\Release\wtorcs.exe</FullPath>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\berniw\berniw.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\berniw2\berniw2.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\berniw3\berniw3.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\bt\bt.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\damned\damned.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\human\human.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\inferno\inferno.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\inferno2\inferno2.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\lliaw\lliaw.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\olethros\olethros.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\simu\simuv2.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\simu\simuv3.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\sparkle\sparkle.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\tita\tita.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\track\track.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\wtorcs.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

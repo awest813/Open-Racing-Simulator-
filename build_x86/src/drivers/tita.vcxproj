@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\tita\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\tita\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tita.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tita</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\tita\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\tita\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tita.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tita</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\tita\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\tita\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">tita.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">tita</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\tita\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\tita\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">tita.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">tita</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.dll</TargetExt>
@@ -134,7 +134,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Debug/tita.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/tita/Debug/tita.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/tita/tita.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/tita/tita.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -191,7 +192,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Release/tita.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/tita/Release/tita.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/tita/tita.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/tita/tita.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -248,7 +250,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/MinSizeRel/tita.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/tita/MinSizeRel/tita.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/tita/tita.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/tita/tita.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -304,7 +307,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/RelWithDebInfo/tita.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/tita/RelWithDebInfo/tita.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/tita/tita.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/tita/tita.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>

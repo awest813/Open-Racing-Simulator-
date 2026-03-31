@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\human\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\human\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">human.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">human</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\human\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\human\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">human.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">human</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\human\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\human\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">human.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">human</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\human\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\human\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">human.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">human</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.dll</TargetExt>
@@ -125,7 +125,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Debug\tgf.lib;..\..\lib\Debug\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\Debug\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Debug\tgf.lib;..\..\lib\Debug\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Debug\client.lib;..\..\lib\Debug\tgfclient.lib;..\..\lib\Debug\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\Debug\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\Debug\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -134,7 +134,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Debug/human.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/human/Debug/human.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/human/human.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/human/human.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -182,7 +183,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Release\tgf.lib;..\..\lib\Release\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\Release\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Release\tgf.lib;..\..\lib\Release\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Release\client.lib;..\..\lib\Release\tgfclient.lib;..\..\lib\Release\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\Release\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\Release\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -191,7 +192,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Release/human.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/human/Release/human.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/human/human.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/human/human.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -239,7 +241,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\MinSizeRel\tgf.lib;..\..\lib\MinSizeRel\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\MinSizeRel\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\MinSizeRel\tgf.lib;..\..\lib\MinSizeRel\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\MinSizeRel\client.lib;..\..\lib\MinSizeRel\tgfclient.lib;..\..\lib\MinSizeRel\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\MinSizeRel\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\MinSizeRel\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -248,7 +250,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/MinSizeRel/human.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/human/MinSizeRel/human.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/human/human.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/human/human.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -295,7 +298,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\RelWithDebInfo\tgf.lib;..\..\lib\RelWithDebInfo\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;ws2_32.lib;..\..\lib\RelWithDebInfo\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\RelWithDebInfo\tgf.lib;..\..\lib\RelWithDebInfo\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\RelWithDebInfo\client.lib;..\..\lib\RelWithDebInfo\tgfclient.lib;..\..\lib\RelWithDebInfo\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\RelWithDebInfo\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\RelWithDebInfo\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -304,7 +307,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/RelWithDebInfo/human.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/human/RelWithDebInfo/human.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/human/human.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/human/human.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -381,6 +385,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\client\client.vcxproj">
+      <Project>{63F650FF-FFBE-3381-9C14-36F41310D863}</Project>
+      <Name>client</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\musicplayer\musicplayer.vcxproj">
+      <Project>{8E1CB917-945C-3DA6-ABE2-9AD4B5AC8EBA}</Project>
+      <Name>musicplayer</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\robottools\robottools.vcxproj">
       <Project>{0D0EA34C-4067-32D3-A27C-1DAD19AE307E}</Project>
       <Name>robottools</Name>
@@ -388,6 +400,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\tgf\tgf.vcxproj">
       <Project>{ACE2D0B5-AA06-3C50-B4F3-45E734368BA7}</Project>
       <Name>tgf</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\tgfclient\tgfclient.vcxproj">
+      <Project>{2575B1C5-0222-355E-9B74-C45BD391E995}</Project>
+      <Name>tgfclient</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\txml\txml.vcxproj">
       <Project>{C8C56BE2-0800-3301-B2D8-FAB1E64FEB47}</Project>

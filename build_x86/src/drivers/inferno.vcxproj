@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\inferno\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\inferno\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">inferno.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">inferno</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\inferno\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\inferno\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">inferno.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">inferno</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\inferno\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\inferno\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">inferno.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">inferno</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\drivers\inferno\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\inferno\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">inferno.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">inferno</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.dll</TargetExt>
@@ -134,7 +134,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Debug/inferno.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/inferno/Debug/inferno.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/inferno/inferno.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/inferno/inferno.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -191,7 +192,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/Release/inferno.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/inferno/Release/inferno.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/inferno/inferno.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/inferno/inferno.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -248,7 +250,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/MinSizeRel/inferno.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/inferno/MinSizeRel/inferno.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/inferno/inferno.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/inferno/inferno.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -304,7 +307,8 @@
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
       <ImportLibrary>D:/Games/Open-Racing-Simulator-/build_x86/lib/RelWithDebInfo/inferno.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/drivers/inferno/RelWithDebInfo/inferno.pdb</ProgramDataBaseFile>
+      <ModuleDefinitionFile>D:/Games/Open-Racing-Simulator-/src/drivers/inferno/inferno.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>D:/Games/Open-Racing-Simulator-/build_x86/runtime/drivers/inferno/inferno.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>

@@ -222,7 +222,7 @@ confscreens_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 damned_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
 
 //Dependencies for the target
-human_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+human_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;general;client;general;tgfclient;general;musicplayer;general;js_vs2008_32;general;libpng15_vs2008_32;general;zlib1_vs2008_32;general;glut32;general;opengl32;general;glu32;
 
 //Dependencies for the target
 inferno2_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
@@ -237,10 +237,10 @@ learning_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
 lliaw_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
 
 //Dependencies for the target
-musicplayer_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
+musicplayer_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;OpenAL32;general;libvorbis;general;libvorbisfile;general;libogg;
 
 //Dependencies for the target
-olethros_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
+olethros_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;general;learning;
 
 //Dependencies for the target
 raceengineclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
@@ -270,7 +270,7 @@ ssggraph_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;gen
 tgf_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;ws2_32;general;txml;
 
 //Dependencies for the target
-tgfclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
+tgfclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;txml;general;musicplayer;general;js_vs2008_32;general;libpng15_vs2008_32;general;zlib1_vs2008_32;general;glut32;general;opengl32;general;glu32;
 
 //Dependencies for the target
 tita_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;

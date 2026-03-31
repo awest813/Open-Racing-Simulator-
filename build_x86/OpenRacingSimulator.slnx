@@ -81,8 +81,11 @@
 	</Project>
 	<Project Path="src/drivers/human.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5385d898-ce35-3ada-9c27-a6f01046a088">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/client/client.vcxproj"/>
+		<BuildDependency Project="src/libs/musicplayer/musicplayer.vcxproj"/>
 		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
 		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
+		<BuildDependency Project="src/libs/tgfclient/tgfclient.vcxproj"/>
 		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 	</Project>
 	<Project Path="src/drivers/inferno.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="02aaaf4f-a903-3e11-bdb9-5350b6da156f">
@@ -108,9 +111,12 @@
 	</Project>
 	<Project Path="src/libs/musicplayer/musicplayer.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="8e1cb917-945c-3da6-abe2-9ad4b5ac8eba">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
+		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 	</Project>
 	<Project Path="src/drivers/olethros.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ff32d329-2e12-31b3-b46a-ab51bc24680d">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/learning/learning.vcxproj"/>
 		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
 		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
 		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
@@ -158,6 +164,9 @@
 	</Project>
 	<Project Path="src/libs/tgfclient/tgfclient.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="2575b1c5-0222-355e-9b74-c45bd391e995">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/musicplayer/musicplayer.vcxproj"/>
+		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
+		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 	</Project>
 	<Project Path="src/drivers/tita.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ed23e39d-2eae-343e-82fa-52110511eb1e">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
@@ -176,16 +185,31 @@
 	</Project>
 	<Project Path="src/windows/wtorcs.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="41b0587d-b562-3f9f-adb3-d171880f60ff">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/drivers/berniw.vcxproj"/>
+		<BuildDependency Project="src/drivers/berniw2.vcxproj"/>
+		<BuildDependency Project="src/drivers/berniw3.vcxproj"/>
+		<BuildDependency Project="src/drivers/bt.vcxproj"/>
 		<BuildDependency Project="src/libs/client/client.vcxproj"/>
 		<BuildDependency Project="src/libs/confscreens/confscreens.vcxproj"/>
+		<BuildDependency Project="src/drivers/damned.vcxproj"/>
+		<BuildDependency Project="src/drivers/human.vcxproj"/>
+		<BuildDependency Project="src/drivers/inferno.vcxproj"/>
+		<BuildDependency Project="src/drivers/inferno2.vcxproj"/>
 		<BuildDependency Project="src/libs/learning/learning.vcxproj"/>
+		<BuildDependency Project="src/drivers/lliaw.vcxproj"/>
 		<BuildDependency Project="src/libs/musicplayer/musicplayer.vcxproj"/>
+		<BuildDependency Project="src/drivers/olethros.vcxproj"/>
 		<BuildDependency Project="src/libs/raceengineclient/raceengineclient.vcxproj"/>
 		<BuildDependency Project="src/libs/racescreens/racescreens.vcxproj"/>
 		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
+		<BuildDependency Project="src/modules/simu/simuv2/simuv2.vcxproj"/>
+		<BuildDependency Project="src/modules/simu/simuv3/simuv3.vcxproj"/>
+		<BuildDependency Project="src/drivers/sparkle.vcxproj"/>
 		<BuildDependency Project="src/modules/graphic/ssggraph/ssggraph.vcxproj"/>
 		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
 		<BuildDependency Project="src/libs/tgfclient/tgfclient.vcxproj"/>
+		<BuildDependency Project="src/drivers/tita.vcxproj"/>
+		<BuildDependency Project="src/modules/track/track.vcxproj"/>
 		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 	</Project>
 </Solution>
