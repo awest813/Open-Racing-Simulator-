@@ -181,6 +181,9 @@
 		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
 		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 	</Project>
+	<Project Path="torcs_runtime_assets.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b6b42095-ae29-3093-a469-68251f4c58e9">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
 	<Project Path="src/modules/track/track.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="a2241ad9-5473-3f73-8ab5-1dac2a954da7">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
@@ -216,6 +219,7 @@
 		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
 		<BuildDependency Project="src/libs/tgfclient/tgfclient.vcxproj"/>
 		<BuildDependency Project="src/drivers/tita.vcxproj"/>
+		<BuildDependency Project="torcs_runtime_assets.vcxproj"/>
 		<BuildDependency Project="src/modules/track/track.vcxproj"/>
 		<BuildDependency Project="src/libs/txml/txml.vcxproj"/>
 	</Project>

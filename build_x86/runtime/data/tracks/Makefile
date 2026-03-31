@@ -1,7 +1,7 @@
 ##############################################################################
 #
-#    file                 : Makefile<2>
-#    created              : Sun Mar 19 00:13:24 CET 2000
+#    file                 : Makefile
+#    created              : Sun Mar 19 00:15:04 CET 2000
 #    copyright            : (C) 2000 by Eric Espie                         
 #    email                : torcs@free.fr   
 #    version              : $Id$                                  
@@ -16,9 +16,15 @@
 ##############################################################################
 
 
-DATASUBDIRS = $(shell find * -maxdepth 0 -type d -print | grep -v CVS)	
+DATADIR   = data/tracks
 
-PKGSUBDIRS	= $(DATASUBDIRS)
+DATA      = $(shell find *.xml -maxdepth 0 -type f -print)
+
+
+data_PKGFILES	= $(DATA)
+
+data_PKGDIR	= $(DATADIR)
+
 
 include ${MAKE_DEFAULT}
 

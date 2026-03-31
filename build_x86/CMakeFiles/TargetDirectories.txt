@@ -1,3 +1,4 @@
+D:/Games/Open-Racing-Simulator-/build_x86/CMakeFiles/torcs_runtime_assets.dir
 D:/Games/Open-Racing-Simulator-/build_x86/CMakeFiles/ALL_BUILD.dir
 D:/Games/Open-Racing-Simulator-/build_x86/CMakeFiles/ZERO_CHECK.dir
 D:/Games/Open-Racing-Simulator-/build_x86/src/libs/client/CMakeFiles/client.dir

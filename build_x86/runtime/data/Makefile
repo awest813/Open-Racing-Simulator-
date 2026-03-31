@@ -16,10 +16,9 @@
 ##############################################################################
 
 
-DATASUBDIRS	= data cars tracks
+DATASUBDIRS = img menu fonts textures sound objects tracks music
 
 PKGSUBDIRS	= $(DATASUBDIRS)
-
 
 include ${MAKE_DEFAULT}
 

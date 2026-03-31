@@ -36,19 +36,47 @@ endfunction()
 
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}")
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}/modules")
-file(COPY "${CMAKE_SOURCE_DIR}/data" DESTINATION "${TORCS_RUNTIME_DIRECTORY}")
-file(COPY "${CMAKE_SOURCE_DIR}/data/data/" DESTINATION "${TORCS_RUNTIME_DIRECTORY}/data")
-file(COPY
-    "${CMAKE_SOURCE_DIR}/runtime/config"
-    "${CMAKE_SOURCE_DIR}/runtime/drivers"
-    "${CMAKE_SOURCE_DIR}/runtime/results"
-    "${CMAKE_SOURCE_DIR}/runtime/telemetry"
-    DESTINATION "${TORCS_RUNTIME_DIRECTORY}"
+
+file(GLOB_RECURSE TORCS_RUNTIME_ASSET_INPUTS CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/data/*"
+    "${CMAKE_SOURCE_DIR}/runtime/config/*"
+    "${CMAKE_SOURCE_DIR}/runtime/drivers/*"
+    "${CMAKE_SOURCE_DIR}/runtime/results/*"
+    "${CMAKE_SOURCE_DIR}/runtime/telemetry/*"
 )
 
 if(WIN32)
-    file(COPY "${CMAKE_SOURCE_DIR}/src/windows/dll/" DESTINATION "${TORCS_RUNTIME_DIRECTORY}")
+    file(GLOB TORCS_WINDOWS_RUNTIME_DLLS CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/windows/dll/*.dll")
+    list(APPEND TORCS_RUNTIME_ASSET_INPUTS ${TORCS_WINDOWS_RUNTIME_DLLS})
 endif()
+
+set(TORCS_RUNTIME_ASSET_STAMP "${CMAKE_BINARY_DIR}/CMakeFiles/torcs_runtime_assets.stamp")
+
+add_custom_command(
+    OUTPUT "${TORCS_RUNTIME_ASSET_STAMP}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/modules"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/data" "${TORCS_RUNTIME_DIRECTORY}/data"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/data/data" "${TORCS_RUNTIME_DIRECTORY}/data"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/config" "${TORCS_RUNTIME_DIRECTORY}/config"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/drivers" "${TORCS_RUNTIME_DIRECTORY}/drivers"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/results" "${TORCS_RUNTIME_DIRECTORY}/results"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/telemetry" "${TORCS_RUNTIME_DIRECTORY}/telemetry"
+    COMMAND ${CMAKE_COMMAND} -E touch "${TORCS_RUNTIME_ASSET_STAMP}"
+    DEPENDS ${TORCS_RUNTIME_ASSET_INPUTS}
+    COMMENT "Syncing TORCS runtime assets"
+    VERBATIM
+)
+
+if(WIN32)
+    add_custom_command(
+        OUTPUT "${TORCS_RUNTIME_ASSET_STAMP}"
+        APPEND
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TORCS_WINDOWS_RUNTIME_DLLS} "${TORCS_RUNTIME_DIRECTORY}"
+    )
+endif()
+
+add_custom_target(torcs_runtime_assets DEPENDS "${TORCS_RUNTIME_ASSET_STAMP}")
 
 # Include directories
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)

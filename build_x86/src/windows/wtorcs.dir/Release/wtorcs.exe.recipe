@@ -47,6 +47,9 @@
       <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\drivers\tita\tita.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\Release\torcs_runtime_assets</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\Games\Open-Racing-Simulator-\build_x86\runtime\modules\track\track.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>
