@@ -40,6 +40,36 @@
 
 #include "raceresults.h"
 
+namespace {
+
+void buildCarModelPath(char* destination, size_t destinationSize, const char* carName)
+{
+	const char* safeCarName = (carName != nullptr) ? carName : "";
+	snprintf(destination, destinationSize, "%sdata/cars/models/%s/%s.xml", GetDataDir(), safeCarName, safeCarName);
+	destination[destinationSize - 1] = '\0';
+}
+
+const char* getCarDisplayName(const char* carInternalName, char* pathBuffer, size_t pathBufferSize, void** carHandle)
+{
+	if (carHandle != nullptr) {
+		*carHandle = nullptr;
+	}
+
+	buildCarModelPath(pathBuffer, pathBufferSize, carInternalName);
+	void* handle = GfParmReadFile(pathBuffer, GFPARM_RMODE_STD);
+	if (carHandle != nullptr) {
+		*carHandle = handle;
+	}
+
+	if (handle == nullptr) {
+		return (carInternalName != nullptr) ? carInternalName : "";
+	}
+
+	return GfParmGetName(handle);
+}
+
+} // namespace
+
 typedef struct
 {
 	char *carName;
@@ -370,9 +400,7 @@ void ReStoreRaceResults(const char *race)
 			
 				GfParmSetStr(results, path, RE_ATTR_NAME, car->_name);
 			
-				snprintf(buf, BUFSIZE, "cars/%s/%s.xml", car->_carName, car->_carName);
-				carparam = GfParmReadFile(buf, GFPARM_RMODE_STD);
-				carName = GfParmGetName(carparam);
+				carName = const_cast<char*>(getCarDisplayName(car->_carName, buf, BUFSIZE, &carparam));
 			
 				GfParmSetStr(results, path, RE_ATTR_CAR, carName);
 				GfParmSetNum(results, path, RE_ATTR_INDEX, nullptr, car->index);
@@ -392,7 +420,9 @@ void ReStoreRaceResults(const char *race)
 				GfParmSetNum(results, path, RE_ATTR_POINTS, nullptr,
 						(int)GfParmGetNum(params, path2, RE_ATTR_POINTS, nullptr, 0));
 
-				GfParmReleaseHandle(carparam);
+				if (carparam != nullptr) {
+					GfParmReleaseHandle(carparam);
+				}
 			}
 			break;
 			
@@ -432,9 +462,7 @@ void ReStoreRaceResults(const char *race)
 			snprintf(path, BUFSIZE, "%s/%s/%s/%s/%d", ReInfo->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK, i + 1);
 			GfParmSetStr(results, path, RE_ATTR_NAME, car->_name);
 			
-			snprintf(buf, BUFSIZE, "cars/%s/%s.xml", car->_carName, car->_carName);
-			carparam = GfParmReadFile(buf, GFPARM_RMODE_STD);
-			carName = GfParmGetName(carparam);
+			carName = const_cast<char*>(getCarDisplayName(car->_carName, buf, BUFSIZE, &carparam));
 			
 			GfParmSetStr(results, path, RE_ATTR_CAR, carName);
 			GfParmSetNum(results, path, RE_ATTR_BEST_LAP_TIME, nullptr, round(car->_bestLapTime*1000.0f)/1000.0f);
@@ -444,7 +472,9 @@ void ReStoreRaceResults(const char *race)
 			GfParmSetNum(results, path, RE_ATTR_POINTS, nullptr,
 						(int)GfParmGetNum(params, path2, RE_ATTR_POINTS, nullptr, 0));
 		
-			GfParmReleaseHandle(carparam);
+			if (carparam != nullptr) {
+				GfParmReleaseHandle(carparam);
+			}
 			break;
 	}
 }
@@ -472,9 +502,7 @@ ReUpdateQualifCurRes(tCarElt *car)
 	snprintf(buf, BUFSIZE, "%s on %s - Lap %d", car->_name, ReInfo->track->name, car->_laps);
 	ReResScreenSetTitle(buf);
 	
-	snprintf(buf, BUFSIZE, "cars/%s/%s.xml", car->_carName, car->_carName);
-	carparam = GfParmReadFile(buf, GFPARM_RMODE_STD);
-	carName = GfParmGetName(carparam);
+	carName = const_cast<char*>(getCarDisplayName(car->_carName, buf, BUFSIZE, &carparam));
 	
 	printed = 0;
 	snprintf(path, BUFSIZE, "%s/%s/%s/%s", ReInfo->track->name, RE_SECT_RESULTS, race, RE_SECT_RANK);
@@ -501,7 +529,9 @@ ReUpdateQualifCurRes(tCarElt *car)
 		ReResScreenSetText(buf, i - 1, 1);
 	}
 
-	GfParmReleaseHandle(carparam);
+	if (carparam != nullptr) {
+		GfParmReleaseHandle(carparam);
+	}
 	ReInfo->_refreshDisplay = 1;
 }
 

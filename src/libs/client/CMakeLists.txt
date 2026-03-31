@@ -14,3 +14,8 @@ target_include_directories(client PUBLIC
     ${PROJECT_SOURCE_DIR}/src/interfaces
     ${PROJECT_SOURCE_DIR}/src/libs
 )
+
+target_link_libraries(client PUBLIC
+    confscreens
+    raceengineclient
+)

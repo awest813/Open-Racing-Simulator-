@@ -35,6 +35,17 @@ static void *triStateHdle = 0;
 static void *fourStateHdle = 0;
 static void *nStateHandle = 0;
 
+namespace {
+
+void buildCarModelPath(char* destination, size_t destinationSize, const char* carName)
+{
+	const char* safeCarName = (carName != nullptr) ? carName : "";
+	snprintf(destination, destinationSize, "%sdata/cars/models/%s/%s.xml", GetDataDir(), safeCarName, safeCarName);
+	destination[destinationSize - 1] = '\0';
+}
+
+} // namespace
+
 
 /** @brief Screen with 2 menu options (buttons)
  *  @ingroup racemantools
@@ -262,15 +273,17 @@ rmDisplayStartRace(tRmInfo *info, void *startScr, void *abortScr, int start)
 				name = GfParmGetStr(robhdle, path, ROB_ATTR_NAME, "<none>");
 				const char* carName = GfParmGetStr(robhdle, path, ROB_ATTR_CAR, "");
 				
-				snprintf(path, BUFSIZE, "cars/%s/%s.xml", carName, carName);
+				buildCarModelPath(path, BUFSIZE, carName);
 				carHdle = GfParmReadFile(path, GFPARM_RMODE_STD);
-				carName = GfParmGetName(carHdle);
+				carName = carHdle ? GfParmGetName(carHdle) : carName;
 			
 				snprintf(path, BUFSIZE, "%d - %s - (%s)", i + 1, name, carName);
 				GfuiLabelCreate(rmScrHdle, path, GFUI_FONT_MEDIUM_C,
 						x + curRow * dx, y, GFUI_ALIGN_HL_VB, 0);
 
-				GfParmReleaseHandle(carHdle);
+				if (carHdle != nullptr) {
+					GfParmReleaseHandle(carHdle);
+				}
 				GfParmReleaseHandle(robhdle);
 			}
 			curRow = (curRow + 1) % rows;

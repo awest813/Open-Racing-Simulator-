@@ -104,13 +104,32 @@ static tPlayerInfo	*curPlayer;
 
 static const char *Yn[] = {HM_VAL_YES, HM_VAL_NO};
 
+namespace {
+
+void buildDataPath(char* buffer, int bufferSize, const char* relativePath)
+{
+	if ((buffer == nullptr) || (bufferSize <= 0)) {
+		return;
+	}
+
+	const char* dataDir = GetDataDir();
+	if (dataDir == nullptr) {
+		dataDir = "";
+	}
+
+	snprintf(buffer, bufferSize, "%s%s", dataDir, relativePath);
+	buffer[bufferSize - 1] = '\0';
+}
+
+} // namespace
+
 static void
 refreshEditVal(void)
 {
 	const int BUFSIZE = 1024;
 	char buf[BUFSIZE];
 	
-	if (curPlayer == nullptr) {
+	if ((curPlayer == nullptr) || (curPlayer->carinfo == nullptr) || (curPlayer->carinfo->cat == nullptr)) {
 		GfuiEditboxSetString(scrHandle, NameEditId, "");
 		GfuiEnable(scrHandle, NameEditId, GFUI_DISABLE);
 		
@@ -196,19 +215,20 @@ GenCarsInfo(void)
 		free(curCat);
 	}
 	
-	files = GfDirGetList("categories");
+	buildDataPath(buf, BUFSIZE, "data/cars/categories");
+	files = GfDirGetList(buf);
 	curFile = files;
-	if ((curFile != nullptr) && (curFile->name[0] != '.')) {
+	if (curFile != nullptr) {
 		do {
 			curFile = curFile->next;
 			curCat = (tCatInfo*)calloc(1, sizeof(tCatInfo));
 			GF_TAILQ_INIT(&(curCat->CarsInfoList));
-			char* str = strchr(curFile->name, '.');
-			*str = '\0';
 			curCat->_Name = strdup(curFile->name);
-			snprintf(buf, BUFSIZE, "categories/%s.xml", curFile->name);
+			snprintf(buf, BUFSIZE, "%sdata/cars/categories/%s/%s.xml", GetDataDir(), curFile->name, curFile->name);
 			hdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
 			if (!hdle) {
+				free(curCat->_Name);
+				free(curCat);
 				continue;
 			}
 			curCat->_DispName = strdup(GfParmGetName(hdle));
@@ -218,16 +238,19 @@ GenCarsInfo(void)
 	}
 	GfDirFreeList(files, nullptr, true, false);
 	
-	files = GfDirGetList("cars");
+	buildDataPath(buf, BUFSIZE, "data/cars/models");
+	files = GfDirGetList(buf);
 	curFile = files;
-	if ((curFile != nullptr) && (curFile->name[0] != '.')) {
+	if (curFile != nullptr) {
 		do {
 			curFile = curFile->next;
 			curCar = (tCarInfo*)calloc(1, sizeof(tCarInfo));
 			curCar->_Name = strdup(curFile->name);
-			snprintf(buf, BUFSIZE, "cars/%s/%s.xml", curFile->name, curFile->name);
+			snprintf(buf, BUFSIZE, "%sdata/cars/models/%s/%s.xml", GetDataDir(), curFile->name, curFile->name);
 			carparam = GfParmReadFile(buf, GFPARM_RMODE_STD);
 			if (!carparam) {
+				free(curCar->_Name);
+				free(curCar);
 				continue;
 			}
 		
@@ -243,6 +266,13 @@ GenCarsInfo(void)
 				} while ((curCat = GF_TAILQ_NEXT(curCat, link)) != nullptr);
 			}
 			curCar->cat = curCat;
+			if (curCar->cat == nullptr) {
+				GfParmReleaseHandle(carparam);
+				free(curCar->_Name);
+				free(curCar->_DispName);
+				free(curCar);
+				continue;
+			}
 			GF_TAILQ_INSERT_TAIL(&(curCat->CarsInfoList), curCar, link);
 			GfParmReleaseHandle(carparam);
 		} while (curFile != files);
@@ -251,7 +281,7 @@ GenCarsInfo(void)
 	
 	/* Remove the empty categories */
 	curCat = GF_TAILQ_FIRST(&CatsInfoList);
-	do {
+	while (curCat != nullptr) {
 		curCar = GF_TAILQ_FIRST(&(curCat->CarsInfoList));
 		tmpCat = curCat;
 		curCat = GF_TAILQ_NEXT(curCat, link);
@@ -262,7 +292,7 @@ GenCarsInfo(void)
 			free(tmpCat->_DispName);
 			free(tmpCat);
 		}
-	} while (curCat  != nullptr);
+	}
 	
 }
 
@@ -325,13 +355,21 @@ GenDrvList(void)
 		return -1;
 	}
 
+	tCatInfo* firstCategory = GF_TAILQ_FIRST(&CatsInfoList);
+	tCarInfo* firstCar = (firstCategory != nullptr) ? GF_TAILQ_FIRST(&(firstCategory->CarsInfoList)) : nullptr;
+	if (firstCar == nullptr) {
+		GfParmReleaseHandle(drvinfo);
+		GfError("Driver configuration could not find any available cars in the packaged data.\n");
+		return -1;
+	}
+
 	for (i = 0; i < NB_DRV; i++) {
 		snprintf(sstring, SSTRINGSIZE, "%s/%s/%d", ROB_SECT_ROBOTS, ROB_LIST_INDEX, i+1);
 		driver = GfParmGetStr(drvinfo, sstring, ROB_ATTR_NAME, "");
 		if (strlen(driver) == 0) {
 			PlayersInfo[i]._DispName = strdup(NO_DRV);
 			PlayersInfo[i]._Name = strdup(dllname);
-			PlayersInfo[i].carinfo = GF_TAILQ_FIRST(&((GF_TAILQ_FIRST(&CatsInfoList))->CarsInfoList));
+			PlayersInfo[i].carinfo = firstCar;
 			PlayersInfo[i].racenumber = 0;
 			PlayersInfo[i].color[0] = 1.0;
 			PlayersInfo[i].color[1] = 1.0;
@@ -351,18 +389,19 @@ GenDrvList(void)
 			str = GfParmGetStr(drvinfo, sstring, ROB_ATTR_CAR, "");
 			found = 0;
 			cat = GF_TAILQ_FIRST(&CatsInfoList);
-			PlayersInfo[i].carinfo = GF_TAILQ_FIRST(&(cat->CarsInfoList));
-			do {
+			PlayersInfo[i].carinfo = firstCar;
+			while (cat != nullptr && !found) {
 				car = GF_TAILQ_FIRST(&(cat->CarsInfoList));
-				if (car != nullptr) {
-					do {
-						if (strcmp(car->_Name, str) == 0) {
-							found = 1;
-							PlayersInfo[i].carinfo = car;
-						}
-					} while (!found && ((car = GF_TAILQ_NEXT(car, link)) != nullptr));
+				while (car != nullptr) {
+					if (strcmp(car->_Name, str) == 0) {
+						found = 1;
+						PlayersInfo[i].carinfo = car;
+						break;
+					}
+					car = GF_TAILQ_NEXT(car, link);
 				}
-			} while (!found && ((cat = GF_TAILQ_NEXT(cat, link)) != nullptr));
+				cat = GF_TAILQ_NEXT(cat, link);
+			}
 			PlayersInfo[i].racenumber  = (int)GfParmGetNum(drvinfo, sstring, ROB_ATTR_RACENUM, nullptr, 0);
 			PlayersInfo[i].color[0]    = (float)GfParmGetNum(drvinfo, sstring, ROB_ATTR_RED, nullptr, 1.0);
 			PlayersInfo[i].color[1]    = (float)GfParmGetNum(drvinfo, sstring, ROB_ATTR_GREEN, nullptr, 1.0);;
@@ -505,7 +544,7 @@ ChangeCar(void *vp)
 	tCarInfo	*car;
 	tCatInfo	*cat;
 	
-	if (curPlayer == nullptr) {
+	if ((curPlayer == nullptr) || (curPlayer->carinfo == nullptr) || (curPlayer->carinfo->cat == nullptr)) {
 		return;
 	}
 	
@@ -531,7 +570,7 @@ ChangeCat(void *vp)
 	tCarInfo	*car;
 	tCatInfo	*cat;
 	
-	if (curPlayer == nullptr) {
+	if ((curPlayer == nullptr) || (curPlayer->carinfo == nullptr) || (curPlayer->carinfo->cat == nullptr)) {
 		return;
 	}
 	

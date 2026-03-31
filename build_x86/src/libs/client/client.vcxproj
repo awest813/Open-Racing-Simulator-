@@ -320,6 +320,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\confscreens\confscreens.vcxproj">
+      <Project>{01080ABD-C23E-3A69-BA62-C1816D596910}</Project>
+      <Name>confscreens</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\raceengineclient\raceengineclient.vcxproj">
+      <Project>{4326204D-C366-309D-851F-AFB7C7B9DD9B}</Project>
+      <Name>raceengineclient</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\racescreens\racescreens.vcxproj">
+      <Project>{64A6B6D5-DAAB-371F-84A3-7FF09256995A}</Project>
+      <Name>racescreens</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

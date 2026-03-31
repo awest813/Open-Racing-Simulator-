@@ -125,7 +125,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Debug\tgf.lib;..\..\lib\Debug\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Debug\client.lib;..\..\lib\Debug\tgfclient.lib;..\..\lib\Debug\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\Debug\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\Debug\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Debug\tgf.lib;..\..\lib\Debug\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Debug\client.lib;..\..\lib\Debug\tgfclient.lib;..\..\lib\Debug\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\Debug\confscreens.lib;..\..\lib\Debug\raceengineclient.lib;..\..\lib\Debug\racescreens.lib;..\..\lib\Debug\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\Debug\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -183,7 +183,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Release\tgf.lib;..\..\lib\Release\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Release\client.lib;..\..\lib\Release\tgfclient.lib;..\..\lib\Release\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\Release\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\Release\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\Release\tgf.lib;..\..\lib\Release\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\Release\client.lib;..\..\lib\Release\tgfclient.lib;..\..\lib\Release\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\Release\confscreens.lib;..\..\lib\Release\raceengineclient.lib;..\..\lib\Release\racescreens.lib;..\..\lib\Release\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\Release\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -241,7 +241,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\MinSizeRel\tgf.lib;..\..\lib\MinSizeRel\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\MinSizeRel\client.lib;..\..\lib\MinSizeRel\tgfclient.lib;..\..\lib\MinSizeRel\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\MinSizeRel\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\MinSizeRel\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\MinSizeRel\tgf.lib;..\..\lib\MinSizeRel\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\MinSizeRel\client.lib;..\..\lib\MinSizeRel\tgfclient.lib;..\..\lib\MinSizeRel\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\MinSizeRel\confscreens.lib;..\..\lib\MinSizeRel\raceengineclient.lib;..\..\lib\MinSizeRel\racescreens.lib;..\..\lib\MinSizeRel\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\MinSizeRel\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -298,7 +298,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\RelWithDebInfo\tgf.lib;..\..\lib\RelWithDebInfo\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\RelWithDebInfo\client.lib;..\..\lib\RelWithDebInfo\tgfclient.lib;..\..\lib\RelWithDebInfo\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\RelWithDebInfo\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\RelWithDebInfo\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;..\..\lib\RelWithDebInfo\tgf.lib;..\..\lib\RelWithDebInfo\robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;..\..\lib\RelWithDebInfo\client.lib;..\..\lib\RelWithDebInfo\tgfclient.lib;..\..\lib\RelWithDebInfo\musicplayer.lib;js_vs2008_32.lib;libpng15_vs2008_32.lib;zlib1_vs2008_32.lib;glut32.lib;opengl32.lib;glu32.lib;..\..\lib\RelWithDebInfo\confscreens.lib;..\..\lib\RelWithDebInfo\raceengineclient.lib;..\..\lib\RelWithDebInfo\racescreens.lib;..\..\lib\RelWithDebInfo\tgf.lib;ws2_32.lib;OpenAL32.lib;libvorbis.lib;libvorbisfile.lib;libogg.lib;..\..\lib\RelWithDebInfo\txml.lib;legacy_stdio_definitions.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:/Games/Open-Racing-Simulator-/src/windows/lib;D:/Games/Open-Racing-Simulator-/src/windows/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -389,9 +389,21 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{63F650FF-FFBE-3381-9C14-36F41310D863}</Project>
       <Name>client</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\confscreens\confscreens.vcxproj">
+      <Project>{01080ABD-C23E-3A69-BA62-C1816D596910}</Project>
+      <Name>confscreens</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\musicplayer\musicplayer.vcxproj">
       <Project>{8E1CB917-945C-3DA6-ABE2-9AD4B5AC8EBA}</Project>
       <Name>musicplayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\raceengineclient\raceengineclient.vcxproj">
+      <Project>{4326204D-C366-309D-851F-AFB7C7B9DD9B}</Project>
+      <Name>raceengineclient</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\racescreens\racescreens.vcxproj">
+      <Project>{64A6B6D5-DAAB-371F-84A3-7FF09256995A}</Project>
+      <Name>racescreens</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Games\Open-Racing-Simulator-\build_x86\src\libs\robottools\robottools.vcxproj">
       <Project>{0D0EA34C-4067-32D3-A27C-1DAD19AE307E}</Project>

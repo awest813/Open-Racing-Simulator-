@@ -69,6 +69,9 @@
 	</Project>
 	<Project Path="src/libs/client/client.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="63f650ff-ffbe-3381-9c14-36f41310d863">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/confscreens/confscreens.vcxproj"/>
+		<BuildDependency Project="src/libs/raceengineclient/raceengineclient.vcxproj"/>
+		<BuildDependency Project="src/libs/racescreens/racescreens.vcxproj"/>
 	</Project>
 	<Project Path="src/libs/confscreens/confscreens.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="01080abd-c23e-3a69-ba62-c1816d596910">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
@@ -82,7 +85,10 @@
 	<Project Path="src/drivers/human.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5385d898-ce35-3ada-9c27-a6f01046a088">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 		<BuildDependency Project="src/libs/client/client.vcxproj"/>
+		<BuildDependency Project="src/libs/confscreens/confscreens.vcxproj"/>
 		<BuildDependency Project="src/libs/musicplayer/musicplayer.vcxproj"/>
+		<BuildDependency Project="src/libs/raceengineclient/raceengineclient.vcxproj"/>
+		<BuildDependency Project="src/libs/racescreens/racescreens.vcxproj"/>
 		<BuildDependency Project="src/libs/robottools/robottools.vcxproj"/>
 		<BuildDependency Project="src/libs/tgf/tgf.vcxproj"/>
 		<BuildDependency Project="src/libs/tgfclient/tgfclient.vcxproj"/>
@@ -123,6 +129,7 @@
 	</Project>
 	<Project Path="src/libs/raceengineclient/raceengineclient.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4326204d-c366-309d-851f-afb7c7b9dd9b">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="src/libs/racescreens/racescreens.vcxproj"/>
 	</Project>
 	<Project Path="src/libs/racescreens/racescreens.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="64a6b6d5-daab-371f-84a3-7ff09256995a">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
