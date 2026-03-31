@@ -938,7 +938,7 @@ void grInitBoardCar(tCarElt *car)
 	
 	/* Load the Tachometer texture */
 	param = GfParmGetStr(handle, SECT_GROBJECTS, PRM_TACHO_TEX, "rpm8000.rgb");
-	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;cars/%s;data/textures", car->_modName, car->_driverIndex, car->_modName, car->_carName);
+	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;data/cars/models/%s;data/textures", car->_modName, car->_driverIndex, car->_modName, car->_carName);
 	grFilePath = strdup(buf);
 	curInst->texture = (ssgSimpleState*)grSsgLoadTexState(param);
 	curInst->texture->ref();
@@ -994,7 +994,7 @@ void grInitBoardCar(tCarElt *car)
 	
 	/* Load the Speedometer texture */
 	param = GfParmGetStr(handle, SECT_GROBJECTS, PRM_SPEEDO_TEX, "speed360.rgb");
-	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;cars/%s;data/textures", car->_modName, car->_driverIndex, car->_modName, car->_carName);
+	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;data/cars/models/%s;data/textures", car->_modName, car->_driverIndex, car->_modName, car->_carName);
 	grFilePath = strdup(buf);
 	curInst->texture = (ssgSimpleState*)grSsgLoadTexState(param);
 	curInst->texture->ref();

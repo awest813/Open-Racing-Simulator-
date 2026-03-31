@@ -114,7 +114,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	}
 
 	char buffer[BUFSIZE];
-	char* trackname = strrchr(track->filename, '/') + 1;
+	const char* trackname = GfPathBaseName(track->filename);
 
 	snprintf(buffer, BUFSIZE, "drivers/berniw/%d/%s", index, trackname);
     *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);

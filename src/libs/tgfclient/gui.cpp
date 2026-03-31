@@ -240,6 +240,10 @@ GfuiDisplay(void)
 void
 GfuiMouseHide(void)
 {
+	if (GfuiScreen == nullptr) {
+		return;
+	}
+
     GfuiScreen->mouseAllowed = 0;
 }
 
@@ -250,6 +254,10 @@ GfuiMouseHide(void)
 void
 GfuiMouseShow(void)
 {
+	if (GfuiScreen == nullptr) {
+		return;
+	}
+
     GfuiScreen->mouseAllowed = 1;
 }
 
@@ -477,6 +485,12 @@ int
 GfuiScreenIsActive(void *screen)
 {
 	return (GfuiScreen == screen);
+}
+
+int
+GfuiHasCurrentScreen(void)
+{
+	return (GfuiScreen != nullptr);
 }
 
 /** Activate a screen and make it current.
@@ -739,6 +753,10 @@ GfuiSKeyEventRegister(void *scr, tfuiSKeyCallback onSKeyAction)
 void
 GfuiKeyEventRegisterCurrent(tfuiKeyCallback onKeyAction)
 {
+	if (GfuiScreen == nullptr) {
+		return;
+	}
+
 	GfuiScreen->onKeyAction = onKeyAction;
 }
 
@@ -746,6 +764,10 @@ GfuiKeyEventRegisterCurrent(tfuiKeyCallback onKeyAction)
 void
 GfuiSKeyEventRegisterCurrent(tfuiSKeyCallback onSKeyAction)
 {
+	if (GfuiScreen == nullptr) {
+		return;
+	}
+
 	GfuiScreen->onSKeyAction = onSKeyAction;
 }
 

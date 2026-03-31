@@ -178,8 +178,7 @@ namespace olethros {
 	const int BUFSIZE = 256;
 	char buffer[BUFSIZE];
 	// Load a custom setup if one is available.
-	// Get a pointer to the first char of the track filename.
-	char* trackname = strrchr(track->filename, '/') + 1;
+	const char* trackname = GfPathBaseName(track->filename);
 
 	switch (s->_raceType) {
         case RM_TYPE_PRACTICE:

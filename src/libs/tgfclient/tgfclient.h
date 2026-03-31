@@ -125,6 +125,7 @@ extern void *GfuiScreenCreateEx(float *bgColor,
 extern void GfuiScreenRelease(void *screen);
 extern void GfuiScreenActivate(void *screen);
 extern int  GfuiScreenIsActive(void *screen);
+extern int  GfuiHasCurrentScreen(void);
 extern void GfuiScreenReplace(void *screen);
 extern void GfuiScreenDeactivate(void);
 extern void *GfuiHookCreate(void *userDataOnActivate, tfuiCallback onActivate);

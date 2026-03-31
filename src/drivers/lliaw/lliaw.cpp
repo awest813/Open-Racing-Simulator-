@@ -106,7 +106,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	}
 
 	char buffer[BUFSIZE];
-	char* trackname = strrchr(track->filename, '/') + 1;
+	const char* trackname = GfPathBaseName(track->filename);
 
 	switch (situation->_raceType) {
 		case RM_TYPE_PRACTICE:

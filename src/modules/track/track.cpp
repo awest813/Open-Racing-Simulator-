@@ -60,6 +60,23 @@ void freeTrackSurfaceList(tTrackSurface* surfaceList)
 	}
 }
 
+void* loadTrackHandle(const char* trackfile)
+{
+	if (trackfile == nullptr) {
+		return nullptr;
+	}
+
+	void* handle = GfParmReadFile(trackfile, GFPARM_RMODE_STD | GFPARM_RMODE_PRIVATE);
+	if (handle != nullptr) {
+		return handle;
+	}
+
+	char resolvedTrackPath[1024];
+	snprintf(resolvedTrackPath, sizeof(resolvedTrackPath), "%sdata/%s", GetDataDir(), trackfile);
+	resolvedTrackPath[sizeof(resolvedTrackPath) - 1] = '\0';
+	return GfParmReadFile(resolvedTrackPath, GFPARM_RMODE_STD | GFPARM_RMODE_PRIVATE);
+}
+
 } // namespace
 
 
@@ -75,9 +92,13 @@ TrackBuildv1(char *trackfile)
     theTrack = trackCalloc<tTrack>("TrackBuildv1");
     theCamList = nullptr;
 
-    theTrack->params = TrackHandle = GfParmReadFile (trackfile, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
+    theTrack->params = TrackHandle = loadTrackHandle(trackfile);
     
     theTrack->filename = trackDuplicateString(trackfile, "TrackBuildv1 filename");
+
+    if (TrackHandle == nullptr) {
+		return theTrack;
+	}
 
     GetTrackHeader(TrackHandle);
 
@@ -105,9 +126,13 @@ TrackBuildEx(char *trackfile)
     theTrack = trackCalloc<tTrack>("TrackBuildEx");
     theCamList = nullptr;
 
-    theTrack->params = TrackHandle = GfParmReadFile (trackfile, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
+    theTrack->params = TrackHandle = loadTrackHandle(trackfile);
     
     theTrack->filename = trackDuplicateString(trackfile, "TrackBuildEx filename");
+
+    if (TrackHandle == nullptr) {
+		return theTrack;
+	}
 
     GetTrackHeader(TrackHandle);
 

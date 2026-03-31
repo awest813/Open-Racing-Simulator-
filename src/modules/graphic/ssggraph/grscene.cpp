@@ -229,12 +229,16 @@ grLoadScene(tTrack *track)
 		return -1;
 	}
 
-	snprintf(buf, BUFSIZE, "tracks/%s/%s;data/textures;data/img;.", grTrack->category, grTrack->internalname);
+	snprintf(buf, BUFSIZE, "data/tracks/%s/%s;data/textures;data/img;.", grTrack->category, grTrack->internalname);
 	ssgTexturePath(buf);
-	snprintf(buf, BUFSIZE, "tracks/%s/%s", grTrack->category, grTrack->internalname);
+	snprintf(buf, BUFSIZE, "data/tracks/%s/%s", grTrack->category, grTrack->internalname);
 	ssgModelPath(buf);
 
 	desc = grssgLoadAC3D(acname, nullptr);
+	if (desc == nullptr) {
+		GfError("grLoadScene: failed to load track scene '%s' for %s/%s\n", acname, grTrack->category, grTrack->internalname);
+		return -1;
+	}
 	LandAnchor->addKid(desc);
 
 	return 0;
@@ -304,8 +308,9 @@ initBackground(void)
     ssgNormalArray	*bg_nrm;
     ssgSimpleState	*bg_st;
     
-    snprintf(buf, BUFSIZE, "tracks/%s/%s;data/img;data/textures;.", grTrack->category, grTrack->internalname);
-    grFilePath = buf;
+    snprintf(buf, BUFSIZE, "data/tracks/%s/%s;data/img;data/textures;.", grTrack->category, grTrack->internalname);
+    FREEZ(grFilePath);
+    grFilePath = strdup(buf);
     grGammaValue = 1.8;
     grMipMap = 0;
 
