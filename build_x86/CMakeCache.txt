@@ -213,7 +213,7 @@ berniw_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;gener
 bt_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;
 
 //Dependencies for the target
-client_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
+client_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;confscreens;general;raceengineclient;
 
 //Dependencies for the target
 confscreens_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
@@ -243,7 +243,7 @@ musicplayer_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;
 olethros_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;tgf;general;robottools;general;sg_vs2008_32;general;ul_vs2008_32;general;learning;
 
 //Dependencies for the target
-raceengineclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
+raceengineclient_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;general;racescreens;
 
 //Dependencies for the target
 racescreens_LIB_DEPENDS:STATIC=general;legacy_stdio_definitions.lib;
