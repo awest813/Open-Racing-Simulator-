@@ -350,7 +350,6 @@ void  grWriteTime(float *color, int font, int x, int y, tdble sec, int sgn)
 }
 
 
-// TODO: more efficient solution, this one is slow.
 float grGetHOT(float x, float y)
 {
 	sgVec3 test_vec;
@@ -366,7 +365,9 @@ float grGetHOT(float x, float y)
 	test_vec [2] = 100000.0f;
 
 	ssgHit *results;
-	int num_hits = ssgHOT (TheScene, test_vec, invmat, &results);
+	// Use LandAnchor instead of TheScene to avoid traversing cars, smoke, shadows, and UI.
+	// We only need the Height Of Terrain from the static landscape.
+	int num_hits = ssgHOT (LandAnchor, test_vec, invmat, &results);
 	float hot = -1000000.0f;
 
 	for (int i = 0; i < num_hits; i++) {

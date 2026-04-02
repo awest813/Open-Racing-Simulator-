@@ -6,3 +6,6 @@
 ## 2025-03-29 - O(1) Doubly Linked Free List for Object Pools
 **Learning:** In hot loops like an audio engine's free list management (e.g. `SharedSourcePool`), an $O(n)$ search to find the next free source introduces unnecessary linear scan overheads on each retrieval and release.
 **Action:** Always replace basic O(n) array-based free list searches with $O(1)$ operations by weaving a doubly linked list explicitly through the array elements using `prev_free` and `next_free` pointer offsets. A doubly linked list is preferable over a singly linked list if objects can be "resurrected" out of order (removed from the middle of the free list).
+## 2024-04-02 - Scene Graph Traversal Optimization
+**Learning:** In TORCS, `ssgHOT` traverses the specified scene graph root to test intersections. Passing the root of the entire scene (`TheScene`) forces traversal of dynamic objects like cars, UI, smoke, and shadows. For localized geometry queries like height-of-terrain, using the static track node (`LandAnchor`) drastically reduces tree traversal and overhead.
+**Action:** Always restrict scene graph intersection and raycasting queries (like `ssgHOT`, `ssgLOS`) to the most specific sub-branch possible (e.g. `LandAnchor` for terrain) to avoid O(N) penalties against unrelated scene nodes.
