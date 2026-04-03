@@ -366,7 +366,7 @@ float grGetHOT(float x, float y)
 	test_vec [2] = 100000.0f;
 
 	ssgHit *results;
-	int num_hits = ssgHOT (TheScene, test_vec, invmat, &results);
+	int num_hits = ssgHOT (LandAnchor, test_vec, invmat, &results);
 	float hot = -1000000.0f;
 
 	for (int i = 0; i < num_hits; i++) {
