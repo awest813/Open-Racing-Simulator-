@@ -274,7 +274,7 @@
 				if ($myrow['id_parent'] == 0) {
 					$delete_href = './threadlist.php' . '?deleteid=' . $myrow['id'] . '&topicid=' . $myrow['id_thread'];
 				} else {
-					$delete_href = $_SERVER['PHP_SELF'] . '?deleteid=' . $myrow['id'] . '&topicid=' . $myrow['id_thread'];
+					$delete_href = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?deleteid=' . $myrow['id'] . '&topicid=' . $myrow['id_thread'];
 				}
 			} else {
 				$delete = '';
@@ -286,7 +286,7 @@
 				$display_text = nl2br(htmlentities($myrow['text']));
 				$display_subject = htmlentities($myrow['subject']);
 				if ($_SESSION['usergroup'] == 'admin') {
-					$hide_href = $_SERVER['PHP_SELF'] . '?msgid=' . $myrow['id'] .
+					$hide_href = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?msgid=' . $myrow['id'] .
 								 '&hide=true&topicid=' . $myrow['id_thread'];
 					$hide = 'Hide';
 				} else {
@@ -297,7 +297,7 @@
 				if ($_SESSION['usergroup'] == 'admin') {
 					$display_text = nl2br(htmlentities($myrow['text']));
 					$display_subject = htmlentities($myrow['subject']);
-					$hide_href = $_SERVER['PHP_SELF'] . '?msgid=' . $myrow['id'] .
+					$hide_href = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?msgid=' . $myrow['id'] .
 								 '&hide=false&topicid=' . $myrow['id_thread'];
 					$hide = 'Show';
 				} else {
