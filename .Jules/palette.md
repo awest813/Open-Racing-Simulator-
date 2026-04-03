@@ -1,3 +1,4 @@
-## 2026-03-29 - Fixed Missing Form Labels
-**Learning:** Legacy PHP/ihtml templates in this application often rely on raw text next to input fields rather than semantic `<label for="id">` tags. This creates a significant accessibility barrier as screen readers cannot associate the description with the input, and users cannot click the text to focus the input.
-**Action:** When working on legacy templates, actively check for unassociated text and wrap it in proper `<label for="id">` tags while adding the corresponding `id` to the `<input>`. This provides a massive accessibility win with zero visual disruption.
+## 2023-10-25 - Legacy `.ihtml` Template Accessibility
+**Learning:** Adding semantic `<label>` elements and explicit `id` attributes to input fields in legacy `.ihtml` templates drastically improves accessibility without visually disrupting the layout. When comparing forms (like `team_create.ihtml` which had labels, and `team_edit_full.ihtml` which didn't), consistent labeling across forms is vital for an intuitive UX for all users, particularly those relying on assistive technology. I was able to implement `<label for="id">` and `id="..."` safely on standard input fields, selects, and textareas.
+
+**Action:** Whenever touching legacy HTML/iHTML forms, I should check for missing or unassociated text nodes used as labels and systematically convert them into semantic `<label>` tags linked to input `id`s. This pattern can be applied to all forms missing this markup.

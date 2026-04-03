@@ -52,10 +52,10 @@
 
 		<tr bgcolor="{PC_COLOR_NAME}">
 			<td class="admincol1 filledlist">
-				Name:
+				<label for="team_name">Name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="team_name" size="30" maxlength="40" value="{PC_TEAM_NAME}"/> Team
+				<input id="team_name" type="text" name="team_name" size="30" maxlength="40" value="{PC_TEAM_NAME}"/> Team
 			</td>
 			<td class="filledlist">
 				{PC_NAME_ERROR}
@@ -64,10 +64,10 @@
 
 		<tr bgcolor="{PC_COLOR_CAR}">
 			<td class="filledlist">
-				Car:
+				<label for="team_car_id">Car:</label>
 			</td>
 			<td class="filledlist">
-				<select name="team_car_id" size="1">
+				<select id="team_car_id" name="team_car_id" size="1">
 					<!-- BEGIN row -->
 					<option {PC_TEAM_CAR_SEL} value="{PC_TEAM_CAR_ID}">{PC_TEAM_CAR_NAME}</option>
 					<!-- END row -->
@@ -84,10 +84,10 @@
 
 		<tr bgcolor="{PC_COLOR_DESCRIPTION}">
 			<td class="admincol1 filledlist" align="left" valign="top">
-				Description:
+				<label for="team_description">Description:</label>
 			</td>
 			<td class="filledlist">
-				<textarea name="team_description" rows="6" class="admincol2">{PC_TEAM_DESCRIPTION}</textarea>
+				<textarea id="team_description" name="team_description" rows="6" class="admincol2">{PC_TEAM_DESCRIPTION}</textarea>
 			</td>
 		</tr>
 
@@ -96,10 +96,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="{PC_COLOR_MODULENAME}">
 			<td class="admincol1 filledlist">
-				Module name:
+				<label for="team_modulename">Module name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="team_modulename" size="30" maxlength="40" value="{PC_TEAM_MODULE}"/>
+				<input id="team_modulename" type="text" name="team_modulename" size="30" maxlength="40" value="{PC_TEAM_MODULE}"/>
 			</td>
 			<td class="filledlist">
 				{PC_MODULENAME_ERROR}
@@ -108,10 +108,10 @@
 
 		<tr bgcolor="{PC_COLOR_DRIVER1}">
 			<td class="admincol1 filledlist">
-				Name driver 1:
+				<label for="team_driver1_name">Name driver 1:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="team_driver1_name" size="30" maxlength="40" value="{PC_TEAM_DRIVERNAME1}"/>
+				<input id="team_driver1_name" type="text" name="team_driver1_name" size="30" maxlength="40" value="{PC_TEAM_DRIVERNAME1}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DRIVERNAME1_ERROR}
@@ -120,10 +120,10 @@
 
 		<tr bgcolor="{PC_COLOR_DRIVER2}">
 			<td class="admincol1 filledlist">
-				Name driver 2:
+				<label for="team_driver2_name">Name driver 2:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" name="team_driver2_name" size="30" maxlength="40" value="{PC_TEAM_DRIVERNAME2}"/>
+				<input id="team_driver2_name" type="text" name="team_driver2_name" size="30" maxlength="40" value="{PC_TEAM_DRIVERNAME2}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DRIVERNAME2_ERROR}
@@ -132,10 +132,10 @@
 
 		<tr bgcolor="{PC_COLOR_RACENUMBER}">
 			<td class="filledlist">
-				Race number:
+				<label for="team_base_number">Race number:</label>
 			</td>
 			<td class="filledlist">
-				<select name="team_base_number" size="1">
+				<select id="team_base_number" name="team_base_number" size="1">
 					<!-- BEGIN racenumber_row -->
 					<option {PC_TEAM_RN_SEL} value="{PC_TEAM_RN}">{PC_TEAM_RN}</option>
 					<!-- END racenumber_row -->
@@ -183,10 +183,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Team Logo:
+				<label for="team_logo_image">Team Logo:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_logo_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
+				<input id="team_logo_image" name="team_logo_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
@@ -224,10 +224,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Flag:
+				<label for="team_flag_image">Flag:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_flag_image" type="file" size="62" maxlength="10000" accept="image/jpeg"/>
+				<input id="team_flag_image" name="team_flag_image" type="file" size="62" maxlength="10000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
@@ -271,10 +271,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Screenshot 1:
+				<label for="team_shot1_image">Screenshot 1:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_shot1_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
+				<input id="team_shot1_image" name="team_shot1_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
@@ -292,10 +292,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Screenshot 2:
+				<label for="team_shot2_image">Screenshot 2:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_shot2_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
+				<input id="team_shot2_image" name="team_shot2_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
