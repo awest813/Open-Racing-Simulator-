@@ -427,6 +427,9 @@ gfuiDrawButton(tGfuiObject *obj)
 		bgColor = button->bgColor[button->state];
 	}
 	if (bgColor[3] != 0.0) {
+		/* Filled background quad */
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glColor4fv(bgColor);
 		glBegin(GL_QUADS);
 		glVertex2i(obj->xmin, obj->ymin);
@@ -434,14 +437,40 @@ gfuiDrawButton(tGfuiObject *obj)
 		glVertex2i(obj->xmax, obj->ymax);
 		glVertex2i(obj->xmax, obj->ymin);
 		glEnd();
-		glColor4fv(fgColor);
+
+		/* Subtle top-edge highlight — slightly lighter than the border */
+		float topHighlight[4] = {
+			fgColor[0] * 0.4f, fgColor[1] * 0.4f, fgColor[2] * 0.4f, 0.5f
+		};
+		glColor4fv(topHighlight);
+		glBegin(GL_LINES);
+		glVertex2i(obj->xmin + 1, obj->ymax);
+		glVertex2i(obj->xmax - 1, obj->ymax);
+		glEnd();
+
+		/* Border outline */
+		float borderAlpha = obj->focus ? 0.70f : 0.25f;
+		glColor4f(fgColor[0], fgColor[1], fgColor[2], borderAlpha);
 		glBegin(GL_LINE_STRIP);
 		glVertex2i(obj->xmin, obj->ymin);
 		glVertex2i(obj->xmin, obj->ymax);
 		glVertex2i(obj->xmax, obj->ymax);
 		glVertex2i(obj->xmax, obj->ymin);
 		glVertex2i(obj->xmin, obj->ymin);
-		glEnd();	
+		glEnd();
+
+		/* Bottom accent bar on focused/active state — modern "selected" indicator */
+		if (obj->focus) {
+			glColor4f(fgColor[0], fgColor[1], fgColor[2], 1.0f);
+			glLineWidth(2.0f);
+			glBegin(GL_LINES);
+			glVertex2i(obj->xmin,     obj->ymin);
+			glVertex2i(obj->xmax,     obj->ymin);
+			glEnd();
+			glLineWidth(1.0f);
+		}
+
+		glDisable(GL_BLEND);
 	}
 	label = &(button->label);
 	glColor4fv(fgColor);
