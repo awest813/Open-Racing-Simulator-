@@ -439,6 +439,13 @@ gfuiDrawButton(tGfuiObject *obj)
 		int y0 = obj->ymin, y1 = obj->ymax;
 		int h  = y1 - y0;
 
+		/* Lower boundary of the white sheen overlay (covers the top 55% of button height) */
+		static const int SHEEN_LOWER_PCT  = 45;
+		/* Inset for the left-edge accent bar ends */
+		static const int ACCENT_BAR_INSET = 2;
+		/* Inset for the bottom underline ends */
+		static const int UNDERLINE_INSET  = 5;
+
 		/* Base background quad */
 		glColor4fv(bgColor);
 		glBegin(GL_QUADS);
@@ -452,10 +459,10 @@ gfuiDrawButton(tGfuiObject *obj)
 		float topAlpha = obj->focus ? 0.10f : 0.05f;
 		glColor4f(1.0f, 1.0f, 1.0f, topAlpha);
 		glBegin(GL_QUADS);
-		glVertex2i(x0, y0 + h * 45 / 100);
+		glVertex2i(x0, y0 + h * SHEEN_LOWER_PCT / 100);
 		glVertex2i(x0, y1);
 		glVertex2i(x1, y1);
-		glVertex2i(x1, y0 + h * 45 / 100);
+		glVertex2i(x1, y0 + h * SHEEN_LOWER_PCT / 100);
 		glEnd();
 
 		/* Top-edge bright cap — premium brushed-metal highlight */
@@ -481,8 +488,8 @@ gfuiDrawButton(tGfuiObject *obj)
 			glColor4f(fgColor[0], fgColor[1], fgColor[2], 1.0f);
 			glLineWidth(3.0f);
 			glBegin(GL_LINES);
-			glVertex2i(x0, y0 + 2);
-			glVertex2i(x0, y1 - 2);
+			glVertex2i(x0, y0 + ACCENT_BAR_INSET);
+			glVertex2i(x0, y1 - ACCENT_BAR_INSET);
 			glEnd();
 			glLineWidth(1.0f);
 
@@ -490,8 +497,8 @@ gfuiDrawButton(tGfuiObject *obj)
 			glColor4f(fgColor[0], fgColor[1], fgColor[2], 0.80f);
 			glLineWidth(2.0f);
 			glBegin(GL_LINES);
-			glVertex2i(x0 + 5, y0);
-			glVertex2i(x1 - 5, y0);
+			glVertex2i(x0 + UNDERLINE_INSET, y0);
+			glVertex2i(x1 - UNDERLINE_INSET, y0);
 			glEnd();
 			glLineWidth(1.0f);
 		}
