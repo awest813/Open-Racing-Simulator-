@@ -116,14 +116,14 @@ GfuiMenuButtonCreate(void *scr, const char *text, const char *tip, void *userdat
 	
 	if (nbItems < 11) {
 		xpos = 640;
-		ypos = 570 - 45 * nbItems;
+		ypos = 575 - 50 * nbItems;
 	} else {
 		if (nbItems > 22) {
 			GfTrace("Too many items in that menu !!!\n");
 			return -1;
 		}
 		xpos = 760;
-		ypos = 570 - 45 * (nbItems - 11);
+		ypos = 575 - 50 * (nbItems - 11);
 	}
 	
 	cbinfo = (tMnuCallbackInfo*)calloc(1, sizeof(tMnuCallbackInfo));

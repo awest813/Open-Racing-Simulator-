@@ -319,9 +319,12 @@ GfuiButtonCreate(void *scr, const char *text, int font, int x, int y, int width,
 			object->ymax = y + gfuiFont[font]->getHeight() - gfuiFont[font]->getDescender();
 			break;
 	}
-#define HORIZ_MARGIN 10
+#define HORIZ_MARGIN 14
+#define VERT_MARGIN  5
 	object->xmin -= HORIZ_MARGIN;
 	object->xmax += HORIZ_MARGIN;
+	object->ymin -= VERT_MARGIN;
+	object->ymax += VERT_MARGIN;
 
 	gfuiAddObject(screen, object);
 	return object->id;
@@ -339,6 +342,8 @@ int GfuiLeanButtonCreate(void *scr, const char *text, int font, int x, int y, in
 		// Undo margins 
 		o->xmax -= HORIZ_MARGIN;
 		o->xmin += HORIZ_MARGIN;
+		o->ymax -= VERT_MARGIN;
+		o->ymin += VERT_MARGIN;
 	
 		tGfuiButton	*button = &(o->u.button);
 		button->bgColor[1] = &(GfuiColor[GFUI_BGBTNFOCUS][0]);
@@ -430,52 +435,63 @@ gfuiDrawButton(tGfuiObject *obj)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		/* Filled background quad */
+		int x0 = obj->xmin, x1 = obj->xmax;
+		int y0 = obj->ymin, y1 = obj->ymax;
+		int h  = y1 - y0;
+
+		/* Base background quad */
 		glColor4fv(bgColor);
 		glBegin(GL_QUADS);
-		glVertex2i(obj->xmin, obj->ymin);
-		glVertex2i(obj->xmin, obj->ymax);
-		glVertex2i(obj->xmax, obj->ymax);
-		glVertex2i(obj->xmax, obj->ymin);
+		glVertex2i(x0, y0);
+		glVertex2i(x0, y1);
+		glVertex2i(x1, y1);
+		glVertex2i(x1, y0);
 		glEnd();
 
-		/* GT4-inspired top-edge sheen — simulates brushed-metal top highlight */
-		float topHighlight[4] = {
-			fgColor[0] * 0.55f, fgColor[1] * 0.55f, fgColor[2] * 0.55f, 0.45f
-		};
-		glColor4fv(topHighlight);
+		/* Upper gradient overlay — white sheen over top 55% gives depth */
+		float topAlpha = obj->focus ? 0.10f : 0.05f;
+		glColor4f(1.0f, 1.0f, 1.0f, topAlpha);
+		glBegin(GL_QUADS);
+		glVertex2i(x0, y0 + h * 45 / 100);
+		glVertex2i(x0, y1);
+		glVertex2i(x1, y1);
+		glVertex2i(x1, y0 + h * 45 / 100);
+		glEnd();
+
+		/* Top-edge bright cap — premium brushed-metal highlight */
+		glColor4f(fgColor[0] * 0.50f, fgColor[1] * 0.50f, fgColor[2] * 0.50f, 0.55f);
 		glBegin(GL_LINES);
-		glVertex2i(obj->xmin + 1, obj->ymax);
-		glVertex2i(obj->xmax - 1, obj->ymax);
+		glVertex2i(x0 + 1, y1);
+		glVertex2i(x1 - 1, y1);
 		glEnd();
 
-		/* Border outline — brighter on focus for a lit-edge look */
-		float borderAlpha = obj->focus ? 0.65f : 0.20f;
+		/* Border outline — crisp on focus, subtle at rest */
+		float borderAlpha = obj->focus ? 0.75f : 0.22f;
 		glColor4f(fgColor[0], fgColor[1], fgColor[2], borderAlpha);
 		glBegin(GL_LINE_STRIP);
-		glVertex2i(obj->xmin, obj->ymin);
-		glVertex2i(obj->xmin, obj->ymax);
-		glVertex2i(obj->xmax, obj->ymax);
-		glVertex2i(obj->xmax, obj->ymin);
-		glVertex2i(obj->xmin, obj->ymin);
+		glVertex2i(x0, y0);
+		glVertex2i(x0, y1);
+		glVertex2i(x1, y1);
+		glVertex2i(x1, y0);
+		glVertex2i(x0, y0);
 		glEnd();
 
 		if (obj->focus) {
-			/* Forza Motorsport signature: left-edge vertical accent bar */
+			/* Left-edge accent bar — modern focus indicator */
 			glColor4f(fgColor[0], fgColor[1], fgColor[2], 1.0f);
 			glLineWidth(3.0f);
 			glBegin(GL_LINES);
-			glVertex2i(obj->xmin, obj->ymin + 1);
-			glVertex2i(obj->xmin, obj->ymax - 1);
+			glVertex2i(x0, y0 + 2);
+			glVertex2i(x0, y1 - 2);
 			glEnd();
 			glLineWidth(1.0f);
 
-			/* GT4-inspired bottom edge line — thin full-width underline */
-			glColor4f(fgColor[0], fgColor[1], fgColor[2], 0.70f);
+			/* Bottom edge underline — wide sleek rule */
+			glColor4f(fgColor[0], fgColor[1], fgColor[2], 0.80f);
 			glLineWidth(2.0f);
 			glBegin(GL_LINES);
-			glVertex2i(obj->xmin + 4, obj->ymin);
-			glVertex2i(obj->xmax - 4, obj->ymin);
+			glVertex2i(x0 + 5, y0);
+			glVertex2i(x1 - 5, y0);
 			glEnd();
 			glLineWidth(1.0f);
 		}
