@@ -48,144 +48,144 @@
 
   <section name="Menu Colors">
     <section name="colors">
-      <!-- Deep navy background for a modern dark racing theme -->
+      <!-- True deep black background — Forza Motorsport / GT4 signature darkness -->
       <section name="background">
-	<attnum name="red" val="0.04"/>
-	<attnum name="green" val="0.05"/>
-	<attnum name="blue" val="0.10"/>
-	<attnum name="alpha" val="0.95"/>
+	<attnum name="red" val="0.02"/>
+	<attnum name="green" val="0.02"/>
+	<attnum name="blue" val="0.04"/>
+	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Bright white title -->
+      <!-- Platinum white title — GT4 premium look -->
       <section name="title">
-	<attnum name="red" val="1.0"/>
-	<attnum name="green" val="1.0"/>
+	<attnum name="red" val="0.96"/>
+	<attnum name="green" val="0.96"/>
 	<attnum name="blue" val="1.0"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Electric blue semi-transparent highlight for focused button bg -->
+      <!-- Forza amber glow for focused button background -->
       <section name="background focused button">
-	<attnum name="red" val="0.0"/>
-	<attnum name="green" val="0.40"/>
-	<attnum name="blue" val="0.85"/>
+	<attnum name="red" val="1.0"/>
+	<attnum name="green" val="0.55"/>
+	<attnum name="blue" val="0.0"/>
+	<attnum name="alpha" val="0.18"/>
+      </section>
+      <!-- Brighter amber for pushed/active button background -->
+      <section name="background pushed button">
+	<attnum name="red" val="1.0"/>
+	<attnum name="green" val="0.55"/>
+	<attnum name="blue" val="0.0"/>
+	<attnum name="alpha" val="0.45"/>
+      </section>
+      <!-- Near-black charcoal for normal button background -->
+      <section name="background enabled button">
+	<attnum name="red" val="0.06"/>
+	<attnum name="green" val="0.07"/>
+	<attnum name="blue" val="0.12"/>
 	<attnum name="alpha" val="0.55"/>
       </section>
-      <!-- Brighter blue for pressed/clicked button bg -->
-      <section name="background pushed button">
-	<attnum name="red" val="0.0"/>
-	<attnum name="green" val="0.50"/>
-	<attnum name="blue" val="1.0"/>
-	<attnum name="alpha" val="0.80"/>
-      </section>
-      <!-- Subtle dark fill for normal button bg -->
-      <section name="background enabled button">
-	<attnum name="red" val="0.08"/>
-	<attnum name="green" val="0.09"/>
-	<attnum name="blue" val="0.18"/>
-	<attnum name="alpha" val="0.50"/>
-      </section>
-      <!-- Very dim fill for disabled button bg -->
+      <!-- Very dim for disabled button background -->
       <section name="background disabled button">
-	<attnum name="red" val="0.05"/>
-	<attnum name="green" val="0.05"/>
-	<attnum name="blue" val="0.10"/>
-	<attnum name="alpha" val="0.25"/>
+	<attnum name="red" val="0.03"/>
+	<attnum name="green" val="0.03"/>
+	<attnum name="blue" val="0.06"/>
+	<attnum name="alpha" val="0.20"/>
       </section>
-      <!-- Bright white text on focused button (replaces harsh red) -->
+      <!-- Pure white for focused button text — maximum contrast -->
       <section name="focused button">
 	<attnum name="red" val="1.0"/>
 	<attnum name="green" val="1.0"/>
 	<attnum name="blue" val="1.0"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Near-white text for clicked/pushed button -->
+      <!-- Warm near-white for pushed button text -->
       <section name="pushed button">
-	<attnum name="red" val="0.90"/>
-	<attnum name="green" val="0.95"/>
-	<attnum name="blue" val="1.0"/>
+	<attnum name="red" val="1.0"/>
+	<attnum name="green" val="0.97"/>
+	<attnum name="blue" val="0.92"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Silver-blue text for normal enabled button (replaces yellow) -->
+      <!-- Platinum silver for normal button text — GT4 brushed metal -->
       <section name="enabled button">
-	<attnum name="red" val="0.75"/>
-	<attnum name="green" val="0.85"/>
-	<attnum name="blue" val="0.95"/>
+	<attnum name="red" val="0.80"/>
+	<attnum name="green" val="0.82"/>
+	<attnum name="blue" val="0.88"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Muted gray for disabled button text -->
+      <!-- Dim steel gray for disabled button text -->
       <section name="disabled button">
-	<attnum name="red" val="0.35"/>
-	<attnum name="green" val="0.38"/>
-	<attnum name="blue" val="0.45"/>
+	<attnum name="red" val="0.30"/>
+	<attnum name="green" val="0.32"/>
+	<attnum name="blue" val="0.38"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Transparent scroll list background -->
+      <!-- Dark scroll list background with slight depth -->
       <section name="background scroll list">
-	<attnum name="red" val="0.05"/>
-	<attnum name="green" val="0.06"/>
-	<attnum name="blue" val="0.12"/>
-	<attnum name="alpha" val="0.60"/>
+	<attnum name="red" val="0.03"/>
+	<attnum name="green" val="0.03"/>
+	<attnum name="blue" val="0.06"/>
+	<attnum name="alpha" val="0.65"/>
       </section>
-      <!-- Silver-blue list item text (replaces yellow) -->
+      <!-- Platinum silver for list item text -->
       <section name="scroll list">
-	<attnum name="red" val="0.75"/>
-	<attnum name="green" val="0.85"/>
-	<attnum name="blue" val="0.95"/>
+	<attnum name="red" val="0.80"/>
+	<attnum name="green" val="0.82"/>
+	<attnum name="blue" val="0.88"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Electric blue selection highlight -->
+      <!-- Forza amber for selected item highlight background -->
       <section name="background selected scroll list">
-	<attnum name="red" val="0.0"/>
-	<attnum name="green" val="0.40"/>
-	<attnum name="blue" val="0.85"/>
-	<attnum name="alpha" val="0.80"/>
+	<attnum name="red" val="1.0"/>
+	<attnum name="green" val="0.52"/>
+	<attnum name="blue" val="0.0"/>
+	<attnum name="alpha" val="0.72"/>
       </section>
-      <!-- White text on selected list item (replaces harsh red) -->
+      <!-- Pure white for selected list item text -->
       <section name="selected scroll list">
 	<attnum name="red" val="1.0"/>
 	<attnum name="green" val="1.0"/>
 	<attnum name="blue" val="1.0"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
-      <!-- Near-white labels -->
+      <!-- Platinum label text -->
       <section name="label">
-	<attnum name="red" val="0.92"/>
-	<attnum name="green" val="0.94"/>
-	<attnum name="blue" val="1.0"/>
-	<attnum name="alpha" val="1.0"/>
-      </section>
-      <!-- Muted blue-gray tooltip text -->
-      <section name="tip">
-	<attnum name="red" val="0.55"/>
-	<attnum name="green" val="0.65"/>
-	<attnum name="blue" val="0.80"/>
-	<attnum name="alpha" val="1.0"/>
-      </section>
-      <!-- Light electric blue mouse cursor primary -->
-      <section name="mouse 1">
-	<attnum name="red" val="0.55"/>
-	<attnum name="green" val="0.80"/>
-	<attnum name="blue" val="1.0"/>
-	<attnum name="alpha" val="1.0"/>
-      </section>
-      <!-- Darker blue mouse cursor outline -->
-      <section name="mouse 2">
-	<attnum name="red" val="0.10"/>
-	<attnum name="green" val="0.30"/>
-	<attnum name="blue" val="0.65"/>
-	<attnum name="alpha" val="1.0"/>
-      </section>
-      <!-- Soft cyan for help key labels (replaces harsh yellow) -->
-      <section name="help key">
-	<attnum name="red" val="0.30"/>
-	<attnum name="green" val="0.80"/>
-	<attnum name="blue" val="1.0"/>
-	<attnum name="alpha" val="1.0"/>
-      </section>
-      <!-- Soft green for help descriptions (replaces harsh cyan) -->
-      <section name="help description">
-	<attnum name="red" val="0.60"/>
+	<attnum name="red" val="0.88"/>
 	<attnum name="green" val="0.90"/>
-	<attnum name="blue" val="0.65"/>
+	<attnum name="blue" val="0.95"/>
+	<attnum name="alpha" val="1.0"/>
+      </section>
+      <!-- Steel blue-gray for tooltip text -->
+      <section name="tip">
+	<attnum name="red" val="0.50"/>
+	<attnum name="green" val="0.55"/>
+	<attnum name="blue" val="0.68"/>
+	<attnum name="alpha" val="1.0"/>
+      </section>
+      <!-- Forza amber primary cursor -->
+      <section name="mouse 1">
+	<attnum name="red" val="1.0"/>
+	<attnum name="green" val="0.60"/>
+	<attnum name="blue" val="0.0"/>
+	<attnum name="alpha" val="1.0"/>
+      </section>
+      <!-- Dark amber cursor shadow/outline -->
+      <section name="mouse 2">
+	<attnum name="red" val="0.40"/>
+	<attnum name="green" val="0.22"/>
+	<attnum name="blue" val="0.0"/>
+	<attnum name="alpha" val="1.0"/>
+      </section>
+      <!-- Amber for help key labels — Forza accent -->
+      <section name="help key">
+	<attnum name="red" val="1.0"/>
+	<attnum name="green" val="0.65"/>
+	<attnum name="blue" val="0.0"/>
+	<attnum name="alpha" val="1.0"/>
+      </section>
+      <!-- Platinum silver for help descriptions -->
+      <section name="help description">
+	<attnum name="red" val="0.70"/>
+	<attnum name="green" val="0.75"/>
+	<attnum name="blue" val="0.82"/>
 	<attnum name="alpha" val="1.0"/>
       </section>
     </section>

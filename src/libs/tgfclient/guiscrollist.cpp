@@ -540,6 +540,8 @@ gfuiDrawScrollist(tGfuiObject *obj)
 	bgColor = scrollist->bgColor[0];
 
 	if(bgColor[3] != 0.0) {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glBegin(GL_QUADS);
 		glColor4fv(bgColor);
 		glVertex2i(obj->xmin, obj->ymin);
@@ -547,16 +549,21 @@ gfuiDrawScrollist(tGfuiObject *obj)
 		glVertex2i(obj->xmax, obj->ymax);
 		glVertex2i(obj->xmax, obj->ymin);
 		glEnd();
+		glDisable(GL_BLEND);
 	}
 
+	/* GT4-precision border — semi-transparent, subtle */
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(fgColor[0], fgColor[1], fgColor[2], 0.30f);
 	glBegin(GL_LINE_STRIP);
-	glColor4fv(fgColor);
 	glVertex2i(obj->xmin, obj->ymin);
 	glVertex2i(obj->xmin, obj->ymax);
 	glVertex2i(obj->xmax, obj->ymax);
 	glVertex2i(obj->xmax, obj->ymin);
 	glVertex2i(obj->xmin, obj->ymin);
 	glEnd();
+	glDisable(GL_BLEND);
 
 
 	h = scrollist->font->getDescender() + scrollist->font->getHeight();
@@ -582,12 +589,7 @@ gfuiDrawScrollist(tGfuiObject *obj)
 				continue;
 			}
 
-			if(index == scrollist->selectedElt) {
-				glColor4fv(scrollist->fgSelectColor[0]);
-			} else {
-				glColor4fv(scrollist->fgColor[0]);
-			}
-
+			bool isSelected = (index == scrollist->selectedElt);
 			index++;
 
 			if(index > (scrollist->firstVisible + scrollist->nbVisible)) {
@@ -595,6 +597,45 @@ gfuiDrawScrollist(tGfuiObject *obj)
 			}
 
 			y -= h;
+
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			if(isSelected) {
+				/* Forza amber row fill for selected item */
+				glColor4fv(scrollist->bgSelectColor[0]);
+				glBegin(GL_QUADS);
+				glVertex2i(obj->xmin + 1, y);
+				glVertex2i(obj->xmin + 1, y + h);
+				glVertex2i(obj->xmax - 1, y + h);
+				glVertex2i(obj->xmax - 1, y);
+				glEnd();
+
+				/* Forza Motorsport signature: left-edge vertical accent bar */
+				glColor4fv(scrollist->fgSelectColor[0]);
+				glLineWidth(3.0f);
+				glBegin(GL_LINES);
+				glVertex2i(obj->xmin + 1, y);
+				glVertex2i(obj->xmin + 1, y + h);
+				glEnd();
+				glLineWidth(1.0f);
+			}
+
+			/* GT4-style precision row separator */
+			glColor4f(fgColor[0], fgColor[1], fgColor[2], 0.12f);
+			glBegin(GL_LINES);
+			glVertex2i(obj->xmin + 8, y);
+			glVertex2i(obj->xmax - 8, y);
+			glEnd();
+
+			glDisable(GL_BLEND);
+
+			if(isSelected) {
+				glColor4fv(scrollist->fgSelectColor[0]);
+			} else {
+				glColor4fv(scrollist->fgColor[0]);
+			}
+
 			snprintf(buf, BUFSIZE, " %d", index);
 			gfuiPrintString(x, y, scrollist->font, buf);
 			gfuiPrintString(x + w, y, scrollist->font, elt->label);
