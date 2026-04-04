@@ -284,8 +284,42 @@ gfuiDrawLabel(tGfuiObject *obj)
 		glVertex2i(obj->xmax, obj->ymin);
 		glEnd();
 	}
-	glColor4fv(label->fgColor.getRGBA());
+
+	const float *fg = label->fgColor.getRGBA();
+	glColor4fv(fg);
 	gfuiPrintString(label->x, label->y, label->font, label->text);
+
+	/* Draw a decorative underline beneath title-sized labels (font height >= 28px).
+	   A full-width rule at ymin and a shorter bright accent cap give a modern header look. */
+	int fontHeight = label->font->getHeight();
+	if (fontHeight >= 28) {
+		int lineY = obj->ymin - 4;
+		int fullW  = 480;  /* half-width of the wide rule on each side of centre */
+		int accentW = 60;  /* half-width of the bright accent cap */
+		int cx = (obj->xmin + obj->xmax) / 2;
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		/* Wide dim rule */
+		glColor4f(fg[0], fg[1], fg[2], 0.20f);
+		glLineWidth(1.0f);
+		glBegin(GL_LINES);
+		glVertex2i(cx - fullW, lineY);
+		glVertex2i(cx + fullW, lineY);
+		glEnd();
+
+		/* Bright centre accent */
+		glColor4f(fg[0], fg[1], fg[2], 0.75f);
+		glLineWidth(2.0f);
+		glBegin(GL_LINES);
+		glVertex2i(cx - accentW, lineY);
+		glVertex2i(cx + accentW, lineY);
+		glEnd();
+		glLineWidth(1.0f);
+
+		glDisable(GL_BLEND);
+	}
 }
 
 void
