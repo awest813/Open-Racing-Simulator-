@@ -427,9 +427,10 @@ gfuiDrawButton(tGfuiObject *obj)
 		bgColor = button->bgColor[button->state];
 	}
 	if (bgColor[3] != 0.0) {
-		/* Filled background quad */
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		/* Filled background quad */
 		glColor4fv(bgColor);
 		glBegin(GL_QUADS);
 		glVertex2i(obj->xmin, obj->ymin);
@@ -438,9 +439,9 @@ gfuiDrawButton(tGfuiObject *obj)
 		glVertex2i(obj->xmax, obj->ymin);
 		glEnd();
 
-		/* Subtle top-edge highlight — slightly lighter than the border */
+		/* GT4-inspired top-edge sheen — simulates brushed-metal top highlight */
 		float topHighlight[4] = {
-			fgColor[0] * 0.4f, fgColor[1] * 0.4f, fgColor[2] * 0.4f, 0.5f
+			fgColor[0] * 0.55f, fgColor[1] * 0.55f, fgColor[2] * 0.55f, 0.45f
 		};
 		glColor4fv(topHighlight);
 		glBegin(GL_LINES);
@@ -448,8 +449,8 @@ gfuiDrawButton(tGfuiObject *obj)
 		glVertex2i(obj->xmax - 1, obj->ymax);
 		glEnd();
 
-		/* Border outline */
-		float borderAlpha = obj->focus ? 0.70f : 0.25f;
+		/* Border outline — brighter on focus for a lit-edge look */
+		float borderAlpha = obj->focus ? 0.65f : 0.20f;
 		glColor4f(fgColor[0], fgColor[1], fgColor[2], borderAlpha);
 		glBegin(GL_LINE_STRIP);
 		glVertex2i(obj->xmin, obj->ymin);
@@ -459,13 +460,22 @@ gfuiDrawButton(tGfuiObject *obj)
 		glVertex2i(obj->xmin, obj->ymin);
 		glEnd();
 
-		/* Bottom accent bar on focused/active state — modern "selected" indicator */
 		if (obj->focus) {
+			/* Forza Motorsport signature: left-edge vertical accent bar */
 			glColor4f(fgColor[0], fgColor[1], fgColor[2], 1.0f);
+			glLineWidth(3.0f);
+			glBegin(GL_LINES);
+			glVertex2i(obj->xmin, obj->ymin + 1);
+			glVertex2i(obj->xmin, obj->ymax - 1);
+			glEnd();
+			glLineWidth(1.0f);
+
+			/* GT4-inspired bottom edge line — thin full-width underline */
+			glColor4f(fgColor[0], fgColor[1], fgColor[2], 0.70f);
 			glLineWidth(2.0f);
 			glBegin(GL_LINES);
-			glVertex2i(obj->xmin,     obj->ymin);
-			glVertex2i(obj->xmax,     obj->ymin);
+			glVertex2i(obj->xmin + 4, obj->ymin);
+			glVertex2i(obj->xmax - 4, obj->ymin);
 			glEnd();
 			glLineWidth(1.0f);
 		}
