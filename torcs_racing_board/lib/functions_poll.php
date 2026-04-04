@@ -239,7 +239,7 @@
 				'PC_POLL_STIME'				=> $poll['start'],
 				'PC_POLL_ETIME'				=> $poll['end'],
 				'ROOTPATH'					=> $path_to_root,
-				'PC_POLL_PAGE'				=> htmlentities($_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'])
+				'PC_POLL_PAGE'				=> htmlspecialchars($_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'], ENT_QUOTES, 'UTF-8')
 			));
 
 			// Set answer data.
