@@ -87,7 +87,7 @@
 			'PS_USERNAME'		=> $_SESSION['username'],
 			'PS_ACCOUNT_TYPE'	=> $_SESSION['usergroup'],
 			'PS_IPADSRESS'		=> $_SERVER['REMOTE_ADDR'],
-			'PS_LOGOUTPAGE'		=> $_SERVER['PHP_SELF']
+			'PS_LOGOUTPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 		));
 
 	} else {
@@ -95,7 +95,7 @@
 		$page->set_var(array(
 			'PS_PASSWORD_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
-			'PS_LOGINPAGE'		=> $_SERVER['PHP_SELF'],
+			'PS_LOGINPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PS_HOSTNAME'		=> SERVER_NAME
 		));
 	}
