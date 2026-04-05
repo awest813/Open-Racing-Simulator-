@@ -48,6 +48,14 @@ static int rmDispModeEditId;
 static int rmCurDispMode;
 static const char *rmCurDispModeList[] = { RM_VAL_VISIBLE, RM_VAL_INVISIBLE };
 
+namespace {
+
+float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+float kBodyColor[4] = {0.84f, 0.87f, 0.93f, 1.0f};
+float kMutedColor[4] = {0.58f, 0.63f, 0.75f, 1.0f};
+
+} // namespace
+
 
 static void rmrpDeactivate(void *screen)
 {
@@ -160,18 +168,38 @@ void RmRaceParamMenu(void *vrp)
 
 	rp = (tRmRaceParam*)vrp;
 	
-	snprintf(buf, BUFSIZE, "%s Options", rp->title);
+	snprintf(buf, BUFSIZE, "%s Setup", rp->title);
 	scrHandle = GfuiMenuScreenCreate(buf);
 	GfuiScreenAddBgImg(scrHandle, "data/img/splash-raceopt.png");
 
-	x = 80;
-	x2 = 240;
-	y = 380;
-	dx = 200;
+	GfuiLabelCreateEx(scrHandle, "EVENT SETTINGS", kAccentColor, GFUI_FONT_SMALL_C, 110, 660, GFUI_ALIGN_HL_VB, 0);
+	GfuiLabelCreateEx(scrHandle,
+			"Fine-tune the race format before you move from setup to the live weekend.",
+			kBodyColor,
+			GFUI_FONT_MEDIUM_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
+	GfuiLabelCreateEx(scrHandle,
+			"Each value updates the selected event immediately when you confirm the panel.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			592,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	x = 110;
+	x2 = 365;
+	y = 370;
+	dx = 255;
 	dy = GfuiFontHeight(GFUI_FONT_LARGE) + 5;
 
+	GfuiLabelCreateEx(scrHandle, "RACE RULES", kAccentColor, GFUI_FONT_SMALL_C, x, y + 36, GFUI_ALIGN_HL_VB, 0);
+
 	if (rp->confMask & RM_CONF_RACE_LEN) {
-		GfuiLabelCreate(scrHandle, "Race Distance (km):", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
+		GfuiLabelCreate(scrHandle, "Distance Target (km):", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		rmrpDistance = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_DISTANCE, "km", 0);
 		if (rmrpDistance == 0) {
 			snprintf(buf, BUFSIZE, "---");
@@ -186,7 +214,7 @@ void RmRaceParamMenu(void *vrp)
 						0, 8, nullptr, nullptr, rmrpUpdDist);
 
 		y -= dy;
-		GfuiLabelCreate(scrHandle, "Number of laps:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
+		GfuiLabelCreate(scrHandle, "Lap Count:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		if (rmrpLaps == 0) {
 			snprintf(buf, BUFSIZE, "---");
 		} else {
@@ -200,7 +228,7 @@ void RmRaceParamMenu(void *vrp)
 	}
 
 	if (rp->confMask & RM_CONF_RACE_TIME) {
-		GfuiLabelCreate(scrHandle, "Race Time (s):", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
+		GfuiLabelCreate(scrHandle, "Session Time (s):", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		rmrpDuration = (int)GfParmGetNum(rp->param, rp->title, RM_ATTR_RACE_TIME, "s", 60);
 		snprintf(buf, BUFSIZE, "%d", rmrpDuration);
 
@@ -211,7 +239,7 @@ void RmRaceParamMenu(void *vrp)
 	}
 
 	if (rp->confMask & RM_CONF_DISP_MODE) {
-		GfuiLabelCreate(scrHandle, "Display mode:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
+		GfuiLabelCreate(scrHandle, "Field Visibility:", GFUI_FONT_MEDIUM_C, x, y, GFUI_ALIGN_HL_VB, 0);
 		GfuiGrButtonCreate(scrHandle, "data/img/arrow-left.png", "data/img/arrow-left.png",
 				"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
 				x2, y, GFUI_ALIGN_HL_VB, 1,
@@ -231,10 +259,19 @@ void RmRaceParamMenu(void *vrp)
 		y -= dy;
 	}
 
-	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiLabelCreateEx(scrHandle,
+			"Distance and laps remain linked so you can tune the event around either target.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			200,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiButtonCreate(scrHandle, "Apply Setup", GFUI_FONT_LARGE, 210, 40, 170, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				nullptr, rmrpValidate, nullptr, nullptr, nullptr);
 
-	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Back", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				rp->prevScreen, rmrpDeactivate, nullptr, nullptr, nullptr);
 
 	rmrpAddKeys();

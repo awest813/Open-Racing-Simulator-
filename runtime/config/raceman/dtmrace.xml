@@ -18,7 +18,7 @@
 	
 	<section name="Header">
 		<attstr name="name" val="Challenge Race"/>
-		<attstr name="description" val="Multiple races"/>
+		<attstr name="description" val="Touring-car style weekend with multiple heats, full-field action, and a more structured event cadence."/>
 		<attnum name="priority" val="50"/>
 		<attstr name="menu image" val="data/img/splash-dtm.png"/>
 		<attstr name="run image" val="data/img/splash-run-practice.png"/>

@@ -39,6 +39,14 @@
 #include "racemanmenu.h"
 static float red[4]  = {1.0, 0.0, 0.0, 1.0};
 
+namespace {
+
+float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+float kBodyColor[4] = {0.84f, 0.87f, 0.93f, 1.0f};
+float kMutedColor[4] = {0.58f, 0.63f, 0.75f, 1.0f};
+
+} // namespace
+
 static void *racemanMenuHdle = nullptr;
 static void *newTrackMenuHdle = nullptr;
 static tRmTrackSelect ts;
@@ -248,6 +256,10 @@ int
 ReRacemanMenu(void)
 {
 	void	*params = ReInfo->params;
+	const int BUFSIZE = 1024;
+	const int infoLeft = 110;
+	char buf[BUFSIZE];
+	char path[BUFSIZE];
 
 	if (racemanMenuHdle) {
 		GfuiScreenRelease(racemanMenuHdle);
@@ -270,13 +282,75 @@ ReRacemanMenu(void)
 		GfuiTitleCreate(racemanMenuHdle, str, strlen(str));
 	}
 
+	GfuiLabelCreateEx(racemanMenuHdle,
+			"WEEKEND OVERVIEW",
+			kAccentColor,
+			GFUI_FONT_SMALL_C,
+			infoLeft,
+			660,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	const char* modeDescr = GfParmGetStr(params, RM_SECT_HEADER, RM_ATTR_DESCR, "");
+	if (modeDescr && modeDescr[0] != '\0') {
+		GfuiLabelCreateEx(racemanMenuHdle,
+				modeDescr,
+				kBodyColor,
+				GFUI_FONT_MEDIUM_C,
+				infoLeft,
+				620,
+				GFUI_ALIGN_HL_VB,
+				0);
+	}
+
+	const int currentTrack = (int)GfParmGetNum(params, RM_SECT_TRACKS, RE_ATTR_CUR_TRACK, nullptr, 1);
+	snprintf(path, BUFSIZE, "%s/%d", RM_SECT_TRACKS, currentTrack);
+	const char* trackCategory = GfParmGetStr(params, path, RM_ATTR_CATEGORY, "");
+	const char* trackName = GfParmGetStr(params, path, RM_ATTR_NAME, "");
+	char* trackDisplayName = nullptr;
+	if (trackCategory[0] != '\0' && trackName[0] != '\0') {
+		trackDisplayName = RmGetTrackName((char*)trackCategory, (char*)trackName);
+	}
+
+	snprintf(buf, BUFSIZE, "Current circuit: %s",
+		 (trackDisplayName && trackDisplayName[0] != '\0') ? trackDisplayName : "Circuit not selected");
+	GfuiLabelCreateEx(racemanMenuHdle, buf, kBodyColor, GFUI_FONT_SMALL_C, infoLeft, 582, GFUI_ALIGN_HL_VB, 0);
+
+	snprintf(buf, BUFSIZE, "Rounds in event: %d", GfParmGetEltNb(params, RM_SECT_TRACKS));
+	GfuiLabelCreateEx(racemanMenuHdle, buf, kMutedColor, GFUI_FONT_SMALL_C, infoLeft, 554, GFUI_ALIGN_HL_VB, 0);
+
+	snprintf(buf, BUFSIZE, "Race sessions: %d", GfParmGetEltNb(params, RM_SECT_RACES));
+	GfuiLabelCreateEx(racemanMenuHdle, buf, kMutedColor, GFUI_FONT_SMALL_C, infoLeft, 530, GFUI_ALIGN_HL_VB, 0);
+
+	snprintf(buf, BUFSIZE, "Grid capacity: %d drivers",
+		 (int)GfParmGetNum(params, RM_SECT_DRIVERS, RM_ATTR_MAXNUM, nullptr, 0));
+	GfuiLabelCreateEx(racemanMenuHdle, buf, kMutedColor, GFUI_FONT_SMALL_C, infoLeft, 506, GFUI_ALIGN_HL_VB, 0);
+
+	GfuiLabelCreateEx(racemanMenuHdle,
+			"Use Tune Weekend before launch if you want to change the circuit, roster,",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			infoLeft,
+			220,
+			GFUI_ALIGN_HL_VB,
+			0);
+	GfuiLabelCreateEx(racemanMenuHdle,
+			"or race rules. Start Event will push straight into the active race flow.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			infoLeft,
+			196,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	free(trackDisplayName);
 
 	GfuiMenuButtonCreate(racemanMenuHdle,
-			"New Race", "Start a New Race",
+			"Start Event", "Launch the prepared event and move directly into the active race weekend",
 			nullptr, ReStartNewRace);
 
 	GfuiMenuButtonCreate(racemanMenuHdle, 
-			"Configure Race", "Configure The Race",
+			"Tune Weekend", "Adjust the circuit, driver roster, and race parameters before launch",
 			nullptr, reConfigureMenu);
 
 /*     GfuiMenuButtonCreate(racemanMenuHdle, */
@@ -285,12 +359,12 @@ ReRacemanMenu(void)
 
 	if (GfParmGetEltNb(params, RM_SECT_TRACKS) > 1) {
 		GfuiMenuButtonCreate(racemanMenuHdle, 
-					"Load", "Load a Previously Saved Game",
+					"Load Saved Weekend", "Resume a previously saved race weekend from local results data",
 					racemanMenuHdle, reLoadMenu);
 	}
 	
 	GfuiMenuBackQuitButtonCreate(racemanMenuHdle,
-				"Back to Main", "Return to previous Menu",
+				"Back to Event Select", "Return to the event-type selection screen",
 				ReInfo->_reMenuScreen, GfuiScreenActivate);
 
 	GfuiScreenActivate(racemanMenuHdle);
@@ -328,6 +402,15 @@ ReNewTrackMenu(void)
 
 	str = GfParmGetStr(params, RM_SECT_HEADER, RM_ATTR_NAME, "");
 	GfuiTitleCreate(newTrackMenuHdle, str, strlen(str));
+
+	GfuiLabelCreateEx(newTrackMenuHdle,
+			"RACE DAY",
+			kAccentColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			660,
+			GFUI_ALIGN_HL_VB,
+			0);
 	
 	GfuiMenuDefaultKeysAdd(newTrackMenuHdle);
 	
@@ -342,17 +425,26 @@ ReNewTrackMenu(void)
 				GFUI_FONT_MEDIUM_C,
 				320, 420,
 				GFUI_ALIGN_HC_VB, 50);
+
+	GfuiLabelCreateEx(newTrackMenuHdle,
+			"Grid is locked. Launch when the field, circuit, and rules feel right.",
+			kBodyColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
 	
 	GfuiMenuButtonCreate(newTrackMenuHdle,
-				"Start Event", "Start The Current Race",
+				"Launch Session", "Start the current event session from the prepared grid",
 				nullptr, reStateManage);
 	
 	
 	GfuiMenuButtonCreate(newTrackMenuHdle, 
-				"Abandon", "Abandon The Race",
+				"Abort Weekend", "Exit the prepared event and return to the previous menu",
 				ReInfo->_reMenuScreen, GfuiScreenActivate);
 	
-	GfuiAddKey(newTrackMenuHdle, 27,  "Abandon", ReInfo->_reMenuScreen, GfuiScreenActivate, nullptr);
+	GfuiAddKey(newTrackMenuHdle, 27,  "Abort weekend", ReInfo->_reMenuScreen, GfuiScreenActivate, nullptr);
 	
 	GfuiScreenActivate(newTrackMenuHdle);
 	

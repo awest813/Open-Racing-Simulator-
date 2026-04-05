@@ -18,7 +18,7 @@
 
   <section name="Header">
     <attstr name="name" val="Endurance Race"/>
-    <attstr name="description" val="Endurance Race"/>
+    <attstr name="description" val="Long-form endurance challenge focused on sustained pace, strategy, and race-weekend immersion."/>
     <attnum name="priority" val="21"/>
     <attstr name="menu image" val="data/img/splash-dtm.png"/>
     <attstr name="run image" val="data/img/splash-run-practice.png"/>

@@ -34,6 +34,14 @@
 #include <racescreens.h>
 #include <portability.h>
 
+namespace {
+
+float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+float kBodyColor[4] = {0.84f, 0.87f, 0.93f, 1.0f};
+float kMutedColor[4] = {0.58f, 0.63f, 0.75f, 1.0f};
+
+} // namespace
+
 
 /* Tracks Categories */
 static tFList *CategoryList;
@@ -326,14 +334,40 @@ void RmTrackSelect(void *vs)
 
 	rmtsAddKeys();
 
-	GfuiTitleCreate(scrHandle, "Select Track", 0);
+	GfuiLabelCreateEx(scrHandle,
+			"CIRCUIT SELECT",
+			kAccentColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			660,
+			GFUI_ALIGN_HL_VB,
+			0);
+	GfuiTitleCreate(scrHandle, "Select Circuit", 0);
+	GfuiLabelCreateEx(scrHandle,
+			"Preview the venue, browse categories, and lock the track before moving to the roster.",
+			kBodyColor,
+			GFUI_FONT_MEDIUM_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
+	GfuiLabelCreateEx(scrHandle,
+			"Category and circuit selectors sit on the left; preview and venue data stay live on the right.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			592,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiLabelCreateEx(scrHandle, "CATEGORY", kAccentColor, GFUI_FONT_SMALL_C, 110, 470, GFUI_ALIGN_HL_VB, 0);
 
 	GfuiGrButtonCreate(scrHandle,
 			"data/img/arrow-left.png",
 			"data/img/arrow-left.png",
 			"data/img/arrow-left.png",
 			"data/img/arrow-left-pushed.png",
-			80, 400, GFUI_ALIGN_HC_VB, 0,
+			70, 430, GFUI_ALIGN_HC_VB, 0,
 			(void*)0, rmCatPrevNext,
 			nullptr, nullptr, nullptr);
 
@@ -341,7 +375,7 @@ void RmTrackSelect(void *vs)
 	CatLabelId = GfuiLabelCreate(scrHandle,
 				CategoryList->dispName,
 				GFUI_FONT_LARGE_C,
-				320, 400, GFUI_ALIGN_HC_VB,
+				270, 430, GFUI_ALIGN_HC_VB,
 				30);
 
 	GfuiGrButtonCreate(scrHandle,
@@ -349,16 +383,18 @@ void RmTrackSelect(void *vs)
 			"data/img/arrow-right.png",
 			"data/img/arrow-right.png",
 			"data/img/arrow-right-pushed.png",
-			540, 400, GFUI_ALIGN_HC_VB, 0,
+			470, 430, GFUI_ALIGN_HC_VB, 0,
 			(void*)1, rmCatPrevNext,
 			nullptr, nullptr, nullptr);
+
+	GfuiLabelCreateEx(scrHandle, "CIRCUIT", kAccentColor, GFUI_FONT_SMALL_C, 110, 412, GFUI_ALIGN_HL_VB, 0);
 
 	GfuiGrButtonCreate(scrHandle,
 			"data/img/arrow-left.png",
 			"data/img/arrow-left.png",
 			"data/img/arrow-left.png",
 			"data/img/arrow-left-pushed.png",
-			80, 370, GFUI_ALIGN_HC_VB, 0,
+			70, 370, GFUI_ALIGN_HC_VB, 0,
 			(void*)0, rmtsPrevNext,
 			nullptr, nullptr, nullptr);
 
@@ -366,7 +402,7 @@ void RmTrackSelect(void *vs)
 	TrackLabelId = GfuiLabelCreate(scrHandle,
 				((tFList*)CategoryList->userData)->dispName,
 				GFUI_FONT_LARGE_C,
-				320, 370, GFUI_ALIGN_HC_VB,
+				270, 370, GFUI_ALIGN_HC_VB,
 				30);
 
 	GfuiGrButtonCreate(scrHandle,
@@ -374,26 +410,29 @@ void RmTrackSelect(void *vs)
 			"data/img/arrow-right.png",
 			"data/img/arrow-right.png",
 			"data/img/arrow-right-pushed.png",
-			540, 370, GFUI_ALIGN_HC_VB, 0,
+			470, 370, GFUI_ALIGN_HC_VB, 0,
 			(void*)1, rmtsPrevNext,
 			nullptr, nullptr, nullptr);
 
 	int scrw, scrh, vw, vh;
 	GfScrGetSize(&scrw, &scrh, &vw, &vh);
+	GfuiLabelCreateEx(scrHandle, "TRACK MAP", kAccentColor, GFUI_FONT_SMALL_C, 800, 470, GFUI_ALIGN_HL_VB, 0);
 	MapId = GfuiStaticImageCreate(scrHandle,
-				320, 100, (int) (vh*260.0f/vw), 195,
+				930, 120, (int) (vh * 420.0f / vw), 315,
 				rmGetMapName(buf, BUFSIZE));
 
-	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Lock Circuit", GFUI_FONT_LARGE, 900, 60, 170, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 			nullptr, rmtsSelect, nullptr, nullptr, nullptr);
 
-	GfuiButtonCreate(scrHandle, "Back", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Back", GFUI_FONT_LARGE, 1090, 60, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 			ts->prevScreen, rmtsDeactivate, nullptr, nullptr, nullptr);
 
-	Xpos = 20;
-	Ypos = 320;
-	DX = 110;
-	DY = 30;
+	GfuiLabelCreateEx(scrHandle, "CIRCUIT DATA", kAccentColor, GFUI_FONT_SMALL_C, 110, 320, GFUI_ALIGN_HL_VB, 0);
+
+	Xpos = 110;
+	Ypos = 286;
+	DX = 150;
+	DY = 34;
 
 	GfuiLabelCreate(scrHandle,
 			"Description:",

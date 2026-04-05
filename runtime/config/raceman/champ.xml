@@ -18,7 +18,7 @@
 	
 	<section name="Header">
 		<attstr name="name" val="Championship"/>
-		<attstr name="description" val="Championship"/>
+		<attstr name="description" val="Multi-round championship campaign with standings pressure, carry-over momentum, and season-long rivals."/>
 		<attnum name="priority" val="30"/>
 		<attstr name="menu image" val="data/img/splash-dtm.png"/>
 		<attstr name="run image" val="data/img/splash-run-practice.png"/>

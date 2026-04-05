@@ -19,7 +19,7 @@
 
     <section name="Header">
       <attstr name="name" val="Quick Race"/>
-      <attstr name="description" val="Quick Race"/>
+      <attstr name="description" val="Arcade-style sprint weekend with a fast setup loop, compact grid, and instant launch to the line."/>
       <attnum name="priority" val="10"/>
       <attstr name="menu image" val="data/img/splash-qr.png"/>
     </section>
