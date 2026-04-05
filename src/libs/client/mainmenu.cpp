@@ -28,6 +28,14 @@
 #include "exitmenu.h"
 #include "optionmenu.h"
 
+namespace {
+
+float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
+float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
+
+} // namespace
+
 
 void *menuHandle = nullptr;
 tModList *RacemanModLoaded = nullptr;
@@ -59,6 +67,8 @@ TorcsMainMenuActivate(void * /* dummy */)
 int
 TorcsMainMenuInit(void)
 {
+    const int infoLeft = 110;
+
     menuHandle = GfuiScreenCreateEx(nullptr, 
 				    nullptr, TorcsMainMenuActivate, 
 				    nullptr, nullptr, 
@@ -66,30 +76,85 @@ TorcsMainMenuInit(void)
 
     GfuiScreenAddBgImg(menuHandle, "data/img/splash-main.png");
 
-    GfuiTitleCreate(menuHandle, "Open Racing Simulator", 0);
+    GfuiLabelCreateEx(menuHandle,
+		    "RACING OPERATIONS",
+		    kAccentColor,
+		    GFUI_FONT_SMALL_C,
+		    infoLeft,
+		    660,
+		    GFUI_ALIGN_HL_VB,
+		    0);
 
-    GfuiLabelCreate(menuHandle,
+    GfuiTitleCreate(menuHandle, "TORCS // RACE CONTROL", 0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "Build the grid, tune the field, and launch straight onto the line.",
+		    kBodyColor,
+		    GFUI_FONT_MEDIUM_C,
+		    infoLeft,
+		    620,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "Career seasons, one-off events, garage setup, and driver profiles are arranged",
+		    kMutedColor,
+		    GFUI_FONT_SMALL_C,
+		    infoLeft,
+		    582,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "as a modern race-weekend hub so the route from menu to green flag feels tighter.",
+		    kMutedColor,
+		    GFUI_FONT_SMALL_C,
+		    infoLeft,
+		    558,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "FAST START",
+		    kAccentColor,
+		    GFUI_FONT_SMALL_C,
+		    infoLeft,
+		    220,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "Race jumps directly into the launch-to-grid flow with track, driver, and event setup.",
+		    kBodyColor,
+		    GFUI_FONT_SMALL_C,
+		    infoLeft,
+		    192,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
 		    "Version 1.3.8",
-		    GFUI_FONT_MEDIUM,
-		    320,
-		    420,
-		    GFUI_ALIGN_HC_VB,
+		    kMutedColor,
+		    GFUI_FONT_SMALL_C,
+		    infoLeft,
+		    54,
+		    GFUI_ALIGN_HL_VB,
 		    0);
 
     GfuiMenuButtonCreate(menuHandle,
-			 "Career", "Career mode - build your racing legacy across multiple seasons",
+			 "Career", "Season-long progression with standings pressure, long-term rivalries, and a championship arc",
 			 CareerMenuInit(menuHandle), GfuiScreenActivate);
 
     GfuiMenuButtonCreate(menuHandle,
-			 "Race", "Start a race",
+			 "Race", "Jump into the modern launch flow to pick an event type, tune the field, and roll to the grid",
 			 ReSinglePlayerInit(menuHandle), GfuiScreenActivate);
 
     GfuiMenuButtonCreate(menuHandle,
-			 "Player Profiles", "Configure player profiles and controls",
+			 "Player Profiles", "Dial in drivers, control presets, and profile-specific garage preferences",
 			 TorcsDriverMenuInit(menuHandle), GfuiScreenActivate);
 
     GfuiMenuButtonCreate(menuHandle,
-			 "Options", "Configure graphics, sound and simulation",
+			 "Options", "Adjust visuals, sound, and simulation settings for a sharper race-day presentation",
 			 TorcsOptionOptionInit(menuHandle), GfuiScreenActivate);
     
     GfuiMenuDefaultKeysAdd(menuHandle);

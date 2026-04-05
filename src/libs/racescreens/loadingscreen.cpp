@@ -38,6 +38,9 @@ static int rmCurText;
 
 float black[4] = { 0.0, 0.0, 0.0, 0.0 };
 float white[TEXTLINES][4];
+float accent[4] = { 1.0, 0.58, 0.08, 1.0 };
+float body[4] = { 0.84, 0.87, 0.93, 1.0 };
+float muted[4] = { 0.58, 0.63, 0.75, 1.0 };
 
 
 
@@ -67,12 +70,29 @@ void RmLoadingScreenStart(const char *title, const char *bgimg)
 	menuHandle = GfuiScreenCreateEx(black, nullptr, nullptr, nullptr, rmDeativate, 0);
 	
 	GfuiTitleCreate(menuHandle, title, strlen(title));
+	GfuiLabelCreateEx(menuHandle, "SESSION LOAD", accent, GFUI_FONT_SMALL_C, 110, 660, GFUI_ALIGN_HL_VB, 0);
+	GfuiLabelCreateEx(menuHandle,
+			"Building the race weekend, loading the field, and preparing the start sequence.",
+			body,
+			GFUI_FONT_SMALL_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
+	GfuiLabelCreateEx(menuHandle,
+			"Live status scrolls below as the circuit and competitors come online.",
+			muted,
+			GFUI_FONT_SMALL_C,
+			110,
+			594,
+			GFUI_ALIGN_HL_VB,
+			0);
 	
 	/* create TEXTLINES lines of text */
-	for (i = 0, y = 400; i < TEXTLINES; i++, y -= 16) {
+	for (i = 0, y = 530; i < TEXTLINES; i++, y -= 18) {
 		white[i][0] = white[i][1] = white[i][2] = 1.0;
 		white[i][3] = (float)i * 0.0421 + 0.2;
-		rmTextId[i] = GfuiLabelCreateEx(menuHandle, "", white[i], GFUI_FONT_MEDIUM_C, 60, y, 
+		rmTextId[i] = GfuiLabelCreateEx(menuHandle, "", white[i], GFUI_FONT_MEDIUM_C, 110, y,
 						GFUI_ALIGN_HL_VB, 100);
 		if (rmTextLines[i]) {
 			/* free old text */

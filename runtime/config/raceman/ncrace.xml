@@ -18,7 +18,7 @@
 
   <section name="Header">
     <attstr name="name" val="Non-Championship Race"/>
-    <attstr name="description" val="Non-Championship Race"/>
+    <attstr name="description" val="One-off exhibition event with full setup freedom and no championship consequences."/>
     <attnum name="priority" val="20"/>
     <attstr name="menu image" val="data/img/splash-dtm.png"/>
     <attstr name="run image" val="data/img/splash-run-practice.png"/>

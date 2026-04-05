@@ -114,16 +114,16 @@ GfuiMenuButtonCreate(void *scr, const char *text, const char *tip, void *userdat
 	int nbItems = ((tGfuiScreen*)scr)->nbItems++;
 	int bId;
 	
-	if (nbItems < 11) {
-		xpos = 640;
-		ypos = 575 - 50 * nbItems;
+	if (nbItems < 8) {
+		xpos = 280;
+		ypos = 500 - 58 * nbItems;
 	} else {
 		if (nbItems > 22) {
 			GfTrace("Too many items in that menu !!!\n");
 			return -1;
 		}
-		xpos = 760;
-		ypos = 575 - 50 * (nbItems - 11);
+		xpos = 820;
+		ypos = 500 - 58 * (nbItems - 8);
 	}
 	
 	cbinfo = (tMnuCallbackInfo*)calloc(1, sizeof(tMnuCallbackInfo));
@@ -159,7 +159,7 @@ GfuiMenuBackQuitButtonCreate(void *scr, const char *text, const char *tip, void 
     int			xpos, ypos;
     int			bId;
     
-    xpos = 640;
+    xpos = 280;
     ypos = 60;
 
     cbinfo = (tMnuCallbackInfo*)calloc(1, sizeof(tMnuCallbackInfo));

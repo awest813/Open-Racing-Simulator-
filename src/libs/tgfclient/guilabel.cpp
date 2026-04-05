@@ -168,7 +168,7 @@ GfuiLabelCreate(void *scr, const char *text, int font, int x, int y, int align, 
 int
 GfuiTipCreate(void *scr, const char *text, int maxlen)
 {
-	return GfuiLabelCreateEx(scr, text, &(GfuiColor[GFUI_TIPCOLOR][0]), GFUI_FONT_SMALL, 640, 22, GFUI_ALIGN_HC_VB, maxlen);
+	return GfuiLabelCreateEx(scr, text, &(GfuiColor[GFUI_TIPCOLOR][0]), GFUI_FONT_SMALL, 110, 565, GFUI_ALIGN_HL_VB, maxlen);
 }
 
 /** Add a Title to the screen.

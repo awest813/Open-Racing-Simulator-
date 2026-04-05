@@ -44,9 +44,15 @@ static int FocDrvLabelId;
 static int PickDrvNameLabelId;
 static int PickDrvCarLabelId;
 static int PickDrvCategoryLabelId;
+static int GridStatusLabelId;
+static int GarageStatusLabelId;
 static float aColor[] = { 1.0, 0.0, 0.0, 1.0 };
+static float kAccentColor[] = { 1.0, 0.58, 0.08, 1.0 };
+static float kBodyColor[] = { 0.84, 0.87, 0.93, 1.0 };
+static float kMutedColor[] = { 0.58, 0.63, 0.75, 1.0 };
 static int nbSelectedDrivers;
 static int nbMaxSelectedDrivers;
+static int nbRosterDrivers;
 
 typedef struct DrvElt
 {
@@ -64,6 +70,18 @@ GF_TAILQ_HEAD(DrvListHead, tDrvElt);
 tDrvListHead DrvList;
 
 static void rmFreeDrvList(void);
+
+static void rmdsUpdateRosterStatus(void)
+{
+	const int BUFSIZE = 128;
+	char buf[BUFSIZE];
+
+	snprintf(buf, BUFSIZE, "Grid %d / %d", nbSelectedDrivers, nbMaxSelectedDrivers);
+	GfuiLabelSetText(scrHandle, GridStatusLabelId, buf);
+
+	snprintf(buf, BUFSIZE, "Garage %d available", nbRosterDrivers - nbSelectedDrivers);
+	GfuiLabelSetText(scrHandle, GarageStatusLabelId, buf);
+}
 
 namespace {
 
@@ -236,6 +254,7 @@ static void rmSelectDeselect(void * /* dummy */ )
 		}
 	}
 	rmdsClickOnDriver(nullptr);
+	rmdsUpdateRosterStatus();
 }
 
 
@@ -284,19 +303,32 @@ void RmDriversSelect(void *vs)
 	scrHandle = GfuiScreenCreateEx(nullptr, nullptr, rmdsActivate, nullptr, nullptr, 1);
 	GfuiScreenAddBgImg(scrHandle, "data/img/splash-qrdrv.png");
 	
+	GfuiLabelCreateEx(scrHandle, "GRID BUILD", kAccentColor, GFUI_FONT_SMALL_C, 110, 660, GFUI_ALIGN_HL_VB, 0);
 	GfuiTitleCreate(scrHandle, "Select Drivers", sizeof("Select Drivers"));
+	GfuiLabelCreateEx(scrHandle,
+			"Shape the field, lock the primary driver, and promote the roster order before launch.",
+			kBodyColor,
+			GFUI_FONT_MEDIUM_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
 	
 	GfuiLabelCreate(scrHandle,
-			"Selected",
+			"ACTIVE GRID",
 			GFUI_FONT_LARGE,
 			120, 400, GFUI_ALIGN_HC_VB,
 			0);
+
+	GridStatusLabelId = GfuiLabelCreateEx(scrHandle, "", kMutedColor, GFUI_FONT_SMALL_C, 120, 372, GFUI_ALIGN_HC_VB, 0);
 	
 	GfuiLabelCreate(scrHandle,
-			"Not Selected",
+			"GARAGE",
 			GFUI_FONT_LARGE,
 			496, 400, GFUI_ALIGN_HC_VB,
 			0);
+
+	GarageStatusLabelId = GfuiLabelCreateEx(scrHandle, "", kMutedColor, GFUI_FONT_SMALL_C, 496, 372, GFUI_ALIGN_HC_VB, 0);
 	
 	selectedScrollList = GfuiScrollListCreate(scrHandle, GFUI_FONT_MEDIUM_C, 20, 80, GFUI_ALIGN_HL_VB,
 							200, 310, GFUI_SB_RIGHT, nullptr, rmdsClickOnDriver);
@@ -304,22 +336,22 @@ void RmDriversSelect(void *vs)
 						200, 310, GFUI_SB_RIGHT, nullptr, rmdsClickOnDriver);
 	
 	
-	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Commit Grid", GFUI_FONT_LARGE, 210, 40, 170, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				nullptr, rmdsSelect, nullptr, nullptr, nullptr);
 	
 	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				ds->prevScreen, rmdsDeactivate, nullptr, nullptr, nullptr);
 	
-	GfuiButtonCreate(scrHandle, "Move Up", GFUI_FONT_MEDIUM, 320, B_BASE, 100, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Promote", GFUI_FONT_MEDIUM, 320, B_BASE, 110, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				(void*)-1, rmMove, nullptr, nullptr, nullptr);
 	
-	GfuiButtonCreate(scrHandle, "Move Down", GFUI_FONT_MEDIUM, 320, B_BASE - B_HT, 100, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Drop Back", GFUI_FONT_MEDIUM, 320, B_BASE - B_HT, 110, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				(void*)1, rmMove, nullptr, nullptr, nullptr);
 	
-	GfuiButtonCreate(scrHandle, "(De)Select", GFUI_FONT_MEDIUM, 320, B_BASE - 2 * B_HT, 100, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Toggle Seat", GFUI_FONT_MEDIUM, 320, B_BASE - 2 * B_HT, 110, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				(void*)0, rmSelectDeselect, nullptr, nullptr, nullptr);
 	
-	GfuiButtonCreate(scrHandle, "Set Focus", GFUI_FONT_MEDIUM, 320, B_BASE - 3 * B_HT, 100, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
+	GfuiButtonCreate(scrHandle, "Set Primary", GFUI_FONT_MEDIUM, 320, B_BASE - 3 * B_HT, 110, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				nullptr, rmdsSetFocus, nullptr, nullptr, nullptr);
 	
 	list = nullptr;
@@ -384,6 +416,7 @@ void RmDriversSelect(void *vs)
 	}
 	
 	nbSelectedDrivers = 0;
+	nbRosterDrivers = 0;
 	nbMaxSelectedDrivers = (int)GfParmGetNum(ds->param, RM_SECT_DRIVERS, RM_ATTR_MAXNUM, nullptr, 0);
 	nCars = GfParmGetEltNb(ds->param, RM_SECT_DRIVERS);
 	index = 1;
@@ -411,13 +444,14 @@ void RmDriversSelect(void *vs)
 	curDrv = GF_TAILQ_FIRST(&DrvList);
 	if (curDrv != nullptr) {
 		do {
+			nbRosterDrivers++;
 			if (curDrv->sel == 0) {
 			GfuiScrollListInsertElement(scrHandle, unselectedScrollList, curDrv->name, 1000, (void*)curDrv);
 			}
 		} while ((curDrv = GF_TAILQ_NEXT(curDrv, link)) != nullptr);
 	}
 
-	GfuiLabelCreate(scrHandle, "Focused Driver:", GFUI_FONT_MEDIUM, 320, B_BASE - 5 * B_HT, GFUI_ALIGN_HC_VB, 0);
+	GfuiLabelCreate(scrHandle, "Primary Driver:", GFUI_FONT_MEDIUM, 320, B_BASE - 5 * B_HT, GFUI_ALIGN_HC_VB, 0);
 	const char* cardllname = GfParmGetStr(ds->param, RM_SECT_DRIVERS, RM_ATTR_FOCUSED, "");
 	robotIdx = (int)GfParmGetNum(ds->param, RM_SECT_DRIVERS, RM_ATTR_FOCUSEDIDX, nullptr, 0);
 	curDrv = GF_TAILQ_FIRST(&DrvList);
@@ -442,15 +476,24 @@ void RmDriversSelect(void *vs)
     }
 
 	/* Picked Driver Info */
-	GfuiLabelCreate(scrHandle, "Driver Name:", GFUI_FONT_MEDIUM, 320, B_BASE - 7 * B_HT, GFUI_ALIGN_HC_VB, 0);
+	GfuiLabelCreate(scrHandle, "Driver:", GFUI_FONT_MEDIUM, 320, B_BASE - 7 * B_HT, GFUI_ALIGN_HC_VB, 0);
 	PickDrvNameLabelId = GfuiLabelCreateEx(scrHandle, "", aColor, GFUI_FONT_MEDIUM_C,
 						320, B_BASE - 7 * B_HT - GfuiFontHeight(GFUI_FONT_MEDIUM), GFUI_ALIGN_HC_VB, 256);
-	GfuiLabelCreate(scrHandle, "Car Model:", GFUI_FONT_MEDIUM, 320, B_BASE - 8 * B_HT, GFUI_ALIGN_HC_VB, 0);
+	GfuiLabelCreate(scrHandle, "Car:", GFUI_FONT_MEDIUM, 320, B_BASE - 8 * B_HT, GFUI_ALIGN_HC_VB, 0);
 	PickDrvCarLabelId = GfuiLabelCreateEx(scrHandle, "", aColor, GFUI_FONT_MEDIUM_C,
 						320, B_BASE - 8 * B_HT - GfuiFontHeight(GFUI_FONT_MEDIUM), GFUI_ALIGN_HC_VB, 256);
-	GfuiLabelCreate(scrHandle, "Car Category:", GFUI_FONT_MEDIUM, 320, B_BASE - 9 * B_HT, GFUI_ALIGN_HC_VB, 0);
+	GfuiLabelCreate(scrHandle, "Class:", GFUI_FONT_MEDIUM, 320, B_BASE - 9 * B_HT, GFUI_ALIGN_HC_VB, 0);
 	PickDrvCategoryLabelId = GfuiLabelCreateEx(scrHandle, "", aColor, GFUI_FONT_MEDIUM_C,
 							320, B_BASE - 9 * B_HT - GfuiFontHeight(GFUI_FONT_MEDIUM), GFUI_ALIGN_HC_VB, 256);
+	GfuiLabelCreateEx(scrHandle,
+			"Use Promote / Drop Back to seed the order before you launch the race weekend.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			54,
+			GFUI_ALIGN_HL_VB,
+			0);
+	rmdsUpdateRosterStatus();
 	GfuiMenuDefaultKeysAdd(scrHandle);
 	rmdsAddKeys();
 	
