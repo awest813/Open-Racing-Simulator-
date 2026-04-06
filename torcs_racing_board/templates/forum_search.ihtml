@@ -10,13 +10,13 @@
 			</p>
 			<form method="post" action="{PC_SEARCHFORUM}">
 				<p>
-				Search in
-					<select name="searchin" size="1">
+				<label for="forum_search_in">Search in</label>
+					<select id="forum_search_in" name="searchin" size="1">
 						<option {PC_SELECTED1} value="subject">Subject</option>
 						<option {PC_SELECTED2} value="subjectandbody">Subject and body</option>
 					</select>
 				<br/>
-				<input class="admincol0 smallmargintop" type="text" name="search" size="80" maxlength="80" value="{PC_SEARCH}"/>
+				<input aria-label="Search query" id="forum_search_input" class="admincol0 smallmargintop" type="text" name="search" size="80" maxlength="80" value="{PC_SEARCH}"/>
 				<br/>
 				<input class="smallmargintop" type="submit" name="search_submit" value="Search">
 				</p>
