@@ -1,5 +1,5 @@
 /***************************************************************************
-               menu.h -- Interface file for Dynamic Menu Management                                   
+               guimenu.h -- Interface file for Dynamic Menu Management                                   
                              -------------------                                         
     created              : Fri Aug 13 22:24:24 CEST 1999
     copyright            : (C) 1999 by Eric Espie                         
