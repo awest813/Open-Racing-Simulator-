@@ -53,6 +53,7 @@ static tRmTrackSelect ts;
 static tRmDrvSelect ds;
 static tRmRaceParam rp;
 static tRmFileSelect fs;
+static char fsLoadPath[1024];
 
 static void reConfigRunState(void);
 
@@ -229,10 +230,6 @@ reSelectLoadFile(char *filename)
 	RmShowStandings(ReInfo->_reGameScreen, ReInfo);
 }
 
-// FIXME: remove this static shared buffer!
-const int VARBUFSIZE = 1024;
-char varbuf[VARBUFSIZE];
-
 static void
 reLoadMenu(void *prevHandle)
 {
@@ -246,8 +243,8 @@ reLoadMenu(void *prevHandle)
 		fs.title = str;
 	}
 
-	snprintf(varbuf, VARBUFSIZE, "%sresults/%s", GetLocalDir(), ReInfo->_reFilename);
-	fs.path = varbuf;
+	snprintf(fsLoadPath, sizeof(fsLoadPath), "%sresults/%s", GetLocalDir(), ReInfo->_reFilename);
+	fs.path = fsLoadPath;
 	
 	RmFileSelect(static_cast<void*>(&fs));
 }
@@ -352,10 +349,6 @@ ReRacemanMenu(void)
 	GfuiMenuButtonCreate(racemanMenuHdle, 
 			"Tune Weekend", "Adjust the circuit, driver roster, and race parameters before launch",
 			nullptr, reConfigureMenu);
-
-/*     GfuiMenuButtonCreate(racemanMenuHdle, */
-/* 			 "Configure Players", "Players configuration menu", */
-/* 			 TorcsDriverMenuInit(racemanMenuHdle), GfuiScreenActivate); */
 
 	if (GfParmGetEltNb(params, RM_SECT_TRACKS) > 1) {
 		GfuiMenuButtonCreate(racemanMenuHdle, 
