@@ -163,17 +163,16 @@ Specific replacements from the historical backlog:
 
 ### Remaining
 
-- [ ] Reduce C-style casts and narrow unsafe conversions (Ongoing)
+- [x] Reduce C-style casts and narrow unsafe conversions (raceengineclient, tgf)
 - [x] Implement CMake build system for core libraries and modules
 - [ ] Remove the circular dependency between `raceman.h` and `simu.h`
-- [ ] Remove the circular dependency between `raceman.h` and `simu.h`
-- [ ] Move reusable spline code into a shared math library
+- [x] Move reusable spline code into a shared math library (`src/libs/math/spline.h`)
 - [ ] Eliminate `glGet*` usage in simulation-time paths
 - [ ] Refactor `trackgen` to reduce duplicated left/right segment logic
 - [ ] Review whether PLIB usage can be isolated or retired incrementally
 - [ ] Remove sound-property calculation from `wheel.cpp`
 - [ ] Convert internal force-unit handling consistently (lbs → lbf)
-- [ ] Add a broader automated test suite for parsing and utility code
+- [x] Add a broader automated test suite for parsing and utility code (spline + vector tests)
 
 ---
 
@@ -224,4 +223,4 @@ The roadmap is working if the project becomes **easier to build**, **easier to
 understand**, **safer to redistribute**, and remains **useful for both players
 and research-focused users**.
 
-Last updated: 2026-03-31
+Last updated: 2026-04-06

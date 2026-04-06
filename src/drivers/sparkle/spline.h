@@ -1,10 +1,6 @@
 /***************************************************************************
 
     file                 : spline.h
-    created              : Wed Mai 14 19:53:00 CET 2003
-    copyright            : (C) 2003 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id$
 
  ***************************************************************************/
 
@@ -17,27 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
+/* Redirect to shared spline math library. */
 #ifndef _SPLINE_H_
 #define _SPLINE_H_
-
-class SplinePoint {
-	public:
-		float x;	/* x coordinate */
-		float y;	/* y coordinate */
-		float s;	/* slope */
-};
-
-
-class Spline {
-	public:
-		Spline(int dim, SplinePoint *s);
-
-		float evaluate(float z);
-
-	private:
-		SplinePoint *s;
-		int dim;
-};
-
+#include <tmath/spline.h>
 #endif // _SPLINE_H_
 

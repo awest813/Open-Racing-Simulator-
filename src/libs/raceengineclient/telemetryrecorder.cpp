@@ -88,7 +88,7 @@ void ReTelemetryStartRecording(tSituation *s)
 
         char cleanname[128];
         int j = 0;
-        for (int k = 0; basename[k] && j < (int)sizeof(cleanname) - 1; k++) {
+        for (int k = 0; basename[k] && j < static_cast<int>(sizeof(cleanname)) - 1; k++) {
             if (basename[k] == ' ' || basename[k] == '/' || basename[k] == '\\') {
                 cleanname[j++] = '_';
             } else {

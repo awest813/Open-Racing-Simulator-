@@ -238,7 +238,7 @@ void ReRunRaceOnConsole(const char* raceconfig)
 
 	ReInitResults();
 
-	ReStateApply((void *) RE_STATE_EVENT_INIT);	
+	ReStateApply(static_cast<void *>(RE_STATE_EVENT_INIT));	
 	GfParmReleaseHandle(ReInfo->params);
 	ReShutdown();
 }
@@ -392,8 +392,8 @@ initStartingGrid(void)
 	}
 	//wi2 = ReInfo->track->width * 0.5;
 
-	rows = (int)GfParmGetNum(params, path, RM_ATTR_ROWS, nullptr, 2);
-	rows = (int)GfParmGetNum(trHdle, RM_SECT_STARTINGGRID, RM_ATTR_ROWS, nullptr, rows);
+	rows = static_cast<int>(GfParmGetNum(params, path, RM_ATTR_ROWS, nullptr, 2));
+	rows = static_cast<int>(GfParmGetNum(trHdle, RM_SECT_STARTINGGRID, RM_ATTR_ROWS, nullptr, rows));
 	d1 = GfParmGetNum(params, path, RM_ATTR_TOSTART, nullptr, 10);
 	d1 = GfParmGetNum(trHdle, RM_SECT_STARTINGGRID, RM_ATTR_TOSTART, nullptr, d1);
 	d2 = GfParmGetNum(params, path, RM_ATTR_COLDIST, nullptr, 10);
@@ -469,7 +469,7 @@ initPits(void)
 	*/
 
 	// How many cars are sharing a pit?
-	int carsPerPit = (int) GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_CARSPERPIT, nullptr, 1.0f);
+	int carsPerPit = static_cast<int>(GfParmGetNum(ReInfo->params, ReInfo->_reRaceName, RM_ATTR_CARSPERPIT, nullptr, 1.0f));
 	if (carsPerPit < 1) {
 		carsPerPit = 1;
 	} else if (carsPerPit > TR_PIT_MAXCARPERPIT) {
@@ -554,7 +554,7 @@ initPits(void)
 
 bool isItThisRobot(tRmInfo* reInfo, const char* path, tModInfo* modInfo)
 {
-	int robotIdx = (int) GfParmGetNum(reInfo->params, path, RM_ATTR_IDX, nullptr, tModInfo::INVALID_INDEX);
+	int robotIdx = static_cast<int>(GfParmGetNum(reInfo->params, path, RM_ATTR_IDX, nullptr, tModInfo::INVALID_INDEX));
 	// Check normal TORCS case where index is given
 	if (robotIdx != tModInfo::INVALID_INDEX) {
 		if (modInfo->index == robotIdx) {
@@ -618,7 +618,7 @@ ReInitCars(void)
 	// Adjust skill level default if overridden
 	int defaultSkillLevel = 2;
 	const char* defaultSkillLevelStr = GfParmGetStr(params, RM_SECT_DRIVERS, RM_ATTR_SKILL_LEVEL_DEFAULT, ROB_VAL_SEMI_PRO);
-	for(k = 0; k < (int)(sizeof(level_str)/sizeof(char*)); k++) {
+	for(k = 0; k < static_cast<int>((sizeof(level_str)/sizeof(char*))); k++) {
 		if (strcmp(level_str[k], defaultSkillLevelStr) == 0) {
 			defaultSkillLevel = k;
 			break;
@@ -647,7 +647,7 @@ ReInitCars(void)
 				GfOut("Driver's name: %s\n", curModInfo->name);
 				/* retrieve the robot interface (function pointers) */
 				curRobot = (tRobotItf*)calloc(1, sizeof(tRobotItf));
-				curModInfo->fctInit(robotIdx, (void*)(curRobot));
+				curModInfo->fctInit(robotIdx, static_cast<void*>((curRobot)));
 				snprintf(buf, BUFSIZE, "%sdrivers/%s/%s.xml", GetLocalDir(), cardllname, cardllname);
 				void* robhdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
 				if (!robhdle) {
@@ -669,7 +669,7 @@ ReInitCars(void)
 					copyCString(elt->_teamname, GfParmGetStr(robhdle, path, ROB_ATTR_TEAM, "<none>"));
 					
 					copyCString(elt->_carName, GfParmGetStr(robhdle, path, ROB_ATTR_CAR, ""));
-					elt->_raceNumber = (int)GfParmGetNum(robhdle, path, ROB_ATTR_RACENUM, nullptr, 0);
+					elt->_raceNumber = static_cast<int>(GfParmGetNum(robhdle, path, ROB_ATTR_RACENUM, nullptr, 0));
 					if (strcmp(GfParmGetStr(robhdle, path, ROB_ATTR_TYPE, ROB_VAL_ROBOT), ROB_VAL_ROBOT)) {
 						elt->_driverType = RM_DRV_HUMAN;
 						if (ReInfo->_displayMode == RM_DISP_MODE_CONSOLE) {
@@ -681,7 +681,7 @@ ReInitCars(void)
 					}
 					elt->_skillLevel = 0;
 					const char* str = GfParmGetStr(robhdle, path, ROB_ATTR_LEVEL, level_str[defaultSkillLevel]);
-					for(k = 0; k < (int)(sizeof(level_str)/sizeof(char*)); k++) {
+					for(k = 0; k < static_cast<int>((sizeof(level_str)/sizeof(char*))); k++) {
 						if (strcmp(level_str[k], str) == 0) {
 							elt->_skillLevel = k;
 							break;
@@ -885,7 +885,7 @@ ReInitTrack(void)
 	char buf[BUFSIZE];
 
 	
-	curTrkIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1);
+	curTrkIdx = static_cast<int>(GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1));
 	snprintf(buf, BUFSIZE, "%s/%d", RM_SECT_TRACKS, curTrkIdx);
 	const char* trackName = GfParmGetStr(params, buf, RM_ATTR_NAME, 0);
 	if (!trackName) return -1;
@@ -958,7 +958,7 @@ ReGetCurrentRaceName(void)
 	const int BUFSIZE = 1024;
 	char path[BUFSIZE];
 	
-	curRaceIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1);
+	curRaceIdx = static_cast<int>(GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1));
 	snprintf(path, BUFSIZE, "%s/%d", RM_SECT_RACES, curRaceIdx);
 	return GfParmGetStr(params, path, RM_ATTR_NAME, 0);
 }
@@ -972,7 +972,7 @@ ReGetPrevRaceName(void)
 	const int BUFSIZE = 1024;
 	char path[BUFSIZE];	
 	
-	curRaceIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1) - 1;
+	curRaceIdx = static_cast<int>(GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, nullptr, 1)) - 1;
 	snprintf(path, BUFSIZE, "%s/%d", RM_SECT_RACES, curRaceIdx);
 	return GfParmGetStr(params, path, RM_ATTR_NAME, 0);
 }

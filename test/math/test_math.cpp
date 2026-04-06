@@ -17,7 +17,7 @@
 
 /**
  * @file test_math.cpp
- * Unit tests for the tmath vector library (v2t, v3t).
+ * Unit tests for the tmath vector library (v2t, v3t) and spline utilities.
  * Compile with: make  (or see Makefile for manual flags)
  */
 
@@ -26,6 +26,7 @@
 #include <cstring>
 
 #include <tmath/linalg_t.h>
+#include <tmath/spline.h>
 
 // ---------------------------------------------------------------------------
 // Minimal test framework
@@ -264,6 +265,101 @@ static void test_v3t_equality()
 }
 
 // ---------------------------------------------------------------------------
+// spline tests
+// ---------------------------------------------------------------------------
+
+static void test_spline_linear_natural()
+{
+    // Linear data: y = x.  A natural spline through linear data should
+    // reproduce the line exactly (slopes == 1 everywhere).
+    const int n = 4;
+    double x[] = {0.0, 1.0, 2.0, 3.0};
+    double y[] = {0.0, 1.0, 2.0, 3.0};
+    double ys[4];
+    slopesn(n, x, y, ys);
+
+    CHECK_NEAR(spline(n, 0.0,  x, y, ys), 0.0,  1e-10);
+    CHECK_NEAR(spline(n, 0.5,  x, y, ys), 0.5,  1e-10);
+    CHECK_NEAR(spline(n, 1.0,  x, y, ys), 1.0,  1e-10);
+    CHECK_NEAR(spline(n, 1.5,  x, y, ys), 1.5,  1e-10);
+    CHECK_NEAR(spline(n, 2.5,  x, y, ys), 2.5,  1e-10);
+}
+
+static void test_spline_knot_values_natural()
+{
+    // The spline must pass exactly through the given knot values.
+    const int n = 5;
+    double x[] = {0.0, 1.0, 2.0, 3.0, 4.0};
+    double y[] = {0.0, 1.0, 0.5, 2.0, 1.5};
+    double ys[5];
+    slopesn(n, x, y, ys);
+
+    for (int i = 0; i < n; i++) {
+        CHECK_NEAR(spline(n, x[i], x, y, ys), y[i], 1e-10);
+    }
+}
+
+static void test_spline_class_knot_values()
+{
+    // SplinePoint / Spline class must reproduce knot values exactly.
+    const int n = 5;
+    double xd[] = {0.0, 1.0, 2.0, 3.0, 4.0};
+    double yd[] = {0.0, 1.0, 0.5, 2.0, 1.5};
+    double ysd[5];
+    slopesn(n, xd, yd, ysd);
+
+    SplinePoint pts[5];
+    for (int i = 0; i < n; i++) {
+        pts[i].x = static_cast<float>(xd[i]);
+        pts[i].y = static_cast<float>(yd[i]);
+        pts[i].s = static_cast<float>(ysd[i]);
+    }
+    Spline sp(n, pts);
+
+    for (int i = 0; i < n; i++) {
+        CHECK_NEAR(sp.evaluate(static_cast<float>(xd[i])),
+                   static_cast<float>(yd[i]), 1e-5f);
+    }
+}
+
+static void test_spline_periodic_closed_loop()
+{
+    // A periodic spline on a symmetric dataset should be smooth at the
+    // wrap point.  slopesp(n, ...) stores the periodic copy at ys[n-1]
+    // (it decrements dim internally, then sets ys[dim] = ys[0]).
+    const int n = 4;
+    double x[] = {0.0, 1.0, 2.0, 3.0};
+    double y[] = {0.0, 1.0, 0.0, -1.0};
+    double ys[4];
+    slopesp(n, x, y, ys);
+
+    // The last slope must be an exact copy of the first slope.
+    CHECK_NEAR(ys[0], ys[n-1], 1e-10);
+
+    // Knot values must be reproduced exactly.
+    for (int i = 0; i < n - 1; i++) {
+        CHECK_NEAR(spline(n, x[i], x, y, ys), y[i], 1e-10);
+    }
+}
+
+static void test_spline_monotone_interpolation()
+{
+    // Evaluating at the midpoint of each interval should give values
+    // strictly between the bounding knot values for monotone input.
+    const int n = 5;
+    double x[] = {0.0, 1.0, 2.0, 3.0, 4.0};
+    double y[] = {0.0, 1.0, 2.0, 3.0, 4.0};
+    double ys[5];
+    slopesn(n, x, y, ys);
+
+    for (int i = 0; i < n - 1; i++) {
+        double mid = spline(n, (x[i] + x[i+1]) / 2.0, x, y, ys);
+        CHECK(mid > y[i] - 1e-9);
+        CHECK(mid < y[i+1] + 1e-9);
+    }
+}
+
+// ---------------------------------------------------------------------------
 // main
 // ---------------------------------------------------------------------------
 
@@ -287,6 +383,13 @@ int main()
     test_v3t_cross_product();
     test_v3t_length_and_normalize();
     test_v3t_equality();
+
+    // spline tests
+    test_spline_linear_natural();
+    test_spline_knot_values_natural();
+    test_spline_class_knot_values();
+    test_spline_periodic_closed_loop();
+    test_spline_monotone_interpolation();
 
     printf("Results: %d passed, %d failed\n", s_passed, s_failed);
     return s_failed == 0 ? 0 : 1;

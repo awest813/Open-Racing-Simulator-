@@ -178,6 +178,6 @@ ReStateApply(void *vstate)
 {
 	long state = (long)vstate;
 
-	ReInfo->_reState = (int)state;
+	ReInfo->_reState = static_cast<int>(state);
 	ReStateManage();
 }

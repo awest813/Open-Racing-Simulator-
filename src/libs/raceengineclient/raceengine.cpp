@@ -56,7 +56,7 @@ ReUpdtPitTime(tCarElt *car)
 
 	switch (car->_pitStopType) {
 		case RM_PIT_REPAIR:
-			info->totalPitTime = ReInfo->raceRules.pitstopBaseTime + fabs((double)(car->_pitFuel)) / ReInfo->raceRules.refuelFuelFlow + (tdble)(fabs((double)(car->_pitRepair))) * ReInfo->raceRules.damageRepairFactor + car->_penaltyTime;
+			info->totalPitTime = ReInfo->raceRules.pitstopBaseTime + fabs(static_cast<double>((car->_pitFuel))) / ReInfo->raceRules.refuelFuelFlow + static_cast<tdble>((fabs((double)(car->_pitRepair)))) * ReInfo->raceRules.damageRepairFactor + car->_penaltyTime;
 			
 			// Add time for tire change
 			if (car->pitcmd.tireChange == tCarPitCmd::ALL && car->info.skillLevel == 3 && ReInfo->raceRules.tireFactor > 0.0f) {
@@ -228,7 +228,7 @@ ReManage(tCarElt *car)
 					if (car->robot->rbPitCmd(car->robot->index, car, s) == ROB_PIT_MENU) {
 						// the pit cmd is modified by menu.
 						ReStop();
-						RmPitMenuStart(car, ReInfo, (void*)car, ReUpdtPitCmd);
+						RmPitMenuStart(car, ReInfo, static_cast<void*>(car), ReUpdtPitCmd);
 					} else {
 						ReUpdtPitTime(car);
 					}
@@ -819,7 +819,7 @@ ReTimeMod (void *vcmd)
 {
 	long cmd = (long)vcmd;
 
-	switch ((int)cmd) {
+	switch (static_cast<int>(cmd)) {
 		case 0:
 			ReInfo->_reTimeMult *= 2.0;
 			if (ReInfo->_reTimeMult > 64.0) {
