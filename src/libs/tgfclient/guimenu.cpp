@@ -1,5 +1,5 @@
 /***************************************************************************
-                          menu.cpp -- menu management                            
+                          guimenu.cpp -- menu management                            
                              -------------------                                         
     created              : Fri Aug 13 22:23:19 CEST 1999
     copyright            : (C) 1999 by Eric Espie                         
@@ -38,6 +38,7 @@
 void
 gfMenuInit(void)
 {
+	/* Called from client startup; hook for future menu subsystem setup. */
 }
 
 /** Add the default menu keyboard callback to a screen.
@@ -111,17 +112,19 @@ GfuiMenuButtonCreate(void *scr, const char *text, const char *tip, void *userdat
 {
 	tMnuCallbackInfo *cbinfo;
 	int xpos, ypos;
-	int nbItems = ((tGfuiScreen*)scr)->nbItems++;
+	tGfuiScreen *screen = (tGfuiScreen*)scr;
 	int bId;
+
+	if (screen->nbItems > 22) {
+		GfTrace("Too many items in that menu !!!\n");
+		return -1;
+	}
+	int nbItems = screen->nbItems++;
 	
 	if (nbItems < 8) {
 		xpos = 280;
 		ypos = 500 - 58 * nbItems;
 	} else {
-		if (nbItems > 22) {
-			GfTrace("Too many items in that menu !!!\n");
-			return -1;
-		}
 		xpos = 820;
 		ypos = 500 - 58 * (nbItems - 8);
 	}

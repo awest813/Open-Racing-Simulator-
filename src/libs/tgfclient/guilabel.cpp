@@ -63,11 +63,11 @@ gfuiCopyLabelText(tGfuiLabel *label, const char *text)
     			<br>GFUI_ALIGN_HR_VC	horizontal right, vertical center
     			<br>GFUI_ALIGN_HR_VT	horizontal right, vertical top
     			<br>GFUI_ALIGN_HC_VB	horizontal center, vertical bottom
-    			<br>GFUI_ALIGN_HC_VB	horizontal center, vertical center
-    			<br>GFUI_ALIGN_HC_VB	horizontal center, vertical top
+    			<br>GFUI_ALIGN_HC_VC	horizontal center, vertical center
+    			<br>GFUI_ALIGN_HC_VT	horizontal center, vertical top
     			<br>GFUI_ALIGN_HL_VB	horizontal left, vertical bottom
-    			<br>GFUI_ALIGN_HL_VB	horizontal left, vertical center
-    			<br>GFUI_ALIGN_HL_VB	horizontal left, vertical top
+    			<br>GFUI_ALIGN_HL_VC	horizontal left, vertical center
+    			<br>GFUI_ALIGN_HL_VT	horizontal left, vertical top
     @param	maxlen	Maximum length of the button string (used when the label is changed)
     			<br>0 for the text length.
     @return	label Id
@@ -142,11 +142,11 @@ GfuiLabelCreateEx(void *scr, const char *text, float *fgColor, int font, int x, 
     			<br>GFUI_ALIGN_HR_VC	horizontal right, vertical center
     			<br>GFUI_ALIGN_HR_VT	horizontal right, vertical top
     			<br>GFUI_ALIGN_HC_VB	horizontal center, vertical bottom
-    			<br>GFUI_ALIGN_HC_VB	horizontal center, vertical center
-    			<br>GFUI_ALIGN_HC_VB	horizontal center, vertical top
+    			<br>GFUI_ALIGN_HC_VC	horizontal center, vertical center
+    			<br>GFUI_ALIGN_HC_VT	horizontal center, vertical top
     			<br>GFUI_ALIGN_HL_VB	horizontal left, vertical bottom
-    			<br>GFUI_ALIGN_HL_VB	horizontal left, vertical center
-    			<br>GFUI_ALIGN_HL_VB	horizontal left, vertical top
+    			<br>GFUI_ALIGN_HL_VC	horizontal left, vertical center
+    			<br>GFUI_ALIGN_HL_VT	horizontal left, vertical top
     @param	maxlen	Maximum length of the button string (used when the label is changed)
     			<br>0 for the text length.
     @return	label Id
