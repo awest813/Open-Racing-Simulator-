@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    file        : career-pro.xml
+    description : Pro Career Series - 6-round intermediate championship.
+                  The player races against 6 AI opponents across 6 varied road circuits.
+                  Advance here by winning the Rookie Series championship.
+                  Win the Pro championship to advance to the Elite Series.
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../libs/tgf/params.dtd">
+
+<params name="Pro Career Series" type="param" mode="mw">
+
+    <section name="Header">
+        <attstr name="name"        val="Pro Career Series"/>
+        <attstr name="description" val="Career Mode - Pro Championship"/>
+        <attnum name="priority"    val="5"/>
+        <attstr name="menu image"  val="data/img/splash-main.png"/>
+        <attstr name="run image"   val="data/img/splash-run-practice.png"/>
+        <attstr name="start image" val="data/img/splash-main.png"/>
+    </section>
+
+    <!-- 6-round pro season calendar -->
+    <section name="Tracks">
+        <attnum name="maximum number" val="6"/>
+
+        <section name="1">
+            <attstr name="name"     val="brondehach"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="2">
+            <attstr name="name"     val="e-track-3"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="3">
+            <attstr name="name"     val="ole-road-1"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="4">
+            <attstr name="name"     val="ruudskogen"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="5">
+            <attstr name="name"     val="g-track-2"/>
+            <attstr name="category" val="road"/>
+        </section>
+        <section name="6">
+            <attstr name="name"     val="alpine-1"/>
+            <attstr name="category" val="road"/>
+        </section>
+    </section>
+
+    <!-- One race session per round -->
+    <section name="Races">
+        <section name="1">
+            <attstr name="name" val="Career Race"/>
+        </section>
+    </section>
+
+    <section name="Career Race">
+        <attnum name="laps"            val="5"/>
+        <attstr name="type"            val="race"/>
+        <attstr name="starting order"  val="drivers list"/>
+        <attstr name="restart"         val="no"/>
+        <attnum name="maximum drivers" val="10"/>
+        <attstr name="splash menu"     val="yes"/>
+        <attstr name="display results" val="yes"/>
+
+        <section name="Starting Grid">
+            <attnum name="rows"                       val="2"/>
+            <attnum name="distance to start"          val="25"/>
+            <attnum name="distance between columns"   val="30"/>
+            <attnum name="offset within a column"     val="10"/>
+            <attnum name="initial speed"              val="0"/>
+            <attnum name="initial height"             val="0.2"/>
+        </section>
+
+        <!-- Modern F1-style points: 25-18-15-12-10-8-6-4-2-1 -->
+        <section name="Points">
+            <section name="1"><attnum name="points" val="25"/></section>
+            <section name="2"><attnum name="points" val="18"/></section>
+            <section name="3"><attnum name="points" val="15"/></section>
+            <section name="4"><attnum name="points" val="12"/></section>
+            <section name="5"><attnum name="points" val="10"/></section>
+            <section name="6"><attnum name="points" val="8"/></section>
+            <section name="7"><attnum name="points" val="6"/></section>
+            <section name="8"><attnum name="points" val="4"/></section>
+            <section name="9"><attnum name="points" val="2"/></section>
+            <section name="10"><attnum name="points" val="1"/></section>
+        </section>
+    </section>
+
+    <!-- Pro grid: human player + 6 AI opponents -->
+    <section name="Drivers">
+        <attnum name="maximum number" val="10"/>
+        <attstr name="focused module" val="human"/>
+        <attnum name="focused idx"    val="1"/>
+
+        <section name="1">
+            <attnum name="idx"    val="1"/>
+            <attstr name="module" val="human"/>
+        </section>
+        <section name="2">
+            <attnum name="idx"    val="6"/>
+            <attstr name="module" val="berniw"/>
+        </section>
+        <section name="3">
+            <attnum name="idx"    val="1"/>
+            <attstr name="module" val="berniw2"/>
+        </section>
+        <section name="4">
+            <attnum name="idx"    val="6"/>
+            <attstr name="module" val="olethros"/>
+        </section>
+        <section name="5">
+            <attnum name="idx"    val="8"/>
+            <attstr name="module" val="lliaw"/>
+        </section>
+        <section name="6">
+            <attnum name="idx"    val="9"/>
+            <attstr name="module" val="tita"/>
+        </section>
+        <section name="7">
+            <attnum name="idx"    val="3"/>
+            <attstr name="module" val="inferno"/>
+        </section>
+    </section>
+
+    <section name="Configuration">
+    </section>
+
+</params>
