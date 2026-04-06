@@ -622,9 +622,9 @@ static void *careerHubInit(void *prevMenu)
 /** Called when the player confirms their name and starts a new career. */
 static void careerStartNew(void * /* dummy */)
 {
-    char *name = GfuiEditboxGetString(careerNewHandle, newNameEditId);
+    const char *name = GfuiEditboxGetString(careerNewHandle, newNameEditId);
     if (!name || name[0] == '\0') {
-        name = static_cast<char *>("Player");
+        name = "Player";
     }
 
     /* Ensure the save directory exists */

@@ -309,7 +309,7 @@ ReRacemanMenu(void)
 	const char* trackName = GfParmGetStr(params, path, RM_ATTR_NAME, "");
 	char* trackDisplayName = nullptr;
 	if (trackCategory[0] != '\0' && trackName[0] != '\0') {
-		trackDisplayName = RmGetTrackName(static_cast<char*>(trackCategory), static_cast<char*>(trackName));
+		trackDisplayName = RmGetTrackName(const_cast<char*>(trackCategory), const_cast<char*>(trackName));
 	}
 
 	snprintf(buf, BUFSIZE, "Current circuit: %s",
