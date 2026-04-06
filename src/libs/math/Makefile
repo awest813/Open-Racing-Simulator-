@@ -22,7 +22,7 @@
 
 #SOURCES      =
 
-EXPORTS      = linalg_t.h  v2_t.h  v3_t.h  v4_t.h straight2_t.h
+EXPORTS      = linalg_t.h  v2_t.h  v3_t.h  v4_t.h straight2_t.h  spline.h
 
 EXPDIR       = include/tmath
 

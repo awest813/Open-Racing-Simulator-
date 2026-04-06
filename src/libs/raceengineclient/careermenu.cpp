@@ -176,7 +176,7 @@ static int readLatestCareerResults(char namesOut[][72], int *numOut, int maxLine
     }
 
     /* Current track index tells us how far through the season we are */
-    int curTrack = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1);
+    int curTrack = static_cast<int>(GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1));
 
     /* Driver standings */
     int n = GfParmGetEltNb(results, RE_SECT_STANDINGS);
@@ -189,7 +189,7 @@ static int readLatestCareerResults(char namesOut[][72], int *numOut, int maxLine
         char secPath[256];
         snprintf(secPath, sizeof(secPath), "%s/%d", RE_SECT_STANDINGS, i + 1);
         const char *name = GfParmGetStr(results, secPath, RE_ATTR_NAME, "Unknown");
-        int pts = (int)GfParmGetNum(results, secPath, RE_ATTR_POINTS, nullptr, 0);
+        int pts = static_cast<int>(GfParmGetNum(results, secPath, RE_ATTR_POINTS, nullptr, 0));
         snprintf(namesOut[i], 72, "%-24s %3d pts", name, pts);
     }
 
@@ -313,7 +313,7 @@ static void showStandingsScreen(void *prevMenu)
     void *saveH = openCareerSave(false);
     int season = 1;
     if (saveH) {
-        season = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON, nullptr, 1);
+        season = static_cast<int>(GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON, nullptr, 1));
         GfParmReleaseHandle(saveH);
     }
 
@@ -398,10 +398,10 @@ static void careerHubActivate(void * /* dummy */)
     const char *nameStr = GfParmGetStr(saveH, CS_SECT_PLAYER, CS_ATTR_NAME,  "Player");
     char        playerName[64];
     snprintf(playerName, sizeof(playerName), "%s", nameStr ? nameStr : "Player");
-    int season        = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON,   nullptr, 1);
-    int wins          = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_WINS,     nullptr, 0);
-    int champs        = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_CHAMPS,   nullptr, 0);
-    int lastTrack     = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, 0);
+    int season        = static_cast<int>(GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON,   nullptr, 1));
+    int wins          = static_cast<int>(GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_WINS,     nullptr, 0));
+    int champs        = static_cast<int>(GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_CHAMPS,   nullptr, 0));
+    int lastTrack     = static_cast<int>(GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, 0));
     const char *seaDone = GfParmGetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE, "no");
     bool seasonDone   = (strcmp(seaDone, "yes") == 0);
 
@@ -431,14 +431,14 @@ static void careerHubActivate(void * /* dummy */)
         }
 
         /* Persist updated statistics in the career save */
-        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_WINS,     nullptr, (tdble)wins);
-        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_CHAMPS,   nullptr, (tdble)champs);
+        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_WINS,     nullptr, static_cast<tdble>(wins));
+        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_CHAMPS,   nullptr, static_cast<tdble>(champs));
         GfParmSetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE, "yes");
         GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, 0);
         writeCareerSave(saveH);
     } else if (!seasonDone && curTrack > lastTrack) {
         /* Advance lastTrack so we can detect the season end next time */
-        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, (tdble)curTrack);
+        GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, static_cast<tdble>(curTrack));
         writeCareerSave(saveH);
         lastTrack = curTrack;
     }
@@ -512,10 +512,10 @@ static void careerStartNewSeason(void * /* dummy */)
     if (!saveH) {
         return;
     }
-    int season = (int)GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON, nullptr, 1);
-    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON,   nullptr, (tdble)(season + 1));
+    int season = static_cast<int>(GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON, nullptr, 1));
+    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_SEASON,   nullptr, static_cast<tdble>((season + 1)));
     GfParmSetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE, "no");
-    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, (tdble)0);
+    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, static_cast<tdble>(0));
     writeCareerSave(saveH);
     GfParmReleaseHandle(saveH);
 
@@ -622,9 +622,9 @@ static void *careerHubInit(void *prevMenu)
 /** Called when the player confirms their name and starts a new career. */
 static void careerStartNew(void * /* dummy */)
 {
-    char *name = GfuiEditboxGetString(careerNewHandle, newNameEditId);
+    const char *name = GfuiEditboxGetString(careerNewHandle, newNameEditId);
     if (!name || name[0] == '\0') {
-        name = (char *)"Player";
+        name = "Player";
     }
 
     /* Ensure the save directory exists */

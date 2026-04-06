@@ -680,7 +680,7 @@ static tdble getValNumFromStr (const char *str)
 	}
 
 	if (strncmp (str, "0x", 2) == 0) {
-		return (tdble)strtol(str, nullptr, 0);
+		return static_cast<tdble>(strtol(str, nullptr, 0));
 	}
 
 	sscanf (str, "%g", &val);
@@ -1207,7 +1207,7 @@ void* GfParmReadFile(const char *file, int mode)
 			/* Parameters reading */
 			do {
 				len = fread (buf, 1, sizeof(buf), in);
-				done = len < (int)sizeof(buf);
+				done = len < static_cast<int>(sizeof(buf));
 				if (parseXml (parmHandle, buf, len, done)) {
 					GfError ("gfParmReadFile: Parse failed in file \"%s\"\n", file);
 					goto bailout;
@@ -1869,7 +1869,7 @@ static void evalUnit(char *unit, tdble *dest, int flg)
 	if ((strcmp(unit, "feet") == 0) || (strcmp(unit, "ft") == 0)) {
 		coeff = 0.304801f; /* m */
 	} else if (strcmp(unit, "deg") == 0) {
-		coeff = (float) (M_PI/180.0); /* rad */
+		coeff = static_cast<float>((M_PI/180.0)); /* rad */
 	} else if ((strcmp(unit, "h") == 0) || (strcmp(unit, "hour") == 0) || (strcmp(unit, "hours") == 0)) {
 		coeff = 3600.0; /* s */
 	} else if ((strcmp(unit, "day") == 0) || (strcmp(unit, "days") == 0)) {

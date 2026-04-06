@@ -124,7 +124,7 @@ reConfigRunState(void)
 	const int BUFSIZE = 1024;
 	char path[BUFSIZE];
 	
-	curConf = (int)GfParmGetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, nullptr, 1);
+	curConf = static_cast<int>(GfParmGetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, nullptr, 1));
 	if (curConf > GfParmGetEltNb(params, RM_SECT_CONF)) {
 		GfOut("End of configuration\n");
 		GfParmWriteFile(nullptr, ReInfo->params, ReInfo->_reName);
@@ -249,7 +249,7 @@ reLoadMenu(void *prevHandle)
 	snprintf(varbuf, VARBUFSIZE, "%sresults/%s", GetLocalDir(), ReInfo->_reFilename);
 	fs.path = varbuf;
 	
-	RmFileSelect((void*)&fs);
+	RmFileSelect(static_cast<void*>(&fs));
 }
 
 int
@@ -303,13 +303,13 @@ ReRacemanMenu(void)
 				0);
 	}
 
-	const int currentTrack = (int)GfParmGetNum(params, RM_SECT_TRACKS, RE_ATTR_CUR_TRACK, nullptr, 1);
+	const int currentTrack = static_cast<int>(GfParmGetNum(params, RM_SECT_TRACKS, RE_ATTR_CUR_TRACK, nullptr, 1));
 	snprintf(path, BUFSIZE, "%s/%d", RM_SECT_TRACKS, currentTrack);
 	const char* trackCategory = GfParmGetStr(params, path, RM_ATTR_CATEGORY, "");
 	const char* trackName = GfParmGetStr(params, path, RM_ATTR_NAME, "");
 	char* trackDisplayName = nullptr;
 	if (trackCategory[0] != '\0' && trackName[0] != '\0') {
-		trackDisplayName = RmGetTrackName((char*)trackCategory, (char*)trackName);
+		trackDisplayName = RmGetTrackName(const_cast<char*>(trackCategory), const_cast<char*>(trackName));
 	}
 
 	snprintf(buf, BUFSIZE, "Current circuit: %s",
@@ -323,7 +323,7 @@ ReRacemanMenu(void)
 	GfuiLabelCreateEx(racemanMenuHdle, buf, kMutedColor, GFUI_FONT_SMALL_C, infoLeft, 530, GFUI_ALIGN_HL_VB, 0);
 
 	snprintf(buf, BUFSIZE, "Grid capacity: %d drivers",
-		 (int)GfParmGetNum(params, RM_SECT_DRIVERS, RM_ATTR_MAXNUM, nullptr, 0));
+		 static_cast<int>(GfParmGetNum(params, RM_SECT_DRIVERS, RM_ATTR_MAXNUM, nullptr, 0)));
 	GfuiLabelCreateEx(racemanMenuHdle, buf, kMutedColor, GFUI_FONT_SMALL_C, infoLeft, 506, GFUI_ALIGN_HL_VB, 0);
 
 	GfuiLabelCreateEx(racemanMenuHdle,
@@ -415,7 +415,7 @@ ReNewTrackMenu(void)
 	GfuiMenuDefaultKeysAdd(newTrackMenuHdle);
 	
 	snprintf(buf, BUFSIZE, "Race Day #%d/%d on %s",
-		(int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1),
+		static_cast<int>(GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1)),
 		GfParmGetEltNb(params, RM_SECT_TRACKS),
 		ReInfo->track->name);
 	

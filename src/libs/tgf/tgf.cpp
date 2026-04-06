@@ -176,8 +176,8 @@ tdble gfMean(tdble v, tMeanVal *pvt, int n, int w)
 	}
 
 	pvt->val[n] = v;
-	sum += (tdble)w * v;
-	sum /= (tdble)(n + w);
+	sum += static_cast<tdble>(w) * v;
+	sum /= static_cast<tdble>(n + w);
 
 	return sum;
 }
@@ -206,13 +206,13 @@ void GfTime2Str(char *result, int resultSize, tdble sec, int sgn)
 		}
 	}
 
-	int h = (int)(sec / 3600.0);
+	int h = static_cast<int>(sec / 3600.0);
 	sec -= 3600 * h;
-	int m = (int)(sec / 60.0);
+	int m = static_cast<int>(sec / 60.0);
 	sec -= 60 * m;
-	int s = (int)(sec);
+	int s = static_cast<int>(sec);
 	sec -= s;
-	int c = (int)floor((sec) * 100.0);
+	int c = static_cast<int>(floor((sec) * 100.0));
 
 	if (h) {
 		snprintf(result, resultSize, "%s%2.2d:%2.2d:%2.2d:%2.2d", sign, h, m, s, c);
