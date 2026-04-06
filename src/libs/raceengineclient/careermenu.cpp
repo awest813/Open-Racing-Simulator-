@@ -495,11 +495,11 @@ static void showCareerStatsScreen(void *prevMenu)
             int w          = static_cast<int>(GfParmGetNum(saveH, secPath, CS_ATTR_H_WINS,    nullptr, 0));
             int p          = static_cast<int>(GfParmGetNum(saveH, secPath, CS_ATTR_H_PODIUMS, nullptr, 0));
             int pts        = static_cast<int>(GfParmGetNum(saveH, secPath, CS_ATTR_H_POINTS,  nullptr, 0));
-            int seasonNum  = (season - 1) - displayIdx;
+            /* History entry i is season number i (entries stored chronologically). */
 
             char row[96];
             snprintf(row, sizeof(row), "%-4d %-9s %2d   %3d   %3d   %s",
-                     seasonNum, t, w, p, pts,
+                     i, t, w, p, pts,
                      (strcmp(ch, "yes") == 0) ? "YES" : "-");
             GfuiLabelCreateEx(careerStatsHandle, row, rowColors[displayIdx % 2],
                               GFUI_FONT_SMALL_C, 320, y, GFUI_ALIGN_HC_VB, 0);
@@ -794,7 +794,7 @@ static void careerStartNewSeason(void * /* dummy */)
     GfParmSetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE,  "no");
     GfParmSetStr(saveH, CS_SECT_PLAYER, CS_ATTR_PROMOTED,  "no");
     GfParmSetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_CHAMP, "no");
-    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, 0.0f);
+    GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, static_cast<tdble>(0));
     writeCareerSave(saveH);
     GfParmReleaseHandle(saveH);
 
