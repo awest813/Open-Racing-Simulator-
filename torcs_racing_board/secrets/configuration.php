@@ -11,11 +11,11 @@
 	of the License, or (at your option) any later version.
 */
 
-	$db_host = 'localhost';		// <-- CHANGE!
-	$db_name = 'mydb';			// <-- CHANGE!
-	$db_user = 'mydb';			// <-- CHANGE!
-	$db_passwd = 'mydb';		// <-- CHANGE!
-	$db_prefix = 'test_';		// <-- CHANGE!
+	$db_host = getenv('DB_HOST') ? getenv('DB_HOST') : 'localhost';		// <-- CHANGE!
+	$db_name = getenv('DB_NAME') ? getenv('DB_NAME') : 'mydb';			// <-- CHANGE!
+	$db_user = getenv('DB_USER') ? getenv('DB_USER') : 'mydb';			// <-- CHANGE!
+	$db_passwd = getenv('DB_PASS') ? getenv('DB_PASS') : 'mydb';		// <-- CHANGE!
+	$db_prefix = getenv('DB_PREFIX') ? getenv('DB_PREFIX') : 'test_';		// <-- CHANGE!
 
 	// Version
 	define('TRB_VERSION', '0.7.1');
