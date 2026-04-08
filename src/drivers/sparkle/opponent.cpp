@@ -90,9 +90,8 @@ void Opponent::update(tSituation *s, Driver *driver)
 					}
 				}
 
-				float mindist = sqrt(mindistSqr);
-				if (mindist < distance) {
-					distance = mindist;
+				if (distance > 0 && mindistSqr < distance * distance) {
+					distance = sqrt(mindistSqr);
 				}
 			}
 

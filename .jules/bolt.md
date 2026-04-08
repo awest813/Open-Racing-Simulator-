@@ -14,3 +14,7 @@
 ## 2025-05-18 - Optimized redundant math in driver hot loops
 **Learning:** Found multiple instances where expensive math operations like `sqrt(psdyn->getSpeedsqr(seg))` were called twice per O(N) loop iteration due to being defined inline in the catchdist mathematical expression without caching.
 **Action:** Always extract repeated expensive calculations (`sqrt`, `log`, etc) into local variables within loops instead of calculating them multiple times inline.
+
+## 2025-06-15 - Optimized distance updates to bypass unnecessary sqrt calls
+**Learning:** Even when `sqrt()` is moved out of the inner loop, computing it just to compare distances can be wasteful if the new distance isn't smaller.
+**Action:** Always compare squared distances (e.g., `distance > 0 && mindistSqr < distance * distance`) before computing `sqrt()` to update the distance value, avoiding the operation entirely when the update isn't needed.
