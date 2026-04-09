@@ -14,3 +14,9 @@
 ## 2025-05-18 - Optimized redundant math in driver hot loops
 **Learning:** Found multiple instances where expensive math operations like `sqrt(psdyn->getSpeedsqr(seg))` were called twice per O(N) loop iteration due to being defined inline in the catchdist mathematical expression without caching.
 **Action:** Always extract repeated expensive calculations (`sqrt`, `log`, etc) into local variables within loops instead of calculating them multiple times inline.
+
+## 2024-05-18 - Avoid Redundant Square Root Calculations
+
+**Learning:** Hot loops inside simulation code (like `aero.cpp` or driver opponent checks) frequently compute 2D/3D Euclidean distance using `sqrt(x^2 + y^2)`. Sometimes this is recomputed multiple times for the same entity or inside loops where the result is invariant (e.g., the ego car's effective airspeed when iterating through opponents).
+
+**Action:** Extract repeated `sqrt` calculations into local variables. When possible, compare squared distance (`distSqr`) instead of `sqrt` values to completely avoid the expensive `sqrt` operation until absolutely necessary.

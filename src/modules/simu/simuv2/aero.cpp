@@ -60,6 +60,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	spdang = atan2(relVelY, relVelX);
 
     if (airSpeed > 10.0f) {
+		tdble effAirSpeed = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y);
 		for (i = 0; i < s->_ncars; i++) {
 			if (i == car->carElt->index) {
 				// skip myself
@@ -84,7 +85,6 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 				} else if (fabs(tmpsdpang) < 0.1396f) {	    /* 8 degrees */
 					// before another car, lower drag by maximum 15% (this is just another guess)
 					// Use effective airspeed for drafting calculations
-					tdble effAirSpeed = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y);
 					tmpas = 1.0f - 0.15f * exp(- 8.0f * DIST(x, y, otherCar->DynGCg.pos.x, otherCar->DynGCg.pos.y) / (car->aero.Cd * effAirSpeed));
 					if (tmpas < dragK) {
 						dragK = tmpas;
@@ -168,13 +168,17 @@ void SimWingUpdate(tCar *car, int index, tSituation* s)
 {
 	tWing  *wing = &(car->wing[index]);
 	tdble vt2 = car->airSpeed2;
+
+	// compute effective airspeed once to avoid redundant sqrt calls
+	tdble effAirSpeed = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y);
+
 	// compute angle of attack using wind-adjusted velocity
-	tdble aoa = atan2(car->DynGC.vel.z, sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y));
+	tdble aoa = atan2(car->DynGC.vel.z, effAirSpeed);
 	aoa += wing->angle;
 	// the sinus of the angle of attack
 	tdble sinaoa = sin(aoa);
 
-	if (sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y) > 0.0f) {
+	if (effAirSpeed > 0.0f) {
 		wing->forces.x = wing->Kx * vt2 * (1.0f + (tdble)car->dammage / 10000.0f) * sinaoa;
 		wing->forces.z = wing->Kz * vt2 * sinaoa;
 	} else {
