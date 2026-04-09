@@ -10,3 +10,7 @@
 **Vulnerability:** Legacy PHP assignments pass `$_SERVER['PHP_SELF']` directly to `.ihtml` template engine variables (e.g., `PS_LOGINPAGE`) without sanitization, leaving form `action` attributes unescaped and vulnerable to Reflected XSS attacks via URL path manipulation.
 **Learning:** `$_SERVER['PHP_SELF']` includes raw URL-encoded characters up to the question mark (`?`). If placed directly into a form's action attribute without encoding single and double quotes, an attacker can break out of the HTML attribute and inject arbitrary scripts.
 **Prevention:** Always wrap variables generated from the URL or headers (like `$_SERVER['PHP_SELF']`, `$_SERVER['REQUEST_URI']`, or `$_SERVER['QUERY_STRING']`) using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before injecting them into HTML context.
+## 2026-04-09 - Ensure ENT_QUOTES and appropriate charset in htmlspecialchars
+**Vulnerability:** Reflected XSS from unescaped server variables injected into templates.
+**Learning:** `$_SERVER['PHP_SELF']` is commonly used unescaped, and replacing it blindly with `htmlspecialchars()` without `ENT_QUOTES` and a character set like `UTF-8` may still leave attributes vulnerable, especially when injected within single quotes.
+**Prevention:** Always use `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` for comprehensive output encoding in HTML contexts.
