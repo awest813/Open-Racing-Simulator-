@@ -14,82 +14,82 @@
 				<table class="text14" cellspacing="0">
 					<tr>
 						<td class="admincol1 filledlist">
-							Name:
+							<label for="car_name">Name:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="car_name" size="40" maxlength="40" value="{PC_CAR_NAME}"/>
+							<input type="text" id="car_name" name="car_name" size="40" maxlength="40" value="{PC_CAR_NAME}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Author:
+							<label for="car_author">Author:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="car_author" size="40" maxlength="40" value="{PC_CAR_AUTHOR}"/>
-						</td>
-					</tr>
-
-					<tr>
-						<td class="filledlist">
-							Mass [kg]:
-						</td>
-						<td class="filledlist">
-							<input type="text" name="car_mass" size="10" maxlength="10" value="{PC_CAR_MASS}"/>
+							<input type="text" id="car_author" name="car_author" size="40" maxlength="40" value="{PC_CAR_AUTHOR}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Max. Fuel [kg]:
+							<label for="car_mass">Mass [kg]:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="car_maxfuel" size="10" maxlength="10" value="{PC_CAR_TANK}"/>
-						</td>
-					</tr>
-
-					<tr>
-						<td class="filledlist">
-							Cx*A [m*m]:
-						</td>
-						<td class="filledlist">
-							<input type="text" name="car_cxa" size="10" maxlength="10" value="{PC_CAR_CXA}"/>
+							<input type="text" id="car_mass" name="car_mass" size="10" maxlength="10" value="{PC_CAR_MASS}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Max. Power [kW]:
+							<label for="car_maxfuel">Max. Fuel [kg]:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="car_power" size="10" maxlength="10" value="{PC_CAR_POWER}"/>
-						</td>
-					</tr>
-
-					<tr>
-						<td class="filledlist">
-							Length [m]:
-						</td>
-						<td class="filledlist">
-							<input type="text" name="car_length" size="10" maxlength="10" value="{PC_CAR_LENGTH}"/>
+							<input type="text" id="car_maxfuel" name="car_maxfuel" size="10" maxlength="10" value="{PC_CAR_TANK}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Width [m]:
+							<label for="car_cxa">Cx*A [m*m]:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="car_width" size="10" maxlength="10" value="{PC_CAR_WIDTH}"/>
+							<input type="text" id="car_cxa" name="car_cxa" size="10" maxlength="10" value="{PC_CAR_CXA}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Drivetrain:
+							<label for="car_power">Max. Power [kW]:</label>
 						</td>
 						<td class="filledlist">
-							<select name="car_type" size="1">
+							<input type="text" id="car_power" name="car_power" size="10" maxlength="10" value="{PC_CAR_POWER}"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="filledlist">
+							<label for="car_length">Length [m]:</label>
+						</td>
+						<td class="filledlist">
+							<input type="text" id="car_length" name="car_length" size="10" maxlength="10" value="{PC_CAR_LENGTH}"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="filledlist">
+							<label for="car_width">Width [m]:</label>
+						</td>
+						<td class="filledlist">
+							<input type="text" id="car_width" name="car_width" size="10" maxlength="10" value="{PC_CAR_WIDTH}"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="filledlist">
+							<label for="car_type">Drivetrain:</label>
+						</td>
+						<td class="filledlist">
+							<select id="car_type" name="car_type" size="1">
 								<option {PC_CAR_RWD} value="rwd">Rear Wheel Driven</option>
 								<option {PC_CAR_FWD} value="fwd">Front Wheel Driven</option>
 								<option {PC_CAR_4WD} value="4wd">All Wheels Driven</option>
@@ -100,19 +100,19 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Description:
+							<label for="car_description">Description:</label>
 						</td>
 						<td class="filledlist">
-							<textarea name="car_description" rows="6" class="admincol2">{PC_CAR_DESCRIPTION}</textarea>
+							<textarea id="car_description" name="car_description" rows="6" class="admincol2">{PC_CAR_DESCRIPTION}</textarea>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Image (*.jpg):
+							<label for="car_image">Image (*.jpg):</label>
 						</td>
 						<td class="filledlist">
-							<input name="car_image" type="file" size="60" maxlength="50000" accept="image/jpeg" value="{PC_CAR_IMG_SRC}"/>
+							<input id="car_image" name="car_image" type="file" size="60" maxlength="50000" accept="image/jpeg" value="{PC_CAR_IMG_SRC}"/>
 						</td>
 					</tr>
 				</table>
