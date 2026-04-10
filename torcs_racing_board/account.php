@@ -39,7 +39,7 @@
 	$confirm_tablename = $db_prefix . TBL_CONFIRM;
 
 	countSession(session_id(), $stats_sessioncount_tablename, $stats_tablename);
-	countHit($_SERVER['PHP_SELF'], $stats_hitcount_tablename);
+	countHit(htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'), $stats_hitcount_tablename);
 
 	// The creation checks if we are logged in.
 	$user = new User($db, $user_tablename, $loginlog_tablename);
@@ -124,7 +124,7 @@
 			'PS_IPADSRESS'			=> $_SERVER['REMOTE_ADDR'],
 			'PS_LOGOUTPAGE'			=> $path_to_root . 'index.php',
 			'PS_USERNAME_SIZE'		=> MAX_USERNAME_LENGTH,
-			'PC_ACCOUNTPAGE'		=> $_SERVER['PHP_SELF'],
+			'PC_ACCOUNTPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PC_VALUE_USERNAME'		=> htmlentities($_SESSION['username']),
 			'PC_COLOR_USERNAME'		=> COLOR_TB1,
 			'PC_VALUE_ACCOUNT'		=> htmlentities($_SESSION['usergroup']),
@@ -155,7 +155,7 @@
 					'PC_DESC_PASSWORD'		=> "Your password.",
 					'PC_DESC_PASSWORD2'		=> "Retype your password.",
 					'PC_DESC_EMAIL'			=> "Your e-mail address.",
-					'PC_ACCOUNTPAGE'		=> $_SERVER['PHP_SELF']
+					'PC_ACCOUNTPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 				));
 			}
 		} else {
@@ -227,7 +227,7 @@
 		$page->set_var(array(
 			'PS_PASSWORD_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
-			'PS_LOGINPAGE'		=> $_SERVER['PHP_SELF'],
+			'PS_LOGINPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PS_HOSTNAME'		=> SERVER_NAME,
 		));
 	}
