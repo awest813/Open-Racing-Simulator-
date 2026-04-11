@@ -24,10 +24,9 @@ date_default_timezone_set("Europe/Zurich");
 // Preconditions: DB Connected and Selected.
 // Input:
 // $tablename: Table name, must be alrady quoted..
-// Comment: Does NOT check for SQL-injection!
 function existsTable($tablename)
 {
-	$sql = "SELECT * FROM " . $tablename;
+	$sql = "SELECT * FROM " . quoteIdentifier($tablename);
 	return mysql_query($sql);
 }
 
@@ -35,10 +34,12 @@ function existsTable($tablename)
 // Check if entry alredy exists in database.
 // Preconditions: DB Connected and Selected.
 // $tablename: Table name.
-// Comment: Does NOT check for SQL-injection!
 function existsEntry($tablename, $identifier, $value)
 {
-	$sql = "SELECT * FROM $tablename WHERE $identifier = $value";
+	$table = quoteIdentifier($tablename);
+	$id = quoteIdentifier($identifier);
+	$val = quoteString($value);
+	$sql = "SELECT * FROM $table WHERE $id = $val";
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return TRUE;
@@ -66,12 +67,13 @@ function session_defaults()
 function countHit($page, $table)
 {
 	$page_for_db = quoteString($page);
+	$table_for_db = quoteIdentifier($table);
 	// If it exists update.
-	$sql = "UPDATE " . $table . " SET hits=hits+1 WHERE page=" . $page_for_db;
+	$sql = "UPDATE " . $table_for_db . " SET hits=hits+1 WHERE page=" . $page_for_db;
 	mysql_query($sql);
 	if (mysql_affected_rows() == 0) {
 		// Create.
-		$sql = "INSERT INTO " . $table . " (page, hits) VALUES " .
+		$sql = "INSERT INTO " . $table_for_db . " (page, hits) VALUES " .
 			   "($page_for_db, '1')";
 		mysql_query($sql);
 	}
@@ -82,20 +84,23 @@ function countHit($page, $table)
 // Requires an existing db connection.
 function countSession($session, $table, $stats_table)
 {
+	$table_for_db = quoteIdentifier($table);
+	$stats_table_for_db = quoteIdentifier($stats_table);
+
 	// Delete outdated sessions.
 	$date_expire_for_db = quoteString(date("YmdHis", time() - SESSION_STATS_EXPIRE));
-	$sql = "DELETE FROM " . $table . " WHERE start < " . $date_expire_for_db;
+	$sql = "DELETE FROM " . $table_for_db . " WHERE start < " . $date_expire_for_db;
 	mysql_query($sql);
 
 	// Check if session exists.
 	$session_for_db = quoteString($session);
-	$sql = "SELECT * FROM " . $table . " WHERE session=" . $session_for_db;
+	$sql = "SELECT * FROM " . $table_for_db . " WHERE session=" . $session_for_db;
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) == 0) {
-		$sql = "INSERT INTO " . $table . " (session) VALUES ($session_for_db)";
+		$sql = "INSERT INTO " . $table_for_db . " (session) VALUES ($session_for_db)";
 		mysql_query($sql);
 		// Update visits counter.
-		$sql = "UPDATE " . $stats_table . " SET value=value+1 WHERE name='visits'";
+		$sql = "UPDATE " . $stats_table_for_db . " SET value=value+1 WHERE name='visits'";
 		mysql_query($sql);
 	}
 }
