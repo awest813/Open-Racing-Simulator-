@@ -126,15 +126,15 @@
 				'PC_DESC_PASSWORD'		=> "Your password.",
 				'PC_DESC_PASSWORD2'		=> "Retype your password.",
 				'PC_DESC_EMAIL'			=> "Valid e-mail for activation.",
-				'PC_REGISTERPAGE'		=> $_SERVER['PHP_SELF']
+				'PC_REGISTERPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 			));
 		} else {
 			$page->set_var(array(
 				'PS_PASSWORD_SIZE'		=> MAX_USERNAME_LENGTH,
 				'PS_USERNAME_SIZE'		=> MAX_USERNAME_LENGTH,
-				'PS_LOGINPAGE'			=> $_SERVER['PHP_SELF'],
+				'PS_LOGINPAGE'			=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 				'PS_HOSTNAME'			=> SERVER_NAME,
-				'PC_REGISTERPAGE'		=> $_SERVER['PHP_SELF']
+				'PC_REGISTERPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 			));
 			$errmsg = "";
 			if (isUsernameOk($formerrors, $errmsg)) {
