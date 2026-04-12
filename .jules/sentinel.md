@@ -15,3 +15,7 @@
 **Vulnerability:** Found unescaped output of `$_SERVER['PHP_SELF']` to the frontend using `.ihtml` template assignments in `torcs_racing_board/account.php` and `torcs_racing_board/register.php`. This can be exploited by an attacker for Reflected XSS (e.g. by appending malicious payloads directly in the URL).
 **Learning:** Legacy PHP code uses `.ihtml` templates and `set_var` assignments but relies on raw `$_SERVER['PHP_SELF']` which includes the unescaped path and payload. The templates assign them to `PC_ACCOUNTPAGE` and `PC_REGISTERPAGE` which is then embedded inside `action=""` tags.
 **Prevention:** Always wrap `$_SERVER['PHP_SELF']` with `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before setting it in a frontend variable or template in older PHP stacks, to ensure proper escaping of special characters.
+## 2025-05-24 - Unsanitized Identifiers in SQL Queries
+**Vulnerability:** SQL injection vulnerability in legacy core PHP functions (`existsTable`, `existsEntry`, `countHit`, `countSession`).
+**Learning:** Table names and column identifiers were being concatenated directly into SQL queries without proper sanitization. Although values were often sanitized with `quoteString()`, identifiers represent a potential attack vector if an unverified string manages to reach the query builder.
+**Prevention:** Always wrap table names, column names, and other identifiers in backticks or quote them using a dedicated method like `quoteIdentifier()` before using them in database queries to prevent malicious strings from modifying the query structure.
