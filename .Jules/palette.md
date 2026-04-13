@@ -7,3 +7,6 @@
 ## 2024-05-18 - Accessibility on Legacy .ihtml Forms
 **Learning:** Legacy `.ihtml` template files in the `torcs_racing_board` project have many `input`/`select`/`textarea` elements without associated semantic labels, often presenting adjacent free text in `td` tags.
 **Action:** Use standard `<label for="id">` tags around the free text, combined with explicit `id` attributes on the input fields, to improve structural and keyboard accessibility without requiring visual redesign or introducing new CSS frameworks.
+## 2026-04-13 - Semantic Labels in Legacy Templates
+**Learning:** Legacy `.ihtml` templates in this project frequently use unassociated plain text to label input fields instead of semantic HTML tags. This makes forms difficult for screen readers to navigate and prevents users from clicking labels to focus inputs.
+**Action:** Always wrap plain text labels in `<label for="id">` tags and add corresponding `id` attributes to inputs in these legacy templates to significantly improve accessibility.
