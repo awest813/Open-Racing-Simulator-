@@ -17,3 +17,6 @@
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+## 2024-06-25 - Avoid `sqrt` in computational hot loops
+**Learning:** Checking distances using `sqrt()` inside hot loops (like computing collision distances against opponent corners every frame) introduces significant overhead. The actual distance isn't needed until we compare it with a threshold.
+**Action:** Always compute squared distances (`distSqr` / `lenSqr`) and compare against squared thresholds (`distance * distance`). Apply `sqrt()` only once on the smallest/winning result if the final scalar distance is genuinely needed for subsequent logic.
