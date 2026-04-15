@@ -588,9 +588,9 @@ void ssgVtxTableSmoke::draw_geometry ()
 	}
 	//printf ("%f %f %f\n", offset[0], offset[1], offset[2]);
 
-	tdble dist = sqrt(offset[0]*offset[0]
+	tdble distSqr = offset[0]*offset[0]
 		+ offset[1]*offset[1]
-		+ offset[2]*offset[2]);
+		+ offset[2]*offset[2];
 
 	up[0] = modelView[1];
 	up[1] = modelView[5];
@@ -624,7 +624,10 @@ void ssgVtxTableSmoke::draw_geometry ()
 
 	glBegin ( gltype ) ;
 
-	if (dist < 50.0f) {
+	// Only compute the expensive sqrt() if the particle is close enough
+	// to the camera to trigger the alpha transparency decay effect.
+	if (distSqr < 2500.0f) { // 50.0f * 50.0f
+		tdble dist = sqrt(distSqr);
 		alpha *= (1.0f - exp(-0.1f * dist));
 	}
 

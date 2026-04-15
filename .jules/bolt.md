@@ -17,3 +17,6 @@
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+## 2024-05-24 - Prevent unnecessary sqrt in smoke particle rendering
+**Learning:** Skipping `sqrt` operations when a value is only conditionally needed later based on a threshold is a high-value performance pattern in hot loops, especially for particle systems like smoke rendering. You can compare the squared distance instead.
+**Action:** Always check if the result of an expensive `sqrt()` operation is used conditionally. If so, compare the squared values and calculate `sqrt` only when needed.
