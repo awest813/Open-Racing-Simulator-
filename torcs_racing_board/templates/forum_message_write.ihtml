@@ -13,8 +13,8 @@
 				<table class="text14" cellspacing="0">
 					<tr>
 						<td class="filledlist" style="width:100%" align="left" valign="top">
-							Parent message text:<br>
-							<textarea name="text" rows="12" class="admincol0" readonly>{PC_PARENT_MESSAGE}</textarea><br>
+							<label for="parent_message_text">Parent message text:</label><br>
+							<textarea id="parent_message_text" name="text" rows="12" class="admincol0" readonly>{PC_PARENT_MESSAGE}</textarea><br>
 						</td>
 					</tr>
 				</table>
@@ -30,8 +30,8 @@
 					<!-- BEGIN message_poll -->
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Poll:<br>
-							<select name="message_pollid" size="1" class="admincol0">
+							<label for="message_pollid">Poll:</label><br>
+							<select id="message_pollid" name="message_pollid" size="1" class="admincol0">
 								<option selected value="0">No Poll</option>
 							<!-- BEGIN message_poll_options -->
 								<option value="{PC_POLL_ID}">{PC_POLL_QUESTION}</option>
@@ -43,15 +43,15 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Subject:<br>
-							<input type="text" name="subject" value="{PC_SUBJECT}" class="admincol0"><br>
+							<label for="subject">Subject:</label><br>
+							<input id="subject" type="text" name="subject" value="{PC_SUBJECT}" class="admincol0"><br>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist" style="width:100%" align="left" valign="top">
-							Text:<br>
-							<textarea name="text" rows="12" class="admincol0"></textarea><br>
+							<label for="text">Text:</label><br>
+							<textarea id="text" name="text" rows="12" class="admincol0"></textarea><br>
 						</td>
 					</tr>
 				</table>
