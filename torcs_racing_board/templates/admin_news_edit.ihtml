@@ -10,15 +10,15 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Title:<br>
-							<input type="text" name="news_title" maxlength="100" value="{PC_NEWS_TITLE}" class="admincol0"><br>
+							<label for="news_title">Title:</label><br>
+							<input type="text" id="news_title" name="news_title" maxlength="100" value="{PC_NEWS_TITLE}" class="admincol0"><br>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Text:<br>
-							<textarea name="news_text" rows="12" class="admincol0">{PC_NEWS_TEXT}</textarea><br>
+							<label for="news_text">Text:</label><br>
+							<textarea id="news_text" name="news_text" rows="12" class="admincol0">{PC_NEWS_TEXT}</textarea><br>
 						</td>
 					</tr>
 				</table>
