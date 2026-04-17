@@ -42,7 +42,7 @@
 		// Footer.
 		// Get page hits.
 		$hits = 0;
-		$page_for_db = quoteString($_SERVER['PHP_SELF']);
+		$page_for_db = quoteString(htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'));
 		$sql = "SELECT * FROM $stats_hitcount_tablename WHERE page=$page_for_db";
 		$result = mysql_query($sql);
 		if (mysql_num_rows($result) == 1 && $myrow = mysql_fetch_array($result)) {
