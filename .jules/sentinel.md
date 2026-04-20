@@ -15,3 +15,7 @@
 **Vulnerability:** Found unescaped output of `$_SERVER['PHP_SELF']` to the frontend using `.ihtml` template assignments in `torcs_racing_board/account.php` and `torcs_racing_board/register.php`. This can be exploited by an attacker for Reflected XSS (e.g. by appending malicious payloads directly in the URL).
 **Learning:** Legacy PHP code uses `.ihtml` templates and `set_var` assignments but relies on raw `$_SERVER['PHP_SELF']` which includes the unescaped path and payload. The templates assign them to `PC_ACCOUNTPAGE` and `PC_REGISTERPAGE` which is then embedded inside `action=""` tags.
 **Prevention:** Always wrap `$_SERVER['PHP_SELF']` with `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before setting it in a frontend variable or template in older PHP stacks, to ensure proper escaping of special characters.
+## 2024-05-18 - Reflected XSS via `$_SERVER['PHP_SELF']`
+**Vulnerability:** Use of `$_SERVER['PHP_SELF']` directly in template variables allows Reflected XSS when the URL path contains a malicious script.
+**Learning:** Legacy PHP apps often use `$_SERVER['PHP_SELF']` for form action URLs or navigation links, mapping them straight to `.ihtml` template variables without sanitization. Even if magic quotes were relied upon for database escaping, `$_SERVER['PHP_SELF']` is directly echo'd to HTML and remains vulnerable.
+**Prevention:** Always wrap `$_SERVER['PHP_SELF']` assignments with `htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')` before binding them to template engines.
