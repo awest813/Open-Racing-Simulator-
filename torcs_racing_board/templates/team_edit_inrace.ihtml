@@ -65,10 +65,10 @@
 
 		<tr bgcolor="{PC_COLOR_DESCRIPTION}">
 			<td class="admincol1 filledlist" align="left" valign="top">
-				Description:
+				<label for="team_description">Description:</label>
 			</td>
 			<td class="filledlist">
-				<textarea name="team_description" rows="6" class="admincol2">{PC_TEAM_DESCRIPTION}</textarea>
+				<textarea id="team_description" name="team_description" rows="6" class="admincol2">{PC_TEAM_DESCRIPTION}</textarea>
 			</td>
 		</tr>
 
@@ -160,10 +160,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Team Logo:
+				<label for="team_logo_image">Team Logo:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_logo_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
+				<input id="team_logo_image" name="team_logo_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
@@ -201,10 +201,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Flag:
+				<label for="team_flag_image">Flag:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_flag_image" type="file" size="62" maxlength="10000" accept="image/jpeg"/>
+				<input id="team_flag_image" name="team_flag_image" type="file" size="62" maxlength="10000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
@@ -248,10 +248,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Screenshot 1:
+				<label for="team_shot1_image">Screenshot 1:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_shot1_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
+				<input id="team_shot1_image" name="team_shot1_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
@@ -269,10 +269,10 @@
 	<table class="embedded noborder text14" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
-				Screenshot 2:
+				<label for="team_shot2_image">Screenshot 2:</label>
 			</td>
 			<td class="filledlist">
-				<input name="team_shot2_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
+				<input id="team_shot2_image" name="team_shot2_image" type="file" size="62" maxlength="15000" accept="image/jpeg"/>
 			</td>
 		</tr>
 	</table>
