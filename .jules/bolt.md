@@ -17,3 +17,6 @@
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+## 2024-05-24 - Macro Expansion Side Effects
+**Learning:** In the TORCS C++ codebase, standard macros like `MIN(x, y)` evaluate their arguments multiple times. Passing computationally expensive functions like `sqrt()` directly to `MIN()` (e.g. `MIN(myc->getSpeed(), sqrt(psdyn->getSpeedsqr(seg)))`) inside hot loops causes redundant calculations.
+**Action:** Always extract expensive computations into local variables before passing them into macro wrappers, or completely bypass `sqrt()` by checking constraints using squared values when mathematically equivalent.
