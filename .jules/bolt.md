@@ -17,3 +17,6 @@
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+## 2025-05-18 - Fix redundant inline `sqrt` evaluations in `MIN`/`MAX` macros
+**Learning:** Found multiple instances where the macro `MIN` and `MAX` evaluated mathematically expensive inline functions like `sqrt` multiple times inside hot loops because macros substitute their arguments repeatedly.
+**Action:** Always extract mathematically expensive expressions (like `sqrt`, `log`, complex arithmetic) into local variables before passing them into macros that may evaluate their arguments multiple times to avoid redundant computations.

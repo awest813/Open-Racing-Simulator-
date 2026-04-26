@@ -1119,7 +1119,10 @@ inline int Pathfinder::updateOCar(int trackSegId, tSituation *s, MyCar* myc, Oth
 
 				o[n].disttomiddle = track->distToMiddle(seg, ocar[i].getCurrentPos());
 				o[n].speedsqr = sqr(o[n].speed);
-				double limitSpeed = MIN(myc->getSpeed(), sqrt(psdyn->getSpeedsqr(seg)));
+				// ⚡ Bolt: Extract sqrt to avoid evaluating it twice inside the MIN macro.
+				// This halves the cost of the limitSpeed calculation in this hot loop.
+				double segSpeed = sqrt(psdyn->getSpeedsqr(seg));
+				double limitSpeed = MIN(myc->getSpeed(), segSpeed);
 				o[n].catchdist = (int) (o[n].dist/(limitSpeed - ocar[i].getSpeed())*limitSpeed);
 				o[n].catchsegid = ((int) (o[n].catchdist/TRACKRES) + trackSegId + nPathSeg) % nPathSeg;
 				o[n].overtakee = false;
