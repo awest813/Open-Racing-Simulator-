@@ -15,3 +15,7 @@
 **Vulnerability:** Found unescaped output of `$_SERVER['PHP_SELF']` to the frontend using `.ihtml` template assignments in `torcs_racing_board/account.php` and `torcs_racing_board/register.php`. This can be exploited by an attacker for Reflected XSS (e.g. by appending malicious payloads directly in the URL).
 **Learning:** Legacy PHP code uses `.ihtml` templates and `set_var` assignments but relies on raw `$_SERVER['PHP_SELF']` which includes the unescaped path and payload. The templates assign them to `PC_ACCOUNTPAGE` and `PC_REGISTERPAGE` which is then embedded inside `action=""` tags.
 **Prevention:** Always wrap `$_SERVER['PHP_SELF']` with `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before setting it in a frontend variable or template in older PHP stacks, to ensure proper escaping of special characters.
+## 2026-04-26 - Prevent Reflected XSS in Template Variables
+**Vulnerability:** Legacy PHP application (`torcs_racing_board`) assigned unsanitized `$_SERVER['PHP_SELF']` and `$_SERVER['QUERY_STRING']` directly to `.ihtml` template variables (like `PS_LOGINPAGE`, `PC_ACCOUNTPAGE`).
+**Learning:** `htmlentities()` or `htmlspecialchars()` without the `ENT_QUOTES` flag does not escape single quotes, leaving HTML attributes vulnerable to Reflected XSS. Modern PHP environments require explicit string escaping of dynamic URL components before rendering.
+**Prevention:** Always sanitize dynamic URL components constructed from `$_SERVER` variables using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before outputting them to templates.

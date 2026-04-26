@@ -97,7 +97,7 @@
 			'PS_ACCOUNT_TYPE'	=> $_SESSION['usergroup'],
 			'PS_IPADSRESS'		=> $_SERVER['REMOTE_ADDR'],
 			'PS_LOGOUTPAGE'		=> $path_to_root . 'index.php',
-			'PC_CREATEPOLLPAGE'	=> $_SERVER['PHP_SELF']
+			'PC_CREATEPOLLPAGE'	=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 		));
 
 		if ($_SESSION['usergroup'] == 'admin') {
@@ -115,7 +115,7 @@
 						'PC_POLL_QUESTION'		=> htmlentities($myrow['question']),
 						'PC_POLL_VIEWPAGE'		=> './poll_view.php?viewpollid=' . $myrow['pollid'],
 						'PC_POLL_EDITPAGE'		=> './poll_edit.php?editpollid=' . $myrow['pollid'],
-						'PC_POLL_DELETEPAGE'	=> $_SERVER['PHP_SELF'] . '?deletepollid=' . $myrow['pollid']
+						'PC_POLL_DELETEPAGE'	=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?deletepollid=' . $myrow['pollid']
 					));
 					$toggle = ($toggle == 0) ? 1 : 0;
 					$page->parse('poll_rows', 'poll_row', true);
@@ -132,7 +132,7 @@
 		$page->set_var(array(
 			'PS_PASSWORD_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
-			'PS_LOGINPAGE'		=> $_SERVER['PHP_SELF'],
+			'PS_LOGINPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PS_HOSTNAME'		=> SERVER_NAME
 		));
 	}
