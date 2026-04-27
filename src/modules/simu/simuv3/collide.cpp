@@ -297,7 +297,8 @@ SimCarCollideXYScene(tCar *car)
         initDotProd = nx * corner->vel.x + ny * corner->vel.y;
 
         // Compute dmgDotProd (base value for later damage) with a heuristic.
-        tdble absvel = MAX(1.0, sqrt(car->DynGCg.vel.x*car->DynGCg.vel.x + car->DynGCg.vel.y*car->DynGCg.vel.y));
+        tdble vel_mag = sqrt(car->DynGCg.vel.x*car->DynGCg.vel.x + car->DynGCg.vel.y*car->DynGCg.vel.y);
+        tdble absvel = MAX(1.0, vel_mag);
         tdble GCgnormvel = car->DynGCg.vel.x*nx + car->DynGCg.vel.y*ny;
         tdble cosa = GCgnormvel/absvel;
         tdble dmgDotProd = GCgnormvel*cosa;
