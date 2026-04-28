@@ -7,3 +7,6 @@
 ## 2024-05-18 - Accessibility on Legacy .ihtml Forms
 **Learning:** Legacy `.ihtml` template files in the `torcs_racing_board` project have many `input`/`select`/`textarea` elements without associated semantic labels, often presenting adjacent free text in `td` tags.
 **Action:** Use standard `<label for="id">` tags around the free text, combined with explicit `id` attributes on the input fields, to improve structural and keyboard accessibility without requiring visual redesign or introducing new CSS frameworks.
+## 2024-05-24 - Improve Form Target Click Areas in Legacy Tabular Layouts
+**Learning:** In legacy table-based forms (like `.ihtml` templates) where text and inputs are often separated into different `<td>` cells, small inputs like checkboxes or file inputs can be very hard to click. By adding IDs to the inputs and wrapping the text in adjacent `<td>` cells with `<label for="id">`, we turn the entire text string into a large clickable target, drastically improving form usability and accessibility without altering the visual structure.
+**Action:** When updating legacy HTML forms, especially in table layouts, explicitly add `<label for="...">` tags to descriptive text even if it resides in an adjacent table cell. This extends the click target area and provides semantic association for screen readers.
