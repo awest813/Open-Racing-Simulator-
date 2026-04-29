@@ -14,6 +14,11 @@
 ## 2025-05-18 - Optimized redundant math in driver hot loops
 **Learning:** Found multiple instances where expensive math operations like `sqrt(psdyn->getSpeedsqr(seg))` were called twice per O(N) loop iteration due to being defined inline in the catchdist mathematical expression without caching.
 **Action:** Always extract repeated expensive calculations (`sqrt`, `log`, etc) into local variables within loops instead of calculating them multiple times inline.
+
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+
+## 2025-05-24 - Double Evaluation of Expensive Functions in Macros
+**Learning:** In legacy codebases using C macros like `MIN(x, y)` defined as `((x) < (y) ? (x) : (y))`, passing expensive function calls like `sqrt()` directly into the macro can cause the function to be evaluated twice. This is particularly problematic in hot loops (e.g., pathfinder AI evaluating opponents).
+**Action:** Always extract expensive function calls (especially those in math libraries like `sqrt`, `sin`, `cos`) into local variables before passing them into unsafe macros like `MIN` or `MAX` to guarantee they are evaluated only once per loop iteration.
