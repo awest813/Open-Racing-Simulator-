@@ -7,3 +7,7 @@
 ## 2024-05-18 - Accessibility on Legacy .ihtml Forms
 **Learning:** Legacy `.ihtml` template files in the `torcs_racing_board` project have many `input`/`select`/`textarea` elements without associated semantic labels, often presenting adjacent free text in `td` tags.
 **Action:** Use standard `<label for="id">` tags around the free text, combined with explicit `id` attributes on the input fields, to improve structural and keyboard accessibility without requiring visual redesign or introducing new CSS frameworks.
+
+## 2024-05-18 - Missing Screen Reader Context for Form Inputs
+**Learning:** Legacy tabular layouts often place text descriptions in adjacent `<td>` cells to form inputs, leading to unassociated inputs. For `<input type="file">`, screen readers will only announce "File chosen" without context on what the file upload represents, creating a poor accessible experience.
+**Action:** When improving UX in legacy tabular layouts or finding unassociated file inputs, wrap descriptive text within `<label for="id">` and assign corresponding `id` tags to the file inputs to drastically improve usability and cross `<td>` boundaries.
