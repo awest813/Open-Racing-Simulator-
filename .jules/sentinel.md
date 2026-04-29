@@ -15,3 +15,13 @@
 **Vulnerability:** Found unescaped output of `$_SERVER['PHP_SELF']` to the frontend using `.ihtml` template assignments in `torcs_racing_board/account.php` and `torcs_racing_board/register.php`. This can be exploited by an attacker for Reflected XSS (e.g. by appending malicious payloads directly in the URL).
 **Learning:** Legacy PHP code uses `.ihtml` templates and `set_var` assignments but relies on raw `$_SERVER['PHP_SELF']` which includes the unescaped path and payload. The templates assign them to `PC_ACCOUNTPAGE` and `PC_REGISTERPAGE` which is then embedded inside `action=""` tags.
 **Prevention:** Always wrap `$_SERVER['PHP_SELF']` with `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before setting it in a frontend variable or template in older PHP stacks, to ensure proper escaping of special characters.
+## 2024-05-24 - Default htmlentities() doesn't escape single quotes
+**Vulnerability:** Reflected XSS in `torcs_racing_board` URL variables.
+**Learning:** `htmlentities()` without the `ENT_QUOTES` flag leaves single-quoted attributes vulnerable to XSS.
+**Prevention:** Always use `htmlentities($var, ENT_QUOTES, 'UTF-8')` or `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` when outputting user-controlled input, including server variables like `$_SERVER['PHP_SELF']` and `$_SERVER['QUERY_STRING']`, into HTML attributes.
+
+## 2025-04-10 - Reflected XSS Vulnerabilities (Systematic)
+
+**Vulnerability:** Found pervasive unescaped output of `$_SERVER['PHP_SELF']` to the frontend across nearly 60 PHP files in `torcs_racing_board`. The variables are directly embedded into `.ihtml` template assignments which typically render in HTML `action=""` tags or `href=""` links, enabling Reflected XSS.
+**Learning:** Legacy PHP apps often use `$_SERVER['PHP_SELF']` for form handling without escaping, trusting the variable content. Since `$_SERVER['PHP_SELF']` includes raw URL-encoded characters up to the query string, attackers can break out of attributes to inject scripts.
+**Prevention:** Systematically wrap all uses of `$_SERVER['PHP_SELF']` with `htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')` before using it in HTML/template contexts.

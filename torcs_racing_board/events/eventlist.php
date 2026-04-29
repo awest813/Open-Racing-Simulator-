@@ -118,7 +118,7 @@
 		$page->set_var(array(
 			'PS_PASSWORD_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
-			'PS_LOGINPAGE'		=> $_SERVER['PHP_SELF'],
+			'PS_LOGINPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PS_HOSTNAME'		=> SERVER_NAME
 		));
 	}
