@@ -17,3 +17,6 @@
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+## 2024-05-18 - C-Style Macro Redundant Evaluation in Hot Loops
+**Learning:** C-style macros like `MIN(x, y)` in this codebase (e.g., `src/libs/tgf/tgf.h`) evaluate their arguments multiple times. Passing expensive function calls, such as `sqrt()` or complex getter methods, directly into these macros causes significant redundant computation, especially when placed inside inner loops like `updateOCar`.
+**Action:** Always extract expensive operations or function calls into local variables before passing them to C-style macros to prevent redundant evaluation.
