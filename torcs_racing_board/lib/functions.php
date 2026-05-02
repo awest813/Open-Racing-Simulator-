@@ -38,7 +38,7 @@ function existsTable($tablename)
 // Comment: Does NOT check for SQL-injection!
 function existsEntry($tablename, $identifier, $value)
 {
-	$sql = "SELECT * FROM $tablename WHERE $identifier = $value";
+	$sql = "SELECT * FROM " . quoteIdentifier($tablename) . " WHERE " . quoteIdentifier($identifier) . " = " . quoteString($value);
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return TRUE;
