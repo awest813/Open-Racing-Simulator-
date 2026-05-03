@@ -17,3 +17,7 @@
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+
+## 2026-05-03 - Prevent redundant sqrt() evaluations in MIN/MAX macros
+**Learning:** In TORCS hot loops, macros like `MIN(x,y)` and `MAX(x,y)` evaluate their arguments multiple times. Passing computationally expensive function calls like `sqrt()` directly into these macros causes redundant computations.
+**Action:** Extract expensive function calls into local variables before passing them to multi-evaluating macros, especially inside loops, to optimize performance without sacrificing readability.
