@@ -99,10 +99,10 @@
 	<table class="embedded text14" style="border-style:none; border-spacing:0px;" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="filledlist">
-				Result (*.xml):
+				<label for="race_result_file">Result (*.xml):</label>
 			</td>
 			<td class="filledlist">
-				<input name="race_result_file" type="file" size="62" maxlength="{PC_RESULT_SIZE}" accept="text/xml"/>
+				<input id="race_result_file" name="race_result_file" type="file" size="62" maxlength="{PC_RESULT_SIZE}" accept="text/xml"/>
 			</td>
 		</tr>
 	</table>
@@ -121,10 +121,10 @@
 	<table class="embedded text14" style="border-style:none; border-spacing:0px;" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
 			<td class="filledlist" style="width:20px;">
-				<input type="checkbox" name="no_race_result" value="failed"/>
+				<input type="checkbox" id="no_race_result" name="no_race_result" value="failed"/>
 			</td>
 			<td class="filledlist">
-				I was not able to run the race because of a simulator problem.
+				<label for="no_race_result">I was not able to run the race because of a simulator problem.</label>
 			</td>
 		</tr>
 	</table>

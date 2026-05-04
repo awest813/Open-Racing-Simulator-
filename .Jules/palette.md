@@ -7,3 +7,7 @@
 ## 2024-05-18 - Accessibility on Legacy .ihtml Forms
 **Learning:** Legacy `.ihtml` template files in the `torcs_racing_board` project have many `input`/`select`/`textarea` elements without associated semantic labels, often presenting adjacent free text in `td` tags.
 **Action:** Use standard `<label for="id">` tags around the free text, combined with explicit `id` attributes on the input fields, to improve structural and keyboard accessibility without requiring visual redesign or introducing new CSS frameworks.
+
+## 2024-05-18 - Ensuring Labels Wrap Inputs for Checkboxes and File Inputs
+**Learning:** In legacy `.ihtml` templates, descriptive text next to input elements like `type="checkbox"` or `type="file"` is often isolated in its own `<td>` or `<p>`, completely disassociated from the input.
+**Action:** Adding explicit `id` attributes to the input elements and wrapping the isolated descriptive text in matching `<label for="id">` tags instantly improves usability, allowing users to click the text to interact with the input element, without needing to redesign the HTML structure.
