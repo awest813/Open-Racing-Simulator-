@@ -17,3 +17,7 @@
 ## 2025-01-20 - Bypass expensive sqrt in distance check
 **Learning:** Checking distances between dynamic objects can trigger excessive, expensive `sqrt()` evaluations in hot loops (e.g. iterating over opponents).
 **Action:** Always prefer squared distance comparisons first (`if (distSqr < dist * dist)`) to bypass the expensive root calculation unless mathematically necessary, significantly improving execution performance.
+
+## 2024-04-27 - Extracted Expensive Function Calls from MIN/MAX Macros
+**Learning:** In the TORCS codebase, `MIN` and `MAX` are often defined as multi-evaluating macros (e.g., `#define MIN(x,y) ((x) < (y) ? (x) : (y))`). Passing an expensive function call like `sqrt()` directly into these macros causes it to be executed redundantly when it is the selected value. This can create performance bottlenecks, especially in high-frequency logic like collision detection (`collide.cpp`) or pathfinding (`pathfinder.cpp`).
+**Action:** Always extract expensive mathematical function calls (like `sqrt`) into local variables before passing them into `MIN`/`MAX` macros, or use `std::min`/`std::max` instead if the environment permits, to ensure the function is only evaluated once.
