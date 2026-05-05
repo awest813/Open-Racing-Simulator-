@@ -103,7 +103,7 @@
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_LOGINPAGE'		=> $path_to_root . 'index.php',
 			'PS_HOSTNAME'		=> SERVER_NAME,
-			'PC_LOSTPASSWORDPAGE'	=> $_SERVER['PHP_SELF']
+			'PC_LOSTPASSWORDPAGE'	=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 		));
 	}
 

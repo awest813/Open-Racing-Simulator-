@@ -19,3 +19,8 @@
 **Vulnerability:** Unescaped output of `$_SERVER['PHP_SELF']` to the frontend template variable `PC_CREATETEAMPAGE` in `torcs_racing_board/teams/team_create.php`. This template variable is used in the form `action` attribute, allowing an attacker to break out of the quotes and inject arbitrary HTML or JavaScript via URL manipulation.
 **Learning:** In legacy PHP applications that map raw server variables like `$_SERVER['PHP_SELF']` directly into template context via arrays without sanitization, XSS payloads can be injected effortlessly.
 **Prevention:** Always wrap `$_SERVER['PHP_SELF']` using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` prior to binding it to a template string that's rendered into HTML attributes.
+
+## 2024-05-18 - Fix Reflected XSS in $_SERVER['PHP_SELF']
+**Vulnerability:** Widespread use of `$_SERVER['PHP_SELF']` assigned directly to HTML template variables without sanitization across the legacy PHP application. This allows Reflected Cross-Site Scripting (XSS) if an attacker appends malicious scripts to the URL path.
+**Learning:** Legacy PHP codebases frequently assign raw server variables to template placeholders. Using global search-and-replace to apply `htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')` requires care to avoid double-escaping variables that are already sanitized or concatenated improperly.
+**Prevention:** Always sanitize variables sourced from `$_SERVER`, `$_GET`, `$_POST`, etc., immediately before assignment to output templates or concatenation into HTML strings.
