@@ -21,3 +21,7 @@
 ## 2024-04-27 - Extracted Expensive Function Calls from MIN/MAX Macros
 **Learning:** In the TORCS codebase, `MIN` and `MAX` are often defined as multi-evaluating macros (e.g., `#define MIN(x,y) ((x) < (y) ? (x) : (y))`). Passing an expensive function call like `sqrt()` directly into these macros causes it to be executed redundantly when it is the selected value. This can create performance bottlenecks, especially in high-frequency logic like collision detection (`collide.cpp`) or pathfinding (`pathfinder.cpp`).
 **Action:** Always extract expensive mathematical function calls (like `sqrt`) into local variables before passing them into `MIN`/`MAX` macros, or use `std::min`/`std::max` instead if the environment permits, to ensure the function is only evaluated once.
+
+## 2025-05-18 - Replacing `dist` with `distSqr` inside hot loops
+**Learning:** Found an instance in `src/drivers/damned/opponent.cpp` where `dist()` was called repeatedly inside a loop checking minimum distances to a car's corners, introducing an expensive `sqrt()` operation on every iteration.
+**Action:** Always replace `dist()` calls with `distSqr()` (e.g., `carFrontLine.distSqr(corner)`) inside loops where minimums are calculated. Perform a squared distance comparison first, and then calculate `sqrt()` only once after the loop finishes.

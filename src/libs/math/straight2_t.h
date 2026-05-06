@@ -43,6 +43,7 @@ template<class T> class straight2t {
 		// Methods.
 		v2t<T> intersect(const straight2t<T> &s) const;		// Intersection of 2 straights: does not check for NaN's!
 		T dist(const v2t<T> &p) const;						// Distance of p to straight this.
+		T distSqr(const v2t<T> &p) const;					// Squared distance of p to straight this.
 
 		// Data.
 		v2t<T> p;	// Point on the straight.
@@ -64,6 +65,15 @@ template<class T> inline T straight2t<T>::dist(const v2t<T> &s) const
     v2t<T> d1 = s - p;
     v2t<T> d3 = d1 - d*d1*d;
     return d3.len();
+}
+
+
+// squared distance of point s from straight *this
+template<class T> inline T straight2t<T>::distSqr(const v2t<T> &s) const
+{
+    v2t<T> d1 = s - p;
+    v2t<T> d3 = d1 - d*d1*d;
+    return d3.lenSqr();
 }
 
 #endif //_STRAIGHT_2T_H_

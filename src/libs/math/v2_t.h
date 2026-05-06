@@ -71,8 +71,10 @@ template<class T> class v2t {
 
 		// Other methods.
 		T len(void) const;
+		T lenSqr(void) const;
 		void normalize(void);
 		T dist(const v2t<T> &p) const;
+		T distSqr(const v2t<T> &p) const;
 		T cosalpha(const v2t<T> &p2, const v2t<T> &center) const;
 		v2t<T> rotate(const v2t<T> &c, T arc) const;
 		T fakeCrossProduct(const v2t<T>* b) const;					// result.z := this X b
@@ -236,10 +238,24 @@ template<class T> inline T v2t<T>::len(void) const
 }
 
 
+// Compute the squared length of the vector.
+template<class T> inline T v2t<T>::lenSqr(void) const
+{
+	return x*x+y*y;
+}
+
+
 // Distance between *this and p.
 template<class T> inline T v2t<T>::dist(const v2t<T> &p) const
 {
 	return sqrt((p.x-x)*(p.x-x)+(p.y-y)*(p.y-y));
+}
+
+
+// Squared distance between *this and p.
+template<class T> inline T v2t<T>::distSqr(const v2t<T> &p) const
+{
+	return (p.x-x)*(p.x-x)+(p.y-y)*(p.y-y);
 }
 
 
