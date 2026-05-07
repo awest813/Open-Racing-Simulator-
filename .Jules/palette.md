@@ -11,3 +11,7 @@
 ## 2024-04-25 - File Upload Input Accessibility
 **Learning:** In legacy `.ihtml` template forms, unassociated text descriptors for file upload fields (`<input type="file">`) are not read properly by screen readers, which often just announce "File chosen" without context.
 **Action:** When updating forms, always ensure text descriptors are wrapped in semantic `<label for="id">` tags and corresponding `id` attributes are added to the `<input>` elements.
+
+## 2024-05-18 - Click Target Accessibility for Checkboxes in Tables
+**Learning:** In legacy `.ihtml` template forms, small input elements like checkboxes often have descriptive text in an adjacent `<td>` element. This makes the text unclickable, resulting in a very small click target (just the checkbox itself) and poor accessibility.
+**Action:** When updating tabular forms with checkboxes, wrap the descriptive text in the adjacent cell with a `<label for="id">` tag that points to the checkbox's `id`. This expands the clickable area to include the text block, drastically improving usability without CSS changes.
