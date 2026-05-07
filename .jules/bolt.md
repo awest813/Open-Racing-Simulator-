@@ -21,3 +21,6 @@
 ## 2024-04-27 - Extracted Expensive Function Calls from MIN/MAX Macros
 **Learning:** In the TORCS codebase, `MIN` and `MAX` are often defined as multi-evaluating macros (e.g., `#define MIN(x,y) ((x) < (y) ? (x) : (y))`). Passing an expensive function call like `sqrt()` directly into these macros causes it to be executed redundantly when it is the selected value. This can create performance bottlenecks, especially in high-frequency logic like collision detection (`collide.cpp`) or pathfinding (`pathfinder.cpp`).
 **Action:** Always extract expensive mathematical function calls (like `sqrt`) into local variables before passing them into `MIN`/`MAX` macros, or use `std::min`/`std::max` instead if the environment permits, to ensure the function is only evaluated once.
+## 2024-05-19 - Removed unnecessary sqrt in AI pathfinder
+**Learning:** Avoid calculating sqrt on values before using MIN or MAX. Square the other value and take the sqrt of the MIN result to save CPU cycles in hot loops.
+**Action:** Check operands to MIN/MAX in hot paths to see if they perform expensive operations like sqrt that could be deferred.
