@@ -11,3 +11,6 @@
 ## 2024-04-25 - File Upload Input Accessibility
 **Learning:** In legacy `.ihtml` template forms, unassociated text descriptors for file upload fields (`<input type="file">`) are not read properly by screen readers, which often just announce "File chosen" without context.
 **Action:** When updating forms, always ensure text descriptors are wrapped in semantic `<label for="id">` tags and corresponding `id` attributes are added to the `<input>` elements.
+## 2024-10-24 - [Checkbox & File Input Label Cross-TD Boundary]
+**Learning:** In legacy tabular forms, tiny inputs like checkboxes or inputs without explicit labels are frustrating. Descriptive text is often in adjacent `<td>` cells. Screen readers announce "File chosen" without context if the label isn't linked.
+**Action:** Wrapped adjacent `<td>` text in `<label for="id">` to extend the clickable target across cell boundaries and added explicit `<label>` tags linked by `id` to file inputs.
