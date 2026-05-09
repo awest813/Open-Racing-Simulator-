@@ -24,7 +24,7 @@
 			$sql = "SELECT nbquestions FROM $quizz WHERE quizzid=" . quoteString($quizzid);
 			$nbqrow = mysql_fetch_array(mysql_query($sql));
 			$nb_quest_req = $nbqrow['nbquestions'];
-			$rand_max = getrandmax();
+			$rand_max = mt_getrandmax();
 			$question_nb = intval(1);
 
 			$content = new Template($path_to_root . 'templates', 'keep');
@@ -35,7 +35,7 @@
 			while ($myrow = mysql_fetch_array($result)) {
 				// Choose this question?
 				$prob_q = $nb_quest_req / $nb_quest_avail;
-				if (rand()/$rand_max <= $prob_q) {
+				if (mt_rand()/$rand_max <= $prob_q) {
 					$sql = "SELECT * FROM $answers WHERE questionid=" . quoteString($myrow['questionid']);
 					$ansres = mysql_query($sql);
 					while ($ansrow = mysql_fetch_array($ansres)) {
