@@ -11,3 +11,6 @@
 ## 2024-04-25 - File Upload Input Accessibility
 **Learning:** In legacy `.ihtml` template forms, unassociated text descriptors for file upload fields (`<input type="file">`) are not read properly by screen readers, which often just announce "File chosen" without context.
 **Action:** When updating forms, always ensure text descriptors are wrapped in semantic `<label for="id">` tags and corresponding `id` attributes are added to the `<input>` elements.
+## 2024-05-24 - Improve click target sizes in legacy tabular forms
+**Learning:** In legacy tabular layouts where inputs and descriptions are in separate `<td>` cells, wrapping the text in a `<label>` connected via `for` dramatically increases the clickable area, compensating for the lack of modern layout structures and significantly improving usability for tiny inputs like checkboxes.
+**Action:** Always wrap adjacent descriptive text in `<td>` cells with `<label>` tags linked to their corresponding inputs to cross cell boundaries and maximize clickable areas.
