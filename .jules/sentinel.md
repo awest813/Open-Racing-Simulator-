@@ -19,3 +19,7 @@
 **Vulnerability:** Unescaped output of `$_SERVER['PHP_SELF']` to the frontend template variable `PC_CREATETEAMPAGE` in `torcs_racing_board/teams/team_create.php`. This template variable is used in the form `action` attribute, allowing an attacker to break out of the quotes and inject arbitrary HTML or JavaScript via URL manipulation.
 **Learning:** In legacy PHP applications that map raw server variables like `$_SERVER['PHP_SELF']` directly into template context via arrays without sanitization, XSS payloads can be injected effortlessly.
 **Prevention:** Always wrap `$_SERVER['PHP_SELF']` using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` prior to binding it to a template string that's rendered into HTML attributes.
+## 2024-05-24 - Weak PRNG Vulnerability
+**Vulnerability:** Use of `rand()` and `getrandmax()` for generating sensitive tokens like password resets and activation keys.
+**Learning:** Legacy PHP applications often use weak PRNGs like `rand()` instead of stronger alternatives. This compromises security since the output can be predicted.
+**Prevention:** Always use at least `mt_rand()` and `mt_getrandmax()` instead of `rand()` and `getrandmax()`, or ideally cryptographically secure functions like `random_int()` when generating security-sensitive tokens.
