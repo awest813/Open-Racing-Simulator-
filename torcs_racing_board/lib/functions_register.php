@@ -293,9 +293,7 @@
 		// If everything went perfect set up activation and send mail.
 		if ($formerrors == 0) {
 			// Create activation key.
-			$activationkey = mt_rand() . $_SERVER['REMOTE_ADDR'] . $username_for_db .
-							 time() . strlen($username_for_db);
-			$activationkey = md5($activationkey);
+			$activationkey = bin2hex(openssl_random_pseudo_bytes(16));
 			$activationkey_for_db = quoteString($activationkey);
 
 			// Find user id.

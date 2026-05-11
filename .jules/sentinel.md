@@ -23,3 +23,7 @@
 **Vulnerability:** Use of `rand()` and `getrandmax()` for generating sensitive tokens like password resets and activation keys.
 **Learning:** Legacy PHP applications often use weak PRNGs like `rand()` instead of stronger alternatives. This compromises security since the output can be predicted.
 **Prevention:** Always use at least `mt_rand()` and `mt_getrandmax()` instead of `rand()` and `getrandmax()`, or ideally cryptographically secure functions like `random_int()` when generating security-sensitive tokens.
+## 2024-05-24 - Cryptographically Insecure PRNG in Password Reset and Registration
+**Vulnerability:** The legacy PHP codebase uses `mt_rand()`, `$_SERVER['REMOTE_ADDR']`, and `time()` to generate sensitive security tokens like password reset keys and activation keys. This allows an attacker to predict the tokens.
+**Learning:** `mt_rand()` is not cryptographically secure, and relying on `time()` or `$_SERVER['REMOTE_ADDR']` does not add sufficient entropy for sensitive tokens.
+**Prevention:** Always use cryptographically secure random number generators such as `openssl_random_pseudo_bytes()` or `random_int()` (PHP 7+) for generating security-sensitive tokens, passwords, and keys.
