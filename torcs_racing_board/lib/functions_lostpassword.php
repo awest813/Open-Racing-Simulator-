@@ -30,8 +30,7 @@
 			if ($myrow = mysql_fetch_array($result)) {
 				// Ok, e-mail exists.
 				// Create key.
-				$activationkey = mt_rand() . $_SERVER['REMOTE_ADDR'] . $email_for_db . time();
-				$activationkey = md5($activationkey);
+				$activationkey = bin2hex(openssl_random_pseudo_bytes(16));
 				$activationkey_for_db = quoteString($activationkey);
 				// Write key.
 				$sql = "INSERT INTO " . $lostpwd_tablename . " (id, activationkey) " .
@@ -84,7 +83,7 @@
 				$sql = "DELETE FROM " . $lostpwd_tablename . " WHERE id=" . quoteString($myrow['id']);
 				mysql_query($sql);
 				// Ok, reset password.
-				$password = md5(mt_rand() . $_SERVER['REMOTE_ADDR'] . time() . session_id());
+				$password = bin2hex(openssl_random_pseudo_bytes(16));
 				$password = substr($password, 7, 7);
 				$password_for_db = quoteString(md5($password));
 				$sql = "UPDATE " . $user_tablename . " SET password=" . $password_for_db . " " .
