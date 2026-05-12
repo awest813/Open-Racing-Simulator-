@@ -13,37 +13,37 @@
 				<table class="text14" cellspacing="0">
 					<tr>
 						<td class="admincol1 filledlist" align="left" valign="top">
-							Question:
+							<label for="poll_question" style="display:block;cursor:pointer;">Question:</label>
 						</td>
 						<td class="filledlist">
-							<textarea name="poll_question" class="admincol2" rows="3">{PC_POLL_QUESTION}</textarea>
-						</td>
-					</tr>
-
-					<tr>
-						<td class="filledlist">
-							Start date:
-						</td>
-						<td class="filledlist">
-							<input type="text" name="poll_startdate" size="20" maxlength="19" value="{PC_VALUE_STARTDATE}"/>
+							<textarea id="poll_question" name="poll_question" class="admincol2" rows="3">{PC_POLL_QUESTION}</textarea>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							End date:
+							<label for="poll_startdate" style="display:block;cursor:pointer;">Start date:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="poll_enddate" size="20" maxlength="19" value="{PC_VALUE_ENDDATE}"/>
+							<input id="poll_startdate" type="text" name="poll_startdate" size="20" maxlength="19" value="{PC_VALUE_STARTDATE}"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="filledlist">
+							<label for="poll_enddate" style="display:block;cursor:pointer;">End date:</label>
+						</td>
+						<td class="filledlist">
+							<input id="poll_enddate" type="text" name="poll_enddate" size="20" maxlength="19" value="{PC_VALUE_ENDDATE}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Groups:
+							<label for="poll_groups" style="display:block;cursor:pointer;">Groups:</label>
 						</td>
 						<td class="filledlist">
-							<select name="poll_groups[]" size="3" multiple="multiple">
+							<select id="poll_groups" name="poll_groups[]" size="3" multiple="multiple">
 								<option {PC_ANONYMOUS_SELECTED}>anonymous</option>
 								<option {PC_SPECTATOR_SELECTED}>spectator</option>
 								<option {PC_RACER_SELECTED}>racer</option>
@@ -56,10 +56,10 @@
 					<!-- BEGIN answer_row -->
 					<tr>
 						<td class="admincol1 filledlist">
-							Answer {PC_ANSWER_NUMBER}:
+							<label for="poll_answer_{PC_ANSWER_NUMBER}" style="display:block;cursor:pointer;">Answer {PC_ANSWER_NUMBER}:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="poll_answer[]" maxlength="255" class="admincol2" value="{PC_ANSWER_TEXT}"/>
+							<input id="poll_answer_{PC_ANSWER_NUMBER}" type="text" name="poll_answer[]" maxlength="255" class="admincol2" value="{PC_ANSWER_TEXT}"/>
 						</td>
 					</tr>
 					<input type="hidden" name="poll_answer_id[]" value="{PC_ANSWER_ID}"/>
