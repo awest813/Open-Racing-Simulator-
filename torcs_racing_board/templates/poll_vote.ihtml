@@ -11,11 +11,13 @@
 		<!-- BEGIN answer_row -->
 		<tr>
 			<td>
-				<input type="radio" name="poll_vote" value="{PC_ANSWER_ID}"/>
+				<input type="radio" id="poll_answer_{PC_ANSWER_ID}" name="poll_vote" value="{PC_ANSWER_ID}"/>
 			</td>
 			<td class="pollsmalltext" style="width:500px">
-				<img src="{ROOTPATH}images/pollbar.gif" style="width:{PC_ANSWER_PERCENT}%; height:10px;/"><img src="{ROOTPATH}images/pollbar_back.gif" style="width:{PC_ANSWER_PERCENT2}%; height:10px;"/><br/>
-				{PC_ANSWER_TEXT} ({PC_ANSWER_COUNT}, {PC_ANSWER_PERCENT}%)
+				<label for="poll_answer_{PC_ANSWER_ID}" style="display:block;cursor:pointer;">
+					<img src="{ROOTPATH}images/pollbar.gif" style="width:{PC_ANSWER_PERCENT}%; height:10px;/"><img src="{ROOTPATH}images/pollbar_back.gif" style="width:{PC_ANSWER_PERCENT2}%; height:10px;"/><br/>
+					{PC_ANSWER_TEXT} ({PC_ANSWER_COUNT}, {PC_ANSWER_PERCENT}%)
+				</label>
 			</td>
 		</tr>
 		<!-- END answer_row -->
