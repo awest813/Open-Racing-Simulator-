@@ -21,3 +21,7 @@
 ## 2024-04-27 - Extracted Expensive Function Calls from MIN/MAX Macros
 **Learning:** In the TORCS codebase, `MIN` and `MAX` are often defined as multi-evaluating macros (e.g., `#define MIN(x,y) ((x) < (y) ? (x) : (y))`). Passing an expensive function call like `sqrt()` directly into these macros causes it to be executed redundantly when it is the selected value. This can create performance bottlenecks, especially in high-frequency logic like collision detection (`collide.cpp`) or pathfinding (`pathfinder.cpp`).
 **Action:** Always extract expensive mathematical function calls (like `sqrt`) into local variables before passing them into `MIN`/`MAX` macros, or use `std::min`/`std::max` instead if the environment permits, to ensure the function is only evaluated once.
+
+## 2024-05-18 - Avoid unnecessary sqrt computations in hot loops by exploiting squared speed comparisons
+**Learning:** In the TORCS AI driver's `pathfinder.cpp`, a hot loop evaluating all opponents calculates `double limitSpeed = MIN(myc->getSpeed(), sqrt(psdyn->getSpeedsqr(seg)));`. Calling `sqrt()` directly inside `MIN()` forces its execution every time, even if `myc->getSpeed()` is the limiting factor.
+**Action:** Replace direct `MIN(x, sqrt(y_sqr))` calls with conditional logic: set `limitSpeed` to `x`, and only compute `sqrt(y_sqr)` if `x > 0 && x * x > y_sqr`. This avoids expensive `sqrt()` evaluations when the driver's current speed is the limiting factor.
