@@ -14,10 +14,10 @@
 		<!-- BEGIN answer_row -->
 		<tr>
 			<td align="left" valign="top">
-				<input type="radio" name="quizz_question_{PC_QUIZZ_QUESTION_NB}" value="{PC_QUIZZ_ANSWER_ID}"/>
+				<input type="radio" id="answer_{PC_QUIZZ_ANSWER_ID}" name="quizz_question_{PC_QUIZZ_QUESTION_NB}" value="{PC_QUIZZ_ANSWER_ID}"/>
 			</td>
 			<td>
-				{PC_QUIZZ_ANSWER_TEXT}
+				<label for="answer_{PC_QUIZZ_ANSWER_ID}" style="display:block;cursor:pointer;">{PC_QUIZZ_ANSWER_TEXT}</label>
 			</td>
 		</tr>
 		<!-- END answer_row -->
