@@ -23,3 +23,7 @@
 **Vulnerability:** Use of `rand()` and `getrandmax()` for generating sensitive tokens like password resets and activation keys.
 **Learning:** Legacy PHP applications often use weak PRNGs like `rand()` instead of stronger alternatives. This compromises security since the output can be predicted.
 **Prevention:** Always use at least `mt_rand()` and `mt_getrandmax()` instead of `rand()` and `getrandmax()`, or ideally cryptographically secure functions like `random_int()` when generating security-sensitive tokens.
+## 2024-05-18 - Fix Insecure Random Number Generation
+**Vulnerability:** Use of mt_rand(), time(), and predictable inputs for generating security tokens (password reset keys, activation keys, and temporary passwords).
+**Learning:** Legacy PHP code often relied on mt_rand() or rand() concatenated with predictable server variables, which is cryptographically insecure and vulnerable to prediction or brute force attacks.
+**Prevention:** Always use cryptographically secure random number generators like random_bytes() (e.g., bin2hex(random_bytes(16))) for sensitive tokens or passwords in modern PHP to ensure true randomness and prevent prediction.
