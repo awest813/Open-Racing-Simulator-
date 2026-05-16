@@ -71,6 +71,7 @@ template<class T> class v2t {
 
 		// Other methods.
 		T len(void) const;
+		T lenSqr(void) const;
 		void normalize(void);
 		T dist(const v2t<T> &p) const;
 		T cosalpha(const v2t<T> &p2, const v2t<T> &center) const;
@@ -233,6 +234,13 @@ template<class T> inline v2t<T> v2t<T>::rotate(const v2t<T> &c, T arc) const
 template<class T> inline T v2t<T>::len(void) const
 {
 	return sqrt(x*x+y*y);
+}
+
+
+// Compute the squared length of the vector.
+template<class T> inline T v2t<T>::lenSqr(void) const
+{
+	return x*x+y*y;
 }
 
 
