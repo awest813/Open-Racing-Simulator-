@@ -27,3 +27,8 @@
 **Vulnerability:** Use of `mt_rand()` and `md5()` for generating sensitive tokens like password resets and activation keys.
 **Learning:** Legacy PHP applications often use weak PRNGs like `mt_rand()` instead of stronger alternatives. This compromises security since the output can be predicted.
 **Prevention:** Always use cryptographically secure functions like `random_bytes()` when generating security-sensitive tokens.
+
+## 2024-05-24 - Insecure Session Cookie Generation
+**Vulnerability:** Session cookies were generated using predictable components like `time()`, `session_id()`, `REMOTE_ADDR`, and username concatenated together and hashed via `md5()`.
+**Learning:** This approach enables attackers to reliably guess the session token if they can ascertain the user's remote IP address and the precise time of token generation.
+**Prevention:** Avoid homebrewed predictability. Rely on cryptographically secure entropy sources such as `random_bytes()` when generating sensitive tokens.

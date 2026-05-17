@@ -271,9 +271,8 @@
 		$email_for_db = quoteString(removeMagicQuotes($_POST['register_email']));
 		$firstname_for_db = quoteString(removeMagicQuotes($_POST['register_firstname']));
 		$lastname_for_db = quoteString(removeMagicQuotes($_POST['register_lastname']));
-		$cookie = "${_SERVER['REMOTE_ADDR']}" . $username_for_db .
-				  time() . strlen($username_for_db) . session_id();
-		$cookie_for_db = quoteString(md5($cookie));
+		$cookie = bin2hex(random_bytes(16));
+		$cookie_for_db = quoteString($cookie);
 
 		// Try to insert new user record, optimistic approach.
 		$sql = "INSERT INTO " . $user_tablename . " (username, password, cookie, email, firstname, lastname) " .
