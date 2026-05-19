@@ -192,7 +192,8 @@ float Driver::getAllowedSpeed(tTrackSeg *segment)
 		}
 		float mu = segment->surface->kFriction*TIREMU*MU_FACTOR;
 		float r = (segment->radius + segment->width/2.0)/lastturnarc;
-		return sqrt((mu*G*r)/(1.0 - MIN(1.0, r*CA*mu/mass)));
+		float factor = r*CA*mu/mass;
+		return sqrt((mu*G*r)/(1.0 - (factor < 1.0 ? factor : 1.0)));
 	}
 }
 

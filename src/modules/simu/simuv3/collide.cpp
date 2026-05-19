@@ -29,7 +29,7 @@ void SimCarCollideAddDeformation(tCar* car, sgVec3 pos, sgVec3 force)
     tCollisionState* collision_state = &car->carElt->priv.collision_state;
     collision_state->collision_count++;
     //tdble k = (tdble) cnt;
-    if (sgLengthVec3(collision_state->force) < sgLengthVec3(force)) {
+    if (sgScalarProductVec3(collision_state->force, collision_state->force) < sgScalarProductVec3(force, force)) {
         for (int i=0; i<3; i++) {
             collision_state->pos[i] = pos[i];// + k*collision_state->pos[i])/(k+1.0);
             collision_state->force[i] = 0.0001*force[i];// + k*collision_state->force[i])/(k+1.0);
@@ -371,7 +371,7 @@ SimCarCollideXYScene(tCar *car)
 #if 0
         static tdble DEFORMATION_THRESHOLD = 0.01f;
         if (car->options->aero_damage
-            || sgLengthVec3(force) > DEFORMATION_THRESHOLD) {
+            || sgScalarProductVec3(force, force) > DEFORMATION_THRESHOLD * DEFORMATION_THRESHOLD) {
             sgVec3 poc;
             poc[0] = corner->pos.x;
             poc[1] = corner->pos.y;
@@ -454,7 +454,7 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
       return;
       }
 
-      if (sgLengthVec2 (n) == 0.0f) {
+      if (sgScalarProductVec2(n, n) == 0.0f) {
       // I really don't know where the problem is...
       GfOut ("Collide failed 2 (%s - %s)\n", car[0]->carElt->_name, car[1]->carElt->_name);
       return;

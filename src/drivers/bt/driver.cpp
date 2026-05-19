@@ -273,7 +273,8 @@ float Driver::getAllowedSpeed(tTrackSeg *segment)
 	}*/
 	r = MAX(1.0, r);
 
-	return sqrt((mu*G*r)/(1.0f - MIN(1.0f, r*CA*mu/mass)));
+	float factor = r*CA*mu/mass;
+	return sqrt((mu*G*r)/(1.0 - (factor < 1.0 ? factor : 1.0)));
 }
 
 

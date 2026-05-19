@@ -574,7 +574,8 @@ namespace olethros {
             }
 #endif
             mu *= adj;
-            float n_speed =  sqrt((mu*G*r)/(1.0 - MIN(1.0, r*CA*mu/mass)));
+            float factor = r*CA*mu/mass;
+            float n_speed =  sqrt((mu*G*r)/(1.0 - (factor < 1.0 ? factor : 1.0)));
             return n_speed;
     }
 
