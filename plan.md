@@ -1,21 +1,21 @@
-1. **Add `lenSqr` to `v2t`**
-   - Add `T lenSqr(void) const;` declaration to `src/libs/math/v2_t.h`.
-   - Add inline definition returning `x*x+y*y`.
+1. **Optimize distance check in `simuv2/collide.cpp` (SimCarCollideResponse)**
+   - Replace `float distpab = sgLengthVec2(pab); ... sgScaleVec2(tmpv, n, MIN(distpab, 0.05));`
+   - Use `sgLengthSquaredVec2` and check against 0.05 squared (0.0025). But actually, `tmpv` uses the `distpab` value linearly... Wait, no, we can't completely avoid `sgLengthVec2` if we need the actual linear distance to scale `tmpv`. But let's look at `SimCarCollideAddDeformation` in `simuv3/collide.cpp`:
+     `if (sgLengthVec3(collision_state->force) < sgLengthVec3(force))`
+     We can definitely replace this with `sgLengthSquaredVec3(collision_state->force) < sgLengthSquaredVec3(force)`.
 
-2. **Add `distSqr` to `straight2t`**
-   - Add `T distSqr(const v2t<T> &p) const;` declaration to `src/libs/math/straight2_t.h`.
-   - Add inline definition returning `d3.lenSqr()`.
+2. **Optimize distance check in `simuv3/collide.cpp` (SimCarCollideAddDeformation)**
+   - Replace `if (sgLengthVec3(collision_state->force) < sgLengthVec3(force))` with `if (sgLengthSquaredVec3(collision_state->force) < sgLengthSquaredVec3(force))`.
+   - This avoids computing two square roots for every deformation calculation, which happens often during collisions.
 
-3. **Optimize `bt` and `damned` drivers**
-   - In `src/drivers/bt/opponent.cpp` and `src/drivers/damned/opponent.cpp`, replace `carFrontLine.dist(corner)` with `carFrontLine.distSqr(corner)`.
-   - Track `mindistSqr` and compare against `distance * distance`.
-   - After the loop, if `mindistSqr < distance * distance`, set `distance = sqrt(mindistSqr)`.
+3. **Optimize aero damage in `simuv3/aero.cpp` (SimAeroDamage)**
+   - Replace `if (sgLengthVec3(car->aero.rot_front) > 1.0)` with `if (sgLengthSquaredVec3(car->aero.rot_front) > 1.0)`
+   - Do the same for `rot_lateral` and `rot_vertical`.
+   - 1.0 squared is 1.0, so the threshold remains the same.
+   - This avoids up to three `sqrt` calls per damage iteration.
 
-4. **Verify Syntax**
-   - Run compilation or syntax checks to ensure the math library changes and driver changes are valid.
+4. **Complete pre-commit steps to ensure proper testing, verification, review, and reflection are done.**
+   - Run verification checks.
 
-5. **Complete pre-commit steps**
-   - Complete pre-commit steps to ensure proper testing, verification, review, and reflection are done.
-
-6. **Submit**
-   - Commit and submit the code with the PR title `⚡ Bolt: Optimize straight distance checks by avoiding sqrt in hot loops`.
+5. **Submit the change.**
+   - Submit the PR with title "⚡ Bolt: Avoid sqrt in collision and aero hot loops"
