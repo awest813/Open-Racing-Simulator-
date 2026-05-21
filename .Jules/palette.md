@@ -14,3 +14,6 @@
 ## 2024-05-16 - Add semantic labels to cross-cell form inputs
 **Learning:** In legacy tabular layouts, descriptive text often sits in a `<td>` separate from the input. Without explicit `<label for="...">` linking, screen readers fail to associate the text, and clicking the text does not focus the input.
 **Action:** Always wrap descriptive text in a `<label>` and explicitly link it via `id` to the corresponding input, particularly for small touch targets like checkboxes and file inputs.
+## 2024-05-24 - Maximize Click Target Area in Legacy Tabular Forms
+**Learning:** In legacy layouts using `<table>` for forms, radio inputs and their associated text/images are often separated into distinct `<td>` cells. Wrapping the contents of the adjacent `<td>` cell within a `<label for="...">` effectively links the entire text block and graphical elements (like poll bar images) to the radio button, drastically increasing the clickable area without altering the table structure or relying on custom CSS.
+**Action:** When modernizing tabular forms, proactively wrap adjacent descriptive content in a `<label>` referencing the input's `id` to enhance interaction targets, particularly for tiny controls like checkboxes and radio buttons.
