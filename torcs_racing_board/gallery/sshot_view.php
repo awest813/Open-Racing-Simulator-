@@ -87,7 +87,7 @@
 		$page->set_var(array(
 			'PS_PASSWORD_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
-			'PS_LOGINPAGE'		=> $_SERVER['PHP_SELF'],
+			'PS_LOGINPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PS_HOSTNAME'		=> SERVER_NAME
 		));
 	}
@@ -148,9 +148,9 @@
 		}
 
 		$page->set_var(array(
-			'PC_LIST_NEXT_LINK'		=> ($nextimg) ? $_SERVER['PHP_SELF'] . '?shotrowid=' . ($rowid+1) : '',
+			'PC_LIST_NEXT_LINK'		=> ($nextimg) ? htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?shotrowid=' . ($rowid+1) : '',
 			'PC_LIST_NEXT'			=> ($nextimg) ? 'Next' : '',
-			'PC_LIST_PREV_LINK'		=> ($previmg) ? $_SERVER['PHP_SELF'] . '?shotrowid=' . ($rowid-1) : '',
+			'PC_LIST_PREV_LINK'		=> ($previmg) ? htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?shotrowid=' . ($rowid-1) : '',
 			'PC_LIST_PREV'			=> ($previmg) ? 'Previous' : ''
 		));
 

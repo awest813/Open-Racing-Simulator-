@@ -116,7 +116,7 @@
 		$page->set_var(array(
 			'PS_PASSWORD_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
-			'PS_LOGINPAGE'		=> $_SERVER['PHP_SELF'],
+			'PS_LOGINPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PS_HOSTNAME'		=> SERVER_NAME
 		));
 	}
@@ -144,9 +144,9 @@
 	$result = mysql_query($sql);
 	$more_rows = (mysql_num_rows($result) > LISTENTRIES);
 	$page->set_var(array(
-		'PC_LIST_NEXT_LINK'		=> ($more_rows === TRUE) ? $_SERVER['PHP_SELF'] . '?listfrom=' . ($listfrom+LISTENTRIES) : '',
+		'PC_LIST_NEXT_LINK'		=> ($more_rows === TRUE) ? htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?listfrom=' . ($listfrom+LISTENTRIES) : '',
 		'PC_LIST_NEXT'			=> ($more_rows === TRUE) ? 'Next' : '',
-		'PC_LIST_PREV_LINK'		=> ($listfrom > 0) ? $_SERVER['PHP_SELF'] . '?listfrom=' . max($listfrom-LISTENTRIES, 0) : '',
+		'PC_LIST_PREV_LINK'		=> ($listfrom > 0) ? htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?listfrom=' . max($listfrom-LISTENTRIES, 0) : '',
 		'PC_LIST_PREV'			=> ($listfrom > 0) ? 'Previous' : ''
 	));
 
@@ -168,7 +168,7 @@
 			'PC_TEAM_EDIT'			=> ($myrow['userid'] == $_SESSION['uid']) ? 'Edit' : '',
 			'PC_TEAM_EDIT_HREF'		=> ($myrow['userid'] == $_SESSION['uid']) ? './team_edit.php?editteamid=' . $myrow['teamid'] : '',
 			'PC_TEAM_DELETE'		=> (($_SESSION['usergroup'] == 'admin')) ? 'Delete' : '',
-			'PC_TEAM_DELETE_HREF'	=> (($_SESSION['usergroup'] == 'admin')) ? $_SERVER['PHP_SELF'] . '?deleteteamid=' . $myrow['teamid'] : ''
+			'PC_TEAM_DELETE_HREF'	=> (($_SESSION['usergroup'] == 'admin')) ? htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . '?deleteteamid=' . $myrow['teamid'] : ''
 		));
 
 		$page->parse("rows", "row", true);
