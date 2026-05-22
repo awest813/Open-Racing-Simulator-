@@ -35,7 +35,7 @@
 	$lostpwd_tablename = $db_prefix . TBL_LOSTPASSWORD;
 
 	countSession(session_id(), $stats_sessioncount_tablename, $stats_tablename);
-	countHit($_SERVER['PHP_SELF'], $stats_hitcount_tablename);
+	countHit(htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'), $stats_hitcount_tablename);
 
 	// The creation checks the login.
 	$user = new User($db, $user_tablename, $loginlog_tablename);
@@ -103,7 +103,7 @@
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_LOGINPAGE'		=> $path_to_root . 'index.php',
 			'PS_HOSTNAME'		=> SERVER_NAME,
-			'PC_LOSTPASSWORDPAGE'	=> $_SERVER['PHP_SELF']
+			'PC_LOSTPASSWORDPAGE'	=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 		));
 	}
 
