@@ -27,3 +27,7 @@
 **Vulnerability:** Use of `mt_rand()` and `md5()` for generating sensitive tokens like password resets and activation keys.
 **Learning:** Legacy PHP applications often use weak PRNGs like `mt_rand()` instead of stronger alternatives. This compromises security since the output can be predicted.
 **Prevention:** Always use cryptographically secure functions like `random_bytes()` when generating security-sensitive tokens.
+## 2024-05-24 - Weak PRNG Vulnerability in Session Cookies
+**Vulnerability:** The initial registration cookie value generation in `torcs_racing_board/lib/functions_register.php` is weak and relies on hashing predictable values (IP, username, time, session ID) using `md5()`.
+**Learning:** Using predictable inputs with a fast hashing algorithm like MD5 allows an attacker to potentially reverse or guess the initial cookie token before it is used.
+**Prevention:** Always use cryptographically secure sources of randomness, like `random_bytes()`, when generating any form of secure session or authentication tokens.
