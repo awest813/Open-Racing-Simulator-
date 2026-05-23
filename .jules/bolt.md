@@ -24,3 +24,6 @@
 ## 2024-05-16 - Optimize straight distance checks by avoiding sqrt in hot loops
 **Learning:** In TORCS bot pathfinding (`bt` and `damned` drivers), distance checks to car frontlines were repeatedly calculating `sqrt()` inside loops (4 times per opponent iteration). The underlying math library (`v2_t` and `straight2t`) only provided `len()` and `dist()` which invoked `sqrt()`.
 **Action:** Introduced `lenSqr()` and `distSqr()` to the math library to defer `sqrt()` evaluation. In hot loops, always compute and compare squared distances against `threshold * threshold`, and only call `sqrt()` once outside the loop if the squared condition is met.
+## 2026-05-23 - Optimize hot path distance magnitude comparisons
+**Learning:** Evaluating `sgLengthVec3()` frequently in hot loops (like collision and aero calculations) introduces redundant `sqrt()` operations. For threshold comparisons and relative distances, `sgLengthSquaredVec3()` achieves identical logical outcomes without the mathematical overhead.
+**Action:** Prioritize squared comparisons (e.g., `distSqr < threshold * threshold`) over absolute distances in high-frequency physics or simulation loops to avoid unnecessary square roots.

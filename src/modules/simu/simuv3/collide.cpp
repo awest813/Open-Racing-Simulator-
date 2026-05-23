@@ -29,7 +29,7 @@ void SimCarCollideAddDeformation(tCar* car, sgVec3 pos, sgVec3 force)
     tCollisionState* collision_state = &car->carElt->priv.collision_state;
     collision_state->collision_count++;
     //tdble k = (tdble) cnt;
-    if (sgLengthVec3(collision_state->force) < sgLengthVec3(force)) {
+    if (sgLengthSquaredVec3(collision_state->force) < sgLengthSquaredVec3(force)) {
         for (int i=0; i<3; i++) {
             collision_state->pos[i] = pos[i];// + k*collision_state->pos[i])/(k+1.0);
             collision_state->force[i] = 0.0001*force[i];// + k*collision_state->force[i])/(k+1.0);
@@ -371,7 +371,7 @@ SimCarCollideXYScene(tCar *car)
 #if 0
         static tdble DEFORMATION_THRESHOLD = 0.01f;
         if (car->options->aero_damage
-            || sgLengthVec3(force) > DEFORMATION_THRESHOLD) {
+            || sgLengthSquaredVec3(force) > (DEFORMATION_THRESHOLD * DEFORMATION_THRESHOLD)) {
             sgVec3 poc;
             poc[0] = corner->pos.x;
             poc[1] = corner->pos.y;
