@@ -14,3 +14,8 @@
 ## 2024-05-16 - Add semantic labels to cross-cell form inputs
 **Learning:** In legacy tabular layouts, descriptive text often sits in a `<td>` separate from the input. Without explicit `<label for="...">` linking, screen readers fail to associate the text, and clicking the text does not focus the input.
 **Action:** Always wrap descriptive text in a `<label>` and explicitly link it via `id` to the corresponding input, particularly for small touch targets like checkboxes and file inputs.
+## 2024-05-25 - Improve Touch Target for Polling Graphics
+
+**Learning:** In legacy tabular templates containing graphical elements (like poll bars), separating the radio input from the associated image and text makes it difficult to interact with on smaller screens, as clicking the image does not focus the input.
+
+**Action:** Wrap both the descriptive text and adjacent representative images (e.g., poll bar graphics) inside a `<label for="id">` tag to significantly maximize the clickable target area, ensuring users can tap anywhere on the result visual to cast their vote.
