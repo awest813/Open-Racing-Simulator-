@@ -24,3 +24,6 @@
 ## 2024-05-16 - Optimize straight distance checks by avoiding sqrt in hot loops
 **Learning:** In TORCS bot pathfinding (`bt` and `damned` drivers), distance checks to car frontlines were repeatedly calculating `sqrt()` inside loops (4 times per opponent iteration). The underlying math library (`v2_t` and `straight2t`) only provided `len()` and `dist()` which invoked `sqrt()`.
 **Action:** Introduced `lenSqr()` and `distSqr()` to the math library to defer `sqrt()` evaluation. In hot loops, always compute and compare squared distances against `threshold * threshold`, and only call `sqrt()` once outside the loop if the squared condition is met.
+## 2024-05-24 - Avoid sgLengthVec3 in simuv3 Damage Logic
+**Learning:** In the legacy simuv3 module (aero and collide logic), computing the magnitude of force and damage vectors via `sgLengthVec3()` is repeatedly used merely to compare against thresholds (like `1.0` or `DEFORMATION_THRESHOLD`). This introduces an unnecessary bottleneck as `sgLengthVec3()` performs expensive `sqrt()` operations under the hood.
+**Action:** Always replace `sgLengthVec3()` threshold comparisons in simulation hot loops with `sgLengthSquaredVec3()` (and square the target threshold) to completely eliminate redundant square root operations without altering logic.
