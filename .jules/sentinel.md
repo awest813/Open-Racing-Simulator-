@@ -27,3 +27,7 @@
 **Vulnerability:** Use of `mt_rand()` and `md5()` for generating sensitive tokens like password resets and activation keys.
 **Learning:** Legacy PHP applications often use weak PRNGs like `mt_rand()` instead of stronger alternatives. This compromises security since the output can be predicted.
 **Prevention:** Always use cryptographically secure functions like `random_bytes()` when generating security-sensitive tokens.
+## 2024-05-25 - Reflected XSS in admin/news_create.php
+**Vulnerability:** Legacy PHP assignments pass `$_SERVER['PHP_SELF']` directly to `.ihtml` template engine variables (e.g., `PC_CREATENEWSPAGE` and `PS_LOGINPAGE`) without sanitization, leaving form `action` attributes unescaped and vulnerable to Reflected XSS attacks via URL path manipulation.
+**Learning:** `$_SERVER['PHP_SELF']` includes raw URL-encoded characters up to the question mark (`?`). If placed directly into a form's action attribute without encoding single and double quotes, an attacker can break out of the HTML attribute and inject arbitrary scripts.
+**Prevention:** Always wrap variables generated from the URL or headers (like `$_SERVER['PHP_SELF']`) using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before injecting them into HTML context.
