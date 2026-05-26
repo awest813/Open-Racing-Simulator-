@@ -14,3 +14,6 @@
 ## 2024-05-16 - Add semantic labels to cross-cell form inputs
 **Learning:** In legacy tabular layouts, descriptive text often sits in a `<td>` separate from the input. Without explicit `<label for="...">` linking, screen readers fail to associate the text, and clicking the text does not focus the input.
 **Action:** Always wrap descriptive text in a `<label>` and explicitly link it via `id` to the corresponding input, particularly for small touch targets like checkboxes and file inputs.
+## 2024-05-26 - [Poll Vote Label Accessibility]
+**Learning:** In legacy tabular poll layouts, descriptive text and graphical bars representing options are often placed in adjacent `<td>` cells without associated labels.
+**Action:** Wrap the entire contents of the adjacent text/image cell in a `<label for="[id]">` tag linked to the radio button's newly added `id`. This crosses `<td>` boundaries logically (though not structurally) to turn the text and poll bars into a large, accessible clickable target for the radio input, greatly improving usability without altering the visual design or needing custom CSS.
