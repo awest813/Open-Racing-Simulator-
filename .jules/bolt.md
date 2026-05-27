@@ -24,3 +24,6 @@
 ## 2024-05-16 - Optimize straight distance checks by avoiding sqrt in hot loops
 **Learning:** In TORCS bot pathfinding (`bt` and `damned` drivers), distance checks to car frontlines were repeatedly calculating `sqrt()` inside loops (4 times per opponent iteration). The underlying math library (`v2_t` and `straight2t`) only provided `len()` and `dist()` which invoked `sqrt()`.
 **Action:** Introduced `lenSqr()` and `distSqr()` to the math library to defer `sqrt()` evaluation. In hot loops, always compute and compare squared distances against `threshold * threshold`, and only call `sqrt()` once outside the loop if the squared condition is met.
+## 2024-05-27 - Optimize vector length comparison in collide.cpp
+**Learning:** Using `sgLengthVec3()` in magnitude comparisons (like `a < b`) incurs the overhead of computing two `sqrt()` operations. In performance-critical physics code, this can be a bottleneck.
+**Action:** Replace `sgLengthVec3(a) < sgLengthVec3(b)` with `sgLengthSquaredVec3(a) < sgLengthSquaredVec3(b)` to bypass the square root entirely while maintaining the correct mathematical inequality.
