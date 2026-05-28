@@ -29,7 +29,7 @@ void SimCarCollideAddDeformation(tCar* car, sgVec3 pos, sgVec3 force)
     tCollisionState* collision_state = &car->carElt->priv.collision_state;
     collision_state->collision_count++;
     //tdble k = (tdble) cnt;
-    if (sgLengthVec3(collision_state->force) < sgLengthVec3(force)) {
+    if (sgLengthSquaredVec3(collision_state->force) < sgLengthSquaredVec3(force)) {
         for (int i=0; i<3; i++) {
             collision_state->pos[i] = pos[i];// + k*collision_state->pos[i])/(k+1.0);
             collision_state->force[i] = 0.0001*force[i];// + k*collision_state->force[i])/(k+1.0);
