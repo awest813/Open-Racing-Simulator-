@@ -14,3 +14,7 @@
 ## 2024-05-16 - Add semantic labels to cross-cell form inputs
 **Learning:** In legacy tabular layouts, descriptive text often sits in a `<td>` separate from the input. Without explicit `<label for="...">` linking, screen readers fail to associate the text, and clicking the text does not focus the input.
 **Action:** Always wrap descriptive text in a `<label>` and explicitly link it via `id` to the corresponding input, particularly for small touch targets like checkboxes and file inputs.
+
+## 2024-05-28 - Labeling file inputs in team_edit_inrace.ihtml
+**Learning:** Legacy `.ihtml` template structures often lack semantic `<label>` tags and matching `id` attributes on form elements, which significantly impairs screen reader support and keyboard navigation. When text is adjacent to an input but in a different `<td>` tag, it is completely disassociated.
+**Action:** Wrap isolated descriptive text next to input fields in a `<label for="field_id">` tag and ensure the corresponding `<input>` has the matching `id="field_id"` attribute. This fixes micro-accessibility issues without changing visual styles.
