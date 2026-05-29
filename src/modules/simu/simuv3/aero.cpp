@@ -160,19 +160,22 @@ void SimAeroDamage(tCar *car, sgVec3 poc, tdble F)
     aero->rot_front[0] += dmg*(urandom()-.5);
     aero->rot_front[1] += dmg*(urandom()-.5);
     aero->rot_front[2] += dmg*(urandom()-.5);
-    if (sgLengthVec3(car->aero.rot_front) > 1.0) {
+    // Bolt Optimization: Replace sgLengthVec3() > 1.0 with sgLengthSquaredVec3() > 1.0 to eliminate costly sqrt()
+    if (sgLengthSquaredVec3(car->aero.rot_front) > 1.0) {
         sgNormaliseVec3 (car->aero.rot_front);
     }
     aero->rot_lateral[0] += dmg*(urandom()-.5);
     aero->rot_lateral[1] += dmg*(urandom()-.5);
     aero->rot_lateral[2] += dmg*(urandom()-.5);
-    if (sgLengthVec3(car->aero.rot_lateral) > 1.0) {
+    // Bolt Optimization: Replace sgLengthVec3() > 1.0 with sgLengthSquaredVec3() > 1.0 to eliminate costly sqrt()
+    if (sgLengthSquaredVec3(car->aero.rot_lateral) > 1.0) {
         sgNormaliseVec3 (car->aero.rot_lateral);
     }
     aero->rot_vertical[0] += dmg*(urandom()-.5);
     aero->rot_vertical[1] += dmg*(urandom()-.5);
     aero->rot_vertical[2] += dmg*(urandom()-.5);
-    if (sgLengthVec3(car->aero.rot_vertical) > 1.0) {
+    // Bolt Optimization: Replace sgLengthVec3() > 1.0 with sgLengthSquaredVec3() > 1.0 to eliminate costly sqrt()
+    if (sgLengthSquaredVec3(car->aero.rot_vertical) > 1.0) {
         sgNormaliseVec3 (car->aero.rot_vertical);
     }
 
