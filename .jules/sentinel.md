@@ -27,3 +27,7 @@
 **Vulnerability:** Use of `mt_rand()` and `md5()` for generating sensitive tokens like password resets and activation keys.
 **Learning:** Legacy PHP applications often use weak PRNGs like `mt_rand()` instead of stronger alternatives. This compromises security since the output can be predicted.
 **Prevention:** Always use cryptographically secure functions like `random_bytes()` when generating security-sensitive tokens.
+## 2024-05-24 - Reflected XSS in lostpassword.php
+**Vulnerability:** Reflected Cross-Site Scripting (XSS) in the lost password form action URL due to unescaped output of `$_SERVER['PHP_SELF']`.
+**Learning:** `$_SERVER['PHP_SELF']` contains user-controllable input (the URL path) which, when rendered directly into template HTML attributes (like `<form action="...">`), allows attackers to inject malicious scripts by appending payloads to the URL (e.g., `/lostpassword.php/"><script>alert(1)</script>`).
+**Prevention:** Always sanitize dynamic URL components derived from user input or `$_SERVER` variables using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before assigning them to template variables.
