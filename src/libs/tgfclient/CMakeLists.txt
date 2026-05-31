@@ -33,6 +33,11 @@ target_link_libraries(tgfclient PUBLIC
     musicplayer
 )
 
+if(TORCS_USE_SDL2)
+    target_compile_definitions(tgfclient PUBLIC TORCS_USE_SDL2 FREEGLUT)
+    target_link_libraries(tgfclient PUBLIC PkgConfig::SDL2)
+endif()
+
 if(WIN32)
     target_link_libraries(tgfclient PUBLIC
         js_vs2008_32

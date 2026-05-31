@@ -12,7 +12,7 @@ target_include_directories(torcs PRIVATE
     ${PROJECT_SOURCE_DIR}/src/libs/client
 )
 
-target_link_libraries(torcs
+set(TORCS_LINUX_LIBS
     client
     tgfclient
     tgf
@@ -32,7 +32,6 @@ target_link_libraries(torcs
     plibul
     GL
     GLU
-    glut
     X11
     Xext
     Xrender
@@ -53,6 +52,15 @@ target_link_libraries(torcs
     m
     txml
 )
+
+if(TORCS_USE_SDL2)
+    list(APPEND TORCS_LINUX_LIBS PkgConfig::SDL2)
+    target_compile_definitions(torcs PRIVATE TORCS_USE_SDL2 FREEGLUT)
+else()
+    list(APPEND TORCS_LINUX_LIBS glut)
+endif()
+
+target_link_libraries(torcs PRIVATE ${TORCS_LINUX_LIBS})
 
 # Linux binary is usually named 'torcs-bin' because a shell script launches it.
 set_target_properties(torcs PROPERTIES OUTPUT_NAME "torcs-bin")

@@ -200,7 +200,8 @@ synchronized with real time — useful for fast batch experiments and AI trainin
 | Contributor guide | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | Project roadmap | [`ROADMAP.md`](ROADMAP.md) |
 | Forza-class vision (phased) | [`doc/planning/FORZA_VISION.md`](doc/planning/FORZA_VISION.md) |
-| Phase 0 checklist | [`doc/planning/PHASE0.md`](doc/planning/PHASE0.md) |
+| Phase 0 checklist (complete) | [`doc/planning/PHASE0.md`](doc/planning/PHASE0.md) |
+| Phase 1 checklist (active) | [`doc/planning/PHASE1.md`](doc/planning/PHASE1.md) |
 | Headless regression | [`test/regression/README.md`](test/regression/README.md) |
 
 If you are working on robots, race-manager XML, or simulation changes, the

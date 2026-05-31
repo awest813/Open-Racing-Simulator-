@@ -35,7 +35,7 @@
 				<attstr name="team" val="torcs"/>
 				<attstr name="desc" val=""/>
 				<attstr name="author" val="Bernhard Wymann"/>
-				<attstr name="car name" val="p406"/>
+				<attstr name="car name" val="car1-stock2"/>
 				<attnum name="race number" val="17"/>
 				<attnum name="red" val="1.0"/>
 				<attnum name="green" val="0.0"/>
