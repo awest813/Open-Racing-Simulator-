@@ -27,7 +27,7 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
-#include <GL/glut.h>
+#include <glutshim.h>
 #include <cmath>
 #ifndef WIN32
 #include <unistd.h>
@@ -307,7 +307,7 @@ void GfScrInit(int argc, char *argv[])
 	// The fullscreen hack must be run before glutInit, such that glut gets the right screen size, etc.
 	const char* fscr = GfParmGetStr(handle, GFSCR_SECT_PROP, GFSCR_ATT_FSCR, GFSCR_VAL_NO);
 	fullscreen = 0;
-#if !defined(FREEGLUT) && !defined(WIN32)
+#if !defined(FREEGLUT) && !defined(WIN32) && !defined(TORCS_USE_SDL2)
 	if (strcmp(fscr, GFSCR_VAL_YES) == 0) {	// Resize the screen
 		GfOut ("Freeglut not detected...\n");
 		for (i = maxfreq; i > 59; i--) {
@@ -465,7 +465,7 @@ void GfScrShutdown(void)
     if (usedGM) {
 	glutLeaveGameMode();
     }
-#if !defined(FREEGLUT) && !defined(WIN32)
+#if !defined(FREEGLUT) && !defined(WIN32) && !defined(TORCS_USE_SDL2)
     if (usedFG) {
 	fglutLeaveGameMode();
     }

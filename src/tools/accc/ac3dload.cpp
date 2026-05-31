@@ -193,7 +193,7 @@ int computeNorm( point_t *pv1, point_t *pv2, point_t *pv3, point_t *norm)
 	norm->y=(p3*q1-q3*p1)/dd;
 	norm->z=(p1*q2-q1*p2)/dd;
 
-	if (isnan(norm->x) || isnan(norm->y) || isnan(norm->z)) {
+	if (std::isnan(norm->x) || std::isnan(norm->y) || std::isnan(norm->z)) {
 		norm->x=0;
 		norm->y=1.0;
 		norm->z=0;

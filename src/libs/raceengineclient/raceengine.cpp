@@ -687,6 +687,8 @@ ReOneStep(double deltaTimeIncrement)
 	}
 	STOP_PROFILE("rbDrive*");
 
+	ReReplayRecordInputs(s, deltaTimeIncrement);
+
 	START_PROFILE("_reSimItf.update*");
 	ReInfo->_reSimItf.update(s, deltaTimeIncrement, -1);
 	for (i = 0; i < s->_ncars; i++) {

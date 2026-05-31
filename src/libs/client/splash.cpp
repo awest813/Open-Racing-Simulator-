@@ -20,7 +20,7 @@
 #include <windows.h>
 #define HAVE_CONFIG_H
 #endif
-#include <GL/glut.h>
+#include <glutshim.h>
 #include <cstdlib>
 #include <cstdio>
 #include <portability.h>

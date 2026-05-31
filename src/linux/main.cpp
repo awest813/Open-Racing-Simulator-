@@ -19,7 +19,7 @@
 
 #include <cstdlib>
 
-#include <GL/glut.h>
+#include <glutshim.h>
 
 #include <tgfclient.h>
 #include <client.h>
@@ -135,6 +135,7 @@ main(int argc, char *argv[])
 	} else {
 		// Run race from console, no Window, no OpenGL/OpenAL etc.
 		// Thought for blind scripted AI training
+		GfInit();
 		ReRunRaceOnConsole(raceconfig);
 	}
 

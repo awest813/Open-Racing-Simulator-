@@ -1,0 +1,35 @@
+name: CMake Linux
+
+on:
+  push:
+    branches: [r1-3-1, main, 'cursor/**']
+  pull_request:
+
+jobs:
+  cmake-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake \
+            libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+            libplib-dev libopenal-dev libalut-dev \
+            libvorbis-dev zlib1g-dev libpng-dev libx11-dev libxrandr-dev \
+            libxi-dev libxmu-dev libxxf86vm-dev libglx-dev
+
+      - name: Configure and build
+        env:
+          CC: gcc
+          CXX: g++
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build -j"$(nproc)"
+
+      - name: List runtime modules
+        run: |
+          find build/runtime -name '*.so' 2>/dev/null | sort || true
+          ls -la build/bin/ 2>/dev/null || true

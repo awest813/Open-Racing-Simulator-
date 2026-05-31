@@ -21,7 +21,7 @@ SOLIBRARY    = libraceengine.so
 SOLIBDIR     = .
 
 SOURCES      = singleplayer.cpp careermenu.cpp raceinit.cpp racemain.cpp racemanmenu.cpp racestate.cpp racegl.cpp \
-	       raceengine.cpp raceresults.cpp telemetryrecorder.cpp
+	       raceengine.cpp raceresults.cpp telemetryrecorder.cpp replayrecorder.cpp
 
 SOLIBS      = -lracescreens -lrobottools
 

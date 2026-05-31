@@ -1,8 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
-project(OpenRacingSimulator)
+
+# Avoid link failures during compiler sanity checks in minimal CI images.
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+project(OpenRacingSimulator LANGUAGES C CXX)
+
+include(CheckSymbolExists)
+check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
+if(HAVE_STRNDUP)
+    add_compile_definitions(HAVE_STRNDUP=1)
+endif()
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Static libs (e.g. tgf) are linked into MODULE plugins (simuv2.so).
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(TORCS_RUNTIME_DIRECTORY "${CMAKE_BINARY_DIR}/runtime")
 
 if(MSVC)
@@ -34,6 +46,16 @@ function(torcs_set_runtime_output target relative_dir)
     endforeach()
 endfunction()
 
+# Runtime-loaded .so modules (no lib prefix; e.g. simuv2.so not libsimuv2.so)
+function(torcs_add_plugin_module target runtime_subdir)
+    set_target_properties(${target} PROPERTIES PREFIX "")
+    if(WIN32)
+        set_target_properties(${target} PROPERTIES OUTPUT_NAME "${target}")
+    endif()
+    torcs_set_runtime_output(${target} "${runtime_subdir}")
+    add_dependencies(${target} torcs_runtime_assets)
+endfunction()
+
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}")
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}/modules")
 
@@ -41,7 +63,6 @@ file(GLOB_RECURSE TORCS_RUNTIME_ASSET_INPUTS CONFIGURE_DEPENDS
     "${CMAKE_SOURCE_DIR}/data/*"
     "${CMAKE_SOURCE_DIR}/runtime/config/*"
     "${CMAKE_SOURCE_DIR}/runtime/drivers/*"
-    "${CMAKE_SOURCE_DIR}/runtime/results/*"
     "${CMAKE_SOURCE_DIR}/runtime/telemetry/*"
 )
 
@@ -60,7 +81,8 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/data/data" "${TORCS_RUNTIME_DIRECTORY}/data"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/config" "${TORCS_RUNTIME_DIRECTORY}/config"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/drivers" "${TORCS_RUNTIME_DIRECTORY}/drivers"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/results" "${TORCS_RUNTIME_DIRECTORY}/results"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/results"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/replay"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/telemetry" "${TORCS_RUNTIME_DIRECTORY}/telemetry"
     COMMAND ${CMAKE_COMMAND} -E touch "${TORCS_RUNTIME_ASSET_STAMP}"
     DEPENDS ${TORCS_RUNTIME_ASSET_INPUTS}
@@ -130,4 +152,38 @@ if(WIN32)
 else()
     add_subdirectory(src/linux)
 endif()
-# Add more as needed
+
+# Portable install layout (matches runtime/ tree used by torcs -l)
+install(TARGETS torcs
+    RUNTIME DESTINATION bin
+)
+if(TORCS_ROBOT_TARGETS)
+    install(TARGETS ${TORCS_ROBOT_TARGETS}
+        LIBRARY DESTINATION drivers
+        RUNTIME DESTINATION drivers
+    )
+endif()
+if(TARGET simuv2)
+    install(TARGETS simuv2 LIBRARY DESTINATION modules/simu)
+endif()
+if(TARGET track)
+    install(TARGETS track LIBRARY DESTINATION modules/track)
+endif()
+if(TARGET ssggraph)
+    install(TARGETS ssggraph
+        LIBRARY DESTINATION modules/graphic
+    )
+endif()
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/data"
+    DESTINATION .
+    USE_SOURCE_PERMISSIONS
+)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/config"
+    DESTINATION config
+    USE_SOURCE_PERMISSIONS
+)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/drivers"
+    DESTINATION drivers
+    USE_SOURCE_PERMISSIONS
+    OPTIONAL
+)
