@@ -19,7 +19,7 @@
 
 #include <cstdlib>
 
-#include <GL/glut.h>
+#include <glutshim.h>
 
 #include <tgfclient.h>
 #include <client.h>

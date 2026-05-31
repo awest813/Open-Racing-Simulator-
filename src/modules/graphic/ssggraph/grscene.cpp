@@ -28,7 +28,7 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #endif
-#include <GL/glut.h>
+#include <glutshim.h>
 #include <plib/ssg.h>
 #include <plib/ssgAux.h>
 #include <tgfclient.h>

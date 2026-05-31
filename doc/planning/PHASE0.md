@@ -11,7 +11,7 @@ Active work stream for the [Forza-class vision](FORZA_VISION.md). Check items of
 - [x] CMake: `ssggraph` graphics module on Linux (MODULE + PLIB link)
 - [x] CMake: `cmake --install` rules for portable runtime layout
 - [x] SDL2: audit — see [`SDL2_MIGRATION.md`](SDL2_MIGRATION.md)
-- [ ] SDL2: minimal window + input proof-of-concept
+- [x] SDL2: minimal window + input proof-of-concept (`--enable-sdl2`, `sdl2glut.cpp`)
 - [x] Break `raceman.h` ↔ `simu.h` include cycle (`simuitf.h` extracted)
 
 ## Validation
