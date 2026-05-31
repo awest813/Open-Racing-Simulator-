@@ -24,7 +24,8 @@ jobs:
       - name: Build (autotools)
         run: |
           ./configure
-          make -j"$(nproc)"
+          make exports
+          make -j"$(nproc)" compil
 
       - name: Headless regression race
         run: |

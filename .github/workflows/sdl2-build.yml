@@ -27,4 +27,5 @@ jobs:
       - name: Configure and build (SDL2)
         run: |
           ./configure --enable-sdl2
-          make -j"$(nproc)" default
+          make exports
+          make -j"$(nproc)" compil

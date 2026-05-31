@@ -63,7 +63,6 @@ file(GLOB_RECURSE TORCS_RUNTIME_ASSET_INPUTS CONFIGURE_DEPENDS
     "${CMAKE_SOURCE_DIR}/data/*"
     "${CMAKE_SOURCE_DIR}/runtime/config/*"
     "${CMAKE_SOURCE_DIR}/runtime/drivers/*"
-    "${CMAKE_SOURCE_DIR}/runtime/results/*"
     "${CMAKE_SOURCE_DIR}/runtime/telemetry/*"
 )
 
@@ -82,7 +81,8 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/data/data" "${TORCS_RUNTIME_DIRECTORY}/data"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/config" "${TORCS_RUNTIME_DIRECTORY}/config"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/drivers" "${TORCS_RUNTIME_DIRECTORY}/drivers"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/results" "${TORCS_RUNTIME_DIRECTORY}/results"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/results"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/replay"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/telemetry" "${TORCS_RUNTIME_DIRECTORY}/telemetry"
     COMMAND ${CMAKE_COMMAND} -E touch "${TORCS_RUNTIME_ASSET_STAMP}"
     DEPENDS ${TORCS_RUNTIME_ASSET_INPUTS}
