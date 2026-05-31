@@ -37,12 +37,25 @@ The remaining default-driver references to retire are:
 
 | Asset family | XML references | Notes |
 |--------------|----------------|-------|
-| `p406` | `src/drivers/inferno/inferno.xml`, `src/drivers/lliaw/lliaw.xml`, `src/drivers/tita/tita.xml`, plus mirrored `runtime/drivers/{inferno,lliaw,tita}/*.xml` | One bot entry per driver descriptor. Replace with a fictional hatch/sedan before removing the model from default packs. |
+| `p406` | `src/drivers/inferno/inferno.xml`, `src/drivers/lliaw/lliaw.xml`, `src/drivers/tita/tita.xml`, plus mirrored `runtime/drivers/{inferno,lliaw,tita}/*.xml` | One bot entry per driver descriptor. Replace with a fictional hatch/sedan assignment. |
 | `pw-*` | `src/drivers/berniw2/berniw2.xml`, `src/drivers/damned/damned.xml`, `src/drivers/olethros/olethros.xml`, plus mirrored `runtime/drivers/{berniw2,damned,olethros}/*.xml` | Rally/WRC entries (`pw-206wrc`, `pw-306wrc`, `pw-corollawrc`, `pw-evoviwrc`, `pw-focuswrc`, `pw-imprezawrc`). Replace with fictional rally cars or non-sensitive existing cars. |
-| `kc-*` | `src/drivers/berniw3/berniw3.xml`, `src/drivers/inferno2/inferno2.xml`, plus mirrored `runtime/drivers/{berniw3,inferno2}/*.xml` | Historic marque-inspired entries (`kc-a110`, `kc-alfatz2`, `kc-coda`, `kc-corvette-ttop`, `kc-daytona`, `kc-db4z`, `kc-dino`, `kc-5300gt`, `kc-gt40`, `kc-p4`). Replace with fictional historic equivalents before excluding the pack. |
+| `kc-*` | `src/drivers/berniw3/berniw3.xml`, `src/drivers/inferno2/inferno2.xml`, plus mirrored `runtime/drivers/{berniw3,inferno2}/*.xml` | Historic marque-inspired entries (`kc-a110`, `kc-alfatz2`, `kc-coda`, `kc-corvette-ttop`, `kc-daytona`, `kc-db4z`, `kc-dino`, `kc-5300gt`, `kc-gt40`, `kc-p4`). Replace with fictional historic equivalents. |
+
+## Default pack exclusion
+
+Default packaging now keeps these model directories in the source tree but
+excludes them from generated runtime/install outputs:
+
+- CMake portable runtime (`torcs_runtime_assets`) removes retired car model
+  directories after syncing `data/`.
+- `cmake --install` excludes `155-DTM`, `acura-nsx-sz`, `mc-larenf1`, `p406`,
+  `pw-*`, and `kc-*` under `data/cars/models/`.
+- Legacy Make data recursion filters those same model directories out of
+  `DATASUBDIRS`/`PKGSUBDIRS`, and the default package list no longer builds the
+  retired Patwo/KCendra car packs.
 
 ## Status
 
 - [x] Inventory all race XML references to priority assets
-- [ ] Default install pack excludes `pw-*`, `kc-*`, priority list
+- [x] Default install pack excludes `pw-*`, `kc-*`, priority list
 - [ ] First replacement car (generic GT) for `acura-nsx-sz` slot
