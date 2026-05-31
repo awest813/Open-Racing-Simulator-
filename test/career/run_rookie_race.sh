@@ -25,10 +25,9 @@ else
   echo "error: torcs not found; set TORCS_BIN" >&2
   exit 1
 fi
-case "$BIN" in
-  /*) ;;
-  *) BIN="$(cd "$(dirname "$BIN")" && pwd)/$(basename "$BIN")" ;;
-esac
+if [[ "$BIN" != /* ]]; then
+  BIN="$ROOT/$BIN"
+fi
 if [[ ! -x "$BIN" ]]; then
   echo "error: torcs binary not executable: $BIN" >&2
   exit 1

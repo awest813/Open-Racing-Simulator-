@@ -33,7 +33,7 @@ jobs:
       - name: Career Rookie headless smoke test
         run: |
           chmod +x test/career/run_rookie_race.sh
-          TORCS_BIN=linux/torcs-bin \
+          TORCS_BIN=src/linux/torcs-bin \
           TORCS_RUNTIME=runtime \
           TORCS_LIB=export \
           TORCS_DATA="${{ github.workspace }}" \
