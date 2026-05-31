@@ -227,4 +227,4 @@ The roadmap is working if the project becomes **easier to build**, **easier to
 understand**, **safer to redistribute**, and remains **useful for both players
 and research-focused users**.
 
-Last updated: 2026-04-06
+Last updated: 2026-05-31

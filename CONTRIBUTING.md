@@ -70,6 +70,18 @@ torcs -r <race-config.xml>  # headless race from config file
 Headless mode (`-r`) is the fastest way to iterate on robots, physics
 changes, or race-manager configuration without the full rendering stack.
 
+After an autotools build (`./configure && make`), run the regression harness:
+
+```bash
+export TORCS_BIN="$PWD/src/linux/torcs-bin"
+export TORCS_LIB="$PWD/export"      # modules/*.so and drivers/*.so
+export TORCS_DATA="$PWD"            # repo root (engine loads data/... below this)
+export TORCS_RUNTIME="$PWD/runtime" # config/, drivers/*.xml
+./test/regression/run_regression.sh
+```
+
+The script runs from `runtime/` so robot setup paths like `drivers/sparkle/0/default.xml` resolve correctly.
+
 ---
 
 ## Where to Start

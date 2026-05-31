@@ -550,6 +550,10 @@ static tTrackSeg *getFirstWallStart(tTrackSeg *start, int side)
 {
 	tTrackSeg *first = start;
 
+	if (first == nullptr) {
+		return nullptr;
+	}
+
 	// Moving backward out of wall.
 	do {
 		// A wall is a wall on the track if it is not the barrier at the same time.
@@ -728,12 +732,16 @@ SimCarCollideInit(tTrack *track)
 	
 	fixedid = 0;
 
-	if (track != nullptr) {
+	if (track != nullptr && track->seg != nullptr) {
 		tTrackSeg *firstleft = getFirstWallStart(track->seg, TR_SIDE_LFT);
 		tTrackSeg *firstright = getFirstWallStart(track->seg, TR_SIDE_RGT);
 
-		buildWalls(firstleft, TR_SIDE_LFT);
-		buildWalls(firstright, TR_SIDE_RGT);
+		if (firstleft != nullptr) {
+			buildWalls(firstleft, TR_SIDE_LFT);
+		}
+		if (firstright != nullptr) {
+			buildWalls(firstright, TR_SIDE_RGT);
+		}
 
 		unsigned int i;
 		for (i = 0; i < fixedid; i++) {

@@ -22,8 +22,8 @@ Environment overrides:
 |----------|---------|---------|
 | `TORCS_BIN` | `torcs` then `torcs-bin` | Simulator executable |
 | `TORCS_RUNTIME` | repo `runtime/` | Local config root (`-l`) |
-| `TORCS_LIB` | `$TORCS_RUNTIME` | Module search path (`-L`) |
-| `TORCS_DATA` | repo `data/` | Asset root (`-D`) |
+| `TORCS_LIB` | repo `export/` | Module and driver `.so` path (`-L`) |
+| `TORCS_DATA` | repo root | Install root (`-D`); engine loads `data/cars/...` below this |
 | `REGRESSION_CONFIG` | `test/regression/regression-race.xml` | Race manager XML |
 | `REGRESSION_BASELINE` | `test/regression/baselines/regression-race.winner` | Expected P1 driver module |
 
@@ -43,6 +43,18 @@ Commit `test/regression/baselines/regression-race.winner` when the simulation ou
 
 Results are written under `$TORCS_RUNTIME/results/regression-race/` (filename includes timestamp).
 
+## Autotools dev tree
+
+After `./configure && make`, modules land in `export/` and config in `runtime/`:
+
+```bash
+export TORCS_BIN="$PWD/src/linux/torcs-bin"
+export TORCS_LIB="$PWD/export"
+export TORCS_DATA="$PWD"
+export TORCS_RUNTIME="$PWD/runtime"
+./test/regression/run_regression.sh
+```
+
 ## CMake runtime
 
 If you built with CMake, point runtime at the build tree:
@@ -50,5 +62,7 @@ If you built with CMake, point runtime at the build tree:
 ```bash
 export TORCS_RUNTIME=/path/to/build/runtime
 export TORCS_BIN=/path/to/build/bin/torcs-bin
+export TORCS_LIB=/path/to/build/runtime
+export TORCS_DATA=/path/to/build/runtime
 ./test/regression/run_regression.sh
 ```

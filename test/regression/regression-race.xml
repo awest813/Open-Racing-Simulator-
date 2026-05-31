@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Headless regression race — AI drivers only (required for torcs -r).
-  Track: forza | 10 laps | fixed robot grid for reproducibility.
+  Headless regression — AI only (required for torcs -r).
+  g-track-1, 10 laps, single inferno robot (idx 5 / car3-trb1).
 -->
 <!DOCTYPE params SYSTEM "../../runtime/config/params.dtd">
 
-<params name="Regression Race" type="param" mode="mw">
+<params name="practice" type="param" mode="mw">
 
   <section name="Header">
     <attstr name="name" val="Regression Race"/>
-    <attstr name="description" val="Headless regression: forza, 10 laps, fixed AI grid"/>
+    <attstr name="description" val="Headless regression: forza, 10 laps, sparkle"/>
     <attnum name="priority" val="1"/>
   </section>
 
@@ -23,21 +23,24 @@
 
   <section name="Races">
     <section name="1">
-      <attstr name="name" val="Regression"/>
+      <attstr name="name" val="Practice"/>
     </section>
   </section>
 
-  <section name="Regression">
+  <section name="Practice">
     <attnum name="laps" val="10"/>
-    <attstr name="type" val="race"/>
+    <attstr name="type" val="practice"/>
     <attstr name="starting order" val="drivers list"/>
     <attstr name="restart" val="no"/>
     <attstr name="display mode" val="results only"/>
     <attstr name="display results" val="no"/>
+    <attnum name="fuel consumption factor" val="1.0"/>
+    <attnum name="damage factor" val="1.0"/>
+    <attnum name="tire factor" val="1"/>
 
     <section name="Starting Grid">
-      <attnum name="rows" val="2"/>
-      <attnum name="distance to start" val="25"/>
+      <attnum name="rows" val="1"/>
+      <attnum name="distance to start" val="100"/>
       <attnum name="distance between columns" val="20"/>
       <attnum name="offset within a column" val="10"/>
       <attnum name="initial speed" val="0"/>
@@ -46,25 +49,13 @@
   </section>
 
   <section name="Drivers">
-    <attnum name="maximum number" val="4"/>
-    <attstr name="focused module" val="berniw"/>
-    <attnum name="focused idx" val="4"/>
+    <attnum name="maximum number" val="1"/>
+    <attstr name="focused module" val="sparkle"/>
+    <attnum name="focused idx" val="0"/>
 
     <section name="1">
-      <attnum name="idx" val="4"/>
-      <attstr name="module" val="berniw"/>
-    </section>
-    <section name="2">
-      <attnum name="idx" val="5"/>
-      <attstr name="module" val="olethros"/>
-    </section>
-    <section name="3">
-      <attnum name="idx" val="6"/>
-      <attstr name="module" val="inferno"/>
-    </section>
-    <section name="4">
-      <attnum name="idx" val="7"/>
-      <attstr name="module" val="bt"/>
+      <attnum name="idx" val="0"/>
+      <attstr name="module" val="sparkle"/>
     </section>
   </section>
 

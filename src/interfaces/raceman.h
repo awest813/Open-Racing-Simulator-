@@ -31,7 +31,7 @@
 #include <car.h>
 #include <track.h>
 #include <graphic.h>
-#include <simu.h>
+#include <simuitf.h>
 
 #define RCM_IDENT 0
 

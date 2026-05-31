@@ -17,10 +17,10 @@ fi
 mkdir -p "$BASELINE_DIR"
 WINNER=""
 if command -v xmllint >/dev/null 2>&1; then
-  WINNER="$(xmllint --xpath 'string(//section[@name="1"]/attstr[@name="module"]/@val)' "$LATEST" 2>/dev/null || true)"
+  WINNER="$(xmllint --xpath 'string(//section[@name="Drivers"]/section[@name="1"]/attstr[@name="dll name"]/@val)' "$LATEST" 2>/dev/null || true)"
 fi
 if [[ -z "$WINNER" ]]; then
-  WINNER="$(grep -oP '(?<=<attstr name="module" val=")[^"]+' "$LATEST" | head -1 || true)"
+  WINNER="$(grep -oP '(?<=<attstr name="dll name" val=")[^"]+' "$LATEST" | head -1 || true)"
 fi
 if [[ -z "$WINNER" ]]; then
   echo "error: could not parse winner from $LATEST" >&2

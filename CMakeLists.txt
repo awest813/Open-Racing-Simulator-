@@ -34,6 +34,16 @@ function(torcs_set_runtime_output target relative_dir)
     endforeach()
 endfunction()
 
+# Runtime-loaded .so modules (no lib prefix; e.g. simuv2.so not libsimuv2.so)
+function(torcs_add_plugin_module target runtime_subdir)
+    set_target_properties(${target} PROPERTIES PREFIX "")
+    if(WIN32)
+        set_target_properties(${target} PROPERTIES OUTPUT_NAME "${target}")
+    endif()
+    torcs_set_runtime_output(${target} "${runtime_subdir}")
+    add_dependencies(${target} torcs_runtime_assets)
+endfunction()
+
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}")
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}/modules")
 
@@ -130,4 +140,38 @@ if(WIN32)
 else()
     add_subdirectory(src/linux)
 endif()
-# Add more as needed
+
+# Portable install layout (matches runtime/ tree used by torcs -l)
+install(TARGETS torcs
+    RUNTIME DESTINATION bin
+)
+if(TORCS_ROBOT_TARGETS)
+    install(TARGETS ${TORCS_ROBOT_TARGETS}
+        LIBRARY DESTINATION drivers
+        RUNTIME DESTINATION drivers
+    )
+endif()
+if(TARGET simuv2)
+    install(TARGETS simuv2 LIBRARY DESTINATION modules/simu)
+endif()
+if(TARGET track)
+    install(TARGETS track LIBRARY DESTINATION modules/track)
+endif()
+if(TARGET ssggraph)
+    install(TARGETS ssggraph
+        LIBRARY DESTINATION modules/graphic
+    )
+endif()
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/data"
+    DESTINATION .
+    USE_SOURCE_PERMISSIONS
+)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/config"
+    DESTINATION config
+    USE_SOURCE_PERMISSIONS
+)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/drivers"
+    DESTINATION drivers
+    USE_SOURCE_PERMISSIONS
+    OPTIONAL
+)

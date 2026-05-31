@@ -53,3 +53,4 @@ doc/manual/
 # Test build artifacts and header symlinks
 test/math/test_math
 test/math/tmath
+build_linux

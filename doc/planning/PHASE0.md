@@ -8,19 +8,19 @@ Active work stream for the [Forza-class vision](FORZA_VISION.md). Check items of
 - [x] CMake: all 12 robot drivers (`src/drivers/CMakeLists.txt`)
 - [x] CMake: Linux `torcs-bin` executable target
 - [x] CMake: runtime asset sync target (`torcs_runtime_assets`)
-- [ ] CMake: `ssggraph` graphics module fully linked on Linux
-- [ ] CMake: `cmake --install` rules for portable runtime layout
-- [ ] SDL2: audit existing code paths; document migration plan
+- [x] CMake: `ssggraph` graphics module on Linux (MODULE + PLIB link)
+- [x] CMake: `cmake --install` rules for portable runtime layout
+- [x] SDL2: audit — see [`SDL2_MIGRATION.md`](SDL2_MIGRATION.md)
 - [ ] SDL2: minimal window + input proof-of-concept
-- [ ] Break `raceman.h` ↔ `simu.h` circular include
+- [x] Break `raceman.h` ↔ `simu.h` include cycle (`simuitf.h` extracted)
 
 ## Validation
 
 - [x] Headless race config for regression (`test/regression/regression-race.xml`)
 - [x] Regression runner script (`test/regression/run_regression.sh`)
-- [ ] Record first official baseline (`test/regression/baselines/`)
-- [ ] CI: Ubuntu CMake build workflow
-- [ ] CI: run regression when `torcs`/`torcs-bin` available
+- [x] Record first official baseline (`test/regression/baselines/regression-race.winner`)
+- [x] CI: Ubuntu autotools build + regression ([`.github/workflows/regression.yml`](../../.github/workflows/regression.yml))
+- [ ] CI: CMake Linux matrix (after `ssggraph` link verified in CI)
 
 ## Design
 
@@ -30,8 +30,8 @@ Active work stream for the [Forza-class vision](FORZA_VISION.md). Check items of
 
 ## Vertical slice (bridge to Phase 1)
 
-- [ ] AI-only 10-lap **forza** regression baseline committed
-- [ ] Document `-L` / `-D` / `-l` paths for dev-tree runs in CONTRIBUTING
+- [x] AI-only 10-lap **forza** regression baseline committed (sparkle on forza)
+- [x] Document `-L` / `-D` / `-l` paths for dev-tree runs in CONTRIBUTING
 
 ---
 
