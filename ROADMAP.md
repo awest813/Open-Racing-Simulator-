@@ -6,7 +6,8 @@ it does not promise exact delivery dates.
 
 For the **Forza-class product vision** (phased delivery toward a modern,
 moddable motorsport game), see [`doc/planning/FORZA_VISION.md`](doc/planning/FORZA_VISION.md)
-and the active Phase 0 checklist [`doc/planning/PHASE0.md`](doc/planning/PHASE0.md).
+the completed Phase 0 checklist [`doc/planning/PHASE0.md`](doc/planning/PHASE0.md),
+and the active Phase 1 checklist [`doc/planning/PHASE1.md`](doc/planning/PHASE1.md).
 
 The project has two parallel responsibilities:
 
@@ -36,7 +37,7 @@ These apply across every work stream:
 | 1.3.x stabilization | Complete (Core) |
 | Engineering debt | Active / ongoing |
 | 1.4 preparation (Phase 2) | Active |
-| Content & compliance | Planning |
+| Content & compliance | Wave 1 complete; Phase 1 content |
 | 2.0 Networking | Future |
 | Long-term exploration | Future |
 

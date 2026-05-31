@@ -88,7 +88,8 @@ The script runs from `runtime/` so robot setup paths like `drivers/sparkle/0/def
 
 - `ROADMAP.md` — full project plan and current priorities
 - `doc/planning/FORZA_VISION.md` — phased roadmap toward a Forza-class experience
-- `doc/planning/PHASE0.md` — active foundation checklist
+- `doc/planning/PHASE0.md` — Phase 0 foundation checklist (complete)
+- `doc/planning/PHASE1.md` — active Phase 1 checklist
 - `test/regression/` — headless race regression (`./test/regression/run_regression.sh`)
 - `src/doc/architecture.md` — overview of the three-tier architecture
 - `src/interfaces/` — interface headers for all plugin types

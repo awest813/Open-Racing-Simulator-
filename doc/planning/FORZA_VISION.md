@@ -71,29 +71,29 @@ Platform (SDL2, Networking in Phase 5)
 
 ## 5. Phased delivery
 
-### Phase 0 — Foundation (active)
+### Phase 0 — Foundation (complete)
 
 **Goal:** Safe foundation for all later phases.
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Finish CMake (exe, graphics, drivers, asset install) | In progress | See [`phase2.md`](phase2.md) |
-| Headless regression suite | Started | [`test/regression/`](../../test/regression/) |
-| Replay format RFC | Started | [`REPLAY_FORMAT.md`](REPLAY_FORMAT.md) |
-| SDL2 window/input path | Planned | Audit legacy `SDL` blocks |
-| Break `raceman.h` ↔ `simu.h` cycle | Planned | |
-| Content compliance wave 1 | Planned | See ROADMAP content track |
-| CI (CMake Linux + regression) | Planned | |
+| Finish CMake (exe, graphics, drivers, asset install) | Done | See [`phase2.md`](phase2.md) |
+| Headless regression suite | Done | [`test/regression/`](../../test/regression/) |
+| Replay format RFC | Done | [`REPLAY_FORMAT.md`](REPLAY_FORMAT.md) |
+| SDL2 window/input path | PoC | [`SDL2_MIGRATION.md`](SDL2_MIGRATION.md) |
+| Break `raceman.h` ↔ `simu.h` cycle | Done | `simuitf.h` |
+| Content compliance wave 1 | Done | [`CONTENT_COMPLIANCE.md`](CONTENT_COMPLIANCE.md) |
+| CI (CMake Linux + regression) | Done | GitHub Actions |
 
-**Exit criteria:** Clean Linux/Windows CMake build; regression runner documented; no trademark cars in default install; replay RFC accepted.
-
-**Checklist:** [`PHASE0.md`](PHASE0.md)
+**Exit criteria:** Met — see [`PHASE0.md`](PHASE0.md).
 
 ---
 
-### Phase 1 — Playable modern sim
+### Phase 1 — Playable modern sim (active)
 
 **Goal:** Pad/wheel playable; contemporary look and feel.
+
+**Checklist:** [`PHASE1.md`](PHASE1.md)
 
 - SDL2 default; wheel mapping; basic FFB
 - Graphics pass A (GL 3.3+ or parallel modern renderer module)
@@ -193,7 +193,8 @@ Extend [`careermenu.cpp`](../../src/libs/raceengineclient/careermenu.cpp):
 |----------|------|
 | [`ROADMAP.md`](../../ROADMAP.md) | Engineering tracks 1.3 → 2.0 |
 | [`phase2.md`](phase2.md) | CMake / SDL2 / CI detail |
-| [`PHASE0.md`](PHASE0.md) | Active Phase 0 checklist |
+| [`PHASE0.md`](PHASE0.md) | Phase 0 foundation checklist (complete) |
+| [`PHASE1.md`](PHASE1.md) | Active Phase 1 checklist |
 | [`REPLAY_FORMAT.md`](REPLAY_FORMAT.md) | Replay / ghost binary format |
 | [`test/regression/README.md`](../../test/regression/README.md) | Headless regression usage |
 | [`src/doc/architecture.md`](../../src/doc/architecture.md) | Plugin architecture |

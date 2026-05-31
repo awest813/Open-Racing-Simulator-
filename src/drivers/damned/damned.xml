@@ -22,7 +22,7 @@
 				<attstr name="desc" val="first TORCS robot 09/98"/>
 				<attstr name="team" val="torcs"/>
 				<attstr name="author" val="Eric Espie"/>
-				<attstr name="car name" val="pw-focuswrc"/>
+				<attstr name="car name" val="baja-bug"/>
 				<attnum name="race number" val="1"/>
 				<attnum name="red" val="0.0"/>
 				<attnum name="green" val="1.0"/>
@@ -34,7 +34,7 @@
 				<attstr name="desc" val="Second TORCS robot 09/98"/>
 				<attstr name="team" val="torcs"/>
 				<attstr name="author" val="Eric Espie"/>
-				<attstr name="car name" val="pw-206wrc"/>
+				<attstr name="car name" val="buggy"/>
 				<attnum name="race number" val="2"/>
 				<attnum name="red" val="0.0"/>
 				<attnum name="green" val="1.0"/>
@@ -45,7 +45,7 @@
 				<attstr name="desc" val="Second TORCS robot 09/98"/>
 				<attstr name="team" val="torcs"/>
 				<attstr name="author" val="Eric Espie"/>
-				<attstr name="car name" val="pw-306wrc"/>
+				<attstr name="car name" val="car1-stock1"/>
 				<attnum name="race number" val="3"/>
 				<attnum name="red" val="0.0"/>
 				<attnum name="green" val="1.0"/>
@@ -56,7 +56,7 @@
 				<attstr name="desc" val="Second TORCS robot 09/98"/>
 				<attstr name="team" val="torcs"/>
 				<attstr name="author" val="Eric Espie"/>
-				<attstr name="car name" val="pw-evoviwrc"/>
+				<attstr name="car name" val="car1-stock2"/>
 				<attnum name="race number" val="4"/>
 				<attnum name="red" val="0.0"/>
 				<attnum name="green" val="1.0"/>
@@ -67,7 +67,7 @@
 				<attstr name="desc" val="Second TORCS robot 09/98"/>
 				<attstr name="team" val="torcs"/>
 				<attstr name="author" val="Eric Espie"/>
-				<attstr name="car name" val="pw-imprezawrc"/>
+				<attstr name="car name" val="car2-trb1"/>
 				<attnum name="race number" val="5"/>
 				<attnum name="red" val="0.0"/>
 				<attnum name="green" val="1.0"/>
@@ -78,7 +78,7 @@
 				<attstr name="desc" val="Second TORCS robot 09/98"/>
 				<attstr name="team" val="torcs"/>
 				<attstr name="author" val="Eric Espie"/>
-				<attstr name="car name" val="pw-corollawrc"/>
+				<attstr name="car name" val="car3-trb1"/>
 				<attnum name="race number" val="6"/>
 				<attnum name="red" val="0.0"/>
 				<attnum name="green" val="1.0"/>

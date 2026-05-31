@@ -1,6 +1,8 @@
 # Phase 0 — Foundation Checklist
 
-Active work stream for the [Forza-class vision](FORZA_VISION.md). Check items off in PRs that reference this file.
+**Status:** Complete (2026-05-31). Next: [Phase 1](PHASE1.md).
+
+Foundation work stream for the [Forza-class vision](FORZA_VISION.md). Check items off in PRs that reference this file.
 
 ## Build & platform
 
@@ -27,7 +29,7 @@ Active work stream for the [Forza-class vision](FORZA_VISION.md). Check items of
 
 - [x] Replay format RFC ([`REPLAY_FORMAT.md`](REPLAY_FORMAT.md))
 - [x] Replay recorder spike (`replayrecorder.cpp`, `TORCS_REPLAY_RECORD=1`)
-- [ ] Content compliance wave 1 — see [`CONTENT_COMPLIANCE.md`](CONTENT_COMPLIANCE.md)
+- [x] Content compliance wave 1 — see [`CONTENT_COMPLIANCE.md`](CONTENT_COMPLIANCE.md)
 
 ## Vertical slice (bridge to Phase 1)
 

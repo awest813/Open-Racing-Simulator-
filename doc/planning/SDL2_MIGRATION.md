@@ -1,7 +1,7 @@
 # SDL2 Migration Audit (Phase 0)
 
-**Status:** Phase 0 PoC — 2026-05-31 (`--enable-sdl2`)  
-**Related:** [PHASE0.md](PHASE0.md), [phase2.md](phase2.md)
+**Status:** Phase 0 PoC complete — Phase 1 makes SDL2 the default Linux path  
+**Related:** [PHASE0.md](PHASE0.md), [PHASE1.md](PHASE1.md), [phase2.md](phase2.md)
 
 ## Summary
 
