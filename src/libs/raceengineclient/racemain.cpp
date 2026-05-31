@@ -79,6 +79,7 @@ AbortRaceHookActivate(void * /* dummy */)
 	GfuiScreenActivate(ReInfo->_reGameScreen);
 
 	ReInfo->_reSimItf.shutdown();
+	ReReplayStopRecording();
 	if (ReInfo->_displayMode == RM_DISP_MODE_NORMAL) {
 		ReInfo->_reGraphicItf.shutdowncars();
 		startMenuMusic();
@@ -331,6 +332,8 @@ static int reRaceRealStart(void)
 	ReInfo->s->deltaTime = RCM_MAX_DT_SIMU;
 
 	ReInfo->s->_raceState = RM_RACE_STARTING;
+
+	ReReplayStartRecording(s);
 
 	if ((ReInfo->_displayMode != RM_DISP_MODE_CONSOLE) &&  ReInfo->_reGraphicItf.initview != 0) {
 		GfScrGetSize(&sw, &sh, &vw, &vh);

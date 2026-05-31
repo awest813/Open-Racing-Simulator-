@@ -39,7 +39,23 @@ Commit `test/regression/baselines/regression-race.winner` when the simulation ou
 
 ## Race definition
 
-[`regression-race.xml`](regression-race.xml): **forza** track, **10 laps**, four AI robots (`berniw`, `olethros`, `inferno`, `bt`) with fixed car indices.
+[`regression-race.xml`](regression-race.xml): **forza** track, **10 laps**, **sparkle** robot (primary CI baseline).
+
+[`regression-gtrack1.xml`](regression-gtrack1.xml): **g-track-1** with `category=road` (tests track path fallback), 3 laps.
+
+```bash
+REGRESSION_CONFIG=test/regression/regression-gtrack1.xml ./test/regression/run_regression.sh
+```
+
+## Replay recording (optional)
+
+```bash
+export TORCS_REPLAY_RECORD=1
+./test/regression/run_regression.sh
+# writes runtime/replay/replay-<track>-<timestamp>.orsr
+```
+
+See [`doc/planning/REPLAY_FORMAT.md`](../../doc/planning/REPLAY_FORMAT.md).
 
 Results are written under `$TORCS_RUNTIME/results/regression-race/` (filename includes timestamp).
 

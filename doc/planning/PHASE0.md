@@ -20,13 +20,14 @@ Active work stream for the [Forza-class vision](FORZA_VISION.md). Check items of
 - [x] Regression runner script (`test/regression/run_regression.sh`)
 - [x] Record first official baseline (`test/regression/baselines/regression-race.winner`)
 - [x] CI: Ubuntu autotools build + regression ([`.github/workflows/regression.yml`](../../.github/workflows/regression.yml))
-- [ ] CI: CMake Linux matrix (after `ssggraph` link verified in CI)
+- [x] CI: CMake Linux workflow ([`.github/workflows/cmake-linux.yml`](../../.github/workflows/cmake-linux.yml))
+- [x] Track path fallback in `ReInitTrack` (`tracks/<cat>/` then `tracks/<name>/`)
 
 ## Design
 
 - [x] Replay format RFC ([`REPLAY_FORMAT.md`](REPLAY_FORMAT.md))
-- [ ] Replay recorder spike (inputs only, single car)
-- [ ] Content compliance wave 1 (replace `155-DTM`, `acura-nsx`, `mc-larenf1`, `p406`)
+- [x] Replay recorder spike (`replayrecorder.cpp`, `TORCS_REPLAY_RECORD=1`)
+- [ ] Content compliance wave 1 — see [`CONTENT_COMPLIANCE.md`](CONTENT_COMPLIANCE.md)
 
 ## Vertical slice (bridge to Phase 1)
 

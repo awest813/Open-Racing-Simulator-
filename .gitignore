@@ -54,3 +54,6 @@ doc/manual/
 test/math/test_math
 test/math/tmath
 build_linux
+build/
+runtime/results/
+runtime/replay/

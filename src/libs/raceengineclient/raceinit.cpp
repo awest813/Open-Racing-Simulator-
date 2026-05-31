@@ -898,8 +898,19 @@ ReInitTrack(void)
 	RmLoadingScreenSetText(buf);
 	snprintf(buf, BUFSIZE, "tracks/%s/%s/%s.%s", catName, trackName, trackName, TRKEXT);
 	ReInfo->track = ReInfo->_reTrackItf.trkBuild(buf);
+	if (ReInfo->track == nullptr || ReInfo->track->seg == nullptr) {
+		char flat[BUFSIZE];
+		snprintf(flat, BUFSIZE, "tracks/%s/%s.%s", trackName, trackName, TRKEXT);
+		GfOut("Track path %s unavailable, trying %s\n", buf, flat);
+		ReInfo->track = ReInfo->_reTrackItf.trkBuild(flat);
+	}
 	reDumpTrack(ReInfo->track, 0);
-	
+
+	if (ReInfo->track == nullptr || ReInfo->track->seg == nullptr) {
+		GfError("Failed to load track \"%s\" (category \"%s\")\n", trackName, catName);
+		return -1;
+	}
+
 	return 0;
 }
 

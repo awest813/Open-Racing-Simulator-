@@ -1,6 +1,6 @@
 # Replay Format RFC (v0.1)
 
-**Status:** Draft — Phase 0 design  
+**Status:** Spike implemented — record via `TORCS_REPLAY_RECORD=1` (`replayrecorder.cpp`)  
 **Goal:** Deterministic record/playback for ghosts, rivals, and future multiplayer audit.
 
 ---

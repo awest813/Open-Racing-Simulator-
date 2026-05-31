@@ -50,17 +50,12 @@ if(WIN32)
         libpng15_vs2008_32 zlib1_vs2008_32
     )
 else()
-    find_package(OpenGL REQUIRED)
-    find_package(PNG REQUIRED)
-    find_library(TORCS_GLUT_LIB glut PATHS /usr/lib /usr/local/lib)
-    if(NOT TORCS_GLUT_LIB)
-        find_library(TORCS_GLUT_LIB GLUT PATHS /usr/lib /usr/local/lib)
-    endif()
     target_link_libraries(ssggraph PRIVATE
         tgf txml robottools
         plibssg plibssgaux plibsg plibul plibsl plibsm
-        OpenGL::GL OpenGL::GLU ${TORCS_GLUT_LIB}
-        openal alut vorbisfile vorbis ogg z PNG::PNG
+        GL GLU glut
+        openal alut vorbisfile vorbis ogg
+        z png
         X11
     )
 endif()

@@ -9,6 +9,7 @@ set(RACEENGINECLIENT_SOURCES
     racestate.cpp
     singleplayer.cpp
     telemetryrecorder.cpp
+    replayrecorder.cpp
 )
 
 add_library(raceengineclient STATIC ${RACEENGINECLIENT_SOURCES})

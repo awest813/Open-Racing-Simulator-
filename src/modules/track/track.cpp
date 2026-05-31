@@ -97,6 +97,7 @@ TrackBuildv1(char *trackfile)
     theTrack->filename = trackDuplicateString(trackfile, "TrackBuildv1 filename");
 
     if (TrackHandle == nullptr) {
+		theTrack->seg = nullptr;
 		return theTrack;
 	}
 
@@ -266,12 +267,14 @@ TrackShutdown(void)
 		return;
 	}
 
-	nextSeg = theTrack->seg->next;
-	do {
-		curSeg = nextSeg;
-		nextSeg = nextSeg->next;
-		freeSeg(curSeg);
-	} while (curSeg != theTrack->seg);
+	if (theTrack->seg != nullptr) {
+		nextSeg = theTrack->seg->next;
+		do {
+			curSeg = nextSeg;
+			nextSeg = nextSeg->next;
+			freeSeg(curSeg);
+		} while (curSeg != theTrack->seg);
+	}
 
 	freeTrackSurfaceList(theTrack->surfaces);
 	freeTrackCameraRing(theCamList);
@@ -280,11 +283,20 @@ TrackShutdown(void)
 	if (theTrack->pits.driversPits != nullptr) {
 		free(theTrack->pits.driversPits);
 	}
-	free(theTrack->graphic.env);
-	free(theTrack->internalname);
-	free(theTrack->filename);
+	if (theTrack->graphic.env != nullptr) {
+		free(theTrack->graphic.env);
+	}
+	if (theTrack->internalname != nullptr) {
+		free(theTrack->internalname);
+	}
+	if (theTrack->filename != nullptr) {
+		free(theTrack->filename);
+	}
 	free(theTrack);
-
-	GfParmReleaseHandle(TrackHandle);
 	theTrack = nullptr;
+
+	if (TrackHandle != nullptr) {
+		GfParmReleaseHandle(TrackHandle);
+		TrackHandle = nullptr;
+	}
 }

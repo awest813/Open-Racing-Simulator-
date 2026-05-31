@@ -4,6 +4,10 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 CONFIG="${REGRESSION_CONFIG:-$ROOT/test/regression/regression-race.xml}"
+case "$CONFIG" in
+  /*) ;;
+  *) CONFIG="$ROOT/$CONFIG" ;;
+esac
 BASELINE="${REGRESSION_BASELINE:-$ROOT/test/regression/baselines/regression-race.winner}"
 RUNTIME="${TORCS_RUNTIME:-$ROOT/runtime}"
 # GetDataDir() appends "data/cars/..." — point at repo/install root, not data/ itself.
