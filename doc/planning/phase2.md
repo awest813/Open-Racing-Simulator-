@@ -33,8 +33,10 @@ The current engine relies on legacy GLUT/FreeGLUT, which limits window managemen
 
 ## 5. Automated Validation
 
-- [ ] **Headless Regression Suite**: Create a scriptable test runner that executes a defined sequence of 10-lap races in headless mode and compares telemetry outputs (CSV) to a known-stable baseline.
-- [ ] **Continuous Integration (Planning)**: Evaluate GitHub Actions or similar for automated CMake builds on both Linux and Windows.
+- [x] **Headless Regression Suite**: [`test/regression/`](../../test/regression/) — 10-lap AI race on **forza**, baseline winner compare
+- [x] **Continuous Integration (initial)**: [`.github/workflows/regression.yml`](../../.github/workflows/regression.yml) — Linux autotools build + regression (baseline optional)
+- [ ] **Telemetry CSV baselines**: Compare lap-time channels, not only race winner
+- [ ] **CMake CI**: Windows + Linux CMake matrix
 
 ---
 

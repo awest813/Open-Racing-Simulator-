@@ -75,6 +75,9 @@ changes, or race-manager configuration without the full rendering stack.
 ## Where to Start
 
 - `ROADMAP.md` — full project plan and current priorities
+- `doc/planning/FORZA_VISION.md` — phased roadmap toward a Forza-class experience
+- `doc/planning/PHASE0.md` — active foundation checklist
+- `test/regression/` — headless race regression (`./test/regression/run_regression.sh`)
 - `src/doc/architecture.md` — overview of the three-tier architecture
 - `src/interfaces/` — interface headers for all plugin types
 - `src/libs/` — shared utility libraries used across the project

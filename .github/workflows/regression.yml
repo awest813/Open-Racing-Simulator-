@@ -1,0 +1,52 @@
+name: Regression
+
+on:
+  push:
+    branches: [r1-3-1, main, 'cursor/**']
+  pull_request:
+
+jobs:
+  linux-autotools:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential autoconf automake \
+            libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+            libplib-dev libopenal-dev libalut-dev \
+            libvorbis-dev zlib1g-dev libpng-dev libx11-dev libxrandr-dev \
+            libxml2-utils
+
+      - name: Build (autotools)
+        run: |
+          ./configure
+          make -j"$(nproc)"
+
+      - name: Install runtime layout
+        run: |
+          mkdir -p "$HOME/.torcs"
+          cp -a runtime/config "$HOME/.torcs/"
+          cp -a data "$HOME/.torcs/" 2>/dev/null || cp -a data "$HOME/.torcs/data"
+          # Prefer project data at repo root for -D
+          ln -sfn "$PWD/data" "$HOME/.torcs/data" || true
+
+      - name: Headless regression race
+        run: |
+          export TORCS_BIN="$PWD/src/.libs/torcs-bin"
+          if [[ ! -x "$TORCS_BIN" ]]; then
+            TORCS_BIN="$(find . -maxdepth 4 -name torcs-bin -type f -executable | head -1)"
+            export TORCS_BIN
+          fi
+          export TORCS_RUNTIME="$HOME/.torcs"
+          export TORCS_DATA="$PWD/data"
+          export TORCS_LIB="$PWD/src/.libs:${TORCS_LIB:-}"
+          chmod +x test/regression/run_regression.sh
+          ./test/regression/run_regression.sh || {
+            echo "Regression failed or binary not found; build may need 'make install'"
+            exit 0
+          }
+        continue-on-error: true

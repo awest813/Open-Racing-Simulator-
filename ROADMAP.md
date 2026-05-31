@@ -4,6 +4,10 @@ This document turns the historical TORCS backlog into a concrete plan for the
 Open Racing Simulator fork.  It communicates direction and current priorities;
 it does not promise exact delivery dates.
 
+For the **Forza-class product vision** (phased delivery toward a modern,
+moddable motorsport game), see [`doc/planning/FORZA_VISION.md`](doc/planning/FORZA_VISION.md)
+and the active Phase 0 checklist [`doc/planning/PHASE0.md`](doc/planning/PHASE0.md).
+
 The project has two parallel responsibilities:
 
 1. Keep the current **1.3.x** line usable for players, modders, and researchers.
