@@ -1,0 +1,7 @@
+Retired default-pack asset.
+
+This model remains in the source tree for provenance and transition work, but
+it is excluded from default runtime/install packages. Use the fictional
+`ors-gt` replacement in `data/cars/models/ors-gt/` for default content.
+
+Original asset licensing is described in `readme.txt`.

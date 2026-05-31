@@ -54,8 +54,14 @@ excludes them from generated runtime/install outputs:
   `DATASUBDIRS`/`PKGSUBDIRS`, and the default package list no longer builds the
   retired Patwo/KCendra car packs.
 
+## Replacement assets
+
+| Replacement | Source/provenance | Replaces | Notes |
+|-------------|-------------------|----------|-------|
+| `ors-gt` | Derived from the fictional `car8-trb1` model (Free Art License metadata in `readme.txt`) | `acura-nsx-sz` default-pack slot | Added under the new `ors-*` prefix and assigned to `Track-RWD-GrB` so the retired Acura-branded model can stay excluded from default packages. |
+
 ## Status
 
 - [x] Inventory all race XML references to priority assets
 - [x] Default install pack excludes `pw-*`, `kc-*`, priority list
-- [ ] First replacement car (generic GT) for `acura-nsx-sz` slot
+- [x] First replacement car (generic GT) for `acura-nsx-sz` slot
