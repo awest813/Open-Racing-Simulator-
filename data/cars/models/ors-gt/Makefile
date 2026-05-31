@@ -22,12 +22,10 @@ DATADIR   = cars/$(CAR)
 DATA      = $(CAR).xml \
             $(CAR).rgb shadow.rgb tex-wheel.rgb driver.rgb \
             $(shell find *.acc -maxdepth 0 -type f -print) \
-	    	readme.txt LICENSE
+            readme.txt LICENSE
 
 data_PKGFILES	= $(DATA) $(shell find *.xcf -maxdepth 0 -type f -print)
 
 data_PKGDIR		= $(DATADIR)
 
 include ${MAKE_DEFAULT}
-
-
