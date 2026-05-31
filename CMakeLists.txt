@@ -3,10 +3,18 @@ cmake_minimum_required(VERSION 3.10)
 # Avoid link failures during compiler sanity checks in minimal CI images.
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-project(OpenRacingSimulator LANGUAGES CXX)
+project(OpenRacingSimulator LANGUAGES C CXX)
+
+include(CheckSymbolExists)
+check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
+if(HAVE_STRNDUP)
+    add_compile_definitions(HAVE_STRNDUP=1)
+endif()
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Static libs (e.g. tgf) are linked into MODULE plugins (simuv2.so).
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(TORCS_RUNTIME_DIRECTORY "${CMAKE_BINARY_DIR}/runtime")
 
 if(MSVC)

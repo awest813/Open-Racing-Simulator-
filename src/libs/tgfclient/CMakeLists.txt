@@ -15,6 +15,7 @@ set(TGFCLIENT_SOURCES
     guiscrollist.cpp
     img.cpp
     screen.cpp
+    sdl2glut.cpp
     tgfclient.cpp
 )
 

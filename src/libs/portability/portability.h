@@ -36,23 +36,25 @@
 // strndup code provided by Thierry Thomas.
 #ifndef HAVE_STRNDUP
 
-static char *strndup(const char *str, int len)
+static inline char *torcs_strndup(const char *str, size_t len)
 {
 	char *ret;
 
-	if ((str == nullptr || len < 0)) {
-		return (nullptr);
+	if (str == nullptr) {
+		return nullptr;
 	}
 
-	ret = (char *) malloc(len + 1);
+	ret = static_cast<char *>(malloc(len + 1));
 	if (ret == nullptr) {
-		return (nullptr);
+		return nullptr;
 	}
 
 	memcpy(ret, str, len);
 	ret[len] = '\0';
-	return (ret);
+	return ret;
 }
+
+# define strndup torcs_strndup
 
 #endif
 

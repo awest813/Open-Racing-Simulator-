@@ -23,8 +23,13 @@ target_link_libraries(torcs
     confscreens
     racescreens
     musicplayer
-    # Linux-specific: need to find OpenGL and X11 properly.
-    # Usually we'd use find_package(OpenGL REQUIRED), same for GLUT.
+    plibjs
+    plibssgaux
+    plibssg
+    plibsm
+    plibsl
+    plibsg
+    plibul
     GL
     GLU
     glut
@@ -32,12 +37,21 @@ target_link_libraries(torcs
     Xext
     Xrender
     Xrandr
+    Xxf86vm
+    Xmu
+    Xi
+    Xt
+    SM
+    ICE
     openal
     vorbisfile
     vorbis
     ogg
     z
     png
+    dl
+    m
+    txml
 )
 
 # Linux binary is usually named 'torcs-bin' because a shell script launches it.
