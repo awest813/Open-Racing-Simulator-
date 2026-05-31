@@ -1,10 +1,10 @@
 ##############################################################################
 #
 #    file                 : Makefile
-#    created              : Sat Mar 18 23:00:54 CET 2000
-#    copyright            : (C) 2000 by Eric Espie                         
-#    email                : torcs@free.fr   
-#    version              : $Id$                                  
+#    created              : Thu Jul 9 00:11:34
+#    copyright            : (C) 2009 Bernhard Wymann
+#    email                : berniw@bluewin.ch
+#    version              : $Id$
 #
 ##############################################################################
 #
@@ -15,13 +15,17 @@
 #
 ##############################################################################
 
-ALL_MODEL_SUBDIRS = $(shell find * -maxdepth 0 -type d -print | grep -v CVS)
-RETIRED_DEFAULT_CAR_MODELS = 155-DTM acura-nsx-sz mc-larenf1 p406 kc-% pw-%
+CAR	  = ors-gt
 
-DATASUBDIRS = $(filter-out $(RETIRED_DEFAULT_CAR_MODELS),$(ALL_MODEL_SUBDIRS))
+DATADIR   = cars/$(CAR)
 
-PKGSUBDIRS	= $(DATASUBDIRS)
+DATA      = $(CAR).xml \
+            $(CAR).rgb shadow.rgb tex-wheel.rgb driver.rgb \
+            $(shell find *.acc -maxdepth 0 -type f -print) \
+            readme.txt LICENSE
+
+data_PKGFILES	= $(DATA) $(shell find *.xcf -maxdepth 0 -type f -print)
+
+data_PKGDIR		= $(DATADIR)
 
 include ${MAKE_DEFAULT}
-
-
