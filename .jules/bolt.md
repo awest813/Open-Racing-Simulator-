@@ -28,3 +28,7 @@
 ## 2024-05-30 - Optimize threshold comparisons using squared values in simuv3
 **Learning:** In the TORCS simulation engine (`simuv3/collide.cpp`, `simuv3/aero.cpp`), threshold checks using `sgLengthVec3` invoke expensive `sqrt()` operations in hot loops during damage/collision checks.
 **Action:** Always replace `sgLengthVec3` with `sgLengthSquaredVec3` when making simple threshold comparisons (e.g. `len < threshold` -> `lenSqr < threshold * threshold`), completely bypassing unnecessary square roots.
+
+## 2024-06-03 - Cache Expensive Method Calls in Identical Execution Paths
+**Learning:** Found an instance in `src/modules/simu/simuv2/aero.cpp` where the same exact `sqrt` expression was being calculated twice within the identical execution flow (once to compute `atan2` and once for a simple check `> 0.0f`).
+**Action:** Always extract redundantly computed expensive operations (`sqrt()`) into local variables within loops or identical code paths to avoid re-evaluating the same expression twice.
