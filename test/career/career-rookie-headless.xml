@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Headless smoke test for career-rookie.xml (AI only; torcs -r rejects human).
+  Same calendar and points; results land in results/career-rookie-headless/.
+-->
+<!DOCTYPE params SYSTEM "../../runtime/config/params.dtd">
+
+<params name="Rookie Career Series" type="param" mode="mw">
+
+    <section name="Header">
+        <attstr name="name"        val="Rookie Career Series"/>
+        <attstr name="description" val="Career Mode - Rookie Championship (headless smoke)"/>
+        <attnum name="priority"    val="5"/>
+    </section>
+
+    <section name="Tracks">
+        <attnum name="maximum number" val="1"/>
+        <section name="1">
+            <attstr name="name"     val="forza"/>
+            <attstr name="category" val="road"/>
+        </section>
+    </section>
+
+    <section name="Races">
+        <section name="1">
+            <attstr name="name" val="Career Race"/>
+        </section>
+    </section>
+
+    <section name="Career Race">
+        <attnum name="laps"            val="3"/>
+        <attstr name="type"            val="race"/>
+        <attstr name="starting order"  val="drivers list"/>
+        <attstr name="restart"         val="no"/>
+        <attstr name="display mode"    val="results only"/>
+        <attstr name="display results" val="no"/>
+        <attnum name="maximum drivers" val="10"/>
+
+        <section name="Starting Grid">
+            <attnum name="rows"                       val="2"/>
+            <attnum name="distance to start"          val="25"/>
+            <attnum name="distance between columns"   val="30"/>
+            <attnum name="offset within a column"     val="10"/>
+            <attnum name="initial speed"              val="0"/>
+            <attnum name="initial height"             val="0.2"/>
+        </section>
+
+        <section name="Points">
+            <section name="1"><attnum name="points" val="25"/></section>
+            <section name="2"><attnum name="points" val="18"/></section>
+            <section name="3"><attnum name="points" val="15"/></section>
+            <section name="4"><attnum name="points" val="12"/></section>
+            <section name="5"><attnum name="points" val="10"/></section>
+        </section>
+    </section>
+
+    <section name="Drivers">
+        <attnum name="maximum number" val="10"/>
+        <attstr name="focused module" val="sparkle"/>
+        <attnum name="focused idx"    val="1"/>
+
+        <section name="1">
+            <attnum name="idx"    val="1"/>
+            <attstr name="module" val="sparkle"/>
+        </section>
+        <section name="2">
+            <attnum name="idx"    val="6"/>
+            <attstr name="module" val="berniw"/>
+        </section>
+        <section name="3">
+            <attnum name="idx"    val="1"/>
+            <attstr name="module" val="berniw2"/>
+        </section>
+        <section name="4">
+            <attnum name="idx"    val="8"/>
+            <attstr name="module" val="lliaw"/>
+        </section>
+        <section name="5">
+            <attnum name="idx"    val="9"/>
+            <attstr name="module" val="tita"/>
+        </section>
+    </section>
+
+    <section name="Configuration">
+    </section>
+
+</params>

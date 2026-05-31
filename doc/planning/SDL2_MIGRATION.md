@@ -1,6 +1,6 @@
 # SDL2 Migration Audit (Phase 0)
 
-**Status:** Phase 0 PoC complete — Phase 1 makes SDL2 the default Linux path  
+**Status:** SDL2 is the default Linux windowing path (CMake and autotools); use `--disable-sdl2` / `-DTORCS_USE_SDL2=OFF` for FreeGLUT.  
 **Related:** [PHASE0.md](PHASE0.md), [PHASE1.md](PHASE1.md), [phase2.md](phase2.md)
 
 ## Summary
@@ -29,15 +29,32 @@ The current Linux/Windows interactive build uses **GLUT/FreeGLUT** for windowing
 - PLIB SSG expects GL context lifetime compatible with SDL — test context recreation on resize.
 - Split-screen and movie capture paths in `racegl.cpp` need explicit SDL validation.
 
-## Build (Linux autotools)
+## Build (Linux)
+
+**Default (SDL2):**
 
 ```bash
 sudo apt-get install libsdl2-dev   # Debian/Ubuntu
-./configure --enable-sdl2
+./configure
 make
 ```
 
-Default `./configure` still uses **FreeGLUT**. Headless `torcs -r` is unchanged (no GLUT/SDL).
+**Legacy FreeGLUT:**
+
+```bash
+./configure --disable-sdl2
+make
+```
+
+**CMake (SDL2 on by default for Linux):**
+
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j"$(nproc)"
+# FreeGLUT: cmake -S . -B build -DTORCS_USE_SDL2=OFF
+```
+
+Headless `torcs -r` is unchanged (no GLUT/SDL).
 
 Implementation files:
 
@@ -48,4 +65,4 @@ Implementation files:
 
 - Vulkan or modern renderer (Phase 1+ in [FORZA_VISION.md](FORZA_VISION.md)).
 - Removing GLUT before SDL2 parity is proven in CI.
-- SDL2 build in default CI (optional manual/ follow-up workflow).
+- SDL2 build in default CI ([`cmake-linux.yml`](../../.github/workflows/cmake-linux.yml), [`sdl2-build.yml`](../../.github/workflows/sdl2-build.yml)).

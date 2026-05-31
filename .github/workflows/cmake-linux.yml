@@ -16,18 +16,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential cmake \
-            libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+            libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev libsdl2-dev \
             libplib-dev libopenal-dev libalut-dev \
             libvorbis-dev zlib1g-dev libpng-dev libx11-dev libxrandr-dev \
             libxi-dev libxmu-dev libxxf86vm-dev libglx-dev
 
-      - name: Configure and build
+      - name: Configure and build (SDL2 default)
         env:
           CC: gcc
           CXX: g++
         run: |
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
           cmake --build build -j"$(nproc)"
+
+      - name: Career Rookie headless smoke test
+        run: |
+          chmod +x test/career/run_rookie_race.sh
+          TORCS_BIN=build/bin/torcs-bin \
+          TORCS_RUNTIME=build/runtime \
+          TORCS_LIB=build/runtime \
+          TORCS_DATA="${{ github.workspace }}" \
+          ./test/career/run_rookie_race.sh
 
       - name: List runtime modules
         run: |

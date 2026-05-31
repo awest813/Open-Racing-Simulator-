@@ -188,17 +188,40 @@ static const CareerTierDef *getTierDef(void *saveH)
 
 /* ==================== Results Helpers ==================== */
 
+/** Raceman XML basename without extension (e.g. "career-rookie"). */
+static void careerRacemanStem(char *buf, int size, const CareerTierDef *tier)
+{
+    snprintf(buf, size, "%s", tier->racemanFile);
+    char *dot = strstr(buf, ".xml");
+    if (dot) {
+        *dot = '\0';
+    }
+}
+
+/** Results directory for a career tier (matches ReInfo->_reFilename from raceman XML). */
+static void careerResultsDir(char *buf, int size, const CareerTierDef *tier)
+{
+    char stem[128];
+    careerRacemanStem(stem, sizeof(stem), tier);
+    snprintf(buf, size, "%sresults/%s", GetLocalDir(), stem);
+}
+
 /**
- * Search the career results directory and load standings from the most recent
- * results XML file.  Returns the file handle; the caller must release it.
+ * Search the tier's career results directory and load standings from the most
+ * recent results XML file.  Returns the file handle; the caller must release it.
  * Returns nullptr if no results exist.
  */
-static void *openLatestCareerResults()
+static void *openLatestCareerResultsForTier(const CareerTierDef *tier)
 {
     char resultsDir[1024];
-    snprintf(resultsDir, sizeof(resultsDir), "%sresults/career", GetLocalDir());
+    careerResultsDir(resultsDir, sizeof(resultsDir), tier);
 
     tFList *files = GfDirGetListFiltered(resultsDir, "xml");
+    /* Legacy path used by early career builds before per-tier directories. */
+    if (!files && tier->id == 1) {
+        snprintf(resultsDir, sizeof(resultsDir), "%sresults/career", GetLocalDir());
+        files = GfDirGetListFiltered(resultsDir, "xml");
+    }
     if (!files) {
         return nullptr;
     }
@@ -214,8 +237,7 @@ static void *openLatestCareerResults()
     }
 
     char resultPath[1024];
-    snprintf(resultPath, sizeof(resultPath), "%sresults/career/%s",
-             GetLocalDir(), latest->name);
+    snprintf(resultPath, sizeof(resultPath), "%s/%s", resultsDir, latest->name);
     GfDirFreeList(files, nullptr, true, false);
 
     return GfParmReadFile(resultPath, GFPARM_RMODE_STD | GFPARM_RMODE_PRIVATE);
@@ -225,18 +247,22 @@ static void *openLatestCareerResults()
  * Read the season standings from the latest career results file and fill
  * namesOut with formatted "<name>  <pts> pts" strings.
  *
+ * @param tier      Career tier (selects results/<raceman-stem>/).
  * @param namesOut  Output array; each entry up to 72 chars.
  * @param numOut    Set to the number of valid entries placed.
  * @param maxLines  Maximum entries to fill.
  * @return          Current CUR_TRACK index (1-based), or 0 if no results.
  */
-static int readLatestCareerResults(char namesOut[][72], int *numOut, int maxLines)
+static int readLatestCareerResults(const CareerTierDef *tier,
+                                   char namesOut[][72], int *numOut, int maxLines)
 {
     *numOut = 0;
 
-    void *results = openLatestCareerResults();
+    void *results = openLatestCareerResultsForTier(tier);
     if (!results) {
-        GfTrace("Career: no results files in %sresults/career\n", GetLocalDir());
+        char resultsDir[1024];
+        careerResultsDir(resultsDir, sizeof(resultsDir), tier);
+        GfTrace("Career: no results files in %s\n", resultsDir);
         return 0;
     }
 
@@ -551,7 +577,7 @@ static void showStandingsScreen(void *prevMenu)
     const int MAX_DRIVERS = 20;
     char driverLines[MAX_DRIVERS][72];
     int  numDrivers = 0;
-    int  curTrack   = readLatestCareerResults(driverLines, &numDrivers, MAX_DRIVERS);
+    int  curTrack   = readLatestCareerResults(tier, driverLines, &numDrivers, MAX_DRIVERS);
 
     if (curTrack > 0) {
         char subTitle[128];
@@ -638,7 +664,7 @@ static void careerHubActivate(void * /* dummy */)
     /* Determine how far through the season we are */
     char dummy[20][72];
     int  nDummy   = 0;
-    int  curTrack = readLatestCareerResults(dummy, &nDummy, 20);
+    int  curTrack = readLatestCareerResults(tier, dummy, &nDummy, 20);
 
     /* ---- Season completion detection ----
        The race engine resets CUR_TRACK to 1 after the final round.
@@ -647,7 +673,7 @@ static void careerHubActivate(void * /* dummy */)
     if (!seasonDone && lastTrack == tier->numTracks && curTrack == 1 && nDummy > 0) {
         seasonDone = true;
 
-        void *results      = openLatestCareerResults();
+        void *results      = openLatestCareerResultsForTier(tier);
         const char *hName  = results ? careerGetHumanName(results) : nullptr;
         int seasonWins     = careerCountSeasonWins(results, tier, hName);
         int seasonPodiums  = careerCountSeasonPodiums(results, tier, hName);

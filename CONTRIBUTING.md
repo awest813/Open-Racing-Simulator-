@@ -23,7 +23,7 @@ Install the required libraries before building.  On Debian/Ubuntu:
 ```
 sudo apt-get install \
   build-essential autoconf automake \
-  libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+  libgl1-mesa-dev libglu1-mesa-dev libsdl2-dev freeglut3-dev \
   libplib-dev libopenal-dev libalut-dev \
   libvorbis-dev zlib1g-dev libpng-dev libx11-dev libxrandr-dev
 ```
@@ -48,6 +48,7 @@ The generated HTML lands in `doc/manual/api/`.
 Useful configure flags:
 
 - `--enable-debug` — enable debug symbols and assertions
+- `--disable-sdl2` — use FreeGLUT instead of SDL2 for windowing (Linux default is SDL2)
 - `--disable-xrandr` — disable XRandR if it causes issues on your system
 
 ### Windows

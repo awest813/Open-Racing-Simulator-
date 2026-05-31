@@ -1,4 +1,4 @@
-# Optional: verify --enable-sdl2 autotools build (no interactive run in CI).
+# Autotools: SDL2 is default on Linux; this job verifies ./configure without flags.
 name: SDL2 build
 
 on:
@@ -24,8 +24,17 @@ jobs:
             libxi-dev libxmu-dev libxrandr-dev libxxf86vm-dev \
             libsdl2-dev
 
-      - name: Configure and build (SDL2)
+      - name: Configure and build (SDL2 default)
         run: |
-          ./configure --enable-sdl2
+          ./configure
           make exports
           make -j"$(nproc)" compil
+
+      - name: Career Rookie headless smoke test
+        run: |
+          chmod +x test/career/run_rookie_race.sh
+          TORCS_BIN=linux/torcs-bin \
+          TORCS_RUNTIME=runtime \
+          TORCS_LIB=export \
+          TORCS_DATA="${{ github.workspace }}" \
+          ./test/career/run_rookie_race.sh

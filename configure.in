@@ -75,11 +75,13 @@ AC_ARG_ENABLE(glextprototypes,
 	ADDCFLAGS="$ADDCFLAGS -DGL_GLEXT_PROTOTYPES")
 
 AC_ARG_ENABLE(sdl2,
-	[  --enable-sdl2           use SDL2 instead of GLUT for windowing (experimental)]),
-torcs_use_sdl2=no
-if test "x$enable_sdl2" = "xyes"; then
-	torcs_use_sdl2=yes
-fi
+	[  --disable-sdl2          use FreeGLUT instead of SDL2 for windowing (Linux default: SDL2)],
+	[if test "x$enableval" = "xno"; then
+		torcs_use_sdl2=no
+	else
+		torcs_use_sdl2=yes
+	fi],
+	[torcs_use_sdl2=yes])
 
 CFLAGS="$CFLAGS $ADDCFLAGS"
 CXXFLAGS="$CXXFLAGS $ADDCFLAGS -std=c++14"

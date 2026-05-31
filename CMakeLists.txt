@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+include(FindPkgConfig)
+
 # Avoid link failures during compiler sanity checks in minimal CI images.
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
@@ -24,6 +26,18 @@ endif()
 # Default build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# Linux: SDL2 windowing by default (FreeGLUT via -DTORCS_USE_SDL2=OFF).
+if(UNIX AND NOT APPLE AND NOT WIN32)
+    option(TORCS_USE_SDL2 "Use SDL2 instead of FreeGLUT for windowing" ON)
+else()
+    option(TORCS_USE_SDL2 "Use SDL2 instead of FreeGLUT for windowing" OFF)
+endif()
+
+if(TORCS_USE_SDL2)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
 endif()
 
 # Output directories
