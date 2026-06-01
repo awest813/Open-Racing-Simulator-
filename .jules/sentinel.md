@@ -31,3 +31,7 @@
 **Vulnerability:** Unescaped `$_SERVER['PHP_SELF']` variable is directly assigned to the `PC_LOSTPASSWORDPAGE` template variable in `lostpassword.php`.
 **Learning:** Legacy PHP code often blindly trusts `$_SERVER` superglobals, but variables like `PHP_SELF` can contain user-injected payloads (e.g., via extra path info like `lostpassword.php/"onmouseover="alert(1)"`), leading to Reflected XSS when output inside form attributes.
 **Prevention:** Always escape dynamic URL components constructed from `$_SERVER` variables using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before injecting them into HTML templates.
+## 2024-05-19 - Fix predictable cookie token generation
+**Vulnerability:** Weak random number generation using time(), IP address, username, and session ID to generate account cookie values.
+**Learning:** Using concatenated predictable values for security tokens like cookies is cryptographically insecure and makes session hijacking easier.
+**Prevention:** Always use cryptographically secure random number generators like `random_bytes()` when generating authentication tokens or cookies.
