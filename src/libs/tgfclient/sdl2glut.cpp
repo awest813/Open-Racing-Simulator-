@@ -383,7 +383,7 @@ int APIENTRY glutGet(GLenum type)
 	int h = 0;
 
 	if (gWindow != nullptr) {
-		SDL_GetWindowSize(gWindow, &w, &h);
+		SDL_GL_GetDrawableSize(gWindow, &w, &h);
 	}
 
 	switch (type) {
@@ -493,7 +493,12 @@ void APIENTRY glutMainLoop(void)
 				break;
 			case SDL_WINDOWEVENT:
 				if ((ev.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) && gReshapeFunc) {
-					gReshapeFunc(ev.window.data1, ev.window.data2);
+					int dw = ev.window.data1;
+					int dh = ev.window.data2;
+					if (gWindow != nullptr) {
+						SDL_GL_GetDrawableSize(gWindow, &dw, &dh);
+					}
+					gReshapeFunc(dw, dh);
 				}
 				break;
 			case SDL_KEYDOWN:
