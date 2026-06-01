@@ -31,3 +31,7 @@
 **Vulnerability:** Unescaped `$_SERVER['PHP_SELF']` variable is directly assigned to the `PC_LOSTPASSWORDPAGE` template variable in `lostpassword.php`.
 **Learning:** Legacy PHP code often blindly trusts `$_SERVER` superglobals, but variables like `PHP_SELF` can contain user-injected payloads (e.g., via extra path info like `lostpassword.php/"onmouseover="alert(1)"`), leading to Reflected XSS when output inside form attributes.
 **Prevention:** Always escape dynamic URL components constructed from `$_SERVER` variables using `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before injecting them into HTML templates.
+## 2024-05-31 - Unescaped PHP_SELF Reflected XSS
+**Vulnerability:** Legacy PHP code frequently assigned `$_SERVER['PHP_SELF']` directly to template engine variables without any HTML entity encoding, creating a Reflected XSS vector when the user's requested URI contains malicious scripts.
+**Learning:** Even built-in server variables like `PHP_SELF` can be partially controlled by user input and must be treated as untrusted data, especially before being echoed into HTML attributes or body.
+**Prevention:** Always wrap variables like `$_SERVER['PHP_SELF']` in `htmlspecialchars($var, ENT_QUOTES, 'UTF-8')` before assigning them to template properties.

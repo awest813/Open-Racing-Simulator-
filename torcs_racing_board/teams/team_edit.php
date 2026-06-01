@@ -160,7 +160,7 @@
 			'PS_ACCOUNT_TYPE'		=> $_SESSION['usergroup'],
 			'PS_IPADSRESS'			=> $_SERVER['REMOTE_ADDR'],
 			'PS_LOGOUTPAGE'			=> $path_to_root . 'index.php',
-			'PC_EDITTEAMPAGE'		=> $_SERVER['PHP_SELF']
+			'PC_EDITTEAMPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8')
 		));
 
 		$teamid = 0;
@@ -424,7 +424,7 @@
 		$page->set_var(array(
 			'PS_PASSWORD_SIZE'	=> MAX_USERNAME_LENGTH,
 			'PS_USERNAME_SIZE'	=> MAX_USERNAME_LENGTH,
-			'PS_LOGINPAGE'		=> $_SERVER['PHP_SELF'],
+			'PS_LOGINPAGE'		=> htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'),
 			'PS_HOSTNAME'		=> SERVER_NAME
 		));
 	}
