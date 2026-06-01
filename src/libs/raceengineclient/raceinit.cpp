@@ -29,6 +29,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <cstdint>
 #include <tgfclient.h>
 #include <raceman.h>
 #include <robot.h>
@@ -186,7 +187,7 @@ static void reSelectRaceman(void *params)
 	ReInfo->_reFilename = strndup(s, e-s+1);
 	ReInfo->_reFilename[e-s] = '\0';
 	ReInfo->_reName = GfParmGetStr(params, RM_SECT_HEADER, RM_ATTR_NAME, "");
-	ReStateApply(RE_STATE_CONFIG);
+	ReStateApply(reinterpret_cast<void*>(static_cast<std::uintptr_t>(RE_STATE_CONFIG)));
 }
 
 
@@ -238,7 +239,7 @@ void ReRunRaceOnConsole(const char* raceconfig)
 
 	ReInitResults();
 
-	ReStateApply(static_cast<void *>(RE_STATE_EVENT_INIT));	
+	ReStateApply(reinterpret_cast<void*>(static_cast<std::uintptr_t>(RE_STATE_EVENT_INIT)));	
 	GfParmReleaseHandle(ReInfo->params);
 	ReShutdown();
 }
@@ -897,8 +898,19 @@ ReInitTrack(void)
 	RmLoadingScreenSetText(buf);
 	snprintf(buf, BUFSIZE, "tracks/%s/%s/%s.%s", catName, trackName, trackName, TRKEXT);
 	ReInfo->track = ReInfo->_reTrackItf.trkBuild(buf);
+	if (ReInfo->track == nullptr || ReInfo->track->seg == nullptr) {
+		char flat[BUFSIZE];
+		snprintf(flat, BUFSIZE, "tracks/%s/%s.%s", trackName, trackName, TRKEXT);
+		GfOut("Track path %s unavailable, trying %s\n", buf, flat);
+		ReInfo->track = ReInfo->_reTrackItf.trkBuild(flat);
+	}
 	reDumpTrack(ReInfo->track, 0);
-	
+
+	if (ReInfo->track == nullptr || ReInfo->track->seg == nullptr) {
+		GfError("Failed to load track \"%s\" (category \"%s\")\n", trackName, catName);
+		return -1;
+	}
+
 	return 0;
 }
 

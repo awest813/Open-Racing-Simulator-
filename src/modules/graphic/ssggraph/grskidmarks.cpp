@@ -26,7 +26,7 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
-#include <GL/glut.h>
+#include <glutshim.h>
 #include <plib/ssg.h>
 
 #include <tgfclient.h>

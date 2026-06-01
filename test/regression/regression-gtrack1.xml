@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Optional regression: g-track-1 lives at data/tracks/g-track-1/ (no road/ subdir).
+  Exercises ReInitTrack category-path fallback. Known issue: track XML entity
+  paths may fail unless data is installed (use primary forza regression for CI).
+-->
+<!DOCTYPE params SYSTEM "../../runtime/config/params.dtd">
+
+<params name="practice" type="param" mode="mw">
+
+  <section name="Header">
+    <attstr name="name" val="Regression g-track-1"/>
+    <attstr name="description" val="Headless regression: g-track-1 path fallback, sparkle"/>
+    <attnum name="priority" val="1"/>
+  </section>
+
+  <section name="Tracks">
+    <attnum name="maximum number" val="1"/>
+    <section name="1">
+      <attstr name="name" val="g-track-1"/>
+      <attstr name="category" val="road"/>
+    </section>
+  </section>
+
+  <section name="Races">
+    <section name="1">
+      <attstr name="name" val="Practice"/>
+    </section>
+  </section>
+
+  <section name="Practice">
+    <attnum name="laps" val="3"/>
+    <attstr name="type" val="practice"/>
+    <attstr name="starting order" val="drivers list"/>
+    <attstr name="restart" val="no"/>
+    <attstr name="display mode" val="results only"/>
+    <attstr name="display results" val="no"/>
+    <attnum name="fuel consumption factor" val="1.0"/>
+    <attnum name="damage factor" val="1.0"/>
+    <attnum name="tire factor" val="1"/>
+
+    <section name="Starting Grid">
+      <attnum name="rows" val="1"/>
+      <attnum name="distance to start" val="100"/>
+      <attnum name="distance between columns" val="20"/>
+      <attnum name="offset within a column" val="10"/>
+      <attnum name="initial speed" val="0"/>
+      <attnum name="initial height" val="0.2"/>
+    </section>
+  </section>
+
+  <section name="Drivers">
+    <attnum name="maximum number" val="1"/>
+    <attstr name="focused module" val="sparkle"/>
+    <attnum name="focused idx" val="0"/>
+
+    <section name="1">
+      <attnum name="idx" val="0"/>
+      <attstr name="module" val="sparkle"/>
+    </section>
+  </section>
+
+</params>

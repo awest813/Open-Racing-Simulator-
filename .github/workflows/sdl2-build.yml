@@ -1,0 +1,40 @@
+# Autotools: SDL2 is default on Linux; this job verifies ./configure without flags.
+name: SDL2 build
+
+on:
+  push:
+    branches: [r1-3-1, 'cursor/**']
+  pull_request:
+    branches: [r1-3-1, 'cursor/**']
+  workflow_dispatch:
+
+jobs:
+  sdl2-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential autoconf automake libtool \
+            libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+            libplib-dev libopenal-dev libalut-dev libvorbis-dev libpng-dev \
+            libxi-dev libxmu-dev libxrandr-dev libxxf86vm-dev \
+            libsdl2-dev
+
+      - name: Configure and build (SDL2 default)
+        run: |
+          ./configure
+          make exports
+          make -j"$(nproc)" compil
+
+      - name: Career Rookie headless smoke test
+        run: |
+          chmod +x test/career/run_rookie_race.sh
+          TORCS_BIN=src/linux/torcs-bin \
+          TORCS_RUNTIME=runtime \
+          TORCS_LIB=export \
+          TORCS_DATA="${{ github.workspace }}" \
+          ./test/career/run_rookie_race.sh

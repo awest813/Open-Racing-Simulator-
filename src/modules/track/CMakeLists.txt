@@ -13,12 +13,11 @@ target_include_directories(track PRIVATE ${CMAKE_SOURCE_DIR}/src/libs)
 if(WIN32)
     target_compile_definitions(track PRIVATE WIN32 _WINDOWS)
     set_target_properties(track PROPERTIES
-        PREFIX ""
         LINK_FLAGS "/DEF:\"${CMAKE_CURRENT_SOURCE_DIR}/track.def\""
         LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/track.def"
     )
-    torcs_set_runtime_output(track "modules/track")
 endif()
+torcs_add_plugin_module(track "modules/track")
 
 if(MSVC)
     target_compile_options(track PRIVATE /wd4996)

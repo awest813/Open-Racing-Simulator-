@@ -4,6 +4,11 @@ This document turns the historical TORCS backlog into a concrete plan for the
 Open Racing Simulator fork.  It communicates direction and current priorities;
 it does not promise exact delivery dates.
 
+For the **Forza-class product vision** (phased delivery toward a modern,
+moddable motorsport game), see [`doc/planning/FORZA_VISION.md`](doc/planning/FORZA_VISION.md)
+the completed Phase 0 checklist [`doc/planning/PHASE0.md`](doc/planning/PHASE0.md),
+and the active Phase 1 checklist [`doc/planning/PHASE1.md`](doc/planning/PHASE1.md).
+
 The project has two parallel responsibilities:
 
 1. Keep the current **1.3.x** line usable for players, modders, and researchers.
@@ -32,7 +37,7 @@ These apply across every work stream:
 | 1.3.x stabilization | Complete (Core) |
 | Engineering debt | Active / ongoing |
 | 1.4 preparation (Phase 2) | Active |
-| Content & compliance | Planning |
+| Content & compliance | Wave 1 complete; Phase 1 content |
 | 2.0 Networking | Future |
 | Long-term exploration | Future |
 
@@ -96,7 +101,7 @@ documented and more maintainable.
 ### Graphics and Platform
 
 - [ ] Replace GLUT-era assumptions with a more modern windowing layer
-- [ ] Review and revive the SDL 2 path
+- [x] Review and revive the SDL 2 path (default; high-DPI drawable size fixed)
 - [ ] Rework skid marks, masking, shadows, and frame-rate-dependent rendering
 - [ ] Move graphics-engine state into an explicit context structure
 - [ ] Reduce dynamic allocation inside rendering hot paths
@@ -105,7 +110,7 @@ documented and more maintainable.
 
 ### Audio
 
-- [ ] Update OpenAL usage and remove deprecated ALUT dependencies
+- [x] Update OpenAL usage and remove deprecated ALUT dependencies
 - [ ] Replace WAV-only assumptions with OGG Vorbis where appropriate
 - [ ] Fix split-screen multiplayer audio issues
 
@@ -223,4 +228,4 @@ The roadmap is working if the project becomes **easier to build**, **easier to
 understand**, **safer to redistribute**, and remains **useful for both players
 and research-focused users**.
 
-Last updated: 2026-04-06
+Last updated: 2026-05-31

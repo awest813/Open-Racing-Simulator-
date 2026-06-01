@@ -22,6 +22,7 @@ SOLIBDIR  = .
 
 SOURCES   = 	guimenu.cpp \
 		screen.cpp \
+		sdl2glut.cpp \
 		gui.cpp \
 		guifont.cpp \
 		guiobject.cpp \
@@ -41,7 +42,7 @@ SOURCES   = 	guimenu.cpp \
 
 EXPDIR  = include
 
-EXPORTS = tgfclient.h screen_properties.h glfeatures.h
+EXPORTS = tgfclient.h screen_properties.h glfeatures.h glutshim.h sdl2glut.h
 
 SHIPDIR = config
 

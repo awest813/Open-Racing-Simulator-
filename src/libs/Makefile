@@ -23,7 +23,7 @@ EXPINCDIRS	= txml tgf tgfclient client confscreens racescreens robottools raceen
 
 TOOLSUBDIRS	= txml
 
-SUBDIRS		= confscreens racescreens robottools txml tgf tgfclient client raceengineclient learning \
+SUBDIRS		= txml tgf tgfclient confscreens racescreens robottools client raceengineclient learning \
 			  portability math musicplayer
 
 PKGSUBDIRS	= $(SUBDIRS)

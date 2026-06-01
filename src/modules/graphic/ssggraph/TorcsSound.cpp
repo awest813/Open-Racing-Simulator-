@@ -20,6 +20,100 @@
 #include "TorcsSound.h"
 #include "SoundInterface.h"
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cstdint>
+
+namespace {
+
+/* Minimal PCM WAV loader — replaces deprecated alutLoadWAVFile.
+   Caller must free(*data) when done. Returns false on any error. */
+bool loadWAVFile(const char *filename, ALenum *format, ALvoid **data,
+                 ALsizei *size, ALsizei *freq)
+{
+	FILE *fp = std::fopen(filename, "rb");
+	if (!fp) {
+		return false;
+	}
+
+	char id[4];
+	uint32_t chunkSz;
+	char wave[4];
+	if (std::fread(id, 1, 4, fp) != 4 || std::memcmp(id, "RIFF", 4) != 0 ||
+	    std::fread(&chunkSz, 4, 1, fp) != 1 ||
+	    std::fread(wave, 1, 4, fp) != 4 || std::memcmp(wave, "WAVE", 4) != 0) {
+		std::fclose(fp);
+		return false;
+	}
+
+	uint16_t audioFormat = 0, numChannels = 0, bitsPerSample = 0;
+	uint32_t sampleRate = 0;
+	ALvoid *audioData = nullptr;
+	ALsizei audioSize = 0;
+	bool fmtFound = false, dataFound = false;
+
+	while (!std::feof(fp)) {
+		char subId[4];
+		uint32_t subSz;
+		if (std::fread(subId, 1, 4, fp) != 4 || std::fread(&subSz, 4, 1, fp) != 1) {
+			break;
+		}
+		if (std::memcmp(subId, "fmt ", 4) == 0) {
+			uint16_t blockAlign;
+			uint32_t byteRate;
+			if (std::fread(&audioFormat,  2, 1, fp) != 1 ||
+			    std::fread(&numChannels,  2, 1, fp) != 1 ||
+			    std::fread(&sampleRate,   4, 1, fp) != 1 ||
+			    std::fread(&byteRate,     4, 1, fp) != 1 ||
+			    std::fread(&blockAlign,   2, 1, fp) != 1 ||
+			    std::fread(&bitsPerSample,2, 1, fp) != 1) {
+				break;
+			}
+			if (subSz > 16) {
+				std::fseek(fp, (long)(subSz - 16), SEEK_CUR);
+			}
+			fmtFound = true;
+		} else if (std::memcmp(subId, "data", 4) == 0) {
+			audioData = std::malloc(subSz);
+			if (!audioData || std::fread(audioData, 1, subSz, fp) != subSz) {
+				std::free(audioData);
+				audioData = nullptr;
+				break;
+			}
+			audioSize = static_cast<ALsizei>(subSz);
+			dataFound = true;
+		} else {
+			std::fseek(fp, static_cast<long>((subSz + 1u) & ~1u), SEEK_CUR);
+		}
+		if (fmtFound && dataFound) {
+			break;
+		}
+	}
+	std::fclose(fp);
+
+	if (!fmtFound || !dataFound || audioFormat != 1) {
+		std::free(audioData);
+		return false;
+	}
+
+	if      (numChannels == 1 && bitsPerSample == 8)  { *format = AL_FORMAT_MONO8;    }
+	else if (numChannels == 1 && bitsPerSample == 16) { *format = AL_FORMAT_MONO16;   }
+	else if (numChannels == 2 && bitsPerSample == 8)  { *format = AL_FORMAT_STEREO8;  }
+	else if (numChannels == 2 && bitsPerSample == 16) { *format = AL_FORMAT_STEREO16; }
+	else {
+		std::free(audioData);
+		return false;
+	}
+
+	*data = audioData;
+	*size = audioSize;
+	*freq = static_cast<ALsizei>(sampleRate);
+	return true;
+}
+
+} // namespace
+
 
 /// Set the volume \note effect not consistent across backends
 void TorcsSound::setVolume(float vol)
@@ -328,12 +422,9 @@ OpenalTorcsSound::OpenalTorcsSound(const char* filename, OpenalSoundInterface* s
 	ALsizei size;
 	ALsizei freq;
 	ALenum format;
-	ALboolean srcloop;
 
-	alutLoadWAVFile((ALbyte *) filename, &format, &wave, &size, &freq, &srcloop);
-	error = alGetError();
-	if (error != AL_NO_ERROR) {
-		printf("OpenAL Error: %d, could not load %s\n", error, filename);
+	if (!loadWAVFile(filename, &format, &wave, &size, &freq)) {
+		printf("OpenAL Error: could not load WAV file %s\n", filename);
 		if (alIsBuffer(buffer)) {
 			alDeleteBuffers(1, &buffer);
 			alGetError();
@@ -354,11 +445,7 @@ OpenalTorcsSound::OpenalTorcsSound(const char* filename, OpenalSoundInterface* s
 		return;
 	}
 
-	alutUnloadWAV(format, wave, size, freq);
-	error = alGetError();
-	if (error != AL_NO_ERROR) {
-		printf("OpenAL Error: %d, alutUnloadWAV %s\n", error, filename);
-	}
+	std::free(wave);
 	
 	if (!static_pool) {
 		is_enabled = true;

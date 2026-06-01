@@ -28,7 +28,6 @@
 #include <plib/sl.h>
 #include <AL/al.h>
 #include <AL/alc.h>
-#include <AL/alut.h>
 #include "sound_defines.h"
 
 class SoundInterface;

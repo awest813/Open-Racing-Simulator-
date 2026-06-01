@@ -12,19 +12,19 @@
 				<table class="text14" cellspacing="0">
 					<tr>
 						<td class="admincol1 filledlist">
-							Description:
+							<label for="sshot_description">Description:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="sshot_description" size="40" maxlength="100" value="{PC_SSHOT_DESCRIPTION}"/>
+							<input id="sshot_description" type="text" name="sshot_description" size="40" maxlength="100" value="{PC_SSHOT_DESCRIPTION}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Image (*.jpg):
+							<label for="sshot_image">Image (*.jpg):</label>
 						</td>
 						<td class="filledlist">
-							<input name="sshot_image" type="file" size="60" maxlength="100000" accept="image/jpeg" value="{PC_SSHOT_IMG_SRC}"/>
+							<input id="sshot_image" name="sshot_image" type="file" size="60" maxlength="100000" accept="image/jpeg" value="{PC_SSHOT_IMG_SRC}"/>
 						</td>
 					</tr>
 				</table>

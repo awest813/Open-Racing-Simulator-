@@ -1,8 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
-project(OpenRacingSimulator)
+
+include(FindPkgConfig)
+
+# Avoid link failures during compiler sanity checks in minimal CI images.
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+project(OpenRacingSimulator LANGUAGES C CXX)
+
+include(CheckSymbolExists)
+check_symbol_exists(strndup "string.h" HAVE_STRNDUP)
+if(HAVE_STRNDUP)
+    add_compile_definitions(HAVE_STRNDUP=1)
+endif()
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Static libs (e.g. tgf) are linked into MODULE plugins (simuv2.so).
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(TORCS_RUNTIME_DIRECTORY "${CMAKE_BINARY_DIR}/runtime")
 
 if(MSVC)
@@ -14,10 +28,47 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+# Linux: SDL2 windowing by default (FreeGLUT via -DTORCS_USE_SDL2=OFF).
+if(UNIX AND NOT APPLE AND NOT WIN32)
+    option(TORCS_USE_SDL2 "Use SDL2 instead of FreeGLUT for windowing" ON)
+else()
+    option(TORCS_USE_SDL2 "Use SDL2 instead of FreeGLUT for windowing" OFF)
+endif()
+
+if(TORCS_USE_SDL2)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+endif()
+
 # Output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+set(TORCS_RETIRED_DEFAULT_CAR_MODELS
+    155-DTM
+    acura-nsx-sz
+    mc-larenf1
+    p406
+)
+file(GLOB TORCS_RETIRED_PREFIXED_CAR_MODEL_DIRS CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/data/cars/models/kc-*"
+    "${CMAKE_SOURCE_DIR}/data/cars/models/pw-*"
+)
+foreach(retired_car_dir IN LISTS TORCS_RETIRED_PREFIXED_CAR_MODEL_DIRS)
+    if(IS_DIRECTORY "${retired_car_dir}")
+        get_filename_component(retired_car_name "${retired_car_dir}" NAME)
+        list(APPEND TORCS_RETIRED_DEFAULT_CAR_MODELS "${retired_car_name}")
+    endif()
+endforeach()
+list(REMOVE_DUPLICATES TORCS_RETIRED_DEFAULT_CAR_MODELS)
+
+set(TORCS_REMOVE_RETIRED_CAR_COMMANDS)
+foreach(retired_car_name IN LISTS TORCS_RETIRED_DEFAULT_CAR_MODELS)
+    list(APPEND TORCS_REMOVE_RETIRED_CAR_COMMANDS
+        COMMAND ${CMAKE_COMMAND} -E remove_directory "${TORCS_RUNTIME_DIRECTORY}/data/cars/models/${retired_car_name}"
+    )
+endforeach()
 
 function(torcs_set_runtime_output target relative_dir)
     set(output_dir "${TORCS_RUNTIME_DIRECTORY}/${relative_dir}")
@@ -34,6 +85,16 @@ function(torcs_set_runtime_output target relative_dir)
     endforeach()
 endfunction()
 
+# Runtime-loaded .so modules (no lib prefix; e.g. simuv2.so not libsimuv2.so)
+function(torcs_add_plugin_module target runtime_subdir)
+    set_target_properties(${target} PROPERTIES PREFIX "")
+    if(WIN32)
+        set_target_properties(${target} PROPERTIES OUTPUT_NAME "${target}")
+    endif()
+    torcs_set_runtime_output(${target} "${runtime_subdir}")
+    add_dependencies(${target} torcs_runtime_assets)
+endfunction()
+
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}")
 file(MAKE_DIRECTORY "${TORCS_RUNTIME_DIRECTORY}/modules")
 
@@ -41,7 +102,6 @@ file(GLOB_RECURSE TORCS_RUNTIME_ASSET_INPUTS CONFIGURE_DEPENDS
     "${CMAKE_SOURCE_DIR}/data/*"
     "${CMAKE_SOURCE_DIR}/runtime/config/*"
     "${CMAKE_SOURCE_DIR}/runtime/drivers/*"
-    "${CMAKE_SOURCE_DIR}/runtime/results/*"
     "${CMAKE_SOURCE_DIR}/runtime/telemetry/*"
 )
 
@@ -58,9 +118,11 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/modules"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/data" "${TORCS_RUNTIME_DIRECTORY}/data"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/data/data" "${TORCS_RUNTIME_DIRECTORY}/data"
+    ${TORCS_REMOVE_RETIRED_CAR_COMMANDS}
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/config" "${TORCS_RUNTIME_DIRECTORY}/config"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/drivers" "${TORCS_RUNTIME_DIRECTORY}/drivers"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/results" "${TORCS_RUNTIME_DIRECTORY}/results"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/results"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${TORCS_RUNTIME_DIRECTORY}/replay"
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_SOURCE_DIR}/runtime/telemetry" "${TORCS_RUNTIME_DIRECTORY}/telemetry"
     COMMAND ${CMAKE_COMMAND} -E touch "${TORCS_RUNTIME_ASSET_STAMP}"
     DEPENDS ${TORCS_RUNTIME_ASSET_INPUTS}
@@ -130,4 +192,40 @@ if(WIN32)
 else()
     add_subdirectory(src/linux)
 endif()
-# Add more as needed
+
+# Portable install layout (matches runtime/ tree used by torcs -l)
+install(TARGETS torcs
+    RUNTIME DESTINATION bin
+)
+if(TORCS_ROBOT_TARGETS)
+    install(TARGETS ${TORCS_ROBOT_TARGETS}
+        LIBRARY DESTINATION drivers
+        RUNTIME DESTINATION drivers
+    )
+endif()
+if(TARGET simuv2)
+    install(TARGETS simuv2 LIBRARY DESTINATION modules/simu)
+endif()
+if(TARGET track)
+    install(TARGETS track LIBRARY DESTINATION modules/track)
+endif()
+if(TARGET ssggraph)
+    install(TARGETS ssggraph
+        LIBRARY DESTINATION modules/graphic
+    )
+endif()
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/data"
+    DESTINATION .
+    USE_SOURCE_PERMISSIONS
+    REGEX "/cars/models/(155-DTM|acura-nsx-sz|mc-larenf1|p406)(/|$)" EXCLUDE
+    REGEX "/cars/models/(kc-[^/]*|pw-[^/]*)(/|$)" EXCLUDE
+)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/config"
+    DESTINATION config
+    USE_SOURCE_PERMISSIONS
+)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/drivers"
+    DESTINATION drivers
+    USE_SOURCE_PERMISSIONS
+    OPTIONAL
+)

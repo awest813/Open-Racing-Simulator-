@@ -16,3 +16,5 @@ target_include_directories(confscreens PUBLIC
     ${PROJECT_SOURCE_DIR}/src/interfaces
     ${PROJECT_SOURCE_DIR}/src/libs
 )
+
+target_link_libraries(confscreens PUBLIC tgfclient)

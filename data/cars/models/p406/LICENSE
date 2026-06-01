@@ -1,0 +1,7 @@
+Retired default-pack asset.
+
+This model remains in the source tree for provenance and transition work, but
+it is excluded from default runtime/install packages. Use the fictional
+`car1-stock2` replacement for default content.
+
+Original asset licensing is described in `readme.txt`.

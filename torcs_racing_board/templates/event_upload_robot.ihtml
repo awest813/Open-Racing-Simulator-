@@ -32,11 +32,11 @@
 		<tr bgcolor="#e8e8e8">
 			<td class="admincol1 filledlist">
 				<p>
-				Robot package:
+				<label for="update_robot_package">Robot package:</label>
 				</p>
 			</td>
 			<td class="filledlist">
-				<input name="update_robot_package" type="file" size="60" maxlength="{PC_ROBOTPACKAGE_SIZE}" accept="application/*">
+				<input id="update_robot_package" name="update_robot_package" type="file" size="60" maxlength="{PC_ROBOTPACKAGE_SIZE}" accept="application/*">
 			</td>
 		</tr>
 	</table>

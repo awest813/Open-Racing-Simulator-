@@ -15,8 +15,10 @@
 #
 ##############################################################################
 
+ALL_MODEL_SUBDIRS = $(shell find * -maxdepth 0 -type d -print | grep -v CVS)
+RETIRED_DEFAULT_CAR_MODELS = 155-DTM acura-nsx-sz mc-larenf1 p406 kc-% pw-%
 
-DATASUBDIRS = $(shell find * -maxdepth 0 -type d -print | grep -v CVS)
+DATASUBDIRS = $(filter-out $(RETIRED_DEFAULT_CAR_MODELS),$(ALL_MODEL_SUBDIRS))
 
 PKGSUBDIRS	= $(DATASUBDIRS)
 

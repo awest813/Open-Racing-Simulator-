@@ -24,7 +24,7 @@
 		<attstr name="team" val="berniw"/>
 		<attstr name="desc" val="Berni's second Bot 1"/>
 		<attstr name="author" val="Bernhard Wymann"/>
-		<attstr name="car name" val="pw-focuswrc"/>
+		<attstr name="car name" val="baja-bug"/>
 		<attnum name="race number" val="148"/>
 		<attnum name="red" val="0.0"/>
 		<attnum name="green" val="1.0"/>
@@ -36,7 +36,7 @@
 		<attstr name="team" val="berniw"/>
 		<attstr name="desc" val="Berni's second Bot 2"/>
 		<attstr name="author" val="Bernhard Wymann"/>
-		<attstr name="car name" val="pw-206wrc"/>
+		<attstr name="car name" val="buggy"/>
 		<attnum name="race number" val="149"/>
 		<attnum name="red" val="0.0"/>
 		<attnum name="green" val="1.0"/>
@@ -48,7 +48,7 @@
 		<attstr name="team" val="berniw"/>
 		<attstr name="desc" val="Berni's second Bot 3"/>
 		<attstr name="author" val="Bernhard Wymann"/>
-		<attstr name="car name" val="pw-306wrc"/>
+		<attstr name="car name" val="car1-stock1"/>
 		<attnum name="race number" val="150"/>
 		<attnum name="red" val="0.0"/>
 		<attnum name="green" val="1.0"/>
@@ -60,7 +60,7 @@
 		<attstr name="team" val="berniw"/>
 		<attstr name="desc" val="Berni's second Bot 4"/>
 		<attstr name="author" val="Bernhard Wymann"/>
-		<attstr name="car name" val="pw-evoviwrc"/>
+		<attstr name="car name" val="car1-stock2"/>
 		<attnum name="race number" val="151"/>
 		<attnum name="red" val="0.0"/>
 		<attnum name="green" val="1.0"/>
@@ -72,7 +72,7 @@
 		<attstr name="team" val="berniw"/>
 		<attstr name="desc" val="Berni's second Bot 5"/>
 		<attstr name="author" val="Bernhard Wymann"/>
-		<attstr name="car name" val="pw-imprezawrc"/>
+		<attstr name="car name" val="car2-trb1"/>
 		<attnum name="race number" val="152"/>
 		<attnum name="red" val="0.0"/>
 		<attnum name="green" val="1.0"/>
@@ -84,7 +84,7 @@
 		<attstr name="team" val="berniw"/>
 		<attstr name="desc" val="Berni's second Bot 6"/>
 		<attstr name="author" val="Bernhard Wymann"/>
-		<attstr name="car name" val="pw-corollawrc"/>
+		<attstr name="car name" val="car3-trb1"/>
 		<attnum name="race number" val="153"/>
 		<attnum name="red" val="0.0"/>
 		<attnum name="green" val="1.0"/>

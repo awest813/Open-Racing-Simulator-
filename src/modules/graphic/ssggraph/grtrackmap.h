@@ -30,7 +30,7 @@
 #include <car.h>
 #include <raceman.h>
 #include <GL/gl.h>
-#include <GL/glut.h>
+#include <glutshim.h>
 #include <GL/glu.h>
 
 #ifndef WIN32

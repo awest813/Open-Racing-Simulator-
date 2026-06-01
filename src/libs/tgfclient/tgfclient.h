@@ -28,7 +28,7 @@
 #define __TGFCLIENT__H__
 
 #include <tgf.h>
-#include <GL/glut.h>
+#include <glutshim.h>
 #include <plib/js.h>
 #include <screen_properties.h>
 

@@ -23,7 +23,7 @@ Install the required libraries before building.  On Debian/Ubuntu:
 ```
 sudo apt-get install \
   build-essential autoconf automake \
-  libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+  libgl1-mesa-dev libglu1-mesa-dev libsdl2-dev freeglut3-dev \
   libplib-dev libopenal-dev libalut-dev \
   libvorbis-dev zlib1g-dev libpng-dev libx11-dev libxrandr-dev
 ```
@@ -48,6 +48,7 @@ The generated HTML lands in `doc/manual/api/`.
 Useful configure flags:
 
 - `--enable-debug` — enable debug symbols and assertions
+- `--disable-sdl2` — use FreeGLUT instead of SDL2 for windowing (Linux default is SDL2)
 - `--disable-xrandr` — disable XRandR if it causes issues on your system
 
 ### Windows
@@ -70,11 +71,27 @@ torcs -r <race-config.xml>  # headless race from config file
 Headless mode (`-r`) is the fastest way to iterate on robots, physics
 changes, or race-manager configuration without the full rendering stack.
 
+After an autotools build (`./configure && make`), run the regression harness:
+
+```bash
+export TORCS_BIN="$PWD/src/linux/torcs-bin"
+export TORCS_LIB="$PWD/export"      # modules/*.so and drivers/*.so
+export TORCS_DATA="$PWD"            # repo root (engine loads data/... below this)
+export TORCS_RUNTIME="$PWD/runtime" # config/, drivers/*.xml
+./test/regression/run_regression.sh
+```
+
+The script runs from `runtime/` so robot setup paths like `drivers/sparkle/0/default.xml` resolve correctly.
+
 ---
 
 ## Where to Start
 
 - `ROADMAP.md` — full project plan and current priorities
+- `doc/planning/FORZA_VISION.md` — phased roadmap toward a Forza-class experience
+- `doc/planning/PHASE0.md` — Phase 0 foundation checklist (complete)
+- `doc/planning/PHASE1.md` — active Phase 1 checklist
+- `test/regression/` — headless race regression (`./test/regression/run_regression.sh`)
 - `src/doc/architecture.md` — overview of the three-tier architecture
 - `src/interfaces/` — interface headers for all plugin types
 - `src/libs/` — shared utility libraries used across the project

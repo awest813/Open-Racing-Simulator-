@@ -19,7 +19,7 @@ CAR       = acura-nsx-sz
 
 DATADIR   = cars/acura-nsx-sz
 
-DATA      = $(CAR).xml  readme.txt \
+DATA      = $(CAR).xml  readme.txt LICENSE \
             $(CAR).rgb tex-wheel.rgb shadow.rgb \
             $(shell find *.acc -maxdepth 0 -type f -print)
 

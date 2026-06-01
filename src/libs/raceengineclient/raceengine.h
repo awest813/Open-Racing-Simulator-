@@ -37,6 +37,10 @@ extern void ReTelemetryStartRecording(tSituation *s);
 extern void ReTelemetryRecordStep(tSituation *s);
 extern void ReTelemetryStopRecording(void);
 
+extern void ReReplayStartRecording(tSituation *s);
+extern void ReReplayRecordInputs(tSituation *s, double deltaTime);
+extern void ReReplayStopRecording(void);
+
 extern tRmInfo *ReInfo;
 
 #endif /* _RACEENGINE_H_ */

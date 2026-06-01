@@ -15,6 +15,7 @@ set(TGFCLIENT_SOURCES
     guiscrollist.cpp
     img.cpp
     screen.cpp
+    sdl2glut.cpp
     tgfclient.cpp
 )
 
@@ -31,6 +32,11 @@ target_link_libraries(tgfclient PUBLIC
     txml
     musicplayer
 )
+
+if(TORCS_USE_SDL2)
+    target_compile_definitions(tgfclient PUBLIC TORCS_USE_SDL2 FREEGLUT)
+    target_link_libraries(tgfclient PUBLIC PkgConfig::SDL2)
+endif()
 
 if(WIN32)
     target_link_libraries(tgfclient PUBLIC
