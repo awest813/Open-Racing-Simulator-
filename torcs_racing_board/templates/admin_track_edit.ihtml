@@ -14,64 +14,64 @@
 				<table class="text14" cellspacing="0">
 					<tr>
 						<td class="admincol1 filledlist">
-							Name:
+							<label for="track_name">Name:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="track_name" size="40" maxlength="40" value="{PC_TRACK_NAME}"/>
+							<input id="track_name" type="text" name="track_name" size="40" maxlength="40" value="{PC_TRACK_NAME}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Internal name:
+							<label for="track_internalname">Internal name:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="track_internalname" size="40" maxlength="40" value="{PC_TRACK_INTERNALNAME}"/>
-						</td>
-					</tr>
-
-					<tr>
-						<td class="filledlist">
-							Author:
-						</td>
-						<td class="filledlist">
-							<input type="text" name="track_author" size="40" maxlength="40" value="{PC_TRACK_AUTHOR}"/>
+							<input id="track_internalname" type="text" name="track_internalname" size="40" maxlength="40" value="{PC_TRACK_INTERNALNAME}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							#Pits:
+							<label for="track_author">Author:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="track_nbpits" size="10" maxlength="10" value="{PC_TRACK_NBPITS}"/>
-						</td>
-					</tr>
-
-					<tr>
-						<td class="filledlist">
-							Width [m]:
-						</td>
-						<td class="filledlist">
-							<input type="text" name="track_width" size="10" maxlength="10" value="{PC_TRACK_WIDTH}"/>
+							<input id="track_author" type="text" name="track_author" size="40" maxlength="40" value="{PC_TRACK_AUTHOR}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Length [m]:
+							<label for="track_nbpits">#Pits:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="track_length" size="10" maxlength="10" value="{PC_TRACK_LENGTH}"/>
+							<input id="track_nbpits" type="text" name="track_nbpits" size="10" maxlength="10" value="{PC_TRACK_NBPITS}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Type:
+							<label for="track_width">Width [m]:</label>
 						</td>
 						<td class="filledlist">
-							<select name="track_type" size="1">
+							<input id="track_width" type="text" name="track_width" size="10" maxlength="10" value="{PC_TRACK_WIDTH}"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="filledlist">
+							<label for="track_length">Length [m]:</label>
+						</td>
+						<td class="filledlist">
+							<input id="track_length" type="text" name="track_length" size="10" maxlength="10" value="{PC_TRACK_LENGTH}"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="filledlist">
+							<label for="track_type">Type:</label>
+						</td>
+						<td class="filledlist">
+							<select id="track_type" name="track_type" size="1">
 								<option {PC_TRACK_TYPE_DIRT} value="dirt">dirt</option>
 								<option {PC_TRACK_TYPE_OVAL} value="oval">oval</option>
 								<option {PC_TRACK_TYPE_ROAD} value="road">road</option>
@@ -82,19 +82,19 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Description:
+							<label for="track_description">Description:</label>
 						</td>
 						<td class="filledlist">
-							<textarea name="track_description" rows="6" class="admincol2">{PC_TRACK_DESCRIPTION}</textarea>
+							<textarea id="track_description" name="track_description" rows="6" class="admincol2">{PC_TRACK_DESCRIPTION}</textarea>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Map (*.jpg):
+							<label for="track_image">Map (*.jpg):</label>
 						</td>
 						<td class="filledlist">
-							<input name="track_image" type="file" size="60" maxlength="50000" accept="image/jpeg" value="{PC_TRACK_IMG_SRC}"/>
+							<input id="track_image" name="track_image" type="file" size="60" maxlength="50000" accept="image/jpeg" value="{PC_TRACK_IMG_SRC}"/>
 						</td>
 					</tr>
 				</table>
