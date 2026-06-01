@@ -8,7 +8,7 @@ Active work stream after [Phase 0](PHASE0.md). See [FORZA_VISION.md](FORZA_VISIO
 
 - [x] SDL2 default build path on Linux (GLUT legacy via `--disable-sdl2` / `-DTORCS_USE_SDL2=OFF`)
 - [ ] Wheel mapping and basic force feedback
-- [ ] High-DPI and resizable window validation on SDL2 path
+- [x] High-DPI and resizable window validation on SDL2 path (`SDL_GL_GetDrawableSize` in reshape + `glutGet`)
 
 ## Graphics & UI
 
@@ -19,7 +19,8 @@ Active work stream after [Phase 0](PHASE0.md). See [FORZA_VISION.md](FORZA_VISIO
 ## Simulation & audio
 
 - [ ] Physics pass A (`simuv3` merge, wear, ABS/4WD if stable)
-- [ ] Audio (OGG, OpenAL cleanup)
+- [x] Audio OpenAL cleanup (ALUT dependency removed; WAV loaded via self-contained parser)
+- [ ] Audio OGG: confirm OGG playback path end-to-end
 - [ ] Rules (penalties, track limits)
 
 ## Content

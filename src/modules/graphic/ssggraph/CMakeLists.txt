@@ -45,7 +45,7 @@ if(WIN32)
     target_link_libraries(ssggraph PRIVATE
         tgf txml robottools
         ssg_vs2008_32 ssgAux_vs2008_32 sg_vs2008_32 sl_vs2008_32 ul_vs2008_32 js_vs2008_32
-        OpenAL32 ALut
+        OpenAL32
         opengl32 glu32 glut32
         libpng15_vs2008_32 zlib1_vs2008_32
     )
@@ -54,7 +54,7 @@ else()
         tgf txml robottools
         plibssg plibssgaux plibsg plibul plibsl plibsm
         GL GLU glut
-        openal alut vorbisfile vorbis ogg
+        openal vorbisfile vorbis ogg
         z png
         X11
     )

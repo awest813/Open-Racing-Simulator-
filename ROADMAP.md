@@ -101,7 +101,7 @@ documented and more maintainable.
 ### Graphics and Platform
 
 - [ ] Replace GLUT-era assumptions with a more modern windowing layer
-- [ ] Review and revive the SDL 2 path
+- [x] Review and revive the SDL 2 path (default; high-DPI drawable size fixed)
 - [ ] Rework skid marks, masking, shadows, and frame-rate-dependent rendering
 - [ ] Move graphics-engine state into an explicit context structure
 - [ ] Reduce dynamic allocation inside rendering hot paths
@@ -110,7 +110,7 @@ documented and more maintainable.
 
 ### Audio
 
-- [ ] Update OpenAL usage and remove deprecated ALUT dependencies
+- [x] Update OpenAL usage and remove deprecated ALUT dependencies
 - [ ] Replace WAV-only assumptions with OGG Vorbis where appropriate
 - [ ] Fix split-screen multiplayer audio issues
 
