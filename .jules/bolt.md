@@ -28,3 +28,7 @@
 ## 2024-05-30 - Optimize threshold comparisons using squared values in simuv3
 **Learning:** In the TORCS simulation engine (`simuv3/collide.cpp`, `simuv3/aero.cpp`), threshold checks using `sgLengthVec3` invoke expensive `sqrt()` operations in hot loops during damage/collision checks.
 **Action:** Always replace `sgLengthVec3` with `sgLengthSquaredVec3` when making simple threshold comparisons (e.g. `len < threshold` -> `lenSqr < threshold * threshold`), completely bypassing unnecessary square roots.
+
+## 2025-06-01 - Avoid unconditional sqrt when computing minimum speed limit
+**Learning:** When bounding speed by a segment's limit in hot loops (e.g. `limitSpeed = MIN(myc->getSpeed(), sqrt(psdyn->getSpeedsqr(seg)))`), evaluating `sqrt` unconditionally introduces unnecessary computational overhead when the current speed is already lower.
+**Action:** Always conditionally evaluate `sqrt` only if necessary by comparing the squared values first: `limitSpeed = myc->getSpeedSqr() < segSpeedSqr ? myc->getSpeed() : sqrt(segSpeedSqr);`.

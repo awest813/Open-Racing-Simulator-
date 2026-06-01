@@ -1119,8 +1119,9 @@ inline int Pathfinder::updateOCar(int trackSegId, tSituation *s, MyCar* myc, Oth
 
 				o[n].disttomiddle = track->distToMiddle(seg, ocar[i].getCurrentPos());
 				o[n].speedsqr = sqr(o[n].speed);
-				double segSpeed = sqrt(psdyn->getSpeedsqr(seg));
-				double limitSpeed = MIN(myc->getSpeed(), segSpeed);
+				double segSpeedSqr = psdyn->getSpeedsqr(seg);
+				// Bolt: skip expensive sqrt() if bounded by current speed
+				double limitSpeed = sqr(myc->getSpeed()) < segSpeedSqr ? myc->getSpeed() : sqrt(segSpeedSqr);
 				o[n].catchdist = (int) (o[n].dist/(limitSpeed - ocar[i].getSpeed())*limitSpeed);
 				o[n].catchsegid = ((int) (o[n].catchdist/TRACKRES) + trackSegId + nPathSeg) % nPathSeg;
 				o[n].overtakee = false;
