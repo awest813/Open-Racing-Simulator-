@@ -499,7 +499,9 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
     // Compute distance of collision points.
     sgVec3 pab;
     sgSubVec2(pab, pt[1], pt[0]);
-    float distpab = sgLengthVec2(pab);
+    float distpab = 0.05f;
+    float distpabSqr = sgLengthSquaredVec2(pab);
+    if (distpabSqr < 0.05f * 0.05f) distpab = sqrt(distpabSqr);
 
     sgVec2 tmpv;
     /*

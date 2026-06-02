@@ -32,3 +32,6 @@
 ## 2024-06-03 - Cache Expensive Method Calls in Identical Execution Paths
 **Learning:** Found an instance in `src/modules/simu/simuv2/aero.cpp` where the same exact `sqrt` expression was being calculated twice within the identical execution flow (once to compute `atan2` and once for a simple check `> 0.0f`).
 **Action:** Always extract redundantly computed expensive operations (`sqrt()`) into local variables within loops or identical code paths to avoid re-evaluating the same expression twice.
+## 2024-06-02 - Conditional sqrt evaluation in collision hot loop
+**Learning:** In hot loops like physics collision response (`SimCarCollideResponse`), unconditional `sgLengthVec2()` or `sgLengthVec3()` calls incur heavy `sqrt()` overhead. When the length is only used in a clamping/min function (e.g. `MIN(distpab, 0.05)`), we can first check the squared distance against the squared threshold (`distpabSqr < 0.05*0.05`) and only compute `sqrt()` when the condition is met.
+**Action:** Replace direct length calls with conditional `sqrt()` evaluation using squared distance functions (`sgLengthSquaredVec2`, `sgLengthSquaredVec3`) when the length is compared against or clamped by a known threshold.
