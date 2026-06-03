@@ -26,7 +26,54 @@
 #define MM_VAL_SOUND_ENABLED		"enabled"
 #define MM_VAL_SOUND_DISABLED		"disabled"
 
+/* Radio station base directory (relative to game working directory) */
+#define MM_RADIO_BASE_DIR           "data/music/radio"
+
+/* ---------------------------------------------------------------------- */
+/* Menu background music                                                    */
+/* ---------------------------------------------------------------------- */
 extern void startMenuMusic();
 extern void stopMenuMusic();
+
+/* ---------------------------------------------------------------------- */
+/* In-Game Radio (cRadioEngine facade)                                     */
+/* ---------------------------------------------------------------------- */
+
+/** Scan MM_RADIO_BASE_DIR and begin playback on the first available station. */
+extern void startRadio();
+
+/** Halt radio playback. */
+extern void stopRadio();
+
+/**
+ * Pump the radio audio buffers.  Call every ~100 ms (e.g. from a glutTimerFunc).
+ * Returns false when nothing is playing.
+ */
+extern bool updateRadio();
+
+/** Cycle to the next radio station. */
+extern void radioNextStation();
+
+/** Cycle to the previous radio station. */
+extern void radioPrevStation();
+
+/** Advance to the next track on the current station. */
+extern void radioNextTrack();
+
+/** Set master radio volume (0.0 – 1.0). */
+extern void radioSetVolume(float vol);
+
+/** Get master radio volume (0.0 – 1.0). */
+extern float radioGetVolume();
+
+
+/** Returns current station name, e.g. "Synthwave_FM". */
+extern const char* radioGetStationName();
+
+/** Returns current track filename, e.g. "track1.ogg". */
+extern const char* radioGetTrackName();
+
+/** Returns true if the radio is currently playing. */
+extern bool isRadioPlaying();
 
 #endif //__musicplayer_h__

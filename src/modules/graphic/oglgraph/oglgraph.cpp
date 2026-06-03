@@ -28,7 +28,13 @@ static int grInitCars(tSituation* s) {
 }
 
 static int grInitView(int x, int y, int w, int h, int /*flag*/, void* /*screen*/) {
-    if (!g_renderer) g_renderer = new OGLRenderer();
+    if (!g_renderer) {
+        // Load all OpenGL 3.3 entry points before creating the renderer
+        if (!gl3LoadFunctions()) {
+            GfOut("oglgraph: WARNING - not all GL 3.3 functions loaded\n");
+        }
+        g_renderer = new OGLRenderer();
+    }
     return g_renderer->init(x, y, w, h) ? 0 : -1;
 }
 

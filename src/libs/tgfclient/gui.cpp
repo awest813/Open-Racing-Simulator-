@@ -186,17 +186,17 @@ GfuiDisplay(void)
 	if (glIsTexture(GfuiScreen->bgImage) == GL_TRUE) {
 		GLfloat tx1 = 0.0f, tx2 = 1.0f, ty1 = 0.0f, ty2 = 1.0f;
 		
-		// All background images are 16:10 images which are stored as quadratic images.
+		// All background images are 16:9 images which are stored as quadratic images.
 		// Compute texture coordinates to ensure proper unskewed/unstretched display of
 		// image content.
-		tdble rfactor = (16.0f*ViewH)/(10.0f*ViewW);
+		tdble rfactor = (16.0f*ViewH)/(9.0f*ViewW);
 		if (rfactor >= 1.0f) {
-			// Aspect ratio of view is smaller than 16:10, "cut off" sides
+			// Aspect ratio of view is smaller than 16:9, "cut off" sides
 			tdble tdx = (1.0f-1.0f/rfactor)/2.0f;
 			tx1 += tdx;
 			tx2 -= tdx;
 		} else {
-			// Aspect ratio of view is larger than 16:10, "cut off" top and bottom
+			// Aspect ratio of view is larger than 16:9, "cut off" top and bottom
 			tdble tdy = (1.0f-rfactor)/2.0f;
 			ty1 += tdy;
 			ty2 -= tdy;

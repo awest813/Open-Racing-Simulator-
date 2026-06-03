@@ -16,7 +16,7 @@ target_include_directories(wtorcs PRIVATE
 
 # Fix for MSVC: wtorcs needs these link flags for the resource compiler
 if(MSVC)
-    set_target_properties(wtorcs PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
+    set_target_properties(wtorcs PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE /NODEFAULTLIB:LIBCMT")
 endif()
 
 target_link_libraries(wtorcs
@@ -31,6 +31,7 @@ target_link_libraries(wtorcs
     racescreens
     musicplayer
     ssggraph
+    oglgraph
     # Third party libs from src/windows/lib (already in link_directories)
     ssg_vs2008_32
     ssgAux_vs2008_32

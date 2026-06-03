@@ -34,6 +34,7 @@ class OpenALMusicPlayer
 		virtual void stop();
 		virtual void rewind();
 		virtual bool playAndManageBuffer();
+		virtual void setVolume(float vol);
 
 	protected:
 		virtual bool initContext();
@@ -51,6 +52,7 @@ class OpenALMusicPlayer
 		
 		SoundStream* stream;
 		bool ready;									// initialization sucessful
+		float volume;								// audio volume (0.0 to 1.0)
 		static const int BUFFERSIZE;
 };
 #endif // __OpenALMusicPlayer_h__

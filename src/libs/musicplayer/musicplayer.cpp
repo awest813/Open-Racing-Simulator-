@@ -26,6 +26,7 @@
 
 #include "OggSoundStream.h"
 #include "OpenALMusicPlayer.h"
+#include "RadioEngine.h"
 
 
 static bool isEnabled()
@@ -57,11 +58,8 @@ static SoundStream* getMenuSoundStream(char* oggFilePath)
 
 static OpenALMusicPlayer* getMusicPlayer()
 {
-	const int BUFSIZE = 1024;
-	char oggFilePath[BUFSIZE];
-	strncpy(oggFilePath, "data/music/torcs1.ogg", BUFSIZE);
-
-	static OpenALMusicPlayer player(getMenuSoundStream(oggFilePath));
+	static OpenALMusicPlayer player(getMenuSoundStream(
+	    const_cast<char*>("data/music/torcs1.ogg")));
 	return &player;
 }
 
@@ -92,4 +90,91 @@ void stopMenuMusic()
 	OpenALMusicPlayer* player = getMusicPlayer();
 	player->stop();
 	player->rewind();
+}
+
+
+/* ======================================================================== */
+/* In-Game Radio – thin C facade over RadioEngine singleton                  */
+/* ======================================================================== */
+
+static void pumpRadio(int /* value */)
+{
+	const int nextcallinms = 100;
+	if (updateRadio()) {
+		glutTimerFunc(nextcallinms, pumpRadio, 0);
+	}
+}
+
+
+void startRadio()
+{
+	RadioEngine& radio = RadioEngine::instance();
+	radio.scanStations(MM_RADIO_BASE_DIR);
+	radio.startRadio();
+
+	if (radio.isPlaying()) {
+		// Kick off the recurring buffer-pump timer (same pattern as menu music).
+		glutTimerFunc(100, pumpRadio, 0);
+	}
+}
+
+
+void stopRadio()
+{
+	RadioEngine::instance().stopRadio();
+}
+
+
+bool updateRadio()
+{
+	return RadioEngine::instance().update();
+}
+
+
+void radioNextStation()
+{
+	RadioEngine::instance().nextStation();
+}
+
+
+void radioPrevStation()
+{
+	RadioEngine::instance().prevStation();
+}
+
+
+void radioNextTrack()
+{
+	RadioEngine::instance().nextTrack();
+}
+
+
+void radioSetVolume(float vol)
+{
+	RadioEngine::instance().setVolume(vol);
+}
+
+
+float radioGetVolume()
+{
+	return RadioEngine::instance().getVolume();
+}
+
+
+
+const char* radioGetStationName()
+{
+	return RadioEngine::instance().getStationName().c_str();
+}
+
+
+const char* radioGetTrackName()
+{
+	return RadioEngine::instance().getTrackName().c_str();
+}
+
+
+bool isRadioPlaying()
+{
+	return RadioEngine::instance().isPlaying();
 }

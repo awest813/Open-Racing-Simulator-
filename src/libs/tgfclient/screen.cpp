@@ -145,7 +145,7 @@ static int	DepthLabelId;
 static int	ModeLabelId;
 static int VInitLabelId;
 
-static float LabelColor[] = {1.0, 0.0, 1.0, 1.0};
+static float LabelColor[] = {1.0f, 0.58f, 0.08f, 1.0f};
 
 
 void
@@ -250,23 +250,51 @@ gfScreenInit(void)
 	if (Res == nullptr || nbRes == 0) {
 		// We failed to get a handle to the display, so fill in some defaults.
 		GfOut("Failed to initialize resolutions for display '%s'", XDisplayName(displayname));
-		nbRes = 8;
+		nbRes = 18;
 		Res = (char **) malloc(sizeof(char *)*nbRes);
-		Res[0] = strdup("640x480");
-		Res[1] = strdup("800x600");
-		Res[2] = strdup("1024x768");
-		Res[3] = strdup("1152x864");
-		Res[4] = strdup("1200x960");
-		Res[5] = strdup("1280x1024");
-		Res[6] = strdup("1600x1200");
-		Res[7] = strdup("320x200");
+		Res[0] = strdup("320x200");
+		Res[1] = strdup("640x480");
+		Res[2] = strdup("800x600");
+		Res[3] = strdup("1024x768");
+		Res[4] = strdup("1280x720");
+		Res[5] = strdup("1280x800");
+		Res[6] = strdup("1280x1024");
+		Res[7] = strdup("1366x768");
+		Res[8] = strdup("1440x900");
+		Res[9] = strdup("1600x900");
+		Res[10] = strdup("1600x1200");
+		Res[11] = strdup("1680x1050");
+		Res[12] = strdup("1920x1080");
+		Res[13] = strdup("1920x1200");
+		Res[14] = strdup("2560x1080");
+		Res[15] = strdup("2560x1440");
+		Res[16] = strdup("3440x1440");
+		Res[17] = strdup("3840x2160");
 	}
 #endif // USE_RANDR_EXT
 }
 
 static void Reshape(int width, int height)
 {
-    glViewport( (width-GfViewWidth)/2, (height-GfViewHeight)/2, GfViewWidth,  GfViewHeight);
+    double targetAspect = 1280.0 / 720.0;
+    double windowAspect = (double)width / (double)height;
+    int vpWidth, vpHeight, vpX, vpY;
+
+    if (windowAspect >= targetAspect) {
+        // Window is wider than 16:9, scale by height
+        vpHeight = height;
+        vpWidth = (int)(height * targetAspect);
+        vpX = (width - vpWidth) / 2;
+        vpY = 0;
+    } else {
+        // Window is narrower than 16:9, scale by width
+        vpWidth = width;
+        vpHeight = (int)(width / targetAspect);
+        vpX = 0;
+        vpY = (height - vpHeight) / 2;
+    }
+
+    glViewport(vpX, vpY, vpWidth, vpHeight);
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     glOrtho( 0.0, 1280.0, 0.0, 720.0, -1.0, 1.0 );
@@ -275,6 +303,8 @@ static void Reshape(int width, int height)
 
     GfScrWidth = width;
     GfScrHeight = height;
+    GfViewWidth = vpWidth;
+    GfViewHeight = vpHeight;
     GfScrCenX = width / 2;
     GfScrCenY = height / 2;
 }

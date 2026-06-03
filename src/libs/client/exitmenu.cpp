@@ -37,14 +37,72 @@ static void *exitmenuHandle = nullptr;
 static void *exitMainMenuHandle = nullptr;
 
 
+namespace {
+
+float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
+float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
+
+} // namespace
+
 void * exitMenuInit(void *menu, void *menuHandle)
 {
     if (menuHandle) {
 		GfuiScreenRelease(menuHandle);
     }
     
-    menuHandle = GfuiMenuScreenCreate("Quit?");
+    menuHandle = GfuiScreenCreateEx(nullptr, 
+				    nullptr, nullptr, 
+				    nullptr, nullptr, 
+				    1);
     GfuiScreenAddBgImg(menuHandle, "data/img/splash-quit.png");
+
+    GfuiLabelCreateEx(menuHandle,
+		    "TERMINATE SESSION",
+		    kAccentColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    660,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiTitleCreate(menuHandle, "EXIT SIMULATION", 0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "Are you sure you want to end your current session and return to the desktop?",
+		    kBodyColor,
+		    GFUI_FONT_MEDIUM_C,
+		    110,
+		    620,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "Any unsaved progress on the current race weekend or configurations will be lost.",
+		    kMutedColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    582,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "CONFIRMATION",
+		    kAccentColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    220,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(menuHandle,
+		    "Select Exit to OS to shut down the simulation, or Continue to return to the active screen.",
+		    kBodyColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    192,
+		    GFUI_ALIGN_HL_VB,
+		    0);
 
     GfuiMenuButtonCreate(menuHandle,
 		      "No, Continue",
@@ -53,8 +111,8 @@ void * exitMenuInit(void *menu, void *menuHandle)
 		      GfuiScreenActivate);
     
     GfuiMenuButtonCreate(menuHandle,
-		      "Yes, Exit",
-		      "Exit the game",
+		      "Exit to OS",
+		      "Exit the simulation and return to the OS",
 		      nullptr,
 		      endofprog);
 

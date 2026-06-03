@@ -32,7 +32,7 @@
 
 #include "soundconfig.h"
 
-static float LabelColor[] = {1.0, 0.0, 1.0, 1.0};
+static float LabelColor[] = {1.0f, 0.58f, 0.08f, 1.0f};
 
 // list of options.
 static const char *soundOptionList[] = {

@@ -24,6 +24,9 @@
 */
 
 #include <cstdio>
+#include <cctype>
+#include <algorithm>
+#include <string>
 #include <tgfclient.h>
 #include <robot.h>
 
@@ -37,11 +40,84 @@ static void *nStateHandle = 0;
 
 namespace {
 
+float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
+float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
+
 void buildCarModelPath(char* destination, size_t destinationSize, const char* carName)
 {
 	const char* safeCarName = (carName != nullptr) ? carName : "";
 	snprintf(destination, destinationSize, "%sdata/cars/models/%s/%s.xml", GetDataDir(), safeCarName, safeCarName);
 	destination[destinationSize - 1] = '\0';
+}
+
+void addPauseMenuLabels(void* screen, const char* title)
+{
+	std::string upperTitle;
+	if (title) {
+		upperTitle = title;
+		std::transform(upperTitle.begin(), upperTitle.end(), upperTitle.begin(), ::toupper);
+	} else {
+		upperTitle = "SESSION SUSPENDED";
+	}
+
+	// Accent Header
+	GfuiLabelCreateEx(screen,
+		"SESSION SUSPENDED",
+		kAccentColor,
+		GFUI_FONT_SMALL_C,
+		110,
+		660,
+		GFUI_ALIGN_HL_VB,
+		0);
+
+	// Large Title
+	GfuiLabelCreateEx(screen,
+		upperTitle.c_str(),
+		kBodyColor,
+		GFUI_FONT_BIG_C,
+		110,
+		620,
+		GFUI_ALIGN_HL_VB,
+		0);
+
+	// Description / Explanatory text
+	GfuiLabelCreateEx(screen,
+		"The simulation has been temporarily halted.",
+		kBodyColor,
+		GFUI_FONT_MEDIUM_C,
+		110,
+		560,
+		GFUI_ALIGN_HL_VB,
+		0);
+
+	GfuiLabelCreateEx(screen,
+		"Choose an option from the telemetry panel on the right to proceed.",
+		kMutedColor,
+		GFUI_FONT_SMALL_C,
+		110,
+		530,
+		GFUI_ALIGN_HL_VB,
+		0);
+
+	// Session telemetry panel or context details
+	GfuiLabelCreateEx(screen,
+		"RACE CONTROL COMMANDS",
+		kAccentColor,
+		GFUI_FONT_SMALL_C,
+		110,
+		220,
+		GFUI_ALIGN_HL_VB,
+		0);
+
+	GfuiLabelCreateEx(screen,
+		"Select Resume to rejoin the track, Restart to try again, or Abandon to return to menu.",
+		kBodyColor,
+		GFUI_FONT_SMALL_C,
+		110,
+		192,
+		GFUI_ALIGN_HL_VB,
+		0);
 }
 
 } // namespace
@@ -67,8 +143,9 @@ void *RmTwoStateScreen(
 		GfuiScreenRelease(twoStateHdle);
 	}
 	
-	twoStateHdle = GfuiMenuScreenCreate(title);
-	GfuiScreenAddBgImg(twoStateHdle, "data/img/splash-quit.png");
+	twoStateHdle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
+	GfuiScreenAddBgImg(twoStateHdle, "data/img/splash-raceopt.png");
+	addPauseMenuLabels(twoStateHdle, title);
 	GfuiMenuButtonCreate(twoStateHdle, label1, tip1, screen1, GfuiScreenActivate);
 	GfuiMenuButtonCreate(twoStateHdle, label2, tip2, screen2, GfuiScreenActivate);
 	GfuiAddKey(twoStateHdle, 27, tip2, screen2, GfuiScreenActivate, nullptr);
@@ -102,8 +179,9 @@ void *RmTriStateScreen(
 		GfuiScreenRelease(triStateHdle);
 	}
 	
-	triStateHdle = GfuiMenuScreenCreate(title);
-	GfuiScreenAddBgImg(triStateHdle, "data/img/splash-quit.png");
+	triStateHdle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
+	GfuiScreenAddBgImg(triStateHdle, "data/img/splash-raceopt.png");
+	addPauseMenuLabels(triStateHdle, title);
 	GfuiMenuButtonCreate(triStateHdle, label1, tip1, screen1, GfuiScreenActivate);
 	GfuiMenuButtonCreate(triStateHdle, label2, tip2, screen2, GfuiScreenActivate);
 	GfuiMenuButtonCreate(triStateHdle, label3, tip3, screen3, GfuiScreenActivate);
@@ -142,8 +220,9 @@ void *RmFourStateScreen(
 		GfuiScreenRelease(fourStateHdle);
 	}
 	
-	fourStateHdle = GfuiMenuScreenCreate(title);
-	GfuiScreenAddBgImg(fourStateHdle, "data/img/splash-quit.png");
+	fourStateHdle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
+	GfuiScreenAddBgImg(fourStateHdle, "data/img/splash-raceopt.png");
+	addPauseMenuLabels(fourStateHdle, title);
 	GfuiMenuButtonCreate(fourStateHdle, label1, tip1, screen1, GfuiScreenActivate);
 	GfuiMenuButtonCreate(fourStateHdle, label2, tip2, screen2, GfuiScreenActivate);
 	GfuiMenuButtonCreate(fourStateHdle, label3, tip3, screen3, GfuiScreenActivate);
@@ -176,8 +255,9 @@ void *RmNStateScreen(
 		GfuiScreenRelease(nStateHandle);
 	}
 	
-	nStateHandle = GfuiMenuScreenCreate(title);
-	GfuiScreenAddBgImg(nStateHandle, "data/img/splash-quit.png");
+	nStateHandle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
+	GfuiScreenAddBgImg(nStateHandle, "data/img/splash-raceopt.png");
+	addPauseMenuLabels(nStateHandle, title);
 
 	int i;
 	for (i = 0; i < n; i++) {

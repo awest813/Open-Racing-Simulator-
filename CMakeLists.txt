@@ -194,9 +194,16 @@ else()
 endif()
 
 # Portable install layout (matches runtime/ tree used by torcs -l)
-install(TARGETS torcs
-    RUNTIME DESTINATION bin
-)
+if(TARGET torcs)
+    install(TARGETS torcs
+        RUNTIME DESTINATION bin
+    )
+endif()
+if(TARGET wtorcs)
+    install(TARGETS wtorcs
+        RUNTIME DESTINATION bin
+    )
+endif()
 if(TORCS_ROBOT_TARGETS)
     install(TARGETS ${TORCS_ROBOT_TARGETS}
         LIBRARY DESTINATION drivers

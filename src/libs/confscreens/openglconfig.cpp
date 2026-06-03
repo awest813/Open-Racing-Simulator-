@@ -31,7 +31,7 @@
 #include <portability.h>
 #include "openglconfig.h"
 
-static float LabelColor[] = {1.0, 0.0, 1.0, 1.0};
+static float LabelColor[] = {1.0f, 0.58f, 0.08f, 1.0f};
 
 // Texture compression.
 static const char *textureCompressOptionList[] = {

@@ -921,6 +921,7 @@ ReRaceCleanup(void)
 	ReInfo->_reSimItf.shutdown();
 	if (ReInfo->_displayMode == RM_DISP_MODE_NORMAL) {
 		ReInfo->_reGraphicItf.shutdowncars();
+		stopRadio();        // Stop in-game radio
 		startMenuMusic();
 	}
 	ReStoreRaceResults(ReInfo->_reRaceName);

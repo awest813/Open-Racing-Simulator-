@@ -19,12 +19,10 @@
 #include <vector>
 #include <string>
 
-// Forward declarations of TORCS types to avoid plib dependency in this header
-struct tTrack;
-struct Situation;
-typedef Situation tSituation;
-struct CarElt;
-typedef CarElt tCarElt;
+#include <track.h>
+#include <car.h>
+#include <raceman.h>
+
 
 struct CarRenderData {
     int carIdx;

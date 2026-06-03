@@ -25,6 +25,14 @@
 #include <soundconfig.h>
 #include <openglconfig.h>
 
+namespace {
+
+float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
+float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
+
+} // namespace
+
 static void *optionHandle = nullptr;
 
 void *
@@ -32,9 +40,68 @@ TorcsOptionOptionInit(void *precMenu)
 {
     if (optionHandle) return optionHandle;
 
-    optionHandle = GfuiMenuScreenCreate("Options");
+    optionHandle = GfuiScreenCreateEx(nullptr, 
+				      nullptr, nullptr, 
+				      nullptr, nullptr, 
+				      1);
 
     GfuiScreenAddBgImg(optionHandle, "data/img/splash-options.png");
+
+    GfuiLabelCreateEx(optionHandle,
+		    "SETTINGS & PREFERENCES",
+		    kAccentColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    660,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiTitleCreate(optionHandle, "TORCS // SETTINGS", 0);
+
+    GfuiLabelCreateEx(optionHandle,
+		    "Configure visual rendering, audio outputs, controller layouts, and physical simulation behavior.",
+		    kBodyColor,
+		    GFUI_FONT_MEDIUM_C,
+		    110,
+		    620,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(optionHandle,
+		    "Dial in advanced OpenGL details and sound volumes to match your hardware's capability",
+		    kMutedColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    582,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(optionHandle,
+		    "so the on-track representation runs with maximum responsiveness.",
+		    kMutedColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    558,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(optionHandle,
+		    "QUICK TIPS",
+		    kAccentColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    220,
+		    GFUI_ALIGN_HL_VB,
+		    0);
+
+    GfuiLabelCreateEx(optionHandle,
+		    "Focus a settings category to preview configuration options.",
+		    kBodyColor,
+		    GFUI_FONT_SMALL_C,
+		    110,
+		    192,
+		    GFUI_ALIGN_HL_VB,
+		    0);
 
     GfuiMenuButtonCreate(optionHandle,
 			 "Display", "Configure screen resolution and display settings",
@@ -55,6 +122,8 @@ TorcsOptionOptionInit(void *precMenu)
     GfuiMenuButtonCreate(optionHandle,
 			 "Simulation", "Configure physics simulation engine",
 			 SimuMenuInit(optionHandle), GfuiScreenActivate);
+
+    GfuiMenuDefaultKeysAdd(optionHandle);
 
     GfuiMenuBackQuitButtonCreate(optionHandle,
 				 "Back",

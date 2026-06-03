@@ -1,5 +1,6 @@
 set(MUSICPLAYER_SOURCES
     musicplayer.cpp
+    RadioEngine.cpp
     OggSoundStream.cpp
     OpenALMusicPlayer.cpp
     SoundStream.cpp

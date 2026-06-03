@@ -106,11 +106,15 @@ ssgVtxTableCarlight::~ssgVtxTableCarlight ()
 
 
 
+static GLfloat grCarlightModelView[16] = {
+	1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1
+};
+static bool grCarlightModelViewDirty = true;
+
 void ssgVtxTableCarlight::draw_geometry ()
 {
 	int num_normals = getNumNormals();
 	float alpha;
-	GLfloat modelView[16];
 	sgVec3 A, B, C, D;
 	sgVec3 right, up;
 	sgVec3 axis;
@@ -129,8 +133,13 @@ void ssgVtxTableCarlight::draw_geometry ()
 
 	glPolygonOffset(-15.0f, -20.0f);
 	glEnable(GL_POLYGON_OFFSET_FILL);
-	// get the matrix.
-	glGetFloatv(GL_MODELVIEW_MATRIX, modelView);
+
+	// Fetch the modelview matrix at most once per frame to avoid GPU pipeline stalls.
+	if (grCarlightModelViewDirty) {
+		glGetFloatv(GL_MODELVIEW_MATRIX, grCarlightModelView);
+		grCarlightModelViewDirty = false;
+	}
+	const GLfloat* modelView = grCarlightModelView;
 
 	// get the up and right vector from the matrice view.
 	up[0] = modelView[1];
@@ -408,6 +417,7 @@ void grLinkCarlights(tCarElt *car)
 
 void grUpdateCarlight(tCarElt *car,class cGrPerspCamera *curCam, int disp)
 {
+	grCarlightModelViewDirty = true;
 	int i = 0;
 	ssgVtxTableCarlight	*clight;
 

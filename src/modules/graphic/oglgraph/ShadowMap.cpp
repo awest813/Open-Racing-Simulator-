@@ -110,16 +110,17 @@ void ShadowMap::getLightSpaceMatrix(const float lightDir[3], const float /*scene
     };
 
     // Orthographic projection
-    float left=-100.0f, right=100.0f, bot=-100.0f, top=100.0f, near=1.0f, far=200.0f;
+    float left=-100.0f, right=100.0f, bot=-100.0f, top=100.0f, nearVal=1.0f, farVal=200.0f;
     float orthoMat[16];
     memset(orthoMat, 0, sizeof(orthoMat));
     orthoMat[0]  = 2.0f / (right - left);
     orthoMat[5]  = 2.0f / (top - bot);
-    orthoMat[10] = -2.0f / (far - near);
+    orthoMat[10] = -2.0f / (farVal - nearVal);
     orthoMat[12] = -(right + left) / (right - left);
     orthoMat[13] = -(top + bot)   / (top - bot);
-    orthoMat[14] = -(far + near)  / (far - near);
+    orthoMat[14] = -(farVal + nearVal)  / (farVal - nearVal);
     orthoMat[15] = 1.0f;
 
     mulMat4sm(orthoMat, viewMat, mat16);
+
 }

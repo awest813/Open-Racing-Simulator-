@@ -49,6 +49,7 @@ class cGrBoard
     void grDispLeaderBoard(tCarElt *car, tSituation *s);
     void grDispCounterBoard2(tCarElt *car);
     void grDispArcade(tCarElt *car, tSituation *s);
+    void grDispRadioHUD();
 
 	// Track overview object
 	cGrTrackMap *trackMap;

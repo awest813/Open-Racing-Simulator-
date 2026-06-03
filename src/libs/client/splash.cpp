@@ -29,6 +29,10 @@
 #include "config.h"
 #endif
 
+#ifndef VERSION
+#define VERSION "1.3.8"
+#endif
+
 #include <tgfclient.h>
 
 #include "splash.h"
@@ -131,15 +135,15 @@ static void splashDisplay( void )
 		// Compute texture coordinates to ensure proper unskewed/unstretched display of
 		// image content.
 		//tdble rfactor = (float)(s_imgWidth*ViewH)/(float)(s_imgHeight*ViewW);
-		tdble rfactor = (16.0f*ViewH)/(10.0f*ViewW);
+		tdble rfactor = (16.0f*ViewH)/(9.0f*ViewW);
 
 		if (rfactor >= 1.0f) {
-			// Aspect ratio of view is smaller than 16:10, "cut off" sides
+			// Aspect ratio of view is smaller than 16:9, "cut off" sides
 			tdble tdx = (1.0f-1.0f/rfactor)/2.0f;
 			tx1 += tdx;
 			tx2 -= tdx;
 		} else {
-			// Aspect ratio of view is larger than 16:10, "cut off" top and bottom
+			// Aspect ratio of view is larger than 16:9, "cut off" top and bottom
 			tdble tdy = (1.0f-rfactor)/2.0f;
 			ty1 += tdy;
 			ty2 -= tdy;

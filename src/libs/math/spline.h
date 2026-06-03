@@ -163,7 +163,7 @@ inline void slopesp(int dim, const double *const x, const double *const y,
                     double *const ys)
 {
     SplineEquationData2 *tmp = static_cast<SplineEquationData2 *>(
-        std::malloc(sizeof(SplineEquationData2) * static_cast<std::size_t>(dim)));
+        malloc(sizeof(SplineEquationData2) * static_cast<std::size_t>(dim)));
     int i;
 
     dim--;
@@ -202,7 +202,7 @@ inline void slopesp(int dim, const double *const x, const double *const y,
     }
     ys[dim] = ys[0];
 
-    std::free(tmp);
+    free(tmp);
 }
 
 
@@ -219,7 +219,7 @@ inline void slopesn(int dim, const double *const x, const double *const y,
                     double *const ys)
 {
     SplineEquationData *tmp = static_cast<SplineEquationData *>(
-        std::malloc(sizeof(SplineEquationData) * static_cast<std::size_t>(dim)));
+        malloc(sizeof(SplineEquationData) * static_cast<std::size_t>(dim)));
     int i;
 
     dim--;
@@ -244,7 +244,7 @@ inline void slopesn(int dim, const double *const x, const double *const y,
 
     tridiagonal(dim+1, tmp, ys);
 
-    std::free(tmp);
+    free(tmp);
 }
 
 
