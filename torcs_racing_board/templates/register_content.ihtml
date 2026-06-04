@@ -92,7 +92,7 @@
 				<label for="register_email">E-mail:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" id="register_email" name="register_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}"/>
+				<input type="email" id="register_email" name="register_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_EMAIL}
