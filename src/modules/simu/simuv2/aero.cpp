@@ -169,13 +169,14 @@ void SimWingUpdate(tCar *car, int index, tSituation* s)
 	tWing  *wing = &(car->wing[index]);
 	tdble vt2 = car->airSpeed2;
 	// compute angle of attack using wind-adjusted velocity
-	tdble vel_xy_mag = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y);
-	tdble aoa = atan2(car->DynGC.vel.z, vel_xy_mag);
-	aoa += wing->angle;
-	// the sinus of the angle of attack
-	tdble sinaoa = sin(aoa);
+	tdble vel_xy_magSqr = car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y;
 
-	if (vel_xy_mag > 0.0f) {
+	if (vel_xy_magSqr > 0.0f) {
+		tdble vel_xy_mag = sqrt(vel_xy_magSqr);
+		tdble aoa = atan2(car->DynGC.vel.z, vel_xy_mag);
+		aoa += wing->angle;
+		// the sinus of the angle of attack
+		tdble sinaoa = sin(aoa);
 		wing->forces.x = wing->Kx * vt2 * (1.0f + (tdble)car->dammage / 10000.0f) * sinaoa;
 		wing->forces.z = wing->Kz * vt2 * sinaoa;
 	} else {

@@ -32,3 +32,7 @@
 ## 2024-06-03 - Cache Expensive Method Calls in Identical Execution Paths
 **Learning:** Found an instance in `src/modules/simu/simuv2/aero.cpp` where the same exact `sqrt` expression was being calculated twice within the identical execution flow (once to compute `atan2` and once for a simple check `> 0.0f`).
 **Action:** Always extract redundantly computed expensive operations (`sqrt()`) into local variables within loops or identical code paths to avoid re-evaluating the same expression twice.
+
+## 2026-06-03 - Defer unconditionally executed sqrt in conditional branches
+**Learning:** Found instances where `sqrt()` calculations (e.g. `tdble vel_xy_mag = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + ...);`) were being unconditionally evaluated right before a positive check (`if (vel_xy_mag > 0.0f)`) in hot loop wing updates (`SimWingUpdate`).
+**Action:** Always calculate the squared magnitude first, and strictly defer evaluating the expensive `sqrt()` operation inside the positive condition block (`if (vel_xy_magSqr > 0.0f)`).
