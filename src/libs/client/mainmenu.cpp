@@ -19,6 +19,9 @@
 
 
 #include <cstdio>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 #include <tgfclient.h>
 #include <singleplayer.h>
 #include <driverconfig.h>
@@ -29,6 +32,10 @@
 #include "optionmenu.h"
 
 namespace {
+
+#ifndef VERSION
+#define VERSION "1.3.8"
+#endif
 
 float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
@@ -77,7 +84,7 @@ TorcsMainMenuInit(void)
     GfuiScreenAddBgImg(menuHandle, "data/img/splash-main.png");
 
     GfuiLabelCreateEx(menuHandle,
-		    "RACING OPERATIONS",
+		    "OPEN RACING SIMULATOR",
 		    kAccentColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
@@ -85,10 +92,10 @@ TorcsMainMenuInit(void)
 		    GFUI_ALIGN_HL_VB,
 		    0);
 
-    GfuiTitleCreate(menuHandle, "TORCS // RACE CONTROL", 0);
+    GfuiTitleCreate(menuHandle, "ORS // MAIN MENU", 0);
 
     GfuiLabelCreateEx(menuHandle,
-		    "Build the grid, tune the field, and launch straight onto the line.",
+		    "Choose a race mode, configure your setup, and launch straight onto the grid.",
 		    kBodyColor,
 		    GFUI_FONT_MEDIUM_C,
 		    infoLeft,
@@ -97,7 +104,7 @@ TorcsMainMenuInit(void)
 		    0);
 
     GfuiLabelCreateEx(menuHandle,
-		    "Career seasons, one-off events, garage setup, and driver profiles are arranged",
+		    "Career seasons, quick races, player profiles, and options are arranged",
 		    kMutedColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
@@ -106,7 +113,7 @@ TorcsMainMenuInit(void)
 		    0);
 
     GfuiLabelCreateEx(menuHandle,
-		    "as a modern race-weekend hub so the route from menu to green flag feels tighter.",
+		    "as a streamlined hub so the path from menu to green flag stays fast and clear.",
 		    kMutedColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
@@ -115,7 +122,7 @@ TorcsMainMenuInit(void)
 		    0);
 
     GfuiLabelCreateEx(menuHandle,
-		    "FAST START",
+		    "QUICK NAVIGATION",
 		    kAccentColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
@@ -124,7 +131,7 @@ TorcsMainMenuInit(void)
 		    0);
 
     GfuiLabelCreateEx(menuHandle,
-		    "Race jumps directly into the launch-to-grid flow with track, driver, and event setup.",
+		    "Use arrow keys to move, Enter to select, and Esc to open back/quit prompts.",
 		    kBodyColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
@@ -132,8 +139,10 @@ TorcsMainMenuInit(void)
 		    GFUI_ALIGN_HL_VB,
 		    0);
 
+    char versionLabel[64];
+    std::snprintf(versionLabel, sizeof(versionLabel), "Version %s", VERSION);
     GfuiLabelCreateEx(menuHandle,
-		    "Version 1.3.8",
+		    versionLabel,
 		    kMutedColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
