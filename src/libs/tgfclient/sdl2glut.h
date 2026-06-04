@@ -5,6 +5,11 @@
 #ifndef __SDL2GLUT_H__
 #define __SDL2GLUT_H__
 
+#ifdef _WIN32
+# define WIN32_LEAN_AND_MEAN
+# include <windows.h>
+#endif
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 
@@ -116,6 +121,7 @@ void APIENTRY glutGameModeString(const char *string);
 int APIENTRY glutEnterGameMode(void);
 void APIENTRY glutLeaveGameMode(void);
 int APIENTRY glutGameModeGet(GLenum mode);
+void GfuiRegisterImGuiEventHandler(bool (*handler)(void*));
 
 #ifdef __cplusplus
 }

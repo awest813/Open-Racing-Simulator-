@@ -9,6 +9,7 @@
 
 #include "OGLRenderer.h"
 #include "Texture.h"
+#include "ImGuiOverlay.h"
 
 #include <tgfclient.h>
 #include <graphic.h>
@@ -22,6 +23,15 @@
 #include <cstdio>
 #include <string>
 
+static bool fileExists(const std::string& path) {
+    FILE* f = fopen(path.c_str(), "rb");
+    if (f) {
+        fclose(f);
+        return true;
+    }
+    return false;
+}
+
 // Global shader pointers referenced by PostProcess.cpp
 Shader* g_postShader  = nullptr;
 Shader* g_bloomShader = nullptr;
@@ -30,7 +40,7 @@ Shader* g_bloomShader = nullptr;
 
 OGLRenderer::OGLRenderer()
     : m_particles(nullptr), m_skidMarks(nullptr),
-      m_trackModel(nullptr), m_track(nullptr),
+      m_trackModel(nullptr), m_trackGltf(nullptr), m_track(nullptr),
       m_hudVAO(0), m_hudVBO(0)
 {
     m_lightDir[0]    = 0.5f;  m_lightDir[1]    = 0.5f;  m_lightDir[2]    = 1.0f;
@@ -200,9 +210,22 @@ bool OGLRenderer::initTrack(tTrack* track) {
         char acPath[1024];
         snprintf(acPath, sizeof(acPath), "%s%s", trackDir, acFile);
         m_trackTexPath = trackDir;
-        m_trackModel   = AC3DLoader::load(acPath, trackDir);
-        if (!m_trackModel)
-            GfOut("OGLRenderer::initTrack: WARNING - could not load track model '%s'\n", acPath);
+
+        // Try GLB fallback
+        std::string acStr = acFile;
+        size_t dotPos = acStr.find_last_of('.');
+        std::string glbFile = (dotPos != std::string::npos) ? acStr.substr(0, dotPos) + ".glb" : acStr + ".glb";
+        std::string glbPath = std::string(trackDir) + glbFile;
+
+        if (fileExists(glbPath) && m_gltfLoader.load(glbPath)) {
+            m_trackGltf = new GltfModel();
+            m_trackGltf->build(m_gltfLoader);
+            GfOut("OGLRenderer::initTrack: loaded GLTF track '%s'\n", glbPath.c_str());
+        } else {
+            m_trackModel = AC3DLoader::load(acPath, trackDir);
+            if (!m_trackModel)
+                GfOut("OGLRenderer::initTrack: WARNING - could not load track model '%s'\n", acPath);
+        }
     }
 
     GfParmReleaseHandle(trackHandle);
@@ -223,13 +246,25 @@ bool OGLRenderer::initCars(tSituation* s) {
         std::string modelBase = std::string(dataDir) + "data/cars/models/" + car->_carName + "/";
 
         snprintf(path, sizeof(path), "%s%s.ac", modelBase.c_str(), car->_carName);
-        crd.bodyModel = AC3DLoader::load(path, modelBase);
-        if (!crd.bodyModel)
-            GfOut("OGLRenderer::initCars: WARNING - no body model for car '%s'\n", car->_carName);
+        std::string glbBody = modelBase + std::string(car->_carName) + ".glb";
+        if (fileExists(glbBody) && m_gltfLoader.load(glbBody)) {
+            crd.bodyGltf = new GltfModel();
+            crd.bodyGltf->build(m_gltfLoader);
+        } else {
+            crd.bodyModel = AC3DLoader::load(path, modelBase);
+            if (!crd.bodyModel)
+                GfOut("OGLRenderer::initCars: WARNING - no body model for car '%s'\n", car->_carName);
+        }
 
         for (int w = 0; w < 4; w++) {
             snprintf(path, sizeof(path), "%swheel%d.ac", modelBase.c_str(), w);
-            crd.wheelModels[w] = AC3DLoader::load(path, modelBase);
+            std::string glbWheel = modelBase + "wheel" + std::to_string(w) + ".glb";
+            if (fileExists(glbWheel) && m_gltfLoader.load(glbWheel)) {
+                crd.wheelGltf[w] = new GltfModel();
+                crd.wheelGltf[w]->build(m_gltfLoader);
+            } else {
+                crd.wheelModels[w] = AC3DLoader::load(path, modelBase);
+            }
         }
 
         // Identity transforms initially
@@ -248,6 +283,10 @@ void OGLRenderer::shutdownCars() {
     for (auto& crd : m_cars) {
         delete crd.bodyModel;
         for (int w = 0; w < 4; w++) delete crd.wheelModels[w];
+        if (crd.bodyGltf) { crd.bodyGltf->destroy(); delete crd.bodyGltf; }
+        for (int w = 0; w < 4; w++) {
+            if (crd.wheelGltf[w]) { crd.wheelGltf[w]->destroy(); delete crd.wheelGltf[w]; }
+        }
     }
     m_cars.clear();
 }
@@ -255,6 +294,7 @@ void OGLRenderer::shutdownCars() {
 void OGLRenderer::shutdownTrack() {
     delete m_trackModel;
     m_trackModel = nullptr;
+    if (m_trackGltf) { m_trackGltf->destroy(); delete m_trackGltf; m_trackGltf = nullptr; }
     m_track = nullptr;
 }
 
@@ -381,12 +421,22 @@ void OGLRenderer::renderGeometry(bool shadowPass) {
         sh.setInt("shadowMap", 4);
     }
 
-    if (!m_trackModel) return;
+    if (!m_trackModel && !m_trackGltf) return;
 
     float identity[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
     sh.setMat4("model", identity);
 
-    for (auto& mesh : m_trackModel->meshes) {
+    if (m_trackGltf) {
+        if (!shadowPass) {
+            sh.setVec4("matAmbient",  0.2f, 0.2f, 0.2f, 1.0f);
+            sh.setVec4("matDiffuse",  1.0f, 1.0f, 1.0f, 1.0f);
+            sh.setVec4("matSpecular", 0.1f, 0.1f, 0.1f, 1.0f);
+            sh.setFloat("matShininess", 10.0f);
+            sh.setInt("texture1", 0);
+        }
+        m_trackGltf->draw();
+    } else if (m_trackModel) {
+        for (auto& mesh : m_trackModel->meshes) {
         if (!mesh || !mesh->valid()) continue;
         if (!shadowPass) {
             sh.setVec4("matAmbient",  mesh->ambient[0],  mesh->ambient[1],  mesh->ambient[2],  mesh->ambient[3]);
@@ -400,6 +450,7 @@ void OGLRenderer::renderGeometry(bool shadowPass) {
             sh.setInt("texture1", 0);
         }
         mesh->draw();
+    }
     }
 }
 
@@ -430,7 +481,17 @@ void OGLRenderer::renderCars(bool shadowPass) {
 
     for (auto& crd : m_cars) {
         // Draw body
-        if (crd.bodyModel) {
+        if (crd.bodyGltf) {
+            sh.setMat4("model", crd.bodyTransform);
+            if (!shadowPass) {
+                sh.setVec4("matAmbient",  0.2f, 0.2f, 0.2f, 1.0f);
+                sh.setVec4("matDiffuse",  1.0f, 1.0f, 1.0f, 1.0f);
+                sh.setVec4("matSpecular", 0.5f, 0.5f, 0.5f, 1.0f);
+                sh.setFloat("matShininess", 50.0f);
+                sh.setInt("texture1", 0);
+            }
+            crd.bodyGltf->draw();
+        } else if (crd.bodyModel) {
             sh.setMat4("model", crd.bodyTransform);
             for (auto& mesh : crd.bodyModel->meshes) {
                 if (!mesh || !mesh->valid()) continue;
@@ -450,21 +511,32 @@ void OGLRenderer::renderCars(bool shadowPass) {
 
         // Draw wheels
         for (int w = 0; w < 4; w++) {
-            if (!crd.wheelModels[w]) continue;
-            sh.setMat4("model", crd.wheelTransforms[w]);
-            for (auto& mesh : crd.wheelModels[w]->meshes) {
-                if (!mesh || !mesh->valid()) continue;
+            if (crd.wheelGltf[w]) {
+                sh.setMat4("model", crd.wheelTransforms[w]);
                 if (!shadowPass) {
-                    sh.setVec4("matAmbient",  mesh->ambient[0],  mesh->ambient[1],  mesh->ambient[2],  mesh->ambient[3]);
-                    sh.setVec4("matDiffuse",  mesh->diffuse[0],  mesh->diffuse[1],  mesh->diffuse[2],  mesh->diffuse[3]);
-                    sh.setVec4("matSpecular", mesh->specular[0], mesh->specular[1], mesh->specular[2], mesh->specular[3]);
-                    sh.setFloat("matShininess", mesh->shininess);
-                    glActiveTexture(GL_TEXTURE0);
-                    GLuint tex = TextureManager::instance().load(mesh->texturePath);
-                    glBindTexture(GL_TEXTURE_2D, tex);
+                    sh.setVec4("matAmbient",  0.2f, 0.2f, 0.2f, 1.0f);
+                    sh.setVec4("matDiffuse",  1.0f, 1.0f, 1.0f, 1.0f);
+                    sh.setVec4("matSpecular", 0.1f, 0.1f, 0.1f, 1.0f);
+                    sh.setFloat("matShininess", 10.0f);
                     sh.setInt("texture1", 0);
                 }
-                mesh->draw();
+                crd.wheelGltf[w]->draw();
+            } else if (crd.wheelModels[w]) {
+                sh.setMat4("model", crd.wheelTransforms[w]);
+                for (auto& mesh : crd.wheelModels[w]->meshes) {
+                    if (!mesh || !mesh->valid()) continue;
+                    if (!shadowPass) {
+                        sh.setVec4("matAmbient",  mesh->ambient[0],  mesh->ambient[1],  mesh->ambient[2],  mesh->ambient[3]);
+                        sh.setVec4("matDiffuse",  mesh->diffuse[0],  mesh->diffuse[1],  mesh->diffuse[2],  mesh->diffuse[3]);
+                        sh.setVec4("matSpecular", mesh->specular[0], mesh->specular[1], mesh->specular[2], mesh->specular[3]);
+                        sh.setFloat("matShininess", mesh->shininess);
+                        glActiveTexture(GL_TEXTURE0);
+                        GLuint tex = TextureManager::instance().load(mesh->texturePath);
+                        glBindTexture(GL_TEXTURE_2D, tex);
+                        sh.setInt("texture1", 0);
+                    }
+                    mesh->draw();
+                }
             }
         }
     }
@@ -590,4 +662,8 @@ void OGLRenderer::refresh(tSituation* s) {
 
     // 2D HUD on top of composited frame
     renderHUD(s);
+
+    // Dear ImGui telemetry / tuning overlay (F12 to toggle)
+    ImGuiOverlay::render(s);
 }
+

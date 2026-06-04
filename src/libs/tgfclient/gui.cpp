@@ -29,8 +29,12 @@
 
 #include <tgfclient.h>
 #include "gui.h"
+#include "RmlUiMain.h"
 
 #include <portability.h>
+
+struct SDL_Window;
+extern "C" SDL_Window* GfuiGetSdlWindow();
 
 tGfuiScreen	*GfuiScreen;	/* current screen */
 static int	GfuiMouseVisible = 1;
@@ -153,9 +157,52 @@ GfuiIdle(void)
 /** Display function for the GUI to be called during redisplay of glut.
     @ingroup	gui
 */
+
+enum ScreenTransitionState {
+    TRANSITION_NONE,
+    TRANSITION_FADING_OUT,
+    TRANSITION_FADING_IN
+};
+
+static ScreenTransitionState transitionState = TRANSITION_NONE;
+static float transitionAlpha = 0.0f;
+static void* pendingScreen = nullptr;
+static double lastTransitionTime = 0.0;
+static const float TRANSITION_DURATION = 0.15f; // 150ms
+
+void GfuiScreenActivate_Actual(void *screen);
+
 void
 GfuiDisplay(void)
 {
+	if (RmlUiMain::IsActive()) {
+		RmlUiMain::UpdateAndRender((int)GfuiScreen->width, (int)GfuiScreen->height);
+		glutSwapBuffers();
+		return;
+	}
+
+	double curTime = GfTimeClock();
+	if (transitionState == TRANSITION_FADING_OUT) {
+		float dt = (float)(curTime - lastTransitionTime);
+		transitionAlpha += dt / TRANSITION_DURATION;
+		lastTransitionTime = curTime;
+		if (transitionAlpha >= 1.0f) {
+			transitionAlpha = 1.0f;
+			transitionState = TRANSITION_FADING_IN;
+			GfuiScreenActivate_Actual(pendingScreen);
+			lastTransitionTime = GfTimeClock();
+			return; // GfuiScreenActivate_Actual will invoke GfuiDisplay
+		}
+	} else if (transitionState == TRANSITION_FADING_IN) {
+		float dt = (float)(curTime - lastTransitionTime);
+		transitionAlpha -= dt / TRANSITION_DURATION;
+		lastTransitionTime = curTime;
+		if (transitionAlpha <= 0.0f) {
+			transitionAlpha = 0.0f;
+			transitionState = TRANSITION_NONE;
+		}
+	}
+
 	tGfuiObject	*curObj;
 	
 	glDisable(GL_DEPTH_TEST);
@@ -227,6 +274,21 @@ GfuiDisplay(void)
 	
 	if (!GfuiMouseHW && GfuiMouseVisible && GfuiScreen->mouseAllowed) {
 		GfuiDrawCursor();
+	}
+
+	if (transitionState != TRANSITION_NONE) {
+		glDisable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4f(0.0f, 0.0f, 0.0f, transitionAlpha);
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, 0.0, 0.0);
+		glVertex3f(0.0, GfuiScreen->height, 0.0);
+		glVertex3f(GfuiScreen->width, GfuiScreen->height, 0.0);
+		glVertex3f(GfuiScreen->width, 0.0, 0.0);
+		glEnd();
+		glDisable(GL_BLEND);
+		glutPostRedisplay();
 	}
 
 	glDisable(GL_BLEND);
@@ -501,6 +563,40 @@ GfuiHasCurrentScreen(void)
 void
 GfuiScreenActivate(void *screen)
 {
+	if (screen == GfuiScreen) return;
+	
+	if (GfuiScreen == nullptr || transitionState != TRANSITION_NONE) {
+		GfuiScreenActivate_Actual(screen);
+		return;
+	}
+	
+	transitionState = TRANSITION_FADING_OUT;
+	pendingScreen = screen;
+	transitionAlpha = 0.0f;
+	lastTransitionTime = GfTimeClock();
+	glutPostRedisplay();
+}
+
+void
+GfuiScreenActivate_Actual(void *screen)
+{
+	extern void* menuHandle;
+	extern void* optionHandle;
+
+	if (GfuiGetSdlWindow() != nullptr) {
+		RmlUiMain::Init();
+	}
+
+	if (screen == menuHandle) {
+		RmlUiMain::SetActive(true);
+		RmlUiMain::LoadRmlMenu("data/menu/main.html");
+	} else if (screen == optionHandle) {
+		RmlUiMain::SetActive(true);
+		RmlUiMain::LoadRmlMenu("data/menu/settings.html");
+	} else {
+		RmlUiMain::SetActive(false);
+	}
+
 	if ((GfuiScreen) && (GfuiScreen->onDeactivate)) GfuiScreen->onDeactivate(GfuiScreen->userDeactData);
 	
 	GfuiScreen = (tGfuiScreen*)screen;

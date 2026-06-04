@@ -24,8 +24,40 @@
 #include <tgf.h>
 #include <portability.h>
 
+#ifdef TORCS_USE_MINIAUDIO
+#include "MiniAudioPlayer.h"
+static MiniAudioPlayer* getMusicPlayer()
+{
+	// Build the full path the same way the OpenAL path does.
+	static char s_path[1024];
+	snprintf(s_path, sizeof(s_path), "%sdata/music/torcs1.ogg", GetLocalDir());
+	static MiniAudioPlayer player(s_path);
+	return &player;
+}
+#define PLAYER_START()   getMusicPlayer()->start()
+#define PLAYER_STOP()    getMusicPlayer()->stop()
+#define PLAYER_REWIND()  getMusicPlayer()->rewind()
+#define PLAYER_PUMP()    getMusicPlayer()->playAndManageBuffer()
+#else
 #include "OggSoundStream.h"
 #include "OpenALMusicPlayer.h"
+static SoundStream* getMenuSoundStream(char* oggFilePath)
+{
+	static OggSoundStream stream(oggFilePath);
+	return &stream;
+}
+static OpenALMusicPlayer* getMusicPlayer()
+{
+	static OpenALMusicPlayer player(getMenuSoundStream(
+	    const_cast<char*>("data/music/torcs1.ogg")));
+	return &player;
+}
+#define PLAYER_START()   getMusicPlayer()->start()
+#define PLAYER_STOP()    getMusicPlayer()->stop()
+#define PLAYER_REWIND()  getMusicPlayer()->rewind()
+#define PLAYER_PUMP()    getMusicPlayer()->playAndManageBuffer()
+#endif
+
 #include "RadioEngine.h"
 
 
@@ -47,49 +79,26 @@ static bool isEnabled()
 	return enabled;
 }
 
-
-// Path relative to CWD, e.g "data/music/torcs1.ogg"
-static SoundStream* getMenuSoundStream(char* oggFilePath)
-{
-	static OggSoundStream stream(oggFilePath);
-	return &stream;
-}
-
-
-static OpenALMusicPlayer* getMusicPlayer()
-{
-	static OpenALMusicPlayer player(getMenuSoundStream(
-	    const_cast<char*>("data/music/torcs1.ogg")));
-	return &player;
-}
-
-
-static void playMenuMusic(int /* value */)
+static void playMenuMusicPump(int /* value */)
 {
 	const int nextcallinms = 100;
-	
-	OpenALMusicPlayer* player = getMusicPlayer();
-	if (player->playAndManageBuffer()) {
-		glutTimerFunc(nextcallinms, playMenuMusic, 0);
+	if (PLAYER_PUMP()) {
+		glutTimerFunc(nextcallinms, playMenuMusicPump, 0);
 	}
 }
-
 
 void startMenuMusic()
 {
 	if (isEnabled()) {
-		OpenALMusicPlayer* player = getMusicPlayer();
-		player->start();
-		playMenuMusic(0);
+		PLAYER_START();
+		playMenuMusicPump(0);
 	}
 }
 
-
 void stopMenuMusic()
 {
-	OpenALMusicPlayer* player = getMusicPlayer();
-	player->stop();
-	player->rewind();
+	PLAYER_STOP();
+	PLAYER_REWIND();
 }
 
 

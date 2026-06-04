@@ -32,6 +32,7 @@ target_link_libraries(wtorcs
     musicplayer
     ssggraph
     oglgraph
+    rmlui_core
     # Third party libs from src/windows/lib (already in link_directories)
     ssg_vs2008_32
     ssgAux_vs2008_32
@@ -61,3 +62,9 @@ add_dependencies(wtorcs
     track
     ${TORCS_ROBOT_TARGETS}
 )
+
+if(TORCS_USE_SDL2)
+    add_custom_command(TARGET wtorcs POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/src/libs/thirdparty/SDL2/lib/x86/SDL2.dll" "$<TARGET_FILE_DIR:wtorcs>"
+    )
+endif()

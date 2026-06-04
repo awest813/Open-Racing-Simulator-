@@ -133,6 +133,7 @@ static int hubTierId        = -1;  /* "[ROOKIE SERIES]" (coloured)   */
 static int hubSeasonId      = -1;  /* "Season 2"                     */
 static int hubRaceId        = -1;  /* "Next event: Forza (1/4)"      */
 static int hubStatsId       = -1;  /* "Wins: 5  Podiums: 12  Champs: 1" */
+static int hubCarId         = -1;  /* "Active Car: ..."               */
 static int hubSeaDoneId     = -1;  /* "Season complete!" banner       */
 static int hubPromotionId   = -1;  /* "Promoted to Pro!" / "Champion!" */
 static int hubRaceNextBtnId   = -1;
@@ -270,6 +271,23 @@ static int readLatestCareerResults(const CareerTierDef *tier,
         GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_TRACK, nullptr, 1));
 
     int n = GfParmGetEltNb(results, RE_SECT_STANDINGS);
+
+    /* Standings-carryover fix: Check if we are at the start of a brand new season
+       (lastTrack == 0) and the found results file actually belongs to the previous
+       completed season (curTrack == 1 with existing standings). If so, ignore it. */
+    int lastTrack = 0;
+    bool seasonDone = false;
+    void *saveH = openCareerSave(false);
+    if (saveH) {
+        lastTrack = static_cast<int>(GfParmGetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, 0));
+        const char *seaDone = GfParmGetStr(saveH, CS_SECT_PLAYER, CS_ATTR_SEA_DONE, "no");
+        seasonDone = (strcmp(seaDone, "yes") == 0);
+        GfParmReleaseHandle(saveH);
+    }
+    if (!seasonDone && lastTrack == 0 && curTrack == 1 && n > 0) {
+        GfParmReleaseHandle(results);
+        return 1;
+    }
     if (n > maxLines) n = maxLines;
     *numOut = n;
 
@@ -714,7 +732,7 @@ static void careerHubActivate(void * /* dummy */)
         }
         seasonChampion = champion;
         writeCareerSave(saveH);
-    } else if (!seasonDone && curTrack > lastTrack) {
+    } else if (!seasonDone && curTrack > lastTrack && nDummy > 0) {
         /* Advance lastTrack so we can detect season end next time */
         GfParmSetNum(saveH, CS_SECT_PLAYER, CS_ATTR_LAST_TRK, nullptr, static_cast<tdble>(curTrack));
         writeCareerSave(saveH);
@@ -739,6 +757,14 @@ static void careerHubActivate(void * /* dummy */)
     snprintf(buf, sizeof(buf), "Wins: %d   Podiums: %d   Championships: %d   Races: %d",
              wins, podiums, champs, totalRaces);
     GfuiLabelSetText(careerHubHandle, hubStatsId, buf);
+
+    if (tier->id == 1) {
+        GfuiLabelSetText(careerHubHandle, hubCarId, "Active Car: Stock Car (car1-stock1)");
+    } else if (tier->id == 2) {
+        GfuiLabelSetText(careerHubHandle, hubCarId, "Active Car: GT Touring (car7-trb1)");
+    } else if (tier->id == 3) {
+        GfuiLabelSetText(careerHubHandle, hubCarId, "Active Car: Supercar (car1-trb3)");
+    }
 
     if (seasonDone) {
         GfuiLabelSetText(careerHubHandle, hubSeaDoneId,
@@ -893,27 +919,37 @@ static void *careerHubInit(void *prevMenu)
                                   320, 377,
                                   GFUI_ALIGN_HC_VB, 80);
 
-    /* Season-complete banner (hidden until season ends) */
+    {
+        float greyColor[4] = { 0.75f, 0.75f, 0.75f, 1.0f };
+        hubCarId = GfuiLabelCreateEx(careerHubHandle,
+                                     "Active Car: ...",
+                                     greyColor,
+                                     GFUI_FONT_SMALL_C,
+                                     320, 358,
+                                     GFUI_ALIGN_HC_VB, 80);
+    }
+
+    /* Season-complete banner (hidden until season ends) - repositioned to 338 */
     {
         float goldColor[4] = { 1.0f, 0.85f, 0.0f, 1.0f };
         hubSeaDoneId = GfuiLabelCreateEx(careerHubHandle,
                                           "",
                                           goldColor,
                                           GFUI_FONT_MEDIUM_C,
-                                          320, 356,
+                                          320, 338,
                                           GFUI_ALIGN_HC_VB, 80);
         GfuiVisibilitySet(careerHubHandle, hubSeaDoneId, GFUI_INVISIBLE);
     }
 
-    /* Promotion / champion message (hidden until season ends) */
+    /* Promotion / champion message (hidden until season ends) - repositioned to 318 */
     {
         float cyanColor[4] = { 0.4f, 1.0f, 1.0f, 1.0f };
         hubPromotionId = GfuiLabelCreateEx(careerHubHandle,
-                                            "",
-                                            cyanColor,
-                                            GFUI_FONT_SMALL_C,
-                                            320, 336,
-                                            GFUI_ALIGN_HC_VB, 80);
+                                             "",
+                                             cyanColor,
+                                             GFUI_FONT_SMALL_C,
+                                             320, 318,
+                                             GFUI_ALIGN_HC_VB, 80);
         GfuiVisibilitySet(careerHubHandle, hubPromotionId, GFUI_INVISIBLE);
     }
 

@@ -57,3 +57,15 @@ build_linux
 build/
 runtime/results/
 runtime/replay/
+runtime/COPYING
+runtime/Ticon.ico
+runtime/Ticon.png
+runtime/logo-skinner.png
+runtime/tux.png
+runtime/cars/
+runtime/categories/
+runtime/data/
+runtime/menu/
+runtime/modules/
+runtime/tracks/
+runtime/wheels/

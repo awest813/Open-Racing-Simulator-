@@ -22,5 +22,6 @@ private:
     std::map<std::string, GLuint> m_cache;
     GLuint loadFromFile(const std::string& path);
     GLuint loadSGI(const std::string& path);
+    GLuint loadPNG(const std::string& path);
     GLuint createFallback();
 };

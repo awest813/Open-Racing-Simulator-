@@ -33,7 +33,7 @@ float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 
 } // namespace
 
-static void *optionHandle = nullptr;
+void *optionHandle = nullptr;
 
 void *
 TorcsOptionOptionInit(void *precMenu)

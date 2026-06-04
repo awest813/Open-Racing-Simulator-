@@ -28,7 +28,11 @@
 #include <windows.h>
 #endif
 
-#include "png.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb/stb_image_write.h>
 
 #include <tgfclient.h>
 #include <cstdlib>
@@ -39,151 +43,25 @@
 
 #include <portability.h>
 
-#define PNG_BYTES_TO_CHECK 4
-
 /** Load an image from disk to a buffer in RGBA mode.
     @ingroup	img		
     @param	filename	name of the image to load
     @param	widthp		width of the read image
     @param	heightp		height of the read image
-    @param	screen_gamma	gamma correction value
+    @param	screen_gamma	gamma correction value (unused in stb_image backend)
     @return	Pointer on the buffer containing the image
 		<br>nullptr Error
  */
 unsigned char *
 GfImgReadPng(const char *filename, int *widthp, int *heightp, float screen_gamma)
 {
-	unsigned char buf[PNG_BYTES_TO_CHECK];
-	FILE *fp;
-	png_structp	png_ptr;
-	png_infop info_ptr;
-	png_uint_32 width, height;
-	int	bit_depth, color_type, interlace_type;
-	
-	/*     png_color_16p	image_background; */
-	double gamma;
-	png_bytep *row_pointers;
-	unsigned char *image_ptr, *cur_ptr;
-	png_uint_32 rowbytes;
-	png_uint_32 i;
-	
-	if ((fp = fopen(filename, "rb")) == nullptr) {
-		GfTrace("Can't open file %s\n", filename);
-		return (unsigned char *)nullptr;
+	int channels;
+	stbi_set_flip_vertically_on_load(1);
+	unsigned char *image_ptr = stbi_load(filename, widthp, heightp, &channels, 4);
+	if (!image_ptr) {
+		GfTrace("Can't open/parse file %s\n", filename);
+		return nullptr;
 	}
-	
-	if (fread(buf, 1, PNG_BYTES_TO_CHECK, fp) != PNG_BYTES_TO_CHECK) {
-		GfTrace("Can't read file %s\n", filename);
-		fclose(fp);
-		return (unsigned char *)nullptr;
-	}
-	
-	if (png_sig_cmp(buf, (png_size_t)0, PNG_BYTES_TO_CHECK) != 0) {
-		GfTrace("File %s not in png format\n", filename);
-		fclose(fp);
-		return (unsigned char *)nullptr;
-	}
-	
-	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-	if (png_ptr == nullptr) {
-		GfTrace("Img Failed to create read_struct\n");
-		fclose(fp);
-		return (unsigned char *)nullptr;
-	}
-	
-	info_ptr = png_create_info_struct(png_ptr);
-	if (info_ptr == nullptr) {
-		fclose(fp);
-		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
-		return (unsigned char *)nullptr;
-	}
-	
-	if (setjmp(png_jmpbuf(png_ptr)))
-	{
-		/* Free all of the memory associated with the png_ptr and info_ptr */
-		png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
-		fclose(fp);
-		/* If we get here, we had a problem reading the file */
-		return (unsigned char *)nullptr;
-	}
-	
-	png_init_io(png_ptr, fp);
-	png_set_sig_bytes(png_ptr, PNG_BYTES_TO_CHECK);
-	png_read_info(png_ptr, info_ptr);
-	png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, nullptr, nullptr);
-	*widthp = (int)width;
-	*heightp = (int)height;
-	
-	if (bit_depth == 1 && color_type == PNG_COLOR_TYPE_GRAY) png_set_invert_mono(png_ptr);
-	if (bit_depth == 16) {
-		png_set_swap(png_ptr);
-		png_set_strip_16(png_ptr);
-	}
-	
-	if (bit_depth < 8) {
-		png_set_packing(png_ptr);
-	}
-	
-	if (color_type == PNG_COLOR_TYPE_PALETTE) {
-		png_set_expand(png_ptr);
-	}
-	
-	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) {
-		png_set_expand(png_ptr);
-	}
-	
-	if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
-		png_set_expand(png_ptr);
-	}
-	
-	if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
-		png_set_gray_to_rgb(png_ptr);
-	}
-	
-	if (bit_depth == 8 && color_type == PNG_COLOR_TYPE_RGB) {
-		png_set_filler(png_ptr, 0xff, PNG_FILLER_AFTER);
-	}
-	
-	if (png_get_gAMA(png_ptr, info_ptr, &gamma)) {
-		png_set_gamma(png_ptr, screen_gamma, gamma);
-	} else {
-		png_set_gamma(png_ptr, screen_gamma, 0.50);
-	}
-	
-	png_read_update_info(png_ptr, info_ptr);
-	rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-	
-	// RGBA expected.
-	if (rowbytes != (4 * width)) {
-		GfTrace("%s bad byte count... %lu instead of %lu\n", filename, (unsigned long) rowbytes, (unsigned long) (4 * width));
-		fclose(fp);
-		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
-		return (unsigned char *)nullptr;
-	}
-	
-	row_pointers = (png_bytep*)malloc(height * sizeof(png_bytep));
-	if (row_pointers == nullptr) {
-		fclose(fp);
-		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
-		return (unsigned char *)nullptr;
-	}
-	
-	image_ptr = (unsigned char *)malloc(height * rowbytes);
-	if (image_ptr == nullptr) {
-		fclose(fp);
-		png_destroy_read_struct(&png_ptr, nullptr, nullptr);
-		return (unsigned char *)nullptr;
-	}
-	
-	for (i = 0, cur_ptr = image_ptr + (height - 1) * rowbytes ; i < height; i++, cur_ptr -= rowbytes) {
-		row_pointers[i] = cur_ptr;
-	}
-	
-	png_read_image(png_ptr, row_pointers);
-	png_destroy_read_struct(&png_ptr, &info_ptr, nullptr);
-	free(row_pointers);
-	
-	fclose(fp);
 	return image_ptr;
 }
 
@@ -200,75 +78,9 @@ GfImgReadPng(const char *filename, int *widthp, int *heightp, float screen_gamma
 int
 GfImgWritePng(unsigned char *img, const char *filename, int width, int height)
 {
-	FILE *fp;
-	png_structp	png_ptr;
-	png_infop info_ptr;
-	png_bytep *row_pointers;
-	png_uint_32 rowbytes;
-	int i;
-	unsigned char *cur_ptr;
-#if 0
-    void		*handle;
-#endif
-	float		screen_gamma;
-	
-	fp = fopen(filename, "wb");
-	if (fp == nullptr) {
-		GfTrace("Can't open file %s\n", filename);
-		return -1;
-	}
-	
-	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-	if (png_ptr == nullptr) {
-		return -1;
-	}
-	
-	info_ptr = png_create_info_struct(png_ptr);
-	if (info_ptr == nullptr) {
-		png_destroy_write_struct(&png_ptr, nullptr);
-		return -1;
-	}
-	
-	if (setjmp(png_jmpbuf(png_ptr))) {    
-		png_destroy_write_struct(&png_ptr, &info_ptr);
-		fclose(fp);
-		return -1;
-	}
-	
-	png_init_io(png_ptr, fp);
-	png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB,
-			PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-#if 0
-    handle = GfParmReadFile(GFSCR_CONF_FILE, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
-    screen_gamma = (float)GfParmGetNum(handle, GFSCR_SECT_PROP, GFSCR_ATT_GAMMA, nullptr, 2.0);
-    GfParmReleaseHandle(handle);
-#else
-	screen_gamma = 2.0;
-#endif
-	png_set_gAMA(png_ptr, info_ptr, screen_gamma);
-	/* png_set_bgr(png_ptr);    TO INVERT THE COLORS !!!! */
-	png_write_info(png_ptr, info_ptr);
-	png_write_flush(png_ptr);
-	
-	rowbytes = width * 3;
-	row_pointers = (png_bytep*)malloc(height * sizeof(png_bytep));
-	
-	if (row_pointers == nullptr) {
-		fclose(fp);
-		png_destroy_write_struct(&png_ptr, &info_ptr);
-		return -1;
-	}
-	
-	for (i = 0, cur_ptr = img + (height - 1) * rowbytes ; i < height; i++, cur_ptr -= rowbytes) {
-		row_pointers[i] = cur_ptr;
-	}
-	
-	png_write_image(png_ptr, row_pointers);
-	png_write_end(png_ptr, nullptr);
-	png_destroy_write_struct(&png_ptr, &info_ptr);
-	fclose(fp);
-	free(row_pointers);
-	return 0;
+	stbi_flip_vertically_on_write(1);
+	int success = stbi_write_png(filename, width, height, 3, img, width * 3);
+	return success ? 0 : -1;
 }
 
 /** Free the texture
