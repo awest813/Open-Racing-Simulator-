@@ -34,7 +34,7 @@
 namespace {
 
 #ifndef VERSION
-#define VERSION "1.3.8"
+#define VERSION "dev"
 #endif
 
 float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
@@ -131,7 +131,7 @@ TorcsMainMenuInit(void)
 		    0);
 
     GfuiLabelCreateEx(menuHandle,
-		    "Use arrow keys to move, Enter to select, and Esc to open back/quit prompts.",
+		    "Use arrow keys to move, Enter to select, and Esc to go back or quit.",
 		    kBodyColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
