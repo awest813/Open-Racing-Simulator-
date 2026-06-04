@@ -19,7 +19,6 @@
 
 
 #include <cstdio>
-#include <string>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -142,9 +141,10 @@ TorcsMainMenuInit(void)
 #else
 		    "dev";
 #endif
-    static std::string versionLabel = std::string("Version ") + versionString;
+    char versionLabel[256];
+    std::snprintf(versionLabel, sizeof(versionLabel), "Version %.240s", versionString);
     GfuiLabelCreateEx(menuHandle,
-		    versionLabel.c_str(),
+		    versionLabel,
 		    kMutedColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
