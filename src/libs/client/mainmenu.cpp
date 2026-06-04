@@ -142,7 +142,7 @@ TorcsMainMenuInit(void)
 		    "dev";
 #endif
     char versionLabel[256];
-    std::snprintf(versionLabel, sizeof(versionLabel), "Version %.240s", versionString);
+    std::snprintf(versionLabel, sizeof(versionLabel), "Version %s", versionString);
     GfuiLabelCreateEx(menuHandle,
 		    versionLabel,
 		    kMutedColor,
