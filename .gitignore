@@ -69,3 +69,11 @@ runtime/menu/
 runtime/modules/
 runtime/tracks/
 runtime/wheels/
+
+# Node dependencies
+node_modules/
+package.json
+package-lock.json
+mock_event.php
+screenshot.js
+screenshot.png

@@ -21,3 +21,6 @@
 ## 2024-06-03 - Use type="email" for Email Inputs in Legacy Templates
 **Learning:** Legacy `.ihtml` template forms often use `<input type="text">` for email fields, which misses out on native browser validation and mobile keyboard optimization (showing the '@' symbol).
 **Action:** Always update email input fields to use the semantic HTML5 `<input type="email">` attribute. This instantly improves mobile keyboard compatibility and enables native browser validation without requiring any custom CSS or additional dependencies.
+## 2024-06-04 - Improve Event Form Accessibility
+**Learning:** In legacy `.ihtml` template forms, fields such as form text inputs, textareas, selects, and file inputs lack semantic labels, which creates issues for screen readers. In `admin_event_create.ihtml`, text like "Name:" and "Sign-in start:" were plain text inside `<td>`s.
+**Action:** Added `<label for="id">` wrappers to descriptive text and corresponding `id` attributes to form elements. This allows clicking the label to focus the input and gives screen readers the required context.
