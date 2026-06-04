@@ -19,6 +19,7 @@
 
 
 #include <cstdio>
+#include <string>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -32,10 +33,6 @@
 #include "optionmenu.h"
 
 namespace {
-
-#ifndef VERSION
-#define VERSION "dev"
-#endif
 
 float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
@@ -139,10 +136,15 @@ TorcsMainMenuInit(void)
 		    GFUI_ALIGN_HL_VB,
 		    0);
 
-    char versionLabel[64];
-    std::snprintf(versionLabel, sizeof(versionLabel), "Version %s", VERSION);
+    const char* versionString =
+#ifdef VERSION
+		    VERSION;
+#else
+		    "dev";
+#endif
+    static std::string versionLabel = std::string("Version ") + versionString;
     GfuiLabelCreateEx(menuHandle,
-		    versionLabel,
+		    versionLabel.c_str(),
 		    kMutedColor,
 		    GFUI_FONT_SMALL_C,
 		    infoLeft,
