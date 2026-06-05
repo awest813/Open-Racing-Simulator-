@@ -10,7 +10,7 @@
 #include "RmlUi_Renderer_GL2.h"
 #include "RmlUi_Platform_SDL.h"
 
-#include <../thirdparty/stb/stb_image.h>
+#include <stb/stb_image.h>
 #include <SDL2/SDL.h>
 #ifndef NOMINMAX
 #define NOMINMAX
