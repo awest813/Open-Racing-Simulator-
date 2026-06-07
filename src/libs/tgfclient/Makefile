@@ -39,6 +39,8 @@ SOURCES   = 	guimenu.cpp \
 		tgfclient.cpp \
 		glfeatures.cpp
 
+INCFLAGS += -I../thirdparty/stb
+
 
 EXPDIR  = include
 
