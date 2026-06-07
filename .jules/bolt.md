@@ -36,3 +36,7 @@
 ## 2026-06-03 - Defer unconditionally executed sqrt in conditional branches
 **Learning:** Found instances where `sqrt()` calculations (e.g. `tdble vel_xy_mag = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + ...);`) were being unconditionally evaluated right before a positive check (`if (vel_xy_mag > 0.0f)`) in hot loop wing updates (`SimWingUpdate`).
 **Action:** Always calculate the squared magnitude first, and strictly defer evaluating the expensive `sqrt()` operation inside the positive condition block (`if (vel_xy_magSqr > 0.0f)`).
+
+## 2025-06-07 - Avoid unconditional sqrt before macro usage or comparisons
+**Learning:** Found instances where `sqrt()` operations were unconditionally evaluated just to be checked against threshold conditions (like `> 1.0`) or passed to multi-evaluating macros like `MAX(1.0, vel_mag)`. This evaluates expensive roots even when unnecessary.
+**Action:** Always compute the squared magnitude first, check against the squared threshold, and defer the `sqrt()` evaluation to the positive conditional block. For threshold clamping (like `MAX(1.0, vel_mag)`), replace it with conditionally evaluating `sqrt()` only if `vel_magSqr > 1.0`.

@@ -189,9 +189,10 @@ SimCarCollideZ(tCar *car)
                         cvy = car->corner[i].vel.y;
                         cvz = car->corner[i].vel.z;
 
-                        tdble sum_v = sqrt(cvx*cvx + cvy*cvy + cvz*cvz);
-                        if (sum_v>1.0) {
-                            t3Dd fr_loc;
+                        tdble sum_vSqr = cvx*cvx + cvy*cvy + cvz*cvz;
+                        if (sum_vSqr>1.0) {
+                            tdble sum_v = sqrt(sum_vSqr);
+							t3Dd fr_loc;
                             friction.x = cvx/sum_v;
                             friction.y = cvy/sum_v;
                             friction.z = cvz/sum_v;
@@ -298,8 +299,12 @@ SimCarCollideXYScene(tCar *car)
         initDotProd = nx * corner->vel.x + ny * corner->vel.y;
 
         // Compute dmgDotProd (base value for later damage) with a heuristic.
-        tdble vel_mag = sqrt(car->DynGCg.vel.x*car->DynGCg.vel.x + car->DynGCg.vel.y*car->DynGCg.vel.y);
-        tdble absvel = MAX(1.0, vel_mag);
+		tdble vel_magSqr = car->DynGCg.vel.x*car->DynGCg.vel.x + car->DynGCg.vel.y*car->DynGCg.vel.y;
+		// BOLT: Optimized MAX macro evaluation by avoiding unconditional sqrt
+		tdble absvel = 1.0;
+		if (vel_magSqr > 1.0) {
+		    absvel = sqrt(vel_magSqr);
+		}
         tdble GCgnormvel = car->DynGCg.vel.x*nx + car->DynGCg.vel.y*ny;
         tdble cosa = GCgnormvel/absvel;
         tdble dmgDotProd = GCgnormvel*cosa;
