@@ -24,3 +24,6 @@
 ## 2024-06-08 - HTML5 Client-Side Validation on Legacy Forms
 **Learning:** Legacy forms often rely entirely on server-side validation, forcing a full page reload (and potentially losing non-persisted input) just to tell the user a required field was missed.
 **Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `required` attribute to mandatory `<input>` elements. This provides instant, native client-side validation and improves the UX without altering backend logic.
+## 2024-05-24 - Leverage native browser form validation
+**Learning:** Legacy tabular forms often lack client-side validation, leading to unnecessary server roundtrips for empty required fields.
+**Action:** Add the HTML5 `required` attribute to mandatory fields (like email for password resets) to provide immediate, accessible feedback without adding custom JS or CSS.
