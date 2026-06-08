@@ -24,7 +24,11 @@ set(SSGGRAPH_SOURCES
     TorcsSound.cpp
 )
 
-add_library(ssggraph MODULE ${SSGGRAPH_SOURCES})
+if(WIN32)
+    add_library(ssggraph STATIC ${SSGGRAPH_SOURCES})
+else()
+    add_library(ssggraph MODULE ${SSGGRAPH_SOURCES})
+endif()
 
 target_include_directories(ssggraph PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -60,7 +64,9 @@ else()
     )
 endif()
 
-torcs_add_plugin_module(ssggraph "modules/graphic")
+if(NOT WIN32)
+    torcs_add_plugin_module(ssggraph "modules/graphic")
+endif()
 
 if(MSVC)
     target_compile_options(ssggraph PRIVATE /wd4996)

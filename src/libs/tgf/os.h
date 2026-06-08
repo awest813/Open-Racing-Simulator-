@@ -47,11 +47,13 @@ typedef struct {
 } tGfOs;
 
 #ifdef WIN32
+#ifndef TGF_STATIC
 #ifdef TGF_EXPORTS
 __declspec(dllexport)
 #else // TGF_EXPORTS
 __declspec(dllimport)
 #endif // TGF_EXPORTS
+#endif // TGF_STATIC
 #endif // WIN32
 extern tGfOs GfOs;
 

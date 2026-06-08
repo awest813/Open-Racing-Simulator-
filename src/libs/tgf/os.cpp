@@ -38,7 +38,9 @@ extern "C" { FILE * __cdecl __iob_func(void) { return _iob; } }
  * Globals definitions
  */
 #ifdef WIN32
+#ifndef TGF_STATIC
 __declspec(dllexport)
+#endif // TGF_STATIC
 #endif // WIN32
 tGfOs GfOs = {0};
 

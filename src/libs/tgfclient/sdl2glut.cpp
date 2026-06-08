@@ -12,6 +12,10 @@
 
 #include <SDL2/SDL.h>
 
+#include "RmlUiMain.h"
+
+static bool (*g_imgui_event_handler)(void*) = nullptr;
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -210,6 +214,16 @@ bool createGlContext()
 } // namespace
 
 extern "C" {
+
+SDL_Window* GfuiGetSdlWindow(void)
+{
+	return gWindow;
+}
+
+void GfuiRegisterImGuiEventHandler(bool (*handler)(void*))
+{
+	g_imgui_event_handler = handler;
+}
 
 void APIENTRY glutInit(int *argcp, char **argv)
 {
@@ -487,6 +501,11 @@ void APIENTRY glutMainLoop(void)
 	while (gRunning) {
 		SDL_Event ev;
 		while (SDL_PollEvent(&ev)) {
+			// Let ImGui and RmlUi see the event first; they will set consumed flags.
+			const bool rmluiConsumed = RmlUiMain::ProcessEvent(&ev);
+			const bool imguiConsumed = g_imgui_event_handler ? g_imgui_event_handler(&ev) : false;
+			const bool consumed = rmluiConsumed || imguiConsumed;
+
 			switch (ev.type) {
 			case SDL_QUIT:
 				gRunning = false;
@@ -502,22 +521,23 @@ void APIENTRY glutMainLoop(void)
 				}
 				break;
 			case SDL_KEYDOWN:
-				dispatchKeyboard(ev, false);
+				if (!consumed) dispatchKeyboard(ev, false);
 				gNeedsRedisplay = true;
 				break;
 			case SDL_KEYUP:
-				dispatchKeyboard(ev, true);
+				if (!consumed) dispatchKeyboard(ev, true);
 				gNeedsRedisplay = true;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
-				dispatchMouse(ev);
+				if (!consumed) dispatchMouse(ev);
 				gNeedsRedisplay = true;
 				break;
 			case SDL_MOUSEMOTION:
-				dispatchMotion(ev, (ev.motion.state & SDL_BUTTON_LMASK) == 0 &&
-					(ev.motion.state & SDL_BUTTON_MMASK) == 0 &&
-					(ev.motion.state & SDL_BUTTON_RMASK) == 0);
+				if (!consumed)
+					dispatchMotion(ev, (ev.motion.state & SDL_BUTTON_LMASK) == 0 &&
+						(ev.motion.state & SDL_BUTTON_MMASK) == 0 &&
+						(ev.motion.state & SDL_BUTTON_RMASK) == 0);
 				break;
 			default:
 				break;
@@ -537,6 +557,8 @@ void APIENTRY glutMainLoop(void)
 
 		SDL_Delay(1);
 	}
+
+	RmlUiMain::Shutdown();
 
 	if (gGLContext != nullptr) {
 		SDL_GL_DeleteContext(gGLContext);

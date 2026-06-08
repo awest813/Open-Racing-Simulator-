@@ -32,9 +32,17 @@
 extern "C" int
 ssggraph(tModInfo *modInfo);
 
+extern "C" int
+oglgraph(tModInfo *modInfo);
+
 static bool isStaticSsggraphPath(const char *sopath)
 {
     return sopath != nullptr && strcmp(sopath, "modules/graphic/ssggraph.dll") == 0;
+}
+
+static bool isStaticOglgraphPath(const char *sopath)
+{
+    return sopath != nullptr && strcmp(sopath, "modules/graphic/oglgraph.dll") == 0;
 }
 
 static char *findLastPathSeparator(char *path)
@@ -63,6 +71,21 @@ static void addStaticSsggraphModule(tModList *curMod, tModList **modlist, const 
         *modlist = curMod;
     }
 }
+
+static void addStaticOglgraphModule(tModList *curMod, tModList **modlist, const char *sopath)
+{
+    oglgraph(curMod->modInfo);
+    curMod->sopath = strdup(sopath);
+    if (*modlist == nullptr) {
+        *modlist = curMod;
+        curMod->next = curMod;
+    } else {
+        curMod->next = (*modlist)->next;
+        (*modlist)->next = curMod;
+        *modlist = curMod;
+    }
+}
+
 
 /*
  * Function
@@ -101,7 +124,12 @@ static int windowsModLoad(unsigned int gfid, char *sopath, tModList **modlist)
         addStaticSsggraphModule(curMod, modlist, sopath);
         GfOut("%s loaded staticaly\n",sopath);
         return 0;
-    } 
+    } else if (isStaticOglgraphPath(sopath)) {
+        addStaticOglgraphModule(curMod, modlist, sopath);
+        GfOut("%s loaded staticaly\n",sopath);
+        return 0;
+    }
+ 
 
 	handle = LoadLibrary( sopath ); 
 	GfOut("LoadLibrary return from %s\n",sopath);
@@ -320,7 +348,12 @@ static int windowsModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 			addStaticSsggraphModule(curMod, modlist, "modules/graphic/ssggraph.dll");
 			modnb++;
 			curMod = (tModList*)calloc(1, sizeof(tModList));
+
+			addStaticOglgraphModule(curMod, modlist, "modules/graphic/oglgraph.dll");
+			modnb++;
+			curMod = (tModList*)calloc(1, sizeof(tModList));
 		}
+
 
 		free(curMod);
 		return modnb;
@@ -429,7 +462,12 @@ static int windowsModInfoDir(unsigned int gfid, char *dir, int level, tModList *
         addStaticSsggraphModule(curMod, modlist, "modules/graphic/ssggraph.dll");
         modnb++;
         curMod = (tModList*)calloc(1, sizeof(tModList));
+
+        addStaticOglgraphModule(curMod, modlist, "modules/graphic/oglgraph.dll");
+        modnb++;
+        curMod = (tModList*)calloc(1, sizeof(tModList));
     }
+
     
 	_findclose( Dirent );
 	free(curMod);

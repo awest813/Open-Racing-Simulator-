@@ -28,11 +28,13 @@ OpenALMusicPlayer::OpenALMusicPlayer(SoundStream* soundStream):
 	context(nullptr),
 	source(0),
 	stream(soundStream),
-	ready(false)
+	ready(false),
+	volume(1.0f)
 {
 	buffers[0] = 0;
 	buffers[1] = 0;
 }
+
 
 
 
@@ -198,12 +200,14 @@ void OpenALMusicPlayer::start()
 		
 		if (initContext() && initBuffers() && initSource()) {
 			ready = true;
+			alSourcef(source, AL_GAIN, volume);
 			startPlayback();
 		}
 		
 		return;
 	}
 }
+
 
 
 
@@ -269,3 +273,13 @@ bool OpenALMusicPlayer::startPlayback()
     
     return true;
 }
+
+
+void OpenALMusicPlayer::setVolume(float vol)
+{
+	volume = (vol < 0.0f) ? 0.0f : (vol > 1.0f) ? 1.0f : vol;
+	if (ready && source != 0) {
+		alSourcef(source, AL_GAIN, volume);
+		check();
+	}
+}

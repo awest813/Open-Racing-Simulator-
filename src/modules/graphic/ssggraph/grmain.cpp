@@ -29,6 +29,7 @@
 #include <tgfclient.h>
 #include <portability.h>
 #include <graphic.h>
+#include <musicplayer/musicplayer.h>
 
 #include "grmain.h"
 #include "grshadow.h"
@@ -225,6 +226,39 @@ grSwitchMirror(void * /* dummy */)
     grGetcurrentScreen()->switchMirror();
 }
 
+static void
+grRadioNextStation(void * /* dummy */)
+{
+    radioNextStation();
+}
+
+static void
+grRadioPrevStation(void * /* dummy */)
+{
+    radioPrevStation();
+}
+
+static void
+grRadioNextTrack(void * /* dummy */)
+{
+    radioNextTrack();
+}
+
+static void
+grRadioVolumeUp(void * /* dummy */)
+{
+    float currentVol = radioGetVolume();
+    radioSetVolume(currentVol + 0.1f);
+}
+
+static void
+grRadioVolumeDown(void * /* dummy */)
+{
+    float currentVol = radioGetVolume();
+    radioSetVolume(currentVol - 0.1f);
+}
+
+
 int
 initView(int x, int y, int width, int height, int /* flag */, void *screen)
 {
@@ -285,6 +319,14 @@ initView(int x, int y, int width, int height, int /* flag */, void *screen)
 	GfuiAddKey(screen, '[',            "Split Screen",     (void*)GR_SPLIT_ADD,	grSplitScreen, nullptr);
 	GfuiAddKey(screen, ']',            "UnSplit Screen",   (void*)GR_SPLIT_REM,	grSplitScreen, nullptr);
 	GfuiAddKey(screen, 'm',            "Track Maps",       (void*)0, grSelectTrackMap, nullptr);
+
+	/* Radio station controls */
+	GfuiAddKey(screen, 'r',            "Radio Next Station",(void*)0, grRadioNextStation, nullptr);
+	GfuiAddKey(screen, 'e',            "Radio Prev Station",(void*)0, grRadioPrevStation, nullptr);
+	GfuiAddKey(screen, 't',            "Radio Next Track",  (void*)0, grRadioNextTrack,   nullptr);
+	GfuiAddKey(screen, 'u',            "Radio Volume Up",   (void*)0, grRadioVolumeUp,    nullptr);
+	GfuiAddKey(screen, 'y',            "Radio Volume Down", (void*)0, grRadioVolumeDown,  nullptr);
+
 
 	grAdaptScreenSize();
 

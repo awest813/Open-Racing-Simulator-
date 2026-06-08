@@ -1,21 +1,7 @@
-1. **Add `lenSqr` to `v2t`**
-   - Add `T lenSqr(void) const;` declaration to `src/libs/math/v2_t.h`.
-   - Add inline definition returning `x*x+y*y`.
+# Project Planning Notice
 
-2. **Add `distSqr` to `straight2t`**
-   - Add `T distSqr(const v2t<T> &p) const;` declaration to `src/libs/math/straight2_t.h`.
-   - Add inline definition returning `d3.lenSqr()`.
+All active roadmaps, specifications, and project plans have been unified into:
 
-3. **Optimize `bt` and `damned` drivers**
-   - In `src/drivers/bt/opponent.cpp` and `src/drivers/damned/opponent.cpp`, replace `carFrontLine.dist(corner)` with `carFrontLine.distSqr(corner)`.
-   - Track `mindistSqr` and compare against `distance * distance`.
-   - After the loop, if `mindistSqr < distance * distance`, set `distance = sqrt(mindistSqr)`.
-
-4. **Verify Syntax**
-   - Run compilation or syntax checks to ensure the math library changes and driver changes are valid.
-
-5. **Complete pre-commit steps**
-   - Complete pre-commit steps to ensure proper testing, verification, review, and reflection are done.
-
-6. **Submit**
-   - Commit and submit the code with the PR title `⚡ Bolt: Optimize straight distance checks by avoiding sqrt in hot loops`.
+1. **[ROADMAP.md](ROADMAP.md)**: The core roadmap for evolving Open Racing Simulator into a modern, Forza Motorsport-style simulator.
+2. **[README.md](README.md)**: General project description and building instructions.
+3. **[doc/planning/](doc/planning/)**: The central planning directory for phased checksheets, asset compliance, and feature specifications.

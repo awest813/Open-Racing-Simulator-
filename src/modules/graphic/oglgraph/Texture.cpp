@@ -53,6 +53,9 @@ GLuint TextureManager::loadFromFile(const std::string& path) {
         hasExtension(path, "bw")) {
         GLuint tex = loadSGI(path);
         if (tex) return tex;
+    } else if (hasExtension(path, "png")) {
+        GLuint tex = loadPNG(path);
+        if (tex) return tex;
     }
     GfOut("TextureManager: unsupported or missing texture '%s', using fallback\n", path.c_str());
     return createFallback();
@@ -256,4 +259,28 @@ GLuint TextureManager::createFallback() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
     return s_fallback;
+}
+
+GLuint TextureManager::loadPNG(const std::string& path) {
+    int w = 0, h = 0;
+    unsigned char* imgData = GfImgReadPng(path.c_str(), &w, &h, 2.0f);
+    if (!imgData) {
+        GfOut("TextureManager::loadPNG: GfImgReadPng failed to load '%s'\n", path.c_str());
+        return 0;
+    }
+
+    GLuint tex = 0;
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)w, (GLsizei)h, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    free(imgData);
+    return tex;
 }

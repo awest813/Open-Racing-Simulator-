@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <tgfclient.h>
 #include <graphic.h>
+#include <raceinit.h>
 #include <portability.h>
 
 #include "graphconfig.h"
@@ -47,16 +48,31 @@ static const char *wheelDetailOptionList[] = {
 	GR_ATT_WHEELRENDERING_SIMPLE
 };
 
-static float LabelColor[] = {1.0, 0.0, 1.0, 1.0};
+static float LabelColor[] = {1.0f, 0.58f, 0.08f, 1.0f};
 static const int nbOptionsWheelDetail = sizeof(wheelDetailOptionList) / sizeof(wheelDetailOptionList[0]);
 static int curOptionWheelDetail = 0;
 static int WheelDetailOptionId;
+
+// Graphics Engine / Renderer option.
+static const char *rendererOptionList[] = {
+	"ssggraph",
+	"oglgraph"
+};
+static const char *rendererDisplayList[] = {
+	"Legacy (PLIB SSG)",
+	"Modern (OpenGL 3.3)"
+};
+static const int nbOptionsRenderer = sizeof(rendererOptionList) / sizeof(rendererOptionList[0]);
+static int curOptionRenderer = 0;
+static int RendererOptionId;
+
 
 
 
 
 static void ExitGraphicOptions(void *prevMenu)
 {
+	scrHandle = nullptr;
 	GfuiScreenActivate(prevMenu);
 }
 
@@ -79,8 +95,18 @@ static void SaveGraphicOptions(void *prevMenu)
 	
 	GfParmWriteFile(nullptr, grHandle, "graph");
 	GfParmReleaseHandle(grHandle);
+
+	// Save graphics engine to raceengine.xml
+	char re_buf[BUFSIZE];
+	snprintf(re_buf, BUFSIZE, "%s%s", GetLocalDir(), RACE_ENG_CFG);
+	void *reHandle = GfParmReadFile(re_buf, GFPARM_RMODE_REREAD | GFPARM_RMODE_CREAT);
+	GfParmSetStr(reHandle, "Modules", "graphic", rendererOptionList[curOptionRenderer]);
+	GfParmWriteFile(nullptr, reHandle, "raceengine");
+	GfParmReleaseHandle(reHandle);
+
 	ExitGraphicOptions(prevMenu);
 }
+
 
 
 
@@ -160,6 +186,24 @@ static void changeWheelDetailState(void *vp)
 	}
 	GfuiLabelSetText(scrHandle, WheelDetailOptionId, wheelDetailOptionList[curOptionWheelDetail]);
 }
+
+
+static void changeRendererState(void *vp)
+{
+	if (vp == 0) {
+		curOptionRenderer--;
+		if (curOptionRenderer < 0) {
+			curOptionRenderer = nbOptionsRenderer - 1;
+		}
+	} else {
+		curOptionRenderer++;
+		if (curOptionRenderer == nbOptionsRenderer) {
+			curOptionRenderer = 0;
+		}
+	}
+	GfuiLabelSetText(scrHandle, RendererOptionId, rendererDisplayList[curOptionRenderer]);
+}
+
 
 
 
@@ -244,15 +288,48 @@ void *GraphMenuInit(void *prevMenu)
 				
 	WheelDetailOptionId = GfuiLabelCreate(scrHandle, wheelDetailOptionList[curOptionWheelDetail], GFUI_FONT_MEDIUM_C, center, y, GFUI_ALIGN_HC_VB, 32);
 	GfuiLabelSetColor(scrHandle, WheelDetailOptionId, LabelColor);
+
+	// Graphics Engine / Renderer Option
+	y -= dy;
+	GfuiLabelCreate(scrHandle, "Graphics engine:", GFUI_FONT_MEDIUM, x, y, GFUI_ALIGN_HL_VB, 0);
+
+	GfuiGrButtonCreate(scrHandle, "data/img/arrow-left.png", "data/img/arrow-left.png",
+		"data/img/arrow-left.png", "data/img/arrow-left-pushed.png",
+		x2, y-5, GFUI_ALIGN_HL_VB, 1,
+		(void*)-1, changeRendererState,
+		nullptr, nullptr, nullptr);
+
+	GfuiGrButtonCreate(scrHandle, "data/img/arrow-right.png", "data/img/arrow-right.png",
+		"data/img/arrow-right.png", "data/img/arrow-right-pushed.png",
+		x2+width, y-5, GFUI_ALIGN_HR_VB, 1,
+		(void*)1, changeRendererState,
+		nullptr, nullptr, nullptr);
+
+	// Read graphics engine parameter from raceengine.xml
+	char re_buf[BUFSIZE];
+	snprintf(re_buf, BUFSIZE, "%s%s", GetLocalDir(), RACE_ENG_CFG);
+	void *reHandle = GfParmReadFile(re_buf, GFPARM_RMODE_STD);
+	const char *graphicModule = GfParmGetStr(reHandle, "Modules", "graphic", "ssggraph");
+	curOptionRenderer = 0;
+	for (i = 0; i < nbOptionsRenderer; i++) {
+		if (strcmp(graphicModule, rendererOptionList[i]) == 0) {
+			curOptionRenderer = i;
+			break;
+		}
+	}
+	GfParmReleaseHandle(reHandle);
+
+	RendererOptionId = GfuiLabelCreate(scrHandle, rendererDisplayList[curOptionRenderer], GFUI_FONT_MEDIUM_C, center, y, GFUI_ALIGN_HC_VB, 32);
+	GfuiLabelSetColor(scrHandle, RendererOptionId, LabelColor);
 										
 	// Navigation
 	GfuiButtonCreate(scrHandle, "Accept", GFUI_FONT_LARGE, 210, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
 				prevMenu, SaveGraphicOptions, nullptr, nullptr, nullptr);
 	
 	GfuiButtonCreate(scrHandle, "Cancel", GFUI_FONT_LARGE, 430, 40, 150, GFUI_ALIGN_HC_VB, GFUI_MOUSE_UP,
-				prevMenu, GfuiScreenActivate, nullptr, nullptr, nullptr);
+				prevMenu, ExitGraphicOptions, nullptr, nullptr, nullptr);
 	
-	GfuiAddKey(scrHandle, 27, "Cancel", prevMenu, GfuiScreenActivate, nullptr);
+	GfuiAddKey(scrHandle, 27, "Cancel", prevMenu, ExitGraphicOptions, nullptr);
 	
 	GfParmReleaseHandle(grHandle);
 	

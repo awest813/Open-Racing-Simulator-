@@ -38,6 +38,10 @@
 static int	rmSaveId;
 static void	*rmScrHdle = nullptr;
 
+static float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
+static float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
+static float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
+
 static void rmPracticeResults(void *prevHdle, tRmInfo *info, int start);
 static void rmRaceResults(void *prevHdle, tRmInfo *info, int start);
 static void rmQualifResults(void *prevHdle, tRmInfo *info, int start);
@@ -88,17 +92,42 @@ static void rmPracticeResults(void *prevHdle, tRmInfo *info, int start)
 	char path[BUFSIZE];
 	const int TIMEFMTSIZE = 256;
 	char timefmt[TIMEFMTSIZE];
-	float fgcolor[4] = {1.0, 0.0, 1.0, 1.0};
+	float fgcolor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 	int totLaps;
 
-	rmScrHdle = GfuiScreenCreate();
-	snprintf(buf, BUFSIZE, "Practice Results");
-	GfuiTitleCreate(rmScrHdle, buf, strlen(buf));
+	rmScrHdle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
+	GfuiScreenAddBgImg(rmScrHdle, "data/img/splash-result.png");
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"TIMING & TELEMETRY",
+			kAccentColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			660,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiTitleCreate(rmScrHdle, "TORCS // PRACTICE SESSION", 0);
+
 	snprintf(path, BUFSIZE, "%s/%s/%s", info->track->name, RE_SECT_RESULTS, race);
 	snprintf(buf, BUFSIZE, "%s on track %s", GfParmGetStr(results, path, RM_ATTR_DRVNAME, ""), info->track->name);
-	GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_LARGE_C,
-			320, 420, GFUI_ALIGN_HC_VB, 0);
-	GfuiScreenAddBgImg(rmScrHdle, "data/img/splash-result.png");
+	GfuiLabelCreateEx(rmScrHdle,
+			buf,
+			kBodyColor,
+			GFUI_FONT_MEDIUM_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"Practice session timing analysis, top speeds, and damage logs.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			582,
+			GFUI_ALIGN_HL_VB,
+			0);
 	
 	offset = 90;
 	
@@ -219,18 +248,43 @@ static void rmRaceResults(void *prevHdle, tRmInfo *info, int start)
 	char path[BUFSIZE];
 	const int TIMEFMTSIZE = 256;
 	char timefmt[TIMEFMTSIZE];
-	float fgcolor[4] = {1.0, 0.0, 1.0, 1.0};
+	float fgcolor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 	int laps, totLaps;
 	tdble refTime;
 	int nbCars;
 
-	rmScrHdle = GfuiScreenCreate();
-	snprintf(buf, BUFSIZE, "Race Results");
-	GfuiTitleCreate(rmScrHdle, buf, strlen(buf));
-	snprintf(buf, BUFSIZE, "%s", info->track->name);
-	GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_LARGE_C,
-			320, 420, GFUI_ALIGN_HC_VB, 0);
+	rmScrHdle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
 	GfuiScreenAddBgImg(rmScrHdle, "data/img/splash-result.png");
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"FINAL STANDINGS",
+			kAccentColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			660,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiTitleCreate(rmScrHdle, "TORCS // RACE RESULTS", 0);
+
+	snprintf(buf, BUFSIZE, "%s - Event Standings", info->track->name);
+	GfuiLabelCreateEx(rmScrHdle,
+			buf,
+			kBodyColor,
+			GFUI_FONT_MEDIUM_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"Final classification including total time, best laps, speeds, pit stops, and penalties.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			582,
+			GFUI_ALIGN_HL_VB,
+			0);
 	
 	x1 = 30;
 	x2 = 60;
@@ -384,17 +438,42 @@ static void rmQualifResults(void *prevHdle, tRmInfo *info, int start)
 	char path[BUFSIZE];
 	const int TIMEFMTSIZE = 256;
 	char timefmt[TIMEFMTSIZE];
-	float fgcolor[4] = {1.0, 0.0, 1.0, 1.0};
+	float fgcolor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 	int nbCars;
 	int offset;
 
-	rmScrHdle = GfuiScreenCreate();
-	snprintf(buf, BUFSIZE, "Qualification Results");
-	GfuiTitleCreate(rmScrHdle, buf, strlen(buf));
-	snprintf(buf, BUFSIZE, "%s", info->track->name);
-	GfuiLabelCreate(rmScrHdle, buf, GFUI_FONT_LARGE_C,
-			320, 420, GFUI_ALIGN_HC_VB, 0);
+	rmScrHdle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
 	GfuiScreenAddBgImg(rmScrHdle, "data/img/splash-result.png");
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"GRID POSITIONING",
+			kAccentColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			660,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiTitleCreate(rmScrHdle, "TORCS // QUALIFYING RESULTS", 0);
+
+	snprintf(buf, BUFSIZE, "%s - Qualifying Session", info->track->name);
+	GfuiLabelCreateEx(rmScrHdle,
+			buf,
+			kBodyColor,
+			GFUI_FONT_MEDIUM_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"Session results determining the starting grid positions based on fastest lap times.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			582,
+			GFUI_ALIGN_HL_VB,
+			0);
 
 	offset = 200;
 	x1 = offset + 30;
@@ -491,17 +570,44 @@ static void rmShowStandings(void *prevHdle, tRmInfo *info, int start)
 	const int BUFSIZE = 1024;
 	char buf[BUFSIZE];
 	char path[BUFSIZE];
-	float fgcolor[4] = {1.0, 0.0, 1.0, 1.0};
+	float fgcolor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 	int nbCars;
 	int offset;
 	void *results = info->results;
 	const char *race = info->_reRaceName;
 	
-	rmScrHdle = GfuiScreenCreate();
-	snprintf(buf, BUFSIZE, "%s Results", race);
-	GfuiTitleCreate(rmScrHdle, buf, strlen(buf));
-	
+	rmScrHdle = GfuiScreenCreateEx(nullptr, nullptr, nullptr, nullptr, nullptr, 1);
 	GfuiScreenAddBgImg(rmScrHdle, "data/img/splash-result.png");
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"SEASON STANDINGS",
+			kAccentColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			660,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiTitleCreate(rmScrHdle, "TORCS // CHAMPIONSHIP RESULTS", 0);
+
+	snprintf(buf, BUFSIZE, "%s standings & progression", race);
+	GfuiLabelCreateEx(rmScrHdle,
+			buf,
+			kBodyColor,
+			GFUI_FONT_MEDIUM_C,
+			110,
+			620,
+			GFUI_ALIGN_HL_VB,
+			0);
+
+	GfuiLabelCreateEx(rmScrHdle,
+			"Current championship rank, accrued driver points, and overall standing progression.",
+			kMutedColor,
+			GFUI_FONT_SMALL_C,
+			110,
+			582,
+			GFUI_ALIGN_HL_VB,
+			0);
 	
 	offset = 200;
 	x1 = offset + 30;

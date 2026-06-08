@@ -82,6 +82,7 @@ AbortRaceHookActivate(void * /* dummy */)
 	ReReplayStopRecording();
 	if (ReInfo->_displayMode == RM_DISP_MODE_NORMAL) {
 		ReInfo->_reGraphicItf.shutdowncars();
+		stopRadio();        // Stop in-game radio
 		startMenuMusic();
 	}
 	ReInfo->_reGraphicItf.shutdowntrack();
@@ -342,6 +343,7 @@ static int reRaceRealStart(void)
 		if (ReInfo->_displayMode == RM_DISP_MODE_NORMAL) {
 			/* RmLoadingScreenSetText("Loading Cars 3D Objects..."); */
 			stopMenuMusic();
+			startRadio();   // Start in-game radio
 			ReInfo->_reGraphicItf.initcars(s);
 		}
 
@@ -550,7 +552,7 @@ int ReRaceStop(void)
 		StopScrHandle = RmTriStateScreen("Race Stopped",
 					"Abandon Race", "Abort current race", AbortRaceHookInit(),
 					"Resume Race", "Return to Race", BackToRaceHookInit(),
-					"Quit Game", "Quit the game", QuitHookInit());
+					"Exit to OS", "Exit the simulation and return to the OS", QuitHookInit());
 	} else {
 		if (
 			(ReInfo->s->raceInfo.type == RM_TYPE_PRACTICE || ReInfo->s->raceInfo.type == RM_TYPE_QUALIF) &&
@@ -558,8 +560,8 @@ int ReRaceStop(void)
 			(ReInfo->carList[0].info.driverType == RM_DRV_HUMAN)
 		) {
 			tCarElt* carElt = &ReInfo->carList[0];
-			static const char* label[5] = { "Restart Race",  "Setup Car, Restart", "Abandon Race", "Resume Race", "Quit Game" };
-			static const char* tip[5] = { "Restart the current race",  "Setup car and restart the current race", "Abort the current race", "Return to the race", "Quit the game" };
+			static const char* label[5] = { "Restart Race",  "Setup Car, Restart", "Abandon Race", "Resume Race", "Exit to OS" };
+			static const char* tip[5] = { "Restart the current race",  "Setup car and restart the current race", "Abort the current race", "Return to the race", "Exit the simulation and return to the OS" };
 			void* screen[5];
 
 			screen[0] = RestartRaceHookInit();
@@ -574,7 +576,7 @@ int ReRaceStop(void)
 						"Restart Race", "Restart the current race", RestartRaceHookInit(),
 						"Abandon Race", "Abort current race", AbortRaceHookInit(),
 						"Resume Race", "Return to Race", BackToRaceHookInit(),
-						"Quit Game", "Quit the game", QuitHookInit());
+						"Exit to OS", "Exit the simulation and return to the OS", QuitHookInit());
 			}
 	}
 	return RM_ASYNC | RM_NEXT_STEP;

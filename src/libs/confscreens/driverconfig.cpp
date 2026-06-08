@@ -34,7 +34,7 @@
 static const char *level_str[] = { ROB_VAL_ROOKIE, ROB_VAL_AMATEUR, ROB_VAL_SEMI_PRO, ROB_VAL_PRO };
 static const int nbLevels = sizeof(level_str) / sizeof(level_str[0]);
 
-static float LabelColor[] = {1.0, 0.0, 1.0, 1.0};
+static float LabelColor[] = {1.0f, 0.58f, 0.08f, 1.0f};
 
 static int	scrollList;
 static void	*scrHandle = nullptr;

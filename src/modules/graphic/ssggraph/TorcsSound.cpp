@@ -75,9 +75,9 @@ bool loadWAVFile(const char *filename, ALenum *format, ALvoid **data,
 			}
 			fmtFound = true;
 		} else if (std::memcmp(subId, "data", 4) == 0) {
-			audioData = std::malloc(subSz);
+			audioData = malloc(subSz);
 			if (!audioData || std::fread(audioData, 1, subSz, fp) != subSz) {
-				std::free(audioData);
+				free(audioData);
 				audioData = nullptr;
 				break;
 			}
@@ -93,7 +93,7 @@ bool loadWAVFile(const char *filename, ALenum *format, ALvoid **data,
 	std::fclose(fp);
 
 	if (!fmtFound || !dataFound || audioFormat != 1) {
-		std::free(audioData);
+		free(audioData);
 		return false;
 	}
 
@@ -102,7 +102,7 @@ bool loadWAVFile(const char *filename, ALenum *format, ALvoid **data,
 	else if (numChannels == 2 && bitsPerSample == 8)  { *format = AL_FORMAT_STEREO8;  }
 	else if (numChannels == 2 && bitsPerSample == 16) { *format = AL_FORMAT_STEREO16; }
 	else {
-		std::free(audioData);
+		free(audioData);
 		return false;
 	}
 
@@ -445,7 +445,7 @@ OpenalTorcsSound::OpenalTorcsSound(const char* filename, OpenalSoundInterface* s
 		return;
 	}
 
-	std::free(wave);
+	free(wave);
 	
 	if (!static_pool) {
 		is_enabled = true;

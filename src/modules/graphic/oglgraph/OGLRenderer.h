@@ -16,20 +16,21 @@
 #include "Particles.h"
 #include "SkidMarks.h"
 #include "AC3DLoader.h"
+#include "GltfLoader.h"
 #include <vector>
 #include <string>
 
-// Forward declarations of TORCS types to avoid plib dependency in this header
-struct tTrack;
-struct Situation;
-typedef Situation tSituation;
-struct CarElt;
-typedef CarElt tCarElt;
+#include <track.h>
+#include <car.h>
+#include <raceman.h>
+
 
 struct CarRenderData {
     int carIdx;
     AC3DModel* bodyModel;
     AC3DModel* wheelModels[4];
+    GltfModel* bodyGltf;
+    GltfModel* wheelGltf[4];
     float bodyTransform[16];
     float wheelTransforms[4][16];
 };
@@ -45,6 +46,12 @@ public:
     void refresh(tSituation* s);
     void shutdownCars();
     void shutdownTrack();
+
+    // ---- Live-tunable fields (written by ImGuiOverlay at runtime) --------
+    float m_hdrExposure;
+    float m_bloomStrength;
+    int   m_shadowMapSize;
+    int   m_bloomPasses;
 
 private:
     // Shaders
@@ -65,6 +72,8 @@ private:
 
     // Scene data
     AC3DModel*   m_trackModel;
+    GltfModel*   m_trackGltf;
+    GltfLoader   m_gltfLoader;
     std::string  m_trackTexPath;
     tTrack*      m_track;
 
@@ -74,10 +83,6 @@ private:
     float m_lightDir[3];
     float m_lightColor[3];
     float m_ambientColor[3];
-    float m_hdrExposure;
-    float m_bloomStrength;
-    int   m_shadowMapSize;
-    int   m_bloomPasses;
 
     // Viewport
     int m_winX, m_winY, m_winW, m_winH;

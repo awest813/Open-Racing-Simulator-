@@ -17,6 +17,9 @@ set(TGFCLIENT_SOURCES
     screen.cpp
     sdl2glut.cpp
     tgfclient.cpp
+    RmlUiMain.cpp
+    ${PROJECT_SOURCE_DIR}/src/libs/thirdparty/RmlUi/Backends/RmlUi_Platform_SDL.cpp
+    ${PROJECT_SOURCE_DIR}/src/libs/thirdparty/RmlUi/Backends/RmlUi_Renderer_GL2.cpp
 )
 
 add_library(tgfclient STATIC ${TGFCLIENT_SOURCES})
@@ -26,11 +29,16 @@ target_include_directories(tgfclient PUBLIC
     ${PROJECT_SOURCE_DIR}/src/interfaces
     ${PROJECT_SOURCE_DIR}/src/libs
 )
+target_include_directories(tgfclient PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/libs/thirdparty/RmlUi/Backends
+)
 
 target_link_libraries(tgfclient PUBLIC
     tgf
     txml
     musicplayer
+    rmlui_core
+    rmlui_debugger
 )
 
 if(TORCS_USE_SDL2)
@@ -41,8 +49,6 @@ endif()
 if(WIN32)
     target_link_libraries(tgfclient PUBLIC
         js_vs2008_32
-        libpng15_vs2008_32
-        zlib1_vs2008_32
         glut32
         opengl32
         glu32

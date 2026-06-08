@@ -19,6 +19,7 @@ target_include_directories(tgf PUBLIC
 
 if(WIN32)
     target_compile_definitions(tgf PRIVATE TGF_EXPORTS)
+    target_compile_definitions(tgf PUBLIC TGF_STATIC)
 endif()
 
 if(WIN32)

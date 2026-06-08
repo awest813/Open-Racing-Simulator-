@@ -17,3 +17,10 @@
 ## 2024-05-30 - Expand Clickable Targets with Labels in Tabular Layouts
 **Learning:** In legacy tabular form layouts, adjacent images (like poll graphics) and text are often separated from their inputs across table cells. Wrapping the text and visual indicators together in a `<label for="...">` makes the entire graphical block clickable, drastically increasing the target size for users.
 **Action:** Always include associated inline graphics and descriptive text inside `<label>` tags when improving UX for table-based inputs to maximize hit area without relying on custom CSS.
+
+## 2024-06-03 - Use type="email" for Email Inputs in Legacy Templates
+**Learning:** Legacy `.ihtml` template forms often use `<input type="text">` for email fields, which misses out on native browser validation and mobile keyboard optimization (showing the '@' symbol).
+**Action:** Always update email input fields to use the semantic HTML5 `<input type="email">` attribute. This instantly improves mobile keyboard compatibility and enables native browser validation without requiring any custom CSS or additional dependencies.
+## 2024-06-08 - HTML5 Client-Side Validation on Legacy Forms
+**Learning:** Legacy forms often rely entirely on server-side validation, forcing a full page reload (and potentially losing non-persisted input) just to tell the user a required field was missed.
+**Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `required` attribute to mandatory `<input>` elements. This provides instant, native client-side validation and improves the UX without altering backend logic.

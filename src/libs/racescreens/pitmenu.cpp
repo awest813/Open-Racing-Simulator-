@@ -39,7 +39,7 @@ static tCarElt *rmCar;
 static tRmInfo *rmInfo;
 static int tireChangeId;
 
-static float LabelColor[] = {1.0, 0.0, 1.0, 1.0};
+static float LabelColor[] = {1.0f, 0.58f, 0.08f, 1.0f};
 
 // list of tire change options.
 static const char *tireChangeLabel[] = {

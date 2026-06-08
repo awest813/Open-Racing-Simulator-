@@ -14,11 +14,38 @@
 #include <tgfclient.h>
 #include <graphic.h>
 #include "OGLRenderer.h"
+#include "ImGuiOverlay.h"
+
+#ifdef TORCS_USE_SDL2
+#include <SDL2/SDL.h>
+extern "C" void GfuiRegisterImGuiEventHandler(bool (*handler)(void*));
+#endif
 
 static OGLRenderer* g_renderer = nullptr;
 
+// ---- Helper: initialise GL function pointers + renderer (once) ----------
+static void ensureRenderer()
+{
+    if (!g_renderer) {
+        if (!gl3LoadFunctions()) {
+            GfOut("oglgraph: WARNING - not all GL 3.3 functions loaded\n");
+        }
+        g_renderer = new OGLRenderer();
+
+        // Initialise Dear ImGui now that we have a GL context.
+        // SDL_GL_GetCurrentWindow / SDL_GL_GetCurrentContext are available
+        // even in the GLUT-compatible build path when TORCS_USE_SDL2 is on.
+#ifdef TORCS_USE_SDL2
+        SDL_Window*    win = SDL_GL_GetCurrentWindow();
+        SDL_GLContext  ctx = SDL_GL_GetCurrentContext();
+        ImGuiOverlay::init(win, ctx, g_renderer);
+        GfuiRegisterImGuiEventHandler(ImGuiOverlay::processEvent);
+#endif
+    }
+}
+
 static int grInitTrack(tTrack* track) {
-    if (!g_renderer) return -1;
+    ensureRenderer();
     return g_renderer->initTrack(track) ? 0 : -1;
 }
 
@@ -28,7 +55,7 @@ static int grInitCars(tSituation* s) {
 }
 
 static int grInitView(int x, int y, int w, int h, int /*flag*/, void* /*screen*/) {
-    if (!g_renderer) g_renderer = new OGLRenderer();
+    ensureRenderer();
     return g_renderer->init(x, y, w, h) ? 0 : -1;
 }
 
@@ -44,6 +71,10 @@ static void grShutdownCars() {
 
 static void grShutdownTrack() {
     if (g_renderer) {
+        ImGuiOverlay::shutdown();
+#ifdef TORCS_USE_SDL2
+        GfuiRegisterImGuiEventHandler(nullptr);
+#endif
         g_renderer->shutdownTrack();
         delete g_renderer;
         g_renderer = nullptr;

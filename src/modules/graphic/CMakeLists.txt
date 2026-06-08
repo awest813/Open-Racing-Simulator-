@@ -1,2 +1,2 @@
 add_subdirectory(ssggraph)
-# oglgraph can be added later if needed.
+add_subdirectory(oglgraph)

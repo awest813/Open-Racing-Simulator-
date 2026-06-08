@@ -35,6 +35,7 @@
 #include "grutil.h"
 #include <robottools.h>
 #include <tgfclient.h>
+#include <musicplayer/musicplayer.h>
 
 #include "grboard.h"
 
@@ -164,6 +165,40 @@ cGrBoard::grDispDebug(float fps, tCarElt *car)
 	}
 	*/
 }
+
+
+void
+cGrBoard::grDispRadioHUD()
+{
+	if (!isRadioPlaying())
+		return;
+
+	// Accent orange for station name, crisp white for track name
+	static float kAccent[4]  = {1.0f, 0.58f, 0.08f, 1.0f};
+	static float kWhite[4]   = {0.95f, 0.95f, 0.95f, 1.0f};
+
+	const char* station = radioGetStationName();
+	const char* track   = radioGetTrackName();
+
+	const int BUFSIZE = 256;
+	char buf[BUFSIZE];
+
+	// Top-left corner overlay — position relative to current viewport
+	int x = Winx + 12;
+	int y = Winy + Winh - 20;
+
+	// Station name with musical note prefix and volume percentage (accent orange)
+	int volPercent = static_cast<int>(radioGetVolume() * 100.0f + 0.5f);
+	snprintf(buf, BUFSIZE, "\xe2\x99\xab %s [%d%%]", station, volPercent); // UTF-8 musical note ♫
+	GfuiPrintString(buf, kAccent, GFUI_FONT_SMALL_C, x, y, GFUI_ALIGN_HL_VB);
+
+
+	// Track name below (white)
+	y -= 14;
+	snprintf(buf, BUFSIZE, "  %s", track);
+	GfuiPrintString(buf, kWhite, GFUI_FONT_SMALL_C, x, y, GFUI_ALIGN_HL_VB);
+}
+
 
 void
 cGrBoard::grDispGGraph(tCarElt *car)
@@ -909,6 +944,9 @@ void cGrBoard::refreshBoard(tSituation *s, float Fps, int forceArcade, tCarElt *
 		if (leaderFlag)	grDispLeaderBoard(curr, s);
 		if (counterFlag) grDispCounterBoard2(curr);
 	}
+
+	// Radio HUD — always shown when radio is playing (independent of board mode)
+	grDispRadioHUD();
 
 	trackMap->display(curr, s, Winx, Winy, Winw, Winh);
 }
