@@ -24,3 +24,7 @@
 ## 2024-06-08 - HTML5 Client-Side Validation on Legacy Forms
 **Learning:** Legacy forms often rely entirely on server-side validation, forcing a full page reload (and potentially losing non-persisted input) just to tell the user a required field was missed.
 **Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `required` attribute to mandatory `<input>` elements. This provides instant, native client-side validation and improves the UX without altering backend logic.
+
+## 2024-06-11 - Adding Semantic Labels in Dynamic Form Loops
+**Learning:** In legacy `.ihtml` template forms that dynamically generate input fields inside loops (e.g., `<!-- BEGIN answer_row -->`), simply adding a `<label>` is insufficient. Each dynamically generated `id` and `for` attribute must be strictly unique to prevent the browser and screen readers from associating all labels with only the first generated input element.
+**Action:** Always combine the base ID string with a unique dynamic template variable available within the loop (e.g., `id="poll_answer_{PC_ANSWER_ID}"`) to ensure robust accessibility compliance across all iterations.

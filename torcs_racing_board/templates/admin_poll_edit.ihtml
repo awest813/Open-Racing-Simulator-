@@ -56,10 +56,10 @@
 					<!-- BEGIN answer_row -->
 					<tr>
 						<td class="admincol1 filledlist">
-							Answer {PC_ANSWER_NUMBER}:
+							<label for="poll_answer_{PC_ANSWER_ID}">Answer {PC_ANSWER_NUMBER}:</label>
 						</td>
 						<td class="filledlist">
-							<input type="text" name="poll_answer[]" maxlength="255" class="admincol2" value="{PC_ANSWER_TEXT}"/>
+							<input type="text" id="poll_answer_{PC_ANSWER_ID}" name="poll_answer[]" maxlength="255" class="admincol2" value="{PC_ANSWER_TEXT}"/>
 						</td>
 					</tr>
 					<input type="hidden" name="poll_answer_id[]" value="{PC_ANSWER_ID}"/>
