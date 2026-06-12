@@ -400,7 +400,19 @@ static void SimCarWallCollideResponse(void *clientdata, DtObjectRef obj1, DtObje
 	sgVec2 n;		// Collision normal delivered by solid, corrected such that it points away from the wall.
 	n[0] = nsign * (float) collData->normal[0];
 	n[1] = nsign * (float) collData->normal[1];
-	float pdist = sgLengthVec2(n);	// Distance of collision points.
+	float pdistSqr = sgLengthSquaredVec2(n);
+	float pdist;
+	static const float CAR_MIN_MOVEMENT = 0.02f;
+	static const float CAR_MAX_MOVEMENT = 0.05f;
+	static const float CAR_MIN_MOVEMENT_SQR = CAR_MIN_MOVEMENT * CAR_MIN_MOVEMENT;
+	static const float CAR_MAX_MOVEMENT_SQR = CAR_MAX_MOVEMENT * CAR_MAX_MOVEMENT;
+	if (pdistSqr <= CAR_MIN_MOVEMENT_SQR) {
+		pdist = CAR_MIN_MOVEMENT;
+	} else if (pdistSqr >= CAR_MAX_MOVEMENT_SQR) {
+		pdist = CAR_MAX_MOVEMENT;
+	} else {
+		pdist = sqrt(pdistSqr);
+	}
 	sgNormaliseVec2(n);
 	
 	// Because of the type conversion and the transformation to 2D the length of the normal might be 0 now, which could cause NaN
@@ -425,9 +437,7 @@ static void SimCarWallCollideResponse(void *clientdata, DtObjectRef obj1, DtObje
 	vp[1] = car->DynGCg.vel.y + car->DynGCg.vel.az * rg[0];
 
 	sgVec2 tmpv;
-	static const float CAR_MIN_MOVEMENT = 0.02f;
-	static const float CAR_MAX_MOVEMENT = 0.05f;
-	sgScaleVec2(tmpv, n, MIN(MAX(pdist, CAR_MIN_MOVEMENT), CAR_MAX_MOVEMENT));
+	sgScaleVec2(tmpv, n, pdist);
 	if (car->blocked == 0) {
 		sgAddVec2((float*)&(car->DynGCg.pos), tmpv);
 		car->blocked = 1;
