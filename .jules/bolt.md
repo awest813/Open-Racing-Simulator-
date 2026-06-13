@@ -35,6 +35,7 @@
 ## 2024-06-02 - Conditional sqrt evaluation in collision hot loop
 **Learning:** In hot loops like physics collision response (`SimCarCollideResponse`), unconditional `sgLengthVec2()` or `sgLengthVec3()` calls incur heavy `sqrt()` overhead. When the length is only used in a clamping/min function (e.g. `MIN(distpab, 0.05)`), we can first check the squared distance against the squared threshold (`distpabSqr < 0.05*0.05`) and only compute `sqrt()` when the condition is met.
 **Action:** Replace direct length calls with conditional `sqrt()` evaluation using squared distance functions (`sgLengthSquaredVec2`, `sgLengthSquaredVec3`) when the length is compared against or clamped by a known threshold.
-## 2025-06-11 - Deferred sqrt calculation with bounded clamped limits
-**Learning:** Found an instance in `src/modules/simu/simuv2/collide.cpp` where the `sqrt` function via `sgLengthVec2(n)` was executed indiscriminately, even though its output was immediately constrained within tight min-max bounds (`MIN(MAX(x, min), max)`).
-**Action:** Always refactor bounding constraint operations to compare against the squared boundaries (`CAR_MIN_MOVEMENT_SQR`, `CAR_MAX_MOVEMENT_SQR`) before conditionally evaluating the square root, effectively skipping expensive math operations for bounded values.
+
+## 2024-05-30 - Optimize distance calculation in car collision code
+**Learning:** Computations like `MAX(1.0, sqrt(val))` unconditionally compute the square root even if `val` is well below the threshold (or if the squared magnitude could be compared). The `SimCarCollideXYScene` function in the TORCS simulation engine evaluates impact magnitudes repeatedly, resulting in an unnecessary square root operation whenever the squared magnitude is below 1.0.
+**Action:** When a value derived via `sqrt()` is clamped using a function like `MAX(threshold, sqrt(magSqr))`, pre-calculate the squared magnitude (`magSqr`). Check if it exceeds `threshold * threshold`. If it does not, skip the `sqrt()` altogether and use the threshold directly, as `sqrt(magSqr)` will inherently be less than the threshold.
