@@ -24,3 +24,7 @@
 ## 2024-06-08 - HTML5 Client-Side Validation on Legacy Forms
 **Learning:** Legacy forms often rely entirely on server-side validation, forcing a full page reload (and potentially losing non-persisted input) just to tell the user a required field was missed.
 **Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `required` attribute to mandatory `<input>` elements. This provides instant, native client-side validation and improves the UX without altering backend logic.
+
+## 2024-06-14 - HTML5 Validation for Global UI Elements
+**Learning:** Legacy template systems often embed global elements (like top-bar login forms) that don't pass through standard form validation flows until submitted, leading to unnecessary full page reloads if left empty.
+**Action:** When updating critical forms across legacy `.ihtml` structures, systematically apply the `required` HTML5 attribute not just to main forms but also to globally embedded form elements like the page statusbar login fields, providing instant client-side feedback without a server trip.
