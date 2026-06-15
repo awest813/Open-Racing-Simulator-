@@ -56,7 +56,8 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	tdble windY = car->localWindY;
 	tdble relVelX = carVelX - windX;
 	tdble relVelY = carVelY - windY;
-	airSpeed = sqrt(relVelX * relVelX + relVelY * relVelY);
+	tdble airSpeedSqr = relVelX * relVelX + relVelY * relVelY;
+	airSpeed = sqrt(airSpeedSqr);
 	spdang = atan2(relVelY, relVelX);
 
     if (airSpeed > 10.0f) {
@@ -94,7 +95,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 		}
     }
 
-	car->airSpeed2 = airSpeed * airSpeed;
+	car->airSpeed2 = airSpeedSqr; // reuse the squared magnitude to avoid redundant calculations
 	tdble v2 = car->airSpeed2;
 	
 	// simulate ground effect drop off caused by non-frontal airflow (diffusor stops working etc.)
