@@ -93,13 +93,14 @@ SimAeroUpdate(tCar *car, tSituation *s)
 
 	    tCar* otherCar = &(SimCarTable[i]);
 	    tdble otherYaw = otherCar->DynGC.pos.az;
-	    tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
-	    NORM_PI_PI(tmpsdpang);
 	    tdble dyaw = yaw - otherYaw;
 	    NORM_PI_PI(dyaw);
 
 	    if ((otherCar->DynGC.vel.x > 10.0) &&
 		(fabs(dyaw) < 0.1396)) {
+		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
+		NORM_PI_PI(tmpsdpang);
+
 		if (fabs(tmpsdpang) > 2.9671) {	    /* 10 degrees */
 		    /* behind another car - reduce overall airflow */
                     tdble factor = (fabs(tmpsdpang)-2.9671)/(M_PI-2.9671);
@@ -261,12 +262,13 @@ SimWingUpdate(tCar *car, int index, tSituation* s)
 	    tdble tmpas = 1.00;
 	    tCar* otherCar = &(SimCarTable[i]);
 	    tdble otherYaw = otherCar->DynGC.pos.az;
-	    tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
-	    NORM_PI_PI(tmpsdpang);
 	    tdble dyaw = yaw - otherYaw;
 	    NORM_PI_PI(dyaw);
 	    if ((otherCar->DynGC.vel.x > 10.0) &&
 		(fabs(dyaw) < 0.1396)) {
+		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
+		NORM_PI_PI(tmpsdpang);
+
 		if (fabs(tmpsdpang) > 2.9671) {	    /* 10 degrees */
 		    /* behind another car - reduce overall airflow */
                     tdble factor = (fabs(tmpsdpang)-2.9671)/(M_PI-2.9671);

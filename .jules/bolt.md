@@ -39,3 +39,7 @@
 ## 2024-05-30 - Optimize distance calculation in car collision code
 **Learning:** Computations like `MAX(1.0, sqrt(val))` unconditionally compute the square root even if `val` is well below the threshold (or if the squared magnitude could be compared). The `SimCarCollideXYScene` function in the TORCS simulation engine evaluates impact magnitudes repeatedly, resulting in an unnecessary square root operation whenever the squared magnitude is below 1.0.
 **Action:** When a value derived via `sqrt()` is clamped using a function like `MAX(threshold, sqrt(magSqr))`, pre-calculate the squared magnitude (`magSqr`). Check if it exceeds `threshold * threshold`. If it does not, skip the `sqrt()` altogether and use the threshold directly, as `sqrt(magSqr)` will inherently be less than the threshold.
+
+## 2024-06-03 - Defer unconditionally evaluated expensive math functions
+**Learning:** In C++ simulations, unconditional trigonometric operations (like `atan2()`) in hot paths (`simuv3/aero.cpp`) create bottlenecks when running over numerous loop iterations (e.g. processing opponents). Often these results are only required *if* preliminary early-exit conditions are met (e.g., fast velocity or specific bounds).
+**Action:** Defer executing expensive operations like `atan2()` by moving them strictly inside conditional checks that utilize their output, eliminating unnecessary calculations.
