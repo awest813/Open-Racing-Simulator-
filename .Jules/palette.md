@@ -24,3 +24,6 @@
 ## 2024-06-08 - HTML5 Client-Side Validation on Legacy Forms
 **Learning:** Legacy forms often rely entirely on server-side validation, forcing a full page reload (and potentially losing non-persisted input) just to tell the user a required field was missed.
 **Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `required` attribute to mandatory `<input>` elements. This provides instant, native client-side validation and improves the UX without altering backend logic.
+## 2024-06-17 - Unifying label targets across table cells
+**Learning:** In legacy layouts, separating inputs (like checkboxes) and labels across different `<td>` elements disrupts click target unity. Expanding `colspan` and combining them into a single `<td>` inside one `<label>` significantly improves the target size.
+**Action:** When updating tabular forms, merge the cells containing the input and text descriptor into a single cell, wrap both in a `<label>`.
