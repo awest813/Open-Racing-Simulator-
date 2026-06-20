@@ -68,12 +68,12 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 			
 			otherCar = &(SimCarTable[i]);
 			otherYaw = otherCar->DynGCg.pos.az;
-			tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
-			NORM_PI_PI(tmpsdpang);
 			dyaw = yaw - otherYaw;
 			NORM_PI_PI(dyaw);
 			
 			if ((otherCar->DynGC.vel.x > 10.0f) && (fabs(dyaw) < 0.1396f)) {
+				tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
+				NORM_PI_PI(tmpsdpang);
 				if (fabs(tmpsdpang) > 2.9671f) {	    /* 10 degrees */
 					// behind another car
 					tmpas = 1.0f - exp(- 2.0f * DIST(x, y, otherCar->DynGCg.pos.x, otherCar->DynGCg.pos.y) /

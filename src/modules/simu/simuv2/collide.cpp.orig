@@ -36,7 +36,7 @@ void SimCarCollideZ(tCar *car)
 	sgMat4 dst;
 	sgMakeRotMat4(dst, RAD2DEG(car->DynGC.pos.az), RAD2DEG(car->DynGC.pos.ax), RAD2DEG(car->DynGC.pos.ay));
 	sgTransposeNegateMat4(dst);
-	
+
 	// Get the normal of the surface under the center of gravity of the car. Beware, TR_LPOS_SEGMENT must
 	// be set to get this result.
 	t3Dd normal;
@@ -240,7 +240,7 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 	}
 
 	sgNormaliseVec2(n);
-    
+
 	// Because of the type conversion and the transformation to 2D the length of the normal might be 0 now, which could cause NaN
 	if (isnan(n[0]) || isnan(n[1])) {
 		return;
@@ -271,7 +271,7 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 	sgSubVec2(v1ab, vp[0], vp[1]);
 
 	// try to separate the cars. The computation is necessary because dtProceed is not called till
-	// the collision is resolved. 
+	// the collision is resolved.
 	for (i = 0; i < 2; i++) {
 		sgCopyVec2(pt[i], r[i]);
 		pt[i][2] = 0.0f;
@@ -287,9 +287,9 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 	if (distpabSqr < 0.05f * 0.05f) distpab = sqrt(distpabSqr);
 
 	sgVec2 tmpv;
-	
+
 	sgScaleVec2(tmpv, n, MIN(distpab, 0.05));
-	// No "for" loop here because of subtle difference AddVec/SubVec. 
+	// No "for" loop here because of subtle difference AddVec/SubVec.
 	if (car[0]->blocked == 0 && !(car[0]->carElt->_state & RM_CAR_STATE_NO_SIMU)) {
 		sgAddVec2((float*)&(car[0]->DynGCg.pos), tmpv);
 		car[0]->blocked = 1;
@@ -327,8 +327,9 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 		}
 
 		// Damage.
-		tdble damFactor;
-		if (r[i][0] > 0.0 && fabs(r[i][1]) < 1.73205081f * r[i][0]) {
+		tdble damFactor, atmp;
+		atmp = atan2(r[i][1], r[i][0]);
+		if (fabs(atmp) < (PI / 3.0)) {
 			// Front collision gives more damage.
 			damFactor = 1.5f;
 		} else {
@@ -416,7 +417,7 @@ static void SimCarWallCollideResponse(void *clientdata, DtObjectRef obj1, DtObje
 		pdist = sqrt(pdistSqr);
 	}
 	sgNormaliseVec2(n);
-	
+
 	// Because of the type conversion and the transformation to 2D the length of the normal might be 0 now, which could cause NaN
 	if (isnan(n[0]) || isnan(n[1])) {
 		return;
@@ -461,8 +462,9 @@ static void SimCarWallCollideResponse(void *clientdata, DtObjectRef obj1, DtObje
 	const float ROT_K = 0.5f;
 
 	// Damage.
-	tdble damFactor;
-	if (r[0] > 0.0 && fabs(r[1]) < 1.73205081f * r[0]) {
+	tdble damFactor, atmp;
+	atmp = atan2(r[1], r[0]);
+	if (fabs(atmp) < (PI / 3.0)) {
 		// Front collision gives more damage.
 		damFactor = 1.5f;
 	} else {
@@ -742,7 +744,7 @@ SimCarCollideInit(tTrack *track)
 	// TODO: understand this and reconsider caching.
 	dtDisableCaching();
 	dtSetTolerance(0.001);
-	
+
 	fixedid = 0;
 
 	if (track != nullptr && track->seg != nullptr) {
@@ -761,7 +763,7 @@ SimCarCollideInit(tTrack *track)
 			dtCreateObject(&fixedobjects[i], fixedobjects[i]);
 			dtSetObjectResponse(&fixedobjects[i], SimCarWallCollideResponse, DT_SMART_RESPONSE, &fixedobjects[i]);
 		}
-	}	
+	}
 }
 
 
@@ -807,4 +809,3 @@ SimCarCollideCars(tSituation *s)
 		}
 	}
 }
-
