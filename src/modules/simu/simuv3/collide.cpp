@@ -549,6 +549,7 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 
     for (i = 0; i < 2; i++) {
         // Damage.
+	// BOLT: Replaced expensive atan2 with linear bounds check
         tdble damFactor;
         if (r[i][0] > 0.0 && fabs(r[i][1]) < 1.73205081f * r[i][0]) {
             // Front collision gives more damage.
