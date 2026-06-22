@@ -327,9 +327,9 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 		}
 
 		// Damage.
-		tdble damFactor, atmp;
-		atmp = atan2(r[i][1], r[i][0]);
-		if (fabs(atmp) < (PI / 3.0)) {
+		tdble damFactor;
+		// Use tangent equivalent to bypass atan2: tan(PI/3) ~ 1.73205081
+		if (r[i][0] > 0.0f && fabs(r[i][1]) < 1.73205081f * r[i][0]) {
 			// Front collision gives more damage.
 			damFactor = 1.5f;
 		} else {
@@ -462,9 +462,9 @@ static void SimCarWallCollideResponse(void *clientdata, DtObjectRef obj1, DtObje
 	const float ROT_K = 0.5f;
 
 	// Damage.
-	tdble damFactor, atmp;
-	atmp = atan2(r[1], r[0]);
-	if (fabs(atmp) < (PI / 3.0)) {
+	tdble damFactor;
+	// Use tangent equivalent to bypass atan2: tan(PI/3) ~ 1.73205081
+	if (r[0] > 0.0f && fabs(r[1]) < 1.73205081f * r[0]) {
 		// Front collision gives more damage.
 		damFactor = 1.5f;
 	} else {
