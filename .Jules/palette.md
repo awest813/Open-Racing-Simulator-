@@ -24,3 +24,6 @@
 ## 2024-06-08 - HTML5 Client-Side Validation on Legacy Forms
 **Learning:** Legacy forms often rely entirely on server-side validation, forcing a full page reload (and potentially losing non-persisted input) just to tell the user a required field was missed.
 **Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `required` attribute to mandatory `<input>` elements. This provides instant, native client-side validation and improves the UX without altering backend logic.
+## 2024-06-22 - Missing HTML5 Autocomplete in Legacy Authentication Forms
+**Learning:** Legacy `.ihtml` authentication forms (e.g., login status bars) frequently omit `autocomplete` attributes, which prevents modern browsers and password managers from correctly classifying inputs and offering seamless credential autofill to users, degrading the overall UX.
+**Action:** When working on login forms, ensure `autocomplete="username"` and `autocomplete="current-password"` (or `new-password` for registration) are explicitly added to the relevant `<input>` elements. This instantly restores password manager support and enhances accessibility without altering the visual design or relying on custom JavaScript.
