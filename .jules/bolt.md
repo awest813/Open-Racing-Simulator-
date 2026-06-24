@@ -39,3 +39,7 @@
 ## 2024-05-30 - Optimize distance calculation in car collision code
 **Learning:** Computations like `MAX(1.0, sqrt(val))` unconditionally compute the square root even if `val` is well below the threshold (or if the squared magnitude could be compared). The `SimCarCollideXYScene` function in the TORCS simulation engine evaluates impact magnitudes repeatedly, resulting in an unnecessary square root operation whenever the squared magnitude is below 1.0.
 **Action:** When a value derived via `sqrt()` is clamped using a function like `MAX(threshold, sqrt(magSqr))`, pre-calculate the squared magnitude (`magSqr`). Check if it exceeds `threshold * threshold`. If it does not, skip the `sqrt()` altogether and use the threshold directly, as `sqrt(magSqr)` will inherently be less than the threshold.
+
+## 2024-06-24 - Bypass expensive sqrt in aerodynamic update
+**Learning:** In `SimAeroUpdate` (`aero.cpp`), `airSpeed` was unconditionally computed using `sqrt()` only to be checked against a threshold (`> 10.0f`) and immediately squared back to `airSpeed2`. This caused redundant calculations in a hot loop.
+**Action:** Always replace redundant `sqrt()` and threshold checks with their squared equivalents (e.g., `airSpeed2 > 100.0f`). Compute and assign the squared magnitude directly to avoid both the `sqrt()` and the subsequent squaring operations.

@@ -42,7 +42,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	int i;    
 	tCar *otherCar;
 	tdble x, y;
-	tdble yaw, otherYaw, airSpeed, tmpas, spdang, tmpsdpang, dyaw;
+	tdble yaw, otherYaw, tmpas, spdang, tmpsdpang, dyaw;
 	tdble dragK = 1.0;
 
 	x = car->DynGCg.pos.x;
@@ -56,10 +56,10 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	tdble windY = car->localWindY;
 	tdble relVelX = carVelX - windX;
 	tdble relVelY = carVelY - windY;
-	airSpeed = sqrt(relVelX * relVelX + relVelY * relVelY);
+	car->airSpeed2 = relVelX * relVelX + relVelY * relVelY;
 	spdang = atan2(relVelY, relVelX);
 
-    if (airSpeed > 10.0f) {
+    if (car->airSpeed2 > 100.0f) {
 		for (i = 0; i < s->_ncars; i++) {
 			if (i == car->carElt->index) {
 				// skip myself
@@ -94,7 +94,6 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 		}
     }
 
-	car->airSpeed2 = airSpeed * airSpeed;
 	tdble v2 = car->airSpeed2;
 	
 	// simulate ground effect drop off caused by non-frontal airflow (diffusor stops working etc.)
