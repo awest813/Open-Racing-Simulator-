@@ -36,3 +36,7 @@
 **Learning:** Legacy raw HTML forms (.ihtml) often lack modern HTML5 semantic attributes that aid accessibility and usability.
 **Action:** Added autocomplete="username" and autocomplete="current-password" along with the required attribute to login fields. This simple addition significantly improves the user experience by enabling native browser validation and password manager support without needing custom CSS or javascript.
 
+## 2024-06-23 - Improve Login Form Accessibility with Autocomplete
+**Learning:** Legacy `.ihtml` login forms often lack `autocomplete` attributes, which prevents password managers from easily interacting with them and reduces form completion efficiency.
+**Action:** When updating login inputs, always add standard HTML5 `autocomplete="username"` and `autocomplete="current-password"` attributes, along with `required`, to seamlessly support modern password managers and add instant client-side validation.
+
