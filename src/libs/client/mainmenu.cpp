@@ -57,7 +57,6 @@ GetMainMenuBackgroundPath()
         };
 
         std::string checkedPaths;
-        checkedPaths.reserve(128);
         for (const char* path : kCandidatePaths) {
             if (!checkedPaths.empty()) {
                 checkedPaths += ", ";
@@ -71,7 +70,7 @@ GetMainMenuBackgroundPath()
         }
 
         std::fprintf(stderr,
-                     "Warning: could not find a main menu splash image. The main menu will render without a background. Checked: %s\n",
+                     "Warning: could not find a main menu splash image. The main menu will render without a background. Checked paths: %s\n",
                      checkedPaths.c_str());
         cachedBackgroundPath.clear();
     });
