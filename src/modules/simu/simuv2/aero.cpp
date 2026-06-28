@@ -72,6 +72,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 			NORM_PI_PI(dyaw);
 
 			if ((otherCar->DynGC.vel.x > 10.0f) && (fabs(dyaw) < 0.1396f)) {
+				// BOLT: Defer expensive atan2 calculation
 				tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
 				NORM_PI_PI(tmpsdpang);
 				if (fabs(tmpsdpang) > 2.9671f) {	    /* 10 degrees */

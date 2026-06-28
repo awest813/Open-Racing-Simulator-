@@ -549,7 +549,7 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 
     for (i = 0; i < 2; i++) {
         // Damage.
-        tdble damFactor;
+        // BOLT: Replaced expensive atan2 with linear bounds check
         // Use tangent equivalent to bypass atan2: tan(PI/3) ~ 1.73205081
         if (r[i][0] > 0.0f && fabs(r[i][1]) < 1.73205081f * r[i][0]) {
             // Front collision gives more damage.

@@ -327,9 +327,15 @@ static void SimCarCollideResponse(void * /*dummy*/, DtObjectRef obj1, DtObjectRe
 		}
 
 		// Damage.
+<<<<<<< HEAD
 		tdble damFactor;
 		// Use tangent equivalent to bypass atan2: tan(PI/3) ~ 1.73205081
 		if (r[i][0] > 0.0f && fabs(r[i][1]) < 1.73205081f * r[i][0]) {
+=======
+		// BOLT: Replaced expensive atan2 with linear bounds check
+		tdble damFactor;
+		if (r[i][0] > 0.0 && fabs(r[i][1]) < 1.73205081f * r[i][0]) {
+>>>>>>> origin/bolt-defer-atan2-bounds-checks-15010145084775063044
 			// Front collision gives more damage.
 			damFactor = 1.5f;
 		} else {
@@ -462,7 +468,7 @@ static void SimCarWallCollideResponse(void *clientdata, DtObjectRef obj1, DtObje
 	const float ROT_K = 0.5f;
 
 	// Damage.
-	tdble damFactor;
+	// BOLT: Replaced expensive atan2 with linear bounds check
 	// Use tangent equivalent to bypass atan2: tan(PI/3) ~ 1.73205081
 	if (r[0] > 0.0f && fabs(r[1]) < 1.73205081f * r[0]) {
 		// Front collision gives more damage.
