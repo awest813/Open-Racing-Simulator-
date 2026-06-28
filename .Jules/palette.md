@@ -60,3 +60,7 @@
 **Learning:** Legacy template systems often embed global elements (like top-bar login forms) that don't pass through standard form validation flows until submitted, leading to unnecessary full page reloads if left empty.
 **Action:** When updating critical forms across legacy `.ihtml` structures, systematically apply the `required` HTML5 attribute not just to main forms but also to globally embedded form elements like the page statusbar login fields, providing instant client-side feedback without a server trip.
 
+## 2024-06-13 - Add required attribute to lost password form
+**Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
+**Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
+
