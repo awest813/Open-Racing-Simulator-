@@ -38,12 +38,16 @@ float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
 float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 
-// Prefer the source-tree data path, but fall back to the legacy packaged asset
-// layout when the executable is launched from a runtime directory that still uses
-// data/data/img.
+// Return the first existing splash image path from the preferred source-tree
+// layout, falling back to the legacy packaged asset layout when needed.
 const char*
 GetMainMenuBackgroundPath()
 {
+    static const char* cachedBackgroundPath = nullptr;
+    if (cachedBackgroundPath != nullptr) {
+        return cachedBackgroundPath;
+    }
+
     static const char* kCandidatePaths[] = {
         "data/img/splash-main.png",
         "data/data/img/splash-main.png",
@@ -52,11 +56,13 @@ GetMainMenuBackgroundPath()
 
     for (const char* path : kCandidatePaths) {
         if (std::filesystem::exists(path)) {
-            return path;
+            cachedBackgroundPath = path;
+            return cachedBackgroundPath;
         }
     }
 
-    return kDefaultBackgroundPath;
+    cachedBackgroundPath = kDefaultBackgroundPath;
+    return cachedBackgroundPath;
 }
 
 } // namespace
