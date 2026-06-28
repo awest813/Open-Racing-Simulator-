@@ -48,11 +48,10 @@ GetMainMenuBackgroundPath()
     static std::string cachedBackgroundPath;
 
     std::call_once(backgroundPathOnce, [] {
-        static const char* kCandidatePaths[] = {
+        const char* kCandidatePaths[] = {
             "data/img/splash-main.png",
             "data/data/img/splash-main.png",
         };
-        static const char* kDefaultBackgroundPath = "data/img/splash-main.png";
 
         for (const char* path : kCandidatePaths) {
             if (std::filesystem::exists(path)) {
@@ -61,7 +60,7 @@ GetMainMenuBackgroundPath()
             }
         }
 
-        cachedBackgroundPath = kDefaultBackgroundPath;
+        cachedBackgroundPath = kCandidatePaths[0];
     });
 
     return cachedBackgroundPath.c_str();
