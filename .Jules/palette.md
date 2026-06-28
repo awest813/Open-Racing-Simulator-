@@ -28,3 +28,7 @@
 ## 2024-06-26 - Autocomplete Attributes on Login Forms
 **Learning:** Missing `autocomplete` attributes on login fields prevent modern password managers from accurately autofilling credentials, which degrades the UX significantly for users relying on password managers.
 **Action:** Always add `autocomplete="username"` and `autocomplete="current-password"` to standard login fields, alongside the `required` attribute to support native browser client-side validation.
+
+## 2024-06-25 - Enhance Login Accessibility
+**Learning:** Legacy `.ihtml` forms lacking `autocomplete` attributes block modern password managers from assisting users, leading to poor accessibility and UX.
+**Action:** Add semantic `autocomplete` attributes (like `username` and `current-password`) and `required` attributes to login fields to enable native browser validation and password manager support without altering CSS.
