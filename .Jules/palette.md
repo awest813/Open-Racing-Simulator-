@@ -44,3 +44,7 @@
 **Learning:** Legacy `.ihtml` authentication forms (e.g., login status bars) frequently omit `autocomplete` attributes, which prevents modern browsers and password managers from correctly classifying inputs and offering seamless credential autofill to users, degrading the overall UX.
 **Action:** When working on login forms, ensure `autocomplete="username"` and `autocomplete="current-password"` (or `new-password` for registration) are explicitly added to the relevant `<input>` elements. This instantly restores password manager support and enhances accessibility without altering the visual design or relying on custom JavaScript.
 
+## 2024-06-25 - Improve Browser Password Manager Support in Legacy Forms
+**Learning:** Legacy forms often lack autocomplete attributes on login inputs, which causes modern password managers to struggle with saving or filling credentials correctly.
+**Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `autocomplete="username"` and `autocomplete="current-password"` attributes to login `<input>` elements. This instantly improves browser password manager support without altering backend logic or adding CSS dependencies.
+
