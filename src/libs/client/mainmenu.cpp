@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <filesystem>
 #include <mutex>
+#include <string>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -41,7 +42,7 @@ float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 
 // Return the first existing splash image path from the preferred source-tree
 // layout, falling back to the legacy packaged asset layout when needed.
-const char*
+const std::string&
 GetMainMenuBackgroundPath()
 {
     static std::once_flag backgroundPathOnce;
@@ -64,10 +65,10 @@ GetMainMenuBackgroundPath()
                      "Warning: could not find a main menu splash image at %s or %s\n",
                      kCandidatePaths[0],
                      kCandidatePaths[1]);
-        cachedBackgroundPath = kCandidatePaths[0];
+        cachedBackgroundPath.clear();
     });
 
-    return cachedBackgroundPath.c_str();
+    return cachedBackgroundPath;
 }
 
 } // namespace
@@ -110,7 +111,10 @@ TorcsMainMenuInit(void)
 				    nullptr, nullptr, 
 				    1);
 
-    GfuiScreenAddBgImg(menuHandle, GetMainMenuBackgroundPath());
+    const std::string& backgroundPath = GetMainMenuBackgroundPath();
+    if (!backgroundPath.empty()) {
+        GfuiScreenAddBgImg(menuHandle, backgroundPath.c_str());
+    }
 
     GfuiLabelCreateEx(menuHandle,
 		    "OPEN RACING SIMULATOR",
