@@ -60,6 +60,10 @@ GetMainMenuBackgroundPath()
             }
         }
 
+        std::fprintf(stderr,
+                     "Warning: could not find a main menu splash image at %s or %s\n",
+                     kCandidatePaths[0],
+                     kCandidatePaths[1]);
         cachedBackgroundPath = kCandidatePaths[0];
     });
 
