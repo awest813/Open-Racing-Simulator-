@@ -67,3 +67,7 @@
 **Learning:** In C++ simulations, unconditional trigonometric operations (like `atan2()`) in hot paths (`simuv3/aero.cpp`) create bottlenecks when running over numerous loop iterations (e.g. processing opponents). Often these results are only required *if* preliminary early-exit conditions are met (e.g., fast velocity or specific bounds).
 **Action:** Defer executing expensive operations like `atan2()` by moving them strictly inside conditional checks that utilize their output, eliminating unnecessary calculations.
 
+## 2025-06-16 - Defer expensive atan2() computations in loops
+**Learning:** Found multiple instances in aero.cpp where atan2() was calculated unconditionally inside O(N) hot loops over opponent cars, even though the result was only used when specific velocity and yaw conditions were met.
+**Action:** Always defer expensive mathematical operations like atan2() until their prerequisite conditions are met inside loops, by moving their evaluation inside the relevant if statements.
+
