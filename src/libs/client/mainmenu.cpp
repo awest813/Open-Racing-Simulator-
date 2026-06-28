@@ -49,24 +49,24 @@ GetMainMenuBackgroundPath()
     static std::string cachedBackgroundPath;
 
     std::call_once(backgroundPathOnce, [] {
+        // The source-tree layout is preferred, but the legacy packaged layout is
+        // still used by some runtime directories.
         const char* kCandidatePaths[] = {
             "data/img/splash-main.png",
             "data/data/img/splash-main.png",
         };
 
+        std::string checkedPaths;
         for (const char* path : kCandidatePaths) {
+            if (!checkedPaths.empty()) {
+                checkedPaths += ", ";
+            }
+            checkedPaths += path;
+
             if (std::filesystem::exists(path)) {
                 cachedBackgroundPath = path;
                 return;
             }
-        }
-
-        std::string checkedPaths;
-        for (std::size_t index = 0; index < (sizeof(kCandidatePaths) / sizeof(kCandidatePaths[0])); ++index) {
-            if (index > 0) {
-                checkedPaths += ", ";
-            }
-            checkedPaths += kCandidatePaths[index];
         }
 
         std::fprintf(stderr,
