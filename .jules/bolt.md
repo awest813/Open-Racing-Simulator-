@@ -55,3 +55,7 @@
 **Learning:** Trigonometric functions like `atan2()` used in hot collision paths for simple bounds checks can be bypassed using equivalent linear tangent checks.
 **Action:** Replaced expensive `atan2` calculations with `tan()` equivalent check when checking for frontal collisions.
 
+## 2025-06-21 - Defer sqrt evaluation in particle rendering
+**Learning:** In particle rendering loops (like `ssgVtxTableSmoke::draw_geometry()`), calculating `sqrt` unconditionally to determine distance-based effects (like fading alpha) introduces unnecessary overhead for far-away particles.
+**Action:** Always calculate the squared distance first and compare it against the squared threshold (`distSqr < threshold * threshold`). Only compute `sqrt(distSqr)` if the condition is met and the actual distance is needed for further calculations (like `exp`).
+
