@@ -19,7 +19,7 @@
 
 
 #include <cstdio>
-#include <fstream>
+#include <filesystem>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -38,6 +38,9 @@ float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
 float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 
+// Prefer the source-tree data path, but fall back to the legacy packaged asset
+// layout when the executable is launched from a runtime directory that still uses
+// data/data/img.
 const char*
 GetMainMenuBackgroundPath()
 {
@@ -48,8 +51,7 @@ GetMainMenuBackgroundPath()
     static const char* kDefaultBackgroundPath = "data/img/splash-main.png";
 
     for (const char* path : kCandidatePaths) {
-        std::ifstream stream(path);
-        if (stream.good()) {
+        if (std::filesystem::exists(path)) {
             return path;
         }
     }
