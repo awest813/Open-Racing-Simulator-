@@ -43,3 +43,8 @@
 ## 2024-05-23 - Deferred Expensive Math Operations (atan2) in Hot Simulation Paths
 **Learning:** In TORCS aerodynamic logic (C++), expensive trigonometric functions like `atan2()` are sometimes unconditionally evaluated before simple, fast scalar evaluations (like speed bounds or yaw thresholds) during iterations over hundreds of objects.
 **Action:** Defer mathematical evaluations (like angles derived from `atan2()`) by pushing them explicitly into conditional blocks that require their results.
+
+## 2024-06-24 - Bypass expensive sqrt in aerodynamic update
+**Learning:** In `SimAeroUpdate` (`aero.cpp`), `airSpeed` was unconditionally computed using `sqrt()` only to be checked against a threshold (`> 10.0f`) and immediately squared back to `airSpeed2`. This caused redundant calculations in a hot loop.
+**Action:** Always replace redundant `sqrt()` and threshold checks with their squared equivalents (e.g., `airSpeed2 > 100.0f`). Compute and assign the squared magnitude directly to avoid both the `sqrt()` and the subsequent squaring operations.
+
