@@ -20,6 +20,7 @@
 
 #include <cstdio>
 #include <filesystem>
+#include <mutex>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -43,26 +44,27 @@ float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 const char*
 GetMainMenuBackgroundPath()
 {
-    static const char* cachedBackgroundPath = nullptr;
-    if (cachedBackgroundPath != nullptr) {
-        return cachedBackgroundPath;
-    }
+    static std::once_flag backgroundPathOnce;
+    static std::string cachedBackgroundPath;
 
-    static const char* kCandidatePaths[] = {
-        "data/img/splash-main.png",
-        "data/data/img/splash-main.png",
-    };
-    static const char* kDefaultBackgroundPath = "data/img/splash-main.png";
+    std::call_once(backgroundPathOnce, [] {
+        static const char* kCandidatePaths[] = {
+            "data/img/splash-main.png",
+            "data/data/img/splash-main.png",
+        };
+        static const char* kDefaultBackgroundPath = "data/img/splash-main.png";
 
-    for (const char* path : kCandidatePaths) {
-        if (std::filesystem::exists(path)) {
-            cachedBackgroundPath = path;
-            return cachedBackgroundPath;
+        for (const char* path : kCandidatePaths) {
+            if (std::filesystem::exists(path)) {
+                cachedBackgroundPath = path;
+                return;
+            }
         }
-    }
 
-    cachedBackgroundPath = kDefaultBackgroundPath;
-    return cachedBackgroundPath;
+        cachedBackgroundPath = kDefaultBackgroundPath;
+    });
+
+    return cachedBackgroundPath.c_str();
 }
 
 } // namespace
