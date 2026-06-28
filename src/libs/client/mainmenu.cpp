@@ -42,6 +42,8 @@ float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 
 // Return the first existing splash image path from the preferred source-tree
 // layout, falling back to the legacy packaged asset layout when needed.
+// The resolved path is cached for the life of the process and resolved relative
+// to the current working directory when the simulator starts.
 const std::string&
 GetMainMenuBackgroundPath()
 {
@@ -70,7 +72,7 @@ GetMainMenuBackgroundPath()
         }
 
         std::fprintf(stderr,
-                     "Warning: could not find a main menu splash image. The main menu will render without a background. Checked paths: %s\n",
+                     "Warning: could not find a main menu splash image relative to the current working directory. The main menu will render without a background. Checked paths: %s\n",
                      checkedPaths.c_str());
         cachedBackgroundPath.clear();
     });
