@@ -56,22 +56,12 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	tdble windY = car->localWindY;
 	tdble relVelX = carVelX - windX;
 	tdble relVelY = carVelY - windY;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	car->airSpeed2 = relVelX * relVelX + relVelY * relVelY;
-=======
-	tdble airSpeedSqr = relVelX * relVelX + relVelY * relVelY;
-	airSpeed = sqrt(airSpeedSqr);
->>>>>>> origin/bolt-aero-speed-optimization-1936325991358267061
-	spdang = atan2(relVelY, relVelX);
-
-    if (car->airSpeed2 > 100.0f) {
-=======
 	tdble relVelSqr = relVelX * relVelX + relVelY * relVelY;
+	car->airSpeed2 = relVelSqr;
 
     if (relVelSqr > 100.0f) {
 		spdang = atan2(relVelY, relVelX);
->>>>>>> origin/bolt-aero-defer-math-15228593777353554789
+
 		for (i = 0; i < s->_ncars; i++) {
 			if (i == car->carElt->index) {
 				// skip myself
@@ -107,7 +97,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 		}
     }
 
-	car->airSpeed2 = relVelSqr; // reuse the squared magnitude to avoid redundant calculations
+	car->airSpeed2 = relVelSqr;
 	tdble v2 = car->airSpeed2;
 	
 	// simulate ground effect drop off caused by non-frontal airflow (diffusor stops working etc.)
