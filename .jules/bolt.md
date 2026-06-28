@@ -48,3 +48,7 @@
 **Learning:** In `SimAeroUpdate` (`aero.cpp`), `airSpeed` was unconditionally computed using `sqrt()` only to be checked against a threshold (`> 10.0f`) and immediately squared back to `airSpeed2`. This caused redundant calculations in a hot loop.
 **Action:** Always replace redundant `sqrt()` and threshold checks with their squared equivalents (e.g., `airSpeed2 > 100.0f`). Compute and assign the squared magnitude directly to avoid both the `sqrt()` and the subsequent squaring operations.
 
+## 2025-06-15 - Defer expensive atan2 calculation in simuv3 aerodynamic updates
+**Learning:** In hot execution paths (like C++ aero/physics loops), unconditionally calculating expensive trigonometric functions like `atan2()` before evaluating fast early-exit conditions (such as velocity or bounds checks) causes performance bottlenecks.
+**Action:** Defer expensive math operations by moving them inside the conditional blocks where their results are explicitly used, especially when evaluating interactions with other objects in a loop.
+
