@@ -8,53 +8,15 @@
 						<label for="login_username">Username:</label>
 					</td>
 					<td>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}" required autocomplete="username"/>
-=======
-						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}" autocomplete="username" required/>
->>>>>>> origin/palette-semantic-login-12506022791338926931
-=======
-						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}" autocomplete="username" required/>
->>>>>>> origin/palette-login-autocomplete-7539318485057228655
-=======
-						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}" required autocomplete="username"/>
->>>>>>> origin/palette/login-accessibility-16185601921108387889
-=======
-						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}" autocomplete="username" required/>
->>>>>>> origin/palette-add-autocomplete-login-6144451721516403188
-=======
-						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}" required autocomplete="username"/>
->>>>>>> origin/palette-login-autocomplete-10622551994701834154
+
 					</td>
 					<td title="Your password for {PS_HOSTNAME}" class="text14">
 						<label for="login_password">Password:</label>
 					</td>
 					<td class="text14">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}" required autocomplete="current-password"/>
-=======
-						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}" autocomplete="current-password" required/>
->>>>>>> origin/palette-semantic-login-12506022791338926931
-=======
-						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}" autocomplete="current-password" required/>
->>>>>>> origin/palette-login-autocomplete-7539318485057228655
-=======
-						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}" required autocomplete="current-password"/>
->>>>>>> origin/palette/login-accessibility-16185601921108387889
-=======
-						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}" autocomplete="current-password" required/>
->>>>>>> origin/palette-add-autocomplete-login-6144451721516403188
-=======
-						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}" required autocomplete="current-password"/>
->>>>>>> origin/palette-login-autocomplete-10622551994701834154
+
 					</td>
 					<td class="text14">
 						<input type="submit" name="login_submit" value="Log In"/>

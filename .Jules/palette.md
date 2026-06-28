@@ -34,7 +34,7 @@
 
 ## 2024-06-24 - Semantic Attributes for Legacy HTML Forms
 **Learning:** Legacy raw HTML forms (.ihtml) often lack modern HTML5 semantic attributes that aid accessibility and usability.
-**Action:** Added autocomplete="username" and autocomplete="current-password" along with the required attribute to login fields. This simple addition significantly improves the user experience by enabling native browser validation and password manager support without needing custom CSS or javascript.
+**Action:** Added `autocomplete="username"` and `autocomplete="current-password"` along with the `required` attribute to login fields. This simple addition significantly improves the user experience by enabling native browser validation and password manager support without needing custom CSS or javascript.
 
 ## 2024-06-23 - Improve Login Form Accessibility with Autocomplete
 **Learning:** Legacy `.ihtml` login forms often lack `autocomplete` attributes, which prevents password managers from easily interacting with them and reduces form completion efficiency.
@@ -55,4 +55,8 @@
 ## 2024-06-16 - Add required attribute to poll and quiz radio buttons
 **Learning:** Applying the `required` attribute to dynamically generated radio button groups leverages native HTML5 client-side validation. This prevents users from submitting empty forms, improving UX with immediate feedback without requiring custom JS or CSS.
 **Action:** Ensure that radio button groups in forms have the `required` attribute where appropriate to enforce selection.
+
+## 2024-06-14 - HTML5 Validation for Global UI Elements
+**Learning:** Legacy template systems often embed global elements (like top-bar login forms) that don't pass through standard form validation flows until submitted, leading to unnecessary full page reloads if left empty.
+**Action:** When updating critical forms across legacy `.ihtml` structures, systematically apply the `required` HTML5 attribute not just to main forms but also to globally embedded form elements like the page statusbar login fields, providing instant client-side feedback without a server trip.
 
