@@ -37,6 +37,30 @@ float kAccentColor[4] = {1.0f, 0.58f, 0.08f, 1.0f};
 float kBodyColor[4] = {0.83f, 0.86f, 0.92f, 1.0f};
 float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 
+const char*
+GetMainMenuBackgroundPath()
+{
+    static const char* kCandidatePaths[] = {
+        "data/img/splash-main.png",
+        "data/data/img/splash-main.png",
+        nullptr,
+    };
+
+    for (const char* path : kCandidatePaths) {
+        if (path == nullptr) {
+            break;
+        }
+
+        FILE* handle = std::fopen(path, "rb");
+        if (handle != nullptr) {
+            std::fclose(handle);
+            return path;
+        }
+    }
+
+    return "data/img/splash-main.png";
+}
+
 } // namespace
 
 
@@ -77,7 +101,7 @@ TorcsMainMenuInit(void)
 				    nullptr, nullptr, 
 				    1);
 
-    GfuiScreenAddBgImg(menuHandle, "data/img/splash-main.png");
+    GfuiScreenAddBgImg(menuHandle, GetMainMenuBackgroundPath());
 
     GfuiLabelCreateEx(menuHandle,
 		    "OPEN RACING SIMULATOR",
