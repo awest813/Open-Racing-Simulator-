@@ -11,7 +11,7 @@
 		<!-- BEGIN answer_row -->
 		<tr>
 			<td>
-				<input type="radio" id="poll_vote_{PC_ANSWER_ID}" name="poll_vote" value="{PC_ANSWER_ID}"/>
+				<input type="radio" id="poll_vote_{PC_ANSWER_ID}" name="poll_vote" value="{PC_ANSWER_ID}" required/>
 			</td>
 			<td class="pollsmalltext" style="width:500px">
 				<label for="poll_vote_{PC_ANSWER_ID}">

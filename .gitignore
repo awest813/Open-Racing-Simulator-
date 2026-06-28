@@ -69,3 +69,8 @@ runtime/menu/
 runtime/modules/
 runtime/tracks/
 runtime/wheels/
+login_ui_test.png
+test_ui.js
+node_modules/
+package.json
+pnpm-lock.yaml

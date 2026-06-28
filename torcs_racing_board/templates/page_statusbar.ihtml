@@ -8,22 +8,24 @@
 						<label for="login_username">Username:</label>
 					</td>
 					<td>
-						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}"/>
+						<input type="text" id="login_username" name="login_username" size="15" maxlength="{PS_USERNAME_SIZE}" required autocomplete="username"/>
+
 					</td>
 					<td title="Your password for {PS_HOSTNAME}" class="text14">
 						<label for="login_password">Password:</label>
 					</td>
 					<td class="text14">
-						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}"/>
+						<input type="password" id="login_password" name="login_password" size="11" maxlength="{PS_PASSWORD_SIZE}" required autocomplete="current-password"/>
+
 					</td>
 					<td class="text14">
 						<input type="submit" name="login_submit" value="Log In"/>
 					</td>
-					<td class="text14">
-						<input type="checkbox" id="login_remember" name="login_remember" value="remember"/>
-					</td>
-					<td title="You become logged in the next time automagically" class="text14">
-						<label for="login_remember">Remember Me?</label>
+					<td title="You become logged in the next time automagically" class="text14" colspan="2">
+						<label for="login_remember">
+							<input type="checkbox" id="login_remember" name="login_remember" value="remember"/>
+							Remember Me?
+						</label>
 					</td>
 			</table>
 			</form>
@@ -36,4 +38,3 @@
 		</td>
 	</tr>
 </table>
-

@@ -42,7 +42,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	int i;    
 	tCar *otherCar;
 	tdble x, y;
-	tdble yaw, otherYaw, airSpeed, tmpas, spdang, tmpsdpang, dyaw;
+	tdble yaw, otherYaw, tmpas, spdang, tmpsdpang, dyaw;
 	tdble dragK = 1.0;
 
 	x = car->DynGCg.pos.x;
@@ -56,10 +56,12 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	tdble windY = car->localWindY;
 	tdble relVelX = carVelX - windX;
 	tdble relVelY = carVelY - windY;
-	airSpeed = sqrt(relVelX * relVelX + relVelY * relVelY);
-	spdang = atan2(relVelY, relVelX);
+	tdble relVelSqr = relVelX * relVelX + relVelY * relVelY;
+	car->airSpeed2 = relVelSqr;
 
-    if (airSpeed > 10.0f) {
+    if (relVelSqr > 100.0f) {
+		spdang = atan2(relVelY, relVelX);
+
 		for (i = 0; i < s->_ncars; i++) {
 			if (i == car->carElt->index) {
 				// skip myself
@@ -68,12 +70,13 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 			
 			otherCar = &(SimCarTable[i]);
 			otherYaw = otherCar->DynGCg.pos.az;
-			tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
-			NORM_PI_PI(tmpsdpang);
 			dyaw = yaw - otherYaw;
 			NORM_PI_PI(dyaw);
-			
+
 			if ((otherCar->DynGC.vel.x > 10.0f) && (fabs(dyaw) < 0.1396f)) {
+				// BOLT: Defer expensive atan2 calculation
+				tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
+				NORM_PI_PI(tmpsdpang);
 				if (fabs(tmpsdpang) > 2.9671f) {	    /* 10 degrees */
 					// behind another car
 					tmpas = 1.0f - exp(- 2.0f * DIST(x, y, otherCar->DynGCg.pos.x, otherCar->DynGCg.pos.y) /
@@ -94,7 +97,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 		}
     }
 
-	car->airSpeed2 = airSpeed * airSpeed;
+	car->airSpeed2 = relVelSqr;
 	tdble v2 = car->airSpeed2;
 	
 	// simulate ground effect drop off caused by non-frontal airflow (diffusor stops working etc.)
