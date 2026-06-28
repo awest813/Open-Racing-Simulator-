@@ -52,3 +52,7 @@
 **Learning:** In legacy layouts, separating inputs (like checkboxes) and labels across different `<td>` elements disrupts click target unity. Expanding `colspan` and combining them into a single `<td>` inside one `<label>` significantly improves the target size.
 **Action:** When updating tabular forms, merge the cells containing the input and text descriptor into a single cell, wrap both in a `<label>`.
 
+## 2024-06-16 - Add required attribute to poll and quiz radio buttons
+**Learning:** Applying the `required` attribute to dynamically generated radio button groups leverages native HTML5 client-side validation. This prevents users from submitting empty forms, improving UX with immediate feedback without requiring custom JS or CSS.
+**Action:** Ensure that radio button groups in forms have the `required` attribute where appropriate to enforce selection.
+
