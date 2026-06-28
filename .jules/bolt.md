@@ -59,3 +59,7 @@
 **Learning:** In particle rendering loops (like `ssgVtxTableSmoke::draw_geometry()`), calculating `sqrt` unconditionally to determine distance-based effects (like fading alpha) introduces unnecessary overhead for far-away particles.
 **Action:** Always calculate the squared distance first and compare it against the squared threshold (`distSqr < threshold * threshold`). Only compute `sqrt(distSqr)` if the condition is met and the actual distance is needed for further calculations (like `exp`).
 
+## 2024-05-24 - Defer expensive math in aero update
+**Learning:** Unconditionally evaluating expensive math functions like `sqrt()` and `atan2()` before checking early-exit conditions (e.g. speed > 10) in hot execution paths causes unnecessary performance overhead.
+**Action:** Calculate the squared magnitude first, use it for the condition check, and defer evaluating the expensive trigonometric and root functions until they are proven to be needed inside the conditional block.
+
