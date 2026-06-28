@@ -48,3 +48,7 @@
 **Learning:** Legacy forms often lack autocomplete attributes on login inputs, which causes modern password managers to struggle with saving or filling credentials correctly.
 **Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `autocomplete="username"` and `autocomplete="current-password"` attributes to login `<input>` elements. This instantly improves browser password manager support without altering backend logic or adding CSS dependencies.
 
+## 2024-06-17 - Unifying label targets across table cells
+**Learning:** In legacy layouts, separating inputs (like checkboxes) and labels across different `<td>` elements disrupts click target unity. Expanding `colspan` and combining them into a single `<td>` inside one `<label>` significantly improves the target size.
+**Action:** When updating tabular forms, merge the cells containing the input and text descriptor into a single cell, wrap both in a `<label>`.
+

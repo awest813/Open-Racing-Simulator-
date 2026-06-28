@@ -59,11 +59,11 @@
 					<td class="text14">
 						<input type="submit" name="login_submit" value="Log In"/>
 					</td>
-					<td class="text14">
-						<input type="checkbox" id="login_remember" name="login_remember" value="remember"/>
-					</td>
-					<td title="You become logged in the next time automagically" class="text14">
-						<label for="login_remember">Remember Me?</label>
+					<td title="You become logged in the next time automagically" class="text14" colspan="2">
+						<label for="login_remember">
+							<input type="checkbox" id="login_remember" name="login_remember" value="remember"/>
+							Remember Me?
+						</label>
 					</td>
 			</table>
 			</form>
