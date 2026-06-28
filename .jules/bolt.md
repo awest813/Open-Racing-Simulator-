@@ -67,7 +67,7 @@
 **Learning:** In C++ simulations, unconditional trigonometric operations (like `atan2()`) in hot paths (`simuv3/aero.cpp`) create bottlenecks when running over numerous loop iterations (e.g. processing opponents). Often these results are only required *if* preliminary early-exit conditions are met (e.g., fast velocity or specific bounds).
 **Action:** Defer executing expensive operations like `atan2()` by moving them strictly inside conditional checks that utilize their output, eliminating unnecessary calculations.
 
-## 2025-06-16 - Defer expensive atan2() computations in loops
-**Learning:** Found multiple instances in aero.cpp where atan2() was calculated unconditionally inside O(N) hot loops over opponent cars, even though the result was only used when specific velocity and yaw conditions were met.
-**Action:** Always defer expensive mathematical operations like atan2() until their prerequisite conditions are met inside loops, by moving their evaluation inside the relevant if statements.
+## 2024-05-18 - Avoid redundant squarings of vectors for performance
+**Learning:** Mathematical magnitude of vectors using `sqrt()` followed by squaring the result is redundant and negatively impacts hot paths (like aerodynamics update functions in TORCS).
+**Action:** When evaluating velocities or vectors to get their magnitudes with `sqrt()`, if the squared value is also needed immediately (e.g. `airSpeed = sqrt(x*x + y*y)` and later `airSpeed2 = airSpeed * airSpeed`), compute the squared magnitude first, save it, and then apply `sqrt()` to it to avoid the redundant second squaring operation.
 
