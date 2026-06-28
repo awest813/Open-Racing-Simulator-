@@ -63,3 +63,7 @@
 **Learning:** Unconditionally evaluating expensive math functions like `sqrt()` and `atan2()` before checking early-exit conditions (e.g. speed > 10) in hot execution paths causes unnecessary performance overhead.
 **Action:** Calculate the squared magnitude first, use it for the condition check, and defer evaluating the expensive trigonometric and root functions until they are proven to be needed inside the conditional block.
 
+## 2024-06-03 - Defer unconditionally evaluated expensive math functions
+**Learning:** In C++ simulations, unconditional trigonometric operations (like `atan2()`) in hot paths (`simuv3/aero.cpp`) create bottlenecks when running over numerous loop iterations (e.g. processing opponents). Often these results are only required *if* preliminary early-exit conditions are met (e.g., fast velocity or specific bounds).
+**Action:** Defer executing expensive operations like `atan2()` by moving them strictly inside conditional checks that utilize their output, eliminating unnecessary calculations.
+
