@@ -39,7 +39,6 @@
 ## 2024-05-30 - Optimize distance calculation in car collision code
 **Learning:** Computations like `MAX(1.0, sqrt(val))` unconditionally compute the square root even if `val` is well below the threshold (or if the squared magnitude could be compared). The `SimCarCollideXYScene` function in the TORCS simulation engine evaluates impact magnitudes repeatedly, resulting in an unnecessary square root operation whenever the squared magnitude is below 1.0.
 **Action:** When a value derived via `sqrt()` is clamped using a function like `MAX(threshold, sqrt(magSqr))`, pre-calculate the squared magnitude (`magSqr`). Check if it exceeds `threshold * threshold`. If it does not, skip the `sqrt()` altogether and use the threshold directly, as `sqrt(magSqr)` will inherently be less than the threshold.
-
 ## 2024-05-23 - Deferred Expensive Math Operations (atan2) in Hot Simulation Paths
 **Learning:** In TORCS aerodynamic logic (C++), expensive trigonometric functions like `atan2()` are sometimes unconditionally evaluated before simple, fast scalar evaluations (like speed bounds or yaw thresholds) during iterations over hundreds of objects.
 **Action:** Defer mathematical evaluations (like angles derived from `atan2()`) by pushing them explicitly into conditional blocks that require their results.
@@ -51,4 +50,8 @@
 ## 2025-06-15 - Defer expensive atan2 calculation in simuv3 aerodynamic updates
 **Learning:** In hot execution paths (like C++ aero/physics loops), unconditionally calculating expensive trigonometric functions like `atan2()` before evaluating fast early-exit conditions (such as velocity or bounds checks) causes performance bottlenecks.
 **Action:** Defer expensive math operations by moving them inside the conditional blocks where their results are explicitly used, especially when evaluating interactions with other objects in a loop.
+
+## 2024-06-22 - Optimize collision bounds check by bypassing atan2
+**Learning:** Trigonometric functions like `atan2()` used in hot collision paths for simple bounds checks can be bypassed using equivalent linear tangent checks.
+**Action:** Replaced expensive `atan2` calculations with `tan()` equivalent check when checking for frontal collisions.
 
