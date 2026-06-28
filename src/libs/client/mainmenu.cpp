@@ -61,10 +61,17 @@ GetMainMenuBackgroundPath()
             }
         }
 
+        std::string checkedPaths;
+        for (std::size_t index = 0; index < (sizeof(kCandidatePaths) / sizeof(kCandidatePaths[0])); ++index) {
+            if (index > 0) {
+                checkedPaths += ", ";
+            }
+            checkedPaths += kCandidatePaths[index];
+        }
+
         std::fprintf(stderr,
-                     "Warning: could not find a main menu splash image at %s or %s\n",
-                     kCandidatePaths[0],
-                     kCandidatePaths[1]);
+                     "Warning: could not find a main menu splash image. Checked: %s\n",
+                     checkedPaths.c_str());
         cachedBackgroundPath.clear();
     });
 
