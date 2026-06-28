@@ -19,6 +19,7 @@
 
 
 #include <cstdio>
+#include <fstream>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -43,22 +44,17 @@ GetMainMenuBackgroundPath()
     static const char* kCandidatePaths[] = {
         "data/img/splash-main.png",
         "data/data/img/splash-main.png",
-        nullptr,
     };
+    static const char* kDefaultBackgroundPath = "data/img/splash-main.png";
 
     for (const char* path : kCandidatePaths) {
-        if (path == nullptr) {
-            break;
-        }
-
-        FILE* handle = std::fopen(path, "rb");
-        if (handle != nullptr) {
-            std::fclose(handle);
+        std::ifstream stream(path);
+        if (stream.good()) {
             return path;
         }
     }
 
-    return "data/img/splash-main.png";
+    return kDefaultBackgroundPath;
 }
 
 } // namespace
