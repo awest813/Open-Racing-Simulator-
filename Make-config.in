@@ -57,8 +57,8 @@ EXT_LIBS = @LIBS@
 #LDFLAGS =  @LDFLAGS@ -L${EXPORTBASE}/lib -L/usr/lib -L/usr/local/lib
 LDFLAGS =  -L${EXPORTBASE}/lib @LDFLAGS@ -L/usr/lib
 
-#INCFLAGS =  -I${EXPORTBASE}/include -I/usr/include -I/usr/local/include
-INCFLAGS =  -I${EXPORTBASE}/include -I${TORCS_BASE}
+#INCFLAGS =  -I${EXPORTBASE}/include -I${TORCS_BASE} -I${TORCS_BASE}/src/libs/thirdparty/stb
+INCFLAGS =  -I${EXPORTBASE}/include -I${TORCS_BASE} -I${TORCS_BASE}/src/libs/thirdparty/stb
 
 CPP = @CPP@ @CPPFLAGS@ -M -D__DEPEND__
 

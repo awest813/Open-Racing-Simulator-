@@ -175,6 +175,7 @@ include_directories(src/libs/tgf)
 include_directories(src/libs/tgfclient)
 include_directories(src/libs/txml)
 include_directories(src/libs/thirdparty)
+include_directories(src/libs/thirdparty/stb)
 include_directories(src/libs/thirdparty/imgui)
 include_directories(src/libs/thirdparty/miniaudio)
 include_directories(src/libs/thirdparty/tinygltf)
@@ -302,5 +303,3 @@ install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/drivers"
     OPTIONAL
 )
 
-add_executable(test_ac3d test_ac3d.cpp)
-target_include_directories(test_ac3d PRIVATE src/modules/graphic/oglgraph src/interfaces src/libs)
