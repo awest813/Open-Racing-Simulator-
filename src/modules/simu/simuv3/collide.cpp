@@ -189,8 +189,11 @@ SimCarCollideZ(tCar *car)
                         cvy = car->corner[i].vel.y;
                         cvz = car->corner[i].vel.z;
 
-                        tdble sum_v = sqrt(cvx*cvx + cvy*cvy + cvz*cvz);
-                        if (sum_v>1.0) {
+                        // BOLT: Optimized magnitude comparison by comparing squared lengths to bypass sqrt() overhead.
+                        tdble sum_vSqr = cvx*cvx + cvy*cvy + cvz*cvz;
+                        if (sum_vSqr>1.0) {
+                            tdble sum_v = sqrt(sum_vSqr);
+
                             t3Dd fr_loc;
                             friction.x = cvx/sum_v;
                             friction.y = cvy/sum_v;
