@@ -255,7 +255,7 @@ void SimWheelUpdateForce(tCar *car, int index)
 	// tangent velocity.
 	vt = wheel->bodyVel.x * CosA + wheel->bodyVel.y * SinA;
 	v2 = wheel->bodyVel.x * wheel->bodyVel.x + wheel->bodyVel.y * wheel->bodyVel.y;
-	v = sqrt(v2);
+	if (v2 > 0.0f) { v = sqrt(v2); } else { v = 0.0f; }
 
 	// slip angle
 	if (v < 0.000001f) {
@@ -278,7 +278,7 @@ void SimWheelUpdateForce(tCar *car, int index)
 	
 	Ft = 0.0f;
 	Fn = 0.0f;
-	s = sqrt(sx*sx+sy*sy);
+	tdble s2 = sx*sx+sy*sy; if (s2 > 0.0f) { s = sqrt(s2); } else { s = 0.0f; }
 
 	car->carElt->_reaction[index] = zforce;
 
