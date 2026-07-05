@@ -222,7 +222,7 @@ add_library(rmlui_core
 # Setting them as PRIVATE so that it's addition doesn't propagate, it won't affect availability since
 # the entire include directory has already been declared as public
 target_sources(rmlui_core PRIVATE
-	"${PROJECT_SOURCE_DIR}/Include/RmlUi/Config/Config.h"
+	"${PROJECT_SOURCE_DIR}/src/libs/thirdparty/RmlUi/Include/RmlUi/Config/Config.h"
 	"${PROJECT_SOURCE_DIR}/Include/RmlUi/Core.h"
 	"${PROJECT_SOURCE_DIR}/Include/RmlUi/Core/BaseXMLParser.h"
 	"${PROJECT_SOURCE_DIR}/Include/RmlUi/Core/Box.h"
