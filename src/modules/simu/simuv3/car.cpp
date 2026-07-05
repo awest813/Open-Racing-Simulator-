@@ -234,9 +234,12 @@ SimCarUpdateForces(tCar *car)
     /* Rolling Resistance */
 	// This method updates rolling resistance using the wheels' resistance.
     if (1) {
-        v = sqrt(car->DynGC.vel.x * car->DynGC.vel.x
-                 + car->DynGC.vel.y * car->DynGC.vel.y
-                 + car->DynGC.vel.z * car->DynGC.vel.z);
+        tdble v2 = car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y + car->DynGC.vel.z * car->DynGC.vel.z;
+        if (v2 > 0.0f) {
+            v = sqrt(v2);
+        } else {
+            v = 0.0f;
+        }
 	
         R = 0;
         for (i = 0; i < 4; i++) {

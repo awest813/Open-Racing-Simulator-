@@ -71,3 +71,6 @@
 **Learning:** Mathematical magnitude of vectors using `sqrt()` followed by squaring the result is redundant and negatively impacts hot paths (like aerodynamics update functions in TORCS).
 **Action:** When evaluating velocities or vectors to get their magnitudes with `sqrt()`, if the squared value is also needed immediately (e.g. `airSpeed = sqrt(x*x + y*y)` and later `airSpeed2 = airSpeed * airSpeed`), compute the squared magnitude first, save it, and then apply `sqrt()` to it to avoid the redundant second squaring operation.
 
+## 2025-06-25 - Defer sqrt evaluation in wheel and car physics loops
+**Learning:** In physics simulation loops (like wheel physics and car forces updates), calculating `sqrt` unconditionally to determine vector magnitudes introduces unnecessary mathematical overhead when the squared magnitude is zero or can be evaluated first.
+**Action:** Always compute the squared vector magnitude first. Only compute `sqrt()` if the squared magnitude is greater than zero (`v2 > 0.0f`), avoiding expensive root calculations on static or negligible vectors.

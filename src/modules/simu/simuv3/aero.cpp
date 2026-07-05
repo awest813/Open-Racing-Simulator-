@@ -82,7 +82,7 @@ SimAeroUpdate(tCar *car, tSituation *s)
 	//	tdble x = car->DynGC.pos.x + cos(yaw)*wing->staticPos.x;
 	//	tdble y = car->DynGC.pos.y + sin(yaw)*wing->staticPos.x;
 	tdble yaw = car->DynGC.pos.az;
-	tdble spdang = atan2(car->DynGCg.vel.y, car->DynGCg.vel.x);
+	tdble spdang = 0.0; bool spdang_computed = false;
 	for (i = 0; i < s->_ncars; i++) {
 	    if (i == car->carElt->index) {
 		continue;
@@ -98,6 +98,10 @@ SimAeroUpdate(tCar *car, tSituation *s)
 
 	    if ((otherCar->DynGC.vel.x > 10.0) &&
 		(fabs(dyaw) < 0.1396)) {
+		if (!spdang_computed) {
+			spdang = atan2(car->DynGCg.vel.y, car->DynGCg.vel.x);
+			spdang_computed = true;
+		}
 		// BOLT: Defer expensive atan2 calculation
 		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
 		NORM_PI_PI(tmpsdpang);
@@ -252,7 +256,7 @@ SimWingUpdate(tCar *car, int index, tSituation* s)
 	tdble yaw = car->DynGC.pos.az;
 	tdble x = car->DynGC.pos.x + cos(yaw)*wing->staticPos.x;
 	tdble y = car->DynGC.pos.y + sin(yaw)*wing->staticPos.x;
-	tdble spdang = atan2(car->DynGCg.vel.y, car->DynGCg.vel.x);
+	tdble spdang = 0.0; bool spdang_computed = false;
 
 	int i;
 	for (i = 0; i < s->_ncars; i++) {
@@ -267,6 +271,10 @@ SimWingUpdate(tCar *car, int index, tSituation* s)
 
 	    if ((otherCar->DynGC.vel.x > 10.0) &&
 		(fabs(dyaw) < 0.1396)) {
+		if (!spdang_computed) {
+			spdang = atan2(car->DynGCg.vel.y, car->DynGCg.vel.x);
+			spdang_computed = true;
+		}
 		// BOLT: Defer expensive atan2 calculation
 		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
 		NORM_PI_PI(tmpsdpang);
