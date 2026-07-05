@@ -302,5 +302,3 @@ install(DIRECTORY "${CMAKE_SOURCE_DIR}/runtime/drivers"
     OPTIONAL
 )
 
-add_executable(test_ac3d test_ac3d.cpp)
-target_include_directories(test_ac3d PRIVATE src/modules/graphic/oglgraph src/interfaces src/libs)
