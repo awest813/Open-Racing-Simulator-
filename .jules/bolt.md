@@ -75,3 +75,7 @@
 ## 2025-06-21 - Lazily Evaluate Required Expensive Math within Loops
 **Learning:** In C++ simulations, variables requiring expensive math (like `atan2()`) are sometimes needed by multiple iterations of a hot loop, but only under specific strict conditions. Precomputing them unconditionally outside the loop wastes cycles when no iterations meet the condition, but computing them independently inside each conditional block risks redundant calculations if multiple iterations qualify.
 **Action:** When deferring an expensive calculation that may be required by one or more loop iterations, initialize a boolean flag (e.g., `bool calculated = false;`) outside the loop. Inside the loop's strict condition block, evaluate and cache the calculation only if the flag is false. This guarantees the expensive operation is performed at most once per execution and is bypassed entirely when no conditions are met.
+
+## 2025-06-21 - Fixed missing stb_image.h in tgfclient compilation
+**Learning:** During testing or build steps, source files (like `img.cpp` in `tgfclient`) sometimes fail to compile because they use incorrect relative paths to third-party dependencies (like `stb_image.h` and `stb_image_write.h` located in `src/libs/thirdparty/stb`).
+**Action:** When a header like `stb_image.h` is missing during build, update the `#include` directive to correctly point to its actual path relative to the referencing source file (e.g., `../thirdparty/stb/stb_image.h`).
