@@ -79,3 +79,7 @@
 ## 2025-06-21 - Fixed missing stb_image.h in tgfclient compilation
 **Learning:** During testing or build steps, source files (like `img.cpp` in `tgfclient`) sometimes fail to compile because they use incorrect relative paths to third-party dependencies (like `stb_image.h` and `stb_image_write.h` located in `src/libs/thirdparty/stb`).
 **Action:** When a header like `stb_image.h` is missing during build, update the `#include` directive to correctly point to its actual path relative to the referencing source file (e.g., `../thirdparty/stb/stb_image.h`).
+
+## 2025-06-21 - Align C++ standard requirements across all build systems
+**Learning:** Adding new features like `std::optional` (C++17) might compile fine in some build configurations (like CMake if `CMAKE_CXX_STANDARD 17` is set) but fail in others (like Autotools) if the flag `-std=c++14` is hardcoded in `configure.in`. This results in CI failures where one job passes but others fail.
+**Action:** Always ensure that when standard-specific features (e.g., C++17) are used, all build configurations (`configure.in`, `Makefile` templates, and `CMakeLists.txt`) are consistently updated to use the correct `-std=c++XX` flag to prevent fragmented build failures across CI checks.
