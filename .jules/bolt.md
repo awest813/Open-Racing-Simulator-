@@ -83,3 +83,15 @@
 ## 2025-06-21 - Align C++ standard requirements across all build systems
 **Learning:** Adding new features like `std::optional` (C++17) might compile fine in some build configurations (like CMake if `CMAKE_CXX_STANDARD 17` is set) but fail in others (like Autotools) if the flag `-std=c++14` is hardcoded in `configure.in`. This results in CI failures where one job passes but others fail.
 **Action:** Always ensure that when standard-specific features (e.g., C++17) are used, all build configurations (`configure.in`, `Makefile` templates, and `CMakeLists.txt`) are consistently updated to use the correct `-std=c++XX` flag to prevent fragmented build failures across CI checks.
+
+## 2025-06-21 - Fixed RmlUi CMake include paths
+**Learning:** CMake uses `PROJECT_SOURCE_DIR` relative to the *top-most* `project()` declaration. In submodules like RmlUi, `PROJECT_SOURCE_DIR` refers to the parent project's root, breaking file paths.
+**Action:** Replace `${PROJECT_SOURCE_DIR}` with `${CMAKE_CURRENT_SOURCE_DIR}/../..` in RmlUi's `CMakeLists.txt` `target_sources()` declarations so it resolves headers correctly relative to its own location.
+
+## 2025-06-21 - Clean up phantom CMake dependencies
+**Learning:** If a CMake target like `add_executable(test_ac3d ...)` is commented out because its source file no longer exists, remember to also comment out all corresponding property or include settings like `target_include_directories(test_ac3d ...)`. Otherwise, CMake configuration will fail since the target `test_ac3d` does not exist.
+**Action:** When removing or commenting out an unresolvable build target, search the CMake file and remove any subsequent commands that reference it.
+
+## 2025-06-21 - Consistently apply build flags across Autotools templates
+**Learning:** Updating `-std=c++14` to `-std=c++17` in `configure.in` is not always enough for Autotools. Files like `Make-config.in` define the core `CXXFLAGS` template that feeds into `Make-default.mk`. If `-std=c++17` isn't injected there, compiler invocations default to the system's baseline standard, causing C++17 specific features (like `std::optional`) to throw syntax errors across modules.
+**Action:** When bumping the C++ language standard for an Autotools build, always append `-std=c++17` to `CXXFLAGS` inside `Make-config.in` as well as any other direct Makefile modifications.
