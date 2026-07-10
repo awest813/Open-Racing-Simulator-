@@ -71,3 +71,27 @@
 **Learning:** Mathematical magnitude of vectors using `sqrt()` followed by squaring the result is redundant and negatively impacts hot paths (like aerodynamics update functions in TORCS).
 **Action:** When evaluating velocities or vectors to get their magnitudes with `sqrt()`, if the squared value is also needed immediately (e.g. `airSpeed = sqrt(x*x + y*y)` and later `airSpeed2 = airSpeed * airSpeed`), compute the squared magnitude first, save it, and then apply `sqrt()` to it to avoid the redundant second squaring operation.
 
+
+## 2025-06-21 - Lazily Evaluate Required Expensive Math within Loops
+**Learning:** In C++ simulations, variables requiring expensive math (like `atan2()`) are sometimes needed by multiple iterations of a hot loop, but only under specific strict conditions. Precomputing them unconditionally outside the loop wastes cycles when no iterations meet the condition, but computing them independently inside each conditional block risks redundant calculations if multiple iterations qualify.
+**Action:** When deferring an expensive calculation that may be required by one or more loop iterations, initialize a boolean flag (e.g., `bool calculated = false;`) outside the loop. Inside the loop's strict condition block, evaluate and cache the calculation only if the flag is false. This guarantees the expensive operation is performed at most once per execution and is bypassed entirely when no conditions are met.
+
+## 2025-06-21 - Fixed missing stb_image.h in tgfclient compilation
+**Learning:** During testing or build steps, source files (like `img.cpp` in `tgfclient`) sometimes fail to compile because they use incorrect relative paths to third-party dependencies (like `stb_image.h` and `stb_image_write.h` located in `src/libs/thirdparty/stb`).
+**Action:** When a header like `stb_image.h` is missing during build, update the `#include` directive to correctly point to its actual path relative to the referencing source file (e.g., `../thirdparty/stb/stb_image.h`).
+
+## 2025-06-21 - Align C++ standard requirements across all build systems
+**Learning:** Adding new features like `std::optional` (C++17) might compile fine in some build configurations (like CMake if `CMAKE_CXX_STANDARD 17` is set) but fail in others (like Autotools) if the flag `-std=c++14` is hardcoded in `configure.in`. This results in CI failures where one job passes but others fail.
+**Action:** Always ensure that when standard-specific features (e.g., C++17) are used, all build configurations (`configure.in`, `Makefile` templates, and `CMakeLists.txt`) are consistently updated to use the correct `-std=c++XX` flag to prevent fragmented build failures across CI checks.
+
+## 2025-06-21 - Fixed RmlUi CMake include paths
+**Learning:** CMake uses `PROJECT_SOURCE_DIR` relative to the *top-most* `project()` declaration. In submodules like RmlUi, `PROJECT_SOURCE_DIR` refers to the parent project's root, breaking file paths.
+**Action:** Replace `${PROJECT_SOURCE_DIR}` with `${CMAKE_CURRENT_SOURCE_DIR}/../..` in RmlUi's `CMakeLists.txt` `target_sources()` declarations so it resolves headers correctly relative to its own location.
+
+## 2025-06-21 - Clean up phantom CMake dependencies
+**Learning:** If a CMake target like `add_executable(test_ac3d ...)` is commented out because its source file no longer exists, remember to also comment out all corresponding property or include settings like `target_include_directories(test_ac3d ...)`. Otherwise, CMake configuration will fail since the target `test_ac3d` does not exist.
+**Action:** When removing or commenting out an unresolvable build target, search the CMake file and remove any subsequent commands that reference it.
+
+## 2025-06-21 - Consistently apply build flags across Autotools templates
+**Learning:** Updating `-std=c++14` to `-std=c++17` in `configure.in` is not always enough for Autotools. Files like `Make-config.in` define the core `CXXFLAGS` template that feeds into `Make-default.mk`. If `-std=c++17` isn't injected there, compiler invocations default to the system's baseline standard, causing C++17 specific features (like `std::optional`) to throw syntax errors across modules.
+**Action:** When bumping the C++ language standard for an Autotools build, always append `-std=c++17` to `CXXFLAGS` inside `Make-config.in` as well as any other direct Makefile modifications.
