@@ -107,10 +107,10 @@
 
 					<tr>
 						<td class="filledlist">
-							Rules (*.html):
+							<label for="event_rules">Rules (*.html):</label>
 						</td>
 						<td class="filledlist">
-							<input name="event_rules" type="file" size="60" maxlength="50000" accept="text/html"/>
+							<input id="event_rules" name="event_rules" type="file" size="60" maxlength="50000" accept="text/html"/>
 						</td>
 					</tr>
 				</table>
