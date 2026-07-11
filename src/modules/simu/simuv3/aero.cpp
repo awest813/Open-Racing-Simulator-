@@ -95,23 +95,29 @@ SimAeroUpdate(tCar *car, tSituation *s)
 	    tdble otherYaw = otherCar->DynGC.pos.az;
 	    tdble dyaw = yaw - otherYaw;
 	    NORM_PI_PI(dyaw);
-
 	    if ((otherCar->DynGC.vel.x > 10.0) &&
 		(fabs(dyaw) < 0.1396)) {
 		// BOLT: Defer expensive atan2 calculation
-		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
-		NORM_PI_PI(tmpsdpang);
-		if (fabs(tmpsdpang) > 2.9671) {	    /* 10 degrees */
-		    /* behind another car - reduce overall airflow */
-                    tdble factor = (fabs(tmpsdpang)-2.9671)/(M_PI-2.9671);
+		tdble dx = x - otherCar->DynGC.pos.x;
+		tdble dy = y - otherCar->DynGC.pos.y;
+		tdble distSqr = dx*dx + dy*dy;
 
-		    tmpas = 1.0 - factor * exp(- 2.0 * DIST(x, y, otherCar->DynGC.pos.x, otherCar->DynGC.pos.y)/(otherCar->aero.Cd * otherCar->DynGC.vel.x));
-		    airSpeed = airSpeed * tmpas;
-		} else if (fabs(tmpsdpang) < 0.1396f) {	    /* 8 degrees */
-                    tdble factor = 0.5f * (0.1396f-fabs(tmpsdpang))/(0.1396f);
-		    /* before another car - breaks down rear eddies, reduces only drag*/
-		    tmpas = 1.0f - factor * exp(- 8.0 * DIST(x, y, otherCar->DynGC.pos.x, otherCar->DynGC.pos.y) / (car->aero.Cd * car->DynGC.vel.x));
-		    dragK = dragK * tmpas;
+		// Only calculate if cars are close enough for drafting to matter
+		if (distSqr < 10000.0) { // 100m squared
+			tdble tmpsdpang = spdang - atan2(dy, dx);
+			NORM_PI_PI(tmpsdpang);
+			if (fabs(tmpsdpang) > 2.9671) {	    /* 10 degrees */
+				/* behind another car - reduce overall airflow */
+						tdble factor = (fabs(tmpsdpang)-2.9671)/(M_PI-2.9671);
+
+				tmpas = 1.0 - factor * exp(- 2.0 * sqrt(distSqr)/(otherCar->aero.Cd * otherCar->DynGC.vel.x));
+				airSpeed = airSpeed * tmpas;
+			} else if (fabs(tmpsdpang) < 0.1396f) {	    /* 8 degrees */
+						tdble factor = 0.5f * (0.1396f-fabs(tmpsdpang))/(0.1396f);
+				/* before another car - breaks down rear eddies, reduces only drag*/
+				tmpas = 1.0f - factor * exp(- 8.0 * sqrt(distSqr) / (car->aero.Cd * car->DynGC.vel.x));
+				dragK = dragK * tmpas;
+			}
 		}
 	    }
 	}
@@ -264,19 +270,25 @@ SimWingUpdate(tCar *car, int index, tSituation* s)
 	    tdble otherYaw = otherCar->DynGC.pos.az;
 	    tdble dyaw = yaw - otherYaw;
 	    NORM_PI_PI(dyaw);
-
 	    if ((otherCar->DynGC.vel.x > 10.0) &&
 		(fabs(dyaw) < 0.1396)) {
 		// BOLT: Defer expensive atan2 calculation
-		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
-		NORM_PI_PI(tmpsdpang);
-		if (fabs(tmpsdpang) > 2.9671) {	    /* 10 degrees */
-		    /* behind another car - reduce overall airflow */
-                    tdble factor = (fabs(tmpsdpang)-2.9671)/(M_PI-2.9671);
-		    tmpas = 1.0 - factor*exp(- 2.0 * DIST(x, y, otherCar->DynGC.pos.x, otherCar->DynGC.pos.y) /
-                                             (otherCar->aero.Cd * otherCar->DynGC.vel.x));
-		    i_flow = i_flow * tmpas;
-		} 
+		tdble dx = x - otherCar->DynGC.pos.x;
+		tdble dy = y - otherCar->DynGC.pos.y;
+		tdble distSqr = dx*dx + dy*dy;
+
+		// Only calculate if cars are close enough for drafting to matter
+		if (distSqr < 10000.0) { // 100m squared
+			tdble tmpsdpang = spdang - atan2(dy, dx);
+			NORM_PI_PI(tmpsdpang);
+			if (fabs(tmpsdpang) > 2.9671) {	    /* 10 degrees */
+				/* behind another car - reduce overall airflow */
+						tdble factor = (fabs(tmpsdpang)-2.9671)/(M_PI-2.9671);
+				tmpas = 1.0 - factor*exp(- 2.0 * sqrt(distSqr) /
+												 (otherCar->aero.Cd * otherCar->DynGC.vel.x));
+				i_flow = i_flow * tmpas;
+			}
+		}
 	    }
 	}
     }
