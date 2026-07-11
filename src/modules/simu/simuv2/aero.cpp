@@ -72,25 +72,31 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 			otherYaw = otherCar->DynGCg.pos.az;
 			dyaw = yaw - otherYaw;
 			NORM_PI_PI(dyaw);
-
 			if ((otherCar->DynGC.vel.x > 10.0f) && (fabs(dyaw) < 0.1396f)) {
 				// BOLT: Defer expensive atan2 calculation
-				tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
-				NORM_PI_PI(tmpsdpang);
-				if (fabs(tmpsdpang) > 2.9671f) {	    /* 10 degrees */
-					// behind another car
-					tmpas = 1.0f - exp(- 2.0f * DIST(x, y, otherCar->DynGCg.pos.x, otherCar->DynGCg.pos.y) /
-									  (otherCar->aero.Cd * otherCar->DynGC.vel.x));
-					if (tmpas < dragK) {
-						dragK = tmpas;
-					}
-				} else if (fabs(tmpsdpang) < 0.1396f) {	    /* 8 degrees */
-					// before another car, lower drag by maximum 15% (this is just another guess)
-					// Use effective airspeed for drafting calculations
-					tdble effAirSpeed = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y);
-					tmpas = 1.0f - 0.15f * exp(- 8.0f * DIST(x, y, otherCar->DynGCg.pos.x, otherCar->DynGCg.pos.y) / (car->aero.Cd * effAirSpeed));
-					if (tmpas < dragK) {
-						dragK = tmpas;
+				tdble dx = x - otherCar->DynGCg.pos.x;
+				tdble dy = y - otherCar->DynGCg.pos.y;
+				tdble distSqr = dx*dx + dy*dy;
+
+				// Only calculate if cars are close enough for drafting to matter
+				if (distSqr < 10000.0f) { // 100m squared
+					tmpsdpang = spdang - atan2(dy, dx);
+					NORM_PI_PI(tmpsdpang);
+					if (fabs(tmpsdpang) > 2.9671f) {	    /* 10 degrees */
+						// behind another car
+						tmpas = 1.0f - exp(- 2.0f * sqrt(distSqr) /
+										  (otherCar->aero.Cd * otherCar->DynGC.vel.x));
+						if (tmpas < dragK) {
+							dragK = tmpas;
+						}
+					} else if (fabs(tmpsdpang) < 0.1396f) {	    /* 8 degrees */
+						// before another car, lower drag by maximum 15% (this is just another guess)
+						// Use effective airspeed for drafting calculations
+						tdble effAirSpeed = sqrt(car->DynGC.vel.x * car->DynGC.vel.x + car->DynGC.vel.y * car->DynGC.vel.y);
+						tmpas = 1.0f - 0.15f * exp(- 8.0f * sqrt(distSqr) / (car->aero.Cd * effAirSpeed));
+						if (tmpas < dragK) {
+							dragK = tmpas;
+						}
 					}
 				}
 			}
