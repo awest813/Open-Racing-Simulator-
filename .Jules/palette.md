@@ -64,3 +64,6 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+## 2024-05-18 - Improve Registration Form Autocomplete
+**Learning:** Adding standard HTML5 autocomplete attributes to form fields in legacy applications significantly improves UX and accessibility by enabling native browser autofill and password manager integration, without requiring visual changes or JS.
+**Action:** When updating old forms, always add relevant `autocomplete` attributes (like `username`, `given-name`, `family-name`, `new-password`, `email`) to text inputs.
