@@ -29,7 +29,7 @@
 #ifndef RMLUI_CORE_TYPES_H
 #define RMLUI_CORE_TYPES_H
 
-#include "../Config/Config.h"
+//#include "../Config/Config.h"
 #include "Traits.h"
 #include <cstdlib>
 #include <memory>

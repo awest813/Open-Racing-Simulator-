@@ -19,7 +19,8 @@
 
 
 #include <cstdio>
-#include <filesystem>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <mutex>
 #include <optional>
 #include <optional>
@@ -68,7 +69,8 @@ GetMainMenuBackgroundPath(std::string& outPath)
             }
             checkedPaths += path;
 
-            if (std::filesystem::exists(path)) {
+            struct stat buffer;
+            if (stat(path, &buffer) == 0) {
                 cachedHasValue = true;
                 cachedBackgroundPath = path;
                 return;
