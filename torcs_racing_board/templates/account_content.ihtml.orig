@@ -49,7 +49,7 @@
 				<label for="account_firstname">First name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" id="account_firstname" name="account_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}" autocomplete="given-name"/>
+				<input type="text" id="account_firstname" name="account_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_FIRSTNAME}
@@ -61,7 +61,7 @@
 				<label for="account_lastname">Last name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" id="account_lastname" name="account_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}" autocomplete="family-name"/>
+				<input type="text" id="account_lastname" name="account_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_LASTNAME}
@@ -73,7 +73,7 @@
 				<label for="account_password">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" id="account_password" name="account_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}" autocomplete="new-password"/>
+				<input type="password" id="account_password" name="account_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD}
@@ -85,7 +85,7 @@
 				<label for="account_password2">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" id="account_password2" name="account_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}" autocomplete="new-password"/>
+				<input type="password" id="account_password2" name="account_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD2}
@@ -97,7 +97,7 @@
 				<label for="account_email">E-mail:</label>
 			</td>
 			<td class="filledlist">
-				<input type="email" id="account_email" name="account_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}" autocomplete="email"/>
+				<input type="email" id="account_email" name="account_email" size="20" maxlength="40" value="{PC_VALUE_EMAIL}"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_EMAIL}
