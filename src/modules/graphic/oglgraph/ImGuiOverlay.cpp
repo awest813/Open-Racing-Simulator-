@@ -324,8 +324,11 @@ static void drawRendererTuning()
     ImGui::TextColored(kAccentOr, "HDR / POST-PROCESS");
     ImGui::Separator();
     ImGui::SliderFloat("Exposure",     &g_renderer->m_hdrExposure,  0.1f, 4.0f, "%.2f");
+    ImGui::SetItemTooltip("Adjust the overall brightness of the HDR rendering.");
     ImGui::SliderFloat("Bloom Str.",   &g_renderer->m_bloomStrength, 0.0f, 2.0f, "%.2f");
+    ImGui::SetItemTooltip("Control the intensity of the light bleeding effect.");
     ImGui::SliderInt  ("Bloom Passes", &g_renderer->m_bloomPasses,   0,    8);
+    ImGui::SetItemTooltip("Number of blur iterations. Higher = wider, softer bloom.");
 
     ImGui::Separator();
     ImGui::TextColored(kAccentOr, "SHADOW MAP");
@@ -337,11 +340,15 @@ static void drawRendererTuning()
     for (int i = 0; i < 4; ++i) {
         if (kSizes[i] == g_renderer->m_shadowMapSize) { shadowIdx = i; break; }
     }
-    if (ImGui::Combo("Shadow Res", &shadowIdx, kSizeStr))
+    bool combo_changed = ImGui::Combo("Shadow Res", &shadowIdx, kSizeStr);
+    ImGui::SetItemTooltip("Resolution of the shadow map texture. Higher = sharper shadows.");
+    if (combo_changed)
         g_renderer->m_shadowMapSize = kSizes[shadowIdx];
 
     ImGui::Separator();
-    if (ImGui::Button("Reset Defaults")) {
+    bool reset_clicked = ImGui::Button("Reset Defaults");
+    ImGui::SetItemTooltip("Revert all renderer tuning values to their default states.");
+    if (reset_clicked) {
         g_renderer->m_hdrExposure   = 1.0f;
         g_renderer->m_bloomStrength = 0.75f;
         g_renderer->m_bloomPasses   = 5;
