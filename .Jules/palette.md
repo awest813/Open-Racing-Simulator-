@@ -64,3 +64,6 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+## 2024-07-20 - ImGui Tooltips for Tuning Variables
+**Learning:** In technical rendering tuning UIs using ImGui, vague slider labels (like "Bloom Str." or "Exposure") are often not self-explanatory to casual users, and they may guess what they do.
+**Action:** Always append `ImGui::SetItemTooltip()` to sliders and combo boxes in tuning overlays to provide immediate context on what the visual adjustment actually does, enhancing the UX without adding visual clutter.
