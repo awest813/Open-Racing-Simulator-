@@ -120,11 +120,8 @@
 	<input type="hidden" name="event_id" value="{PC_EVENT_ID}"/>
 	<table class="embedded text14" style="border-style:none; border-spacing:0px;" cellspacing="0">
 		<tr bgcolor="#e8e8e8">
-			<td class="filledlist" style="width:20px;">
-				<input type="checkbox" id="no_race_result" name="no_race_result" value="failed"/>
-			</td>
-			<td class="filledlist">
-				<label for="no_race_result" style="display:block;cursor:pointer;">I was not able to run the race because of a simulator problem.</label>
+			<td class="filledlist" colspan="2">
+				<label for="no_race_result" style="display:block;cursor:pointer;"><input type="checkbox" id="no_race_result" name="no_race_result" value="failed"/> I was not able to run the race because of a simulator problem.</label>
 			</td>
 		</tr>
 	</table>
