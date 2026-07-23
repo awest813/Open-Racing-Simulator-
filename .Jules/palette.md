@@ -64,3 +64,7 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+
+## 2024-07-23 - Merge checkbox and label in event submit result
+**Learning:** In legacy tabular layouts, separating inputs (like checkboxes) and labels across different `<td>` elements disrupts click target unity. Expanding `colspan` and combining them into a single `<td>` inside one `<label>` significantly improves the target size.
+**Action:** When updating tabular forms, merge the cells containing the input and text descriptor into a single cell, wrap both in a `<label>`.
