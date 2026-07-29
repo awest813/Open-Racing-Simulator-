@@ -60,7 +60,7 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 	car->airSpeed2 = relVelSqr;
 
     if (relVelSqr > 100.0f) {
-		spdang = atan2(relVelY, relVelX);
+		bool calculated = false;
 
 		for (i = 0; i < s->_ncars; i++) {
 			if (i == car->carElt->index) {
@@ -75,6 +75,10 @@ void  SimAeroUpdate(tCar *car, tSituation *s)
 
 			if ((otherCar->DynGC.vel.x > 10.0f) && (fabs(dyaw) < 0.1396f)) {
 				// BOLT: Defer expensive atan2 calculation
+				if (!calculated) {
+					spdang = atan2(relVelY, relVelX);
+					calculated = true;
+				}
 				tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
 				NORM_PI_PI(tmpsdpang);
 				if (fabs(tmpsdpang) > 2.9671f) {	    /* 10 degrees */
