@@ -10,7 +10,7 @@ SRCROOT  = ../..
 MATHDIR  = $(SRCROOT)/src/libs/math
 
 CXX      = g++
-CXXFLAGS = -std=c++14 -Wall -Wextra -I.
+CXXFLAGS = -std=c++17 -Wall -Wextra -I.
 
 TARGET   = test_math
 

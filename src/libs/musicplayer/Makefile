@@ -20,7 +20,7 @@ SOLIBRARY = libmusicplayer.so
 
 SOLIBDIR  = .
 
-SOURCES   = SoundStream.cpp OggSoundStream.cpp OpenALMusicPlayer.cpp musicplayer.cpp
+SOURCES   = SoundStream.cpp OggSoundStream.cpp OpenALMusicPlayer.cpp RadioEngine.cpp musicplayer.cpp
 
 EXPDIR  = include/musicplayer
 

@@ -52,7 +52,7 @@ if(MSVC)
     # Suppress safe-string deprecation warnings (legacy sprintf/strncpy in AC3D loader)
     target_compile_options(oglgraph PRIVATE /wd4996)
     # Enable C++14 for range-for and lambdas used in OGLRenderer
-    target_compile_options(oglgraph PRIVATE /std:c++14)
+    target_compile_options(oglgraph PRIVATE /std:c++17)
     # Prevent min/max macros from clashing with std::min/max
     target_compile_definitions(oglgraph PRIVATE NOMINMAX)
 endif()

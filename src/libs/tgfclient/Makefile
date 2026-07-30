@@ -37,7 +37,8 @@ SOURCES   = 	guimenu.cpp \
 		control.cpp \
 		fg_gm.cpp \
 		tgfclient.cpp \
-		glfeatures.cpp
+		glfeatures.cpp \
+		RmlUiMain.cpp
 
 
 EXPDIR  = include

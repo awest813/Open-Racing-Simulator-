@@ -6527,7 +6527,7 @@ else $as_nop
 fi
 
 CFLAGS="$CFLAGS $ADDCFLAGS"
-CXXFLAGS="$CXXFLAGS $ADDCFLAGS -std=c++14"
+CXXFLAGS="$CXXFLAGS $ADDCFLAGS -std=c++17"
 
 ac_fn_cxx_check_header_compile "$LINENO" "GL/gl.h" "ac_cv_header_GL_gl_h" "$ac_includes_default"
 if test "x$ac_cv_header_GL_gl_h" = xyes
