@@ -30,6 +30,7 @@ target_include_directories(tgfclient PUBLIC
     ${PROJECT_SOURCE_DIR}/src/libs
 )
 target_include_directories(tgfclient PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/libs/thirdparty/stb
     ${PROJECT_SOURCE_DIR}/src/libs/thirdparty/RmlUi/Backends
 )
 

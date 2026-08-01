@@ -44,6 +44,8 @@ EXPDIR  = include
 
 EXPORTS = tgfclient.h screen_properties.h glfeatures.h glutshim.h sdl2glut.h
 
+INC_DIRS = -I../thirdparty/stb
+
 SHIPDIR = config
 
 SHIP    = screen.xml
