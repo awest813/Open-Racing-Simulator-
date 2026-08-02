@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <filesystem>
 #include <mutex>
+#include <sys/stat.h>
 #include <optional>
 #include <string>
 #ifdef HAVE_CONFIG_H
@@ -66,7 +67,8 @@ GetMainMenuBackgroundPath()
             }
             checkedPaths += path;
 
-            if (std::filesystem::exists(path)) {
+            struct stat buffer;
+            if (stat(path, &buffer) == 0) {
                 cachedBackgroundPath = path;
                 return;
             }
