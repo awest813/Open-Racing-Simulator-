@@ -19,9 +19,8 @@
 
 
 #include <cstdio>
-#include <filesystem>
 #include <mutex>
-#include <optional>
+
 #include <string>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -45,11 +44,11 @@ float kMutedColor[4] = {0.56f, 0.62f, 0.74f, 1.0f};
 // layout, falling back to the legacy packaged asset layout when needed.
 // The resolved path is cached for the life of the process and resolved relative
 // to the current working directory when the simulator starts.
-std::optional<std::string>
+std::string
 GetMainMenuBackgroundPath()
 {
     static std::once_flag pathInitOnce;
-    static std::optional<std::string> cachedBackgroundPath;
+    static std::string cachedBackgroundPath;
 
     std::call_once(pathInitOnce, [] {
         // The source-tree layout is preferred, but the legacy packaged layout is
@@ -66,7 +65,9 @@ GetMainMenuBackgroundPath()
             }
             checkedPaths += path;
 
-            if (std::filesystem::exists(path)) {
+            FILE *f = fopen(path, "r");
+            if (f) {
+                fclose(f);
                 cachedBackgroundPath = path;
                 return;
             }
@@ -75,7 +76,7 @@ GetMainMenuBackgroundPath()
         std::fprintf(stderr,
                      "Warning: Main menu splash image not found. Launch from the repository root or verify asset installation. Searched: %s\n",
                      checkedPaths.c_str());
-        cachedBackgroundPath.reset();
+        cachedBackgroundPath = "";
     });
 
     return cachedBackgroundPath;
@@ -121,9 +122,9 @@ TorcsMainMenuInit(void)
 				    nullptr, nullptr, 
 				    1);
 
-    const std::optional<std::string> backgroundPath = GetMainMenuBackgroundPath();
-    if (backgroundPath.has_value()) {
-        GfuiScreenAddBgImg(menuHandle, backgroundPath->c_str());
+    const std::string backgroundPath = GetMainMenuBackgroundPath();
+    if (!backgroundPath.empty()) {
+        GfuiScreenAddBgImg(menuHandle, backgroundPath.c_str());
     }
 
     GfuiLabelCreateEx(menuHandle,

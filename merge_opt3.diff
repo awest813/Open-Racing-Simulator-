@@ -1,0 +1,29 @@
+<<<<<<< SEARCH
+        std::string checkedPaths;
+        for (const char* path : kCandidatePaths) {
+            if (!checkedPaths.empty()) {
+                checkedPaths += ", ";
+            }
+            checkedPaths += path;
+
+            if (std::filesystem::exists(path)) {
+                cachedBackgroundPath = path;
+                return;
+            }
+        }
+=======
+        std::string checkedPaths;
+        for (const char* path : kCandidatePaths) {
+            if (!checkedPaths.empty()) {
+                checkedPaths += ", ";
+            }
+            checkedPaths += path;
+
+            FILE *f = fopen(path, "r");
+            if (f) {
+                fclose(f);
+                cachedBackgroundPath = path;
+                return;
+            }
+        }
+>>>>>>> REPLACE
