@@ -19,7 +19,6 @@
 
 
 #include <cstdio>
-#include <filesystem>
 #include <mutex>
 
 #include <string>
@@ -66,7 +65,9 @@ GetMainMenuBackgroundPath()
             }
             checkedPaths += path;
 
-            if (std::filesystem::exists(path)) {
+            FILE *f = fopen(path, "r");
+            if (f) {
+                fclose(f);
                 cachedBackgroundPath = path;
                 return;
             }
