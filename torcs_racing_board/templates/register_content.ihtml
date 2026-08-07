@@ -32,7 +32,7 @@
 				<label for="register_username">Username:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" id="register_username" name="register_username" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_USERNAME}" required/>
+				<input type="text" id="register_username" name="register_username" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_USERNAME}" required autocomplete="username"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_USERNAME}
@@ -44,7 +44,7 @@
 				<label for="register_firstname">First name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" id="register_firstname" name="register_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}" required/>
+				<input type="text" id="register_firstname" name="register_firstname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_FIRSTNAME}" required autocomplete="given-name"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_FIRSTNAME}
@@ -56,7 +56,7 @@
 				<label for="register_lastname">Last name:</label>
 			</td>
 			<td class="filledlist">
-				<input type="text" id="register_lastname" name="register_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}" required/>
+				<input type="text" id="register_lastname" name="register_lastname" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_LASTNAME}" required autocomplete="family-name"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_LASTNAME}
@@ -68,7 +68,7 @@
 				<label for="register_password">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" id="register_password" name="register_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}" required/>
+				<input type="password" id="register_password" name="register_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}" required autocomplete="new-password"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD}
