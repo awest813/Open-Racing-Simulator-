@@ -64,3 +64,7 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+
+## 2026-06-28 - Checkbox Click Area Expansion
+**Learning:** Legacy PHP apps using raw `.ihtml` template files often contain tightly packed tabular layouts where checkboxes are small and hard to click. Wrapping adjacent text elements within a `<label>` across `<td>` or within the same cell increases the clickable area significantly.
+**Action:** When working with tabular form layouts, wrap the checkbox and its corresponding description text in a `<label for="id">` to improve the UX and accessibility for users. Ensure unique IDs are used to correctly associate labels with inputs.
