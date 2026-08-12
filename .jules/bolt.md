@@ -71,3 +71,7 @@
 **Learning:** Mathematical magnitude of vectors using `sqrt()` followed by squaring the result is redundant and negatively impacts hot paths (like aerodynamics update functions in TORCS).
 **Action:** When evaluating velocities or vectors to get their magnitudes with `sqrt()`, if the squared value is also needed immediately (e.g. `airSpeed = sqrt(x*x + y*y)` and later `airSpeed2 = airSpeed * airSpeed`), compute the squared magnitude first, save it, and then apply `sqrt()` to it to avoid the redundant second squaring operation.
 
+
+## 2024-05-18 - Defer Expensive Math in Aero Updates
+**Learning:** Calculating `atan2` unconditionally inside a hot loop (like `SimAeroUpdate` looping over opponents) incurs a significant performance penalty, especially when its result is only used conditionally after checking fast bounds or velocities.
+**Action:** When updating physics/aero loops in TORCS, use a boolean flag to compute expensive trig functions (e.g. `atan2`) only when the early-exit conditions are met and the result is actually needed.
