@@ -73,7 +73,7 @@
 				<label for="account_password">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" id="account_password" name="account_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}"/>
+				<input type="password" id="account_password" name="account_password" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD}" autocomplete="new-password"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD}
@@ -85,7 +85,7 @@
 				<label for="account_password2">Password:</label>
 			</td>
 			<td class="filledlist">
-				<input type="password" id="account_password2" name="account_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}"/>
+				<input type="password" id="account_password2" name="account_password2" size="20" maxlength="{PS_USERNAME_SIZE}" value="{PC_VALUE_PASSWORD2}" autocomplete="new-password"/>
 			</td>
 			<td class="filledlist">
 				{PC_DESC_PASSWORD2}
