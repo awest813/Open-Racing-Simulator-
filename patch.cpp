@@ -16,7 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
-/** @file   
+/** @file
     Image management API.
 
     Load and store png images.
@@ -29,10 +29,10 @@
 #endif
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "../thirdparty/stb/stb_image.h"
+#include "thirdparty/stb/stb_image.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "../thirdparty/stb/stb_image_write.h"
+#include "stb_image_write.h"
 
 #include <tgfclient.h>
 #include <cstdlib>
@@ -44,7 +44,7 @@
 #include <portability.h>
 
 /** Load an image from disk to a buffer in RGBA mode.
-    @ingroup	img		
+    @ingroup	img
     @param	filename	name of the image to load
     @param	widthp		width of the read image
     @param	heightp		height of the read image
