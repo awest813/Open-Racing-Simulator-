@@ -21,7 +21,6 @@
 #include <cstdio>
 #include <filesystem>
 #include <mutex>
-#include
 #include <string>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
