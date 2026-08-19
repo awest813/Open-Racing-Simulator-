@@ -19,9 +19,7 @@
 
 
 #include <cstdio>
-#include <filesystem>
 #include <mutex>
-#include <optional>
 #include <string>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -66,7 +64,7 @@ GetMainMenuBackgroundPath()
             }
             checkedPaths += path;
 
-            if (std::filesystem::exists(path)) {
+            if (GfFileExists(path)) {
                 cachedBackgroundPath = path;
                 return;
             }
@@ -75,7 +73,7 @@ GetMainMenuBackgroundPath()
         std::fprintf(stderr,
                      "Warning: Main menu splash image not found. Launch from the repository root or verify asset installation. Searched: %s\n",
                      checkedPaths.c_str());
-        cachedBackgroundPath.reset();
+        cachedBackgroundPath = "";
     });
 
     return cachedBackgroundPath;
