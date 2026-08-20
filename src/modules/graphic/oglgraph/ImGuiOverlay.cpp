@@ -232,6 +232,7 @@ static void drawTelemetry(const tSituation* sit)
     // ---- Speed + gear header ----
     ImGui::PushStyleColor(ImGuiCol_Text, kAccentCy);
     ImGui::Text("%.0f", speed);
+    ImGui::SetItemTooltip("Current vehicle speed.");
     ImGui::PopStyleColor();
     ImGui::SameLine();
     ImGui::TextColored(kTextDim, "km/h");
@@ -251,6 +252,7 @@ static void drawTelemetry(const tSituation* sit)
 
     ImGui::PushStyleColor(ImGuiCol_Text, kAccentOr);
     ImGui::Text("Gear %s", gearStr);
+    ImGui::SetItemTooltip("Current engaged gear.");
     ImGui::PopStyleColor();
 
     ImGui::Separator();
@@ -260,6 +262,7 @@ static void drawTelemetry(const tSituation* sit)
                       (rpmFrac > 0.65f) ? kAccentOr : kAccentCy;
     coloredBar("RPM", rpmFrac, rpmColor, 20.f);
     ImGui::TextColored(kTextDim, "%.0f / %.0f rpm", rpm, maxRpm);
+    ImGui::SetItemTooltip("Engine revolutions per minute.");
 
     ImGui::Separator();
 
@@ -271,6 +274,7 @@ static void drawTelemetry(const tSituation* sit)
         ImVec4 sc = (slip[i] > 0.6f) ? kAccentRd :
                     (slip[i] > 0.3f) ? kAccentOr : kAccentGr;
         ImGui::Text("%s", wLabels[i]);
+        ImGui::SetItemTooltip("Wheel slip side coefficient. Red indicates severe loss of grip.");
         ImGui::SameLine(30.f);
         coloredBar("", slip[i], sc, 14.f);
     }
@@ -281,6 +285,7 @@ static void drawTelemetry(const tSituation* sit)
     ImGui::TextColored(kTextDim, "G-FORCE");
     ImGui::SameLine();
     ImGui::Text("Lat %.2fG  Lon %.2fG", gLat, gLon);
+    ImGui::SetItemTooltip("Lateral (cornering) and Longitudinal (acceleration/braking) G-forces.");
     gForceMeter(gLat, gLon, 50.f);
 
     ImGui::Separator();
@@ -324,8 +329,11 @@ static void drawRendererTuning()
     ImGui::TextColored(kAccentOr, "HDR / POST-PROCESS");
     ImGui::Separator();
     ImGui::SliderFloat("Exposure",     &g_renderer->m_hdrExposure,  0.1f, 4.0f, "%.2f");
+    ImGui::SetItemTooltip("Adjusts overall scene brightness for HDR tonemapping.");
     ImGui::SliderFloat("Bloom Str.",   &g_renderer->m_bloomStrength, 0.0f, 2.0f, "%.2f");
+    ImGui::SetItemTooltip("Intensity of the glow effect on bright areas.");
     ImGui::SliderInt  ("Bloom Passes", &g_renderer->m_bloomPasses,   0,    8);
+    ImGui::SetItemTooltip("Number of blur iterations for bloom (higher = wider, softer glow).");
 
     ImGui::Separator();
     ImGui::TextColored(kAccentOr, "SHADOW MAP");
@@ -337,11 +345,15 @@ static void drawRendererTuning()
     for (int i = 0; i < 4; ++i) {
         if (kSizes[i] == g_renderer->m_shadowMapSize) { shadowIdx = i; break; }
     }
-    if (ImGui::Combo("Shadow Res", &shadowIdx, kSizeStr))
+    bool combo_changed = ImGui::Combo("Shadow Res", &shadowIdx, kSizeStr);
+    ImGui::SetItemTooltip("Shadow map resolution (higher = sharper shadows, lower performance).");
+    if (combo_changed)
         g_renderer->m_shadowMapSize = kSizes[shadowIdx];
 
     ImGui::Separator();
-    if (ImGui::Button("Reset Defaults")) {
+    bool clicked = ImGui::Button("Reset Defaults");
+    ImGui::SetItemTooltip("Restore default graphics settings.");
+    if (clicked) {
         g_renderer->m_hdrExposure   = 1.0f;
         g_renderer->m_bloomStrength = 0.75f;
         g_renderer->m_bloomPasses   = 5;
