@@ -64,3 +64,6 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+## 2024-07-26 - File Input Semantic Labels
+**Learning:** Legacy `.ihtml` template structures often leave input elements of type `file` without a semantic `<label>` tag. Like all other input elements, this leads to poor accessibility, especially for screen readers which fail to contextualize what the file input is for.
+**Action:** When working on legacy forms, wrap descriptive text for file inputs within a `<label for="field_id">` tag and ensure the corresponding `<input type="file">` has a matching `id="field_id"` attribute. This fixes micro-accessibility without changing visual styles.
