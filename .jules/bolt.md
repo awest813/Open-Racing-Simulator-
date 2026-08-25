@@ -1,4 +1,3 @@
-
 ## 2025-02-14 - Optimized distance calculations in drivers
 **Learning:** Found multiple instances where `sqrt()` is calculated inside hot loops (e.g., iterating through corners to find the minimum distance) by using `dist()` methods on vector and straight classes.
 **Action:** Introduced `lenSqr()` and `distSqr()` to avoid `sqrt` calculation until after finding the minimum squared distance. Always check if a squared distance comparison `distSqr < mindistSqr` can replace `dist < mindist` inside loops to avoid expensive operations.
@@ -71,3 +70,7 @@
 **Learning:** Mathematical magnitude of vectors using `sqrt()` followed by squaring the result is redundant and negatively impacts hot paths (like aerodynamics update functions in TORCS).
 **Action:** When evaluating velocities or vectors to get their magnitudes with `sqrt()`, if the squared value is also needed immediately (e.g. `airSpeed = sqrt(x*x + y*y)` and later `airSpeed2 = airSpeed * airSpeed`), compute the squared magnitude first, save it, and then apply `sqrt()` to it to avoid the redundant second squaring operation.
 
+
+## 2025-06-25 - Defer expensive atan2 calculation in simuv2 aerodynamic updates
+**Learning:** In the TORCS simulation engine (`simuv2/aero.cpp`), unconditionally calculating expensive trigonometric functions like `atan2(relVelY, relVelX)` before evaluating early-exit conditions inside the `otherCar` iteration loop creates unnecessary overhead if there are no cars satisfying those conditions.
+**Action:** Defer mathematical evaluations (like angles derived from `atan2()`) by initializing a `bool calculated = false` flag outside the loop and explicitly deferring the calculation into the conditional blocks inside the loop that require their results. Also ensure that the original variable (e.g. `spdang = 0.0`) is initialized.
