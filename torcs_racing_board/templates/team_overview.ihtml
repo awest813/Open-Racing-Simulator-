@@ -23,26 +23,26 @@
 	<tr bgcolor="{PC_COLOR}">
 		<td class="filledlist" style="width:84px;">
 			<a href="{ROOTPATH}teams/team_view.php?viewteamid={PC_TEAM_ID}" title="{PC_TEAM_NAME}" style="text-decoration:none;margin:0px;">
-			<img src="{PC_TEAM_LOGO_IMG}" style="border:0px;width:74px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
+			<img src="{PC_TEAM_LOGO_IMG}" alt="{PC_TEAM_NAME} logo" style="border:0px;width:74px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
 			</a>
 		</td>
 
 		<td class="filledlist" style="width:60px;">
 			<a href="{ROOTPATH}users/user_view.php?viewuserid={PC_TEAM_OWNER_ID}" title="{PC_TEAM_OWNER_NAME}, {PC_TEAM_OWNER_FNAME} {PC_TEAM_OWNER_LNAME}" style="text-decoration:none;margin:0px;">
-			<img src="{PC_TEAM_USER_IMG}" style="border:0px;width:50px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
+			<img src="{PC_TEAM_USER_IMG}" alt="{PC_TEAM_OWNER_NAME} avatar" style="border:0px;width:50px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
 			</a>
 		</td>
 
 		<td class="filledlist" style="width:186px;">
 			<a href="{ROOTPATH}cars/car_view.php?viewcarid={PC_TEAM_CAR_ID}" title="{PC_TEAM_CAR_NAME}" style="text-decoration:none;margin:0px;">
-			<img src="{PC_TEAM_SHOT1_IMG}" style="border:0px;width:83px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
-			<img src="{PC_TEAM_SHOT2_IMG}" style="border:0px;width:83px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
+			<img src="{PC_TEAM_SHOT1_IMG}" alt="{PC_TEAM_CAR_NAME} screenshot 1" style="border:0px;width:83px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
+			<img src="{PC_TEAM_SHOT2_IMG}" alt="{PC_TEAM_CAR_NAME} screenshot 2" style="border:0px;width:83px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
 			</a>
 		</td>
 
 		<td class="filledlist" style="width:84;">
 			<a name="gaga"  style="text-decoration:none;margin:0px;">
-			<img src="{PC_TEAM_FLAG_IMG}" style="border:0px;width:74px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
+			<img src="{PC_TEAM_FLAG_IMG}" alt="{PC_TEAM_NAME} flag" style="border:0px;width:74px;height:50px;border-style:none;margin-top:4px;margin-left:5px;"/>
 			</a>
 		</td>
 

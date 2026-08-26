@@ -64,3 +64,6 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+## 2024-06-27 - Missing alt attributes on decorative / informative images in tabular grids
+**Learning:** In legacy tabular templates (like `.ihtml` grid overviews), grid cell images such as logos, flags, and thumbnails are often inserted via template tags without `alt` attributes, rendering them invisible or confusing to screen readers.
+**Action:** Always add descriptive `alt` attributes to inline images in table lists by utilizing the available template string variables (e.g., `alt="{PC_TEAM_NAME} logo"`). This provides immediate context for screen reader users parsing the data grid without altering styling.
