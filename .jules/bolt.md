@@ -71,3 +71,6 @@
 **Learning:** Mathematical magnitude of vectors using `sqrt()` followed by squaring the result is redundant and negatively impacts hot paths (like aerodynamics update functions in TORCS).
 **Action:** When evaluating velocities or vectors to get their magnitudes with `sqrt()`, if the squared value is also needed immediately (e.g. `airSpeed = sqrt(x*x + y*y)` and later `airSpeed2 = airSpeed * airSpeed`), compute the squared magnitude first, save it, and then apply `sqrt()` to it to avoid the redundant second squaring operation.
 
+## 2025-06-25 - Skip Expensive `pow` with Exponent of 1.0 in Control Processing
+**Learning:** In the human driver codebase (`src/drivers/human/human.cpp`), control processing repeatedly evaluates `pow(x, sens)` using `std::pow` for steering, braking, clutch, and throttle. By default, preferences initialize these sensitivity variables to `1.0`. Calling `std::pow(x, 1.0)` is highly inefficient compared to simply bypassing the operation, introducing noticeable performance overhead in high-frequency input hot loops.
+**Action:** When a power function takes a runtime-configurable exponent, explicitly check if the exponent equals 1.0 (e.g., `sens == 1.0`) and conditionally evaluate the mathematical equivalent (e.g., `fabs(x)`) directly, bypassing the expensive generic `pow()` call altogether.

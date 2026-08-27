@@ -47,6 +47,20 @@
 #include "pref.h"
 #include "human.h"
 
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
+
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
+
 #define DRWD 0
 #define DFWD 1
 #define D4WD 2
@@ -118,6 +132,48 @@ shutdown(int index)
 }
 
 
+
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
+
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
+
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
+
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
+
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
+
+// BOLT: Inline helper to bypass expensive std::pow() when the sensitivity exponent is exactly 1.0 (the default configuration)
+// This minimizes mathematical overhead in the per-frame human control processing loops.
+static inline double fast_pow(double base, double exp) {
+    if (exp == 1.0) return base;
+    return std::pow(base, exp);
+}
 
 /*
  * Function
@@ -578,7 +634,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 			
 			// normalize ax0 to -1..0
 			ax0 = (ax0 - cmd[CMD_LEFTSTEER].max) / (cmd[CMD_LEFTSTEER].max - cmd[CMD_LEFTSTEER].min);
-			leftSteer = -SIGN(ax0) * cmd[CMD_LEFTSTEER].pow * pow(fabs(ax0), cmd[CMD_LEFTSTEER].sens) / (1.0 + cmd[CMD_LEFTSTEER].spdSens * car->pub.speed);
+			leftSteer = -SIGN(ax0) * cmd[CMD_LEFTSTEER].pow * (cmd[CMD_LEFTSTEER].sens == 1.0 ? fabs(ax0) : fast_fast_pow(fabs(ax0), cmd[CMD_LEFTSTEER].sens)) / (1.0 + cmd[CMD_LEFTSTEER].spdSens * car->pub.speed);
 			break;
 		case GFCTRL_TYPE_MOUSE_AXIS:
 			ax0 = mouseInfo->ax[cmd[CMD_LEFTSTEER].val] - cmd[CMD_LEFTSTEER].deadZone; //FIXME: correct?
@@ -588,7 +644,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				ax0 = cmd[CMD_LEFTSTEER].min;
 			}
 			ax0 = ax0 * cmd[CMD_LEFTSTEER].pow;
-			leftSteer = pow(fabs(ax0), cmd[CMD_LEFTSTEER].sens) / (1.0 + cmd[CMD_LEFTSTEER].spdSens * car->pub.speed / 10.0);
+			leftSteer = (cmd[CMD_LEFTSTEER].sens == 1.0 ? fabs(ax0) : fast_fast_pow(fabs(ax0), cmd[CMD_LEFTSTEER].sens)) / (1.0 + cmd[CMD_LEFTSTEER].spdSens * car->pub.speed / 10.0);
 			break;
 		case GFCTRL_TYPE_KEYBOARD:
 		case GFCTRL_TYPE_SKEYBOARD:
@@ -626,7 +682,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 			
 			// normalize ax to 0..1
 			ax0 = (ax0 - cmd[CMD_RIGHTSTEER].min) / (cmd[CMD_RIGHTSTEER].max - cmd[CMD_RIGHTSTEER].min);
-			rightSteer = -SIGN(ax0) * cmd[CMD_RIGHTSTEER].pow * pow(fabs(ax0), cmd[CMD_RIGHTSTEER].sens) / (1.0 + cmd[CMD_RIGHTSTEER].spdSens * car->pub.speed);
+			rightSteer = -SIGN(ax0) * cmd[CMD_RIGHTSTEER].pow * (cmd[CMD_RIGHTSTEER].sens == 1.0 ? fabs(ax0) : fast_fast_pow(fabs(ax0), cmd[CMD_RIGHTSTEER].sens)) / (1.0 + cmd[CMD_RIGHTSTEER].spdSens * car->pub.speed);
 			break;
 		case GFCTRL_TYPE_MOUSE_AXIS:
 			ax0 = mouseInfo->ax[cmd[CMD_RIGHTSTEER].val] - cmd[CMD_RIGHTSTEER].deadZone;
@@ -636,7 +692,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				ax0 = cmd[CMD_RIGHTSTEER].min;
 			}
 			ax0 = ax0 * cmd[CMD_RIGHTSTEER].pow;
-			rightSteer = - pow(fabs(ax0), cmd[CMD_RIGHTSTEER].sens) / (1.0 + cmd[CMD_RIGHTSTEER].spdSens * car->pub.speed / 10.0);
+			rightSteer = - (cmd[CMD_RIGHTSTEER].sens == 1.0 ? fabs(ax0) : fast_fast_pow(fabs(ax0), cmd[CMD_RIGHTSTEER].sens)) / (1.0 + cmd[CMD_RIGHTSTEER].spdSens * car->pub.speed / 10.0);
 			break;
 		case GFCTRL_TYPE_KEYBOARD:
 		case GFCTRL_TYPE_SKEYBOARD:
@@ -675,9 +731,9 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				brake = cmd[CMD_BRAKE].min;
 			}
 			car->_brakeCmd = fabs(cmd[CMD_BRAKE].pow *
-						pow(fabs((brake - cmd[CMD_BRAKE].minVal) /
+						(cmd[CMD_BRAKE].sens == 1.0 ? fabs((brake - cmd[CMD_BRAKE].minVal) / (cmd[CMD_BRAKE].max - cmd[CMD_BRAKE].min)) : fast_fast_pow(fabs((brake - cmd[CMD_BRAKE].minVal) /
 							(cmd[CMD_BRAKE].max - cmd[CMD_BRAKE].min)),
-						cmd[CMD_BRAKE].sens));
+						cmd[CMD_BRAKE].sens)));
 			break;
 		case GFCTRL_TYPE_MOUSE_AXIS:
 			ax0 = mouseInfo->ax[cmd[CMD_BRAKE].val] - cmd[CMD_BRAKE].deadZone;
@@ -687,7 +743,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				ax0 = cmd[CMD_BRAKE].min;
 			}
 			ax0 = ax0 * cmd[CMD_BRAKE].pow;
-			car->_brakeCmd =  pow(fabs(ax0), cmd[CMD_BRAKE].sens) / (1.0 + cmd[CMD_BRAKE].spdSens * car->_speed_x / 10.0);
+			car->_brakeCmd =  (cmd[CMD_BRAKE].sens == 1.0 ? fabs(ax0) : fast_fast_pow(fabs(ax0), cmd[CMD_BRAKE].sens)) / (1.0 + cmd[CMD_BRAKE].spdSens * car->_speed_x / 10.0);
 			break;
 		case GFCTRL_TYPE_JOY_BUT:
 			car->_brakeCmd = joyInfo->levelup[cmd[CMD_BRAKE].val];
@@ -715,9 +771,9 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				clutch = cmd[CMD_CLUTCH].min;
 			}
 			car->_clutchCmd = fabs(cmd[CMD_CLUTCH].pow *
-						pow(fabs((clutch - cmd[CMD_CLUTCH].minVal) /
+						(cmd[CMD_CLUTCH].sens == 1.0 ? fabs((clutch - cmd[CMD_CLUTCH].minVal) / (cmd[CMD_CLUTCH].max - cmd[CMD_CLUTCH].min)) : fast_fast_pow(fabs((clutch - cmd[CMD_CLUTCH].minVal) /
 							(cmd[CMD_CLUTCH].max - cmd[CMD_CLUTCH].min)),
-						cmd[CMD_CLUTCH].sens));
+						cmd[CMD_CLUTCH].sens)));
 			break;
 		case GFCTRL_TYPE_MOUSE_AXIS:
 			ax0 = mouseInfo->ax[cmd[CMD_CLUTCH].val] - cmd[CMD_CLUTCH].deadZone;
@@ -727,7 +783,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				ax0 = cmd[CMD_CLUTCH].min;
 			}
 			ax0 = ax0 * cmd[CMD_CLUTCH].pow;
-			car->_clutchCmd =  pow(fabs(ax0), cmd[CMD_CLUTCH].sens) / (1.0 + cmd[CMD_CLUTCH].spdSens * car->_speed_x / 10.0);
+			car->_clutchCmd =  (cmd[CMD_CLUTCH].sens == 1.0 ? fabs(ax0) : fast_fast_pow(fabs(ax0), cmd[CMD_CLUTCH].sens)) / (1.0 + cmd[CMD_CLUTCH].spdSens * car->_speed_x / 10.0);
 			break;
 		case GFCTRL_TYPE_JOY_BUT:
 			car->_clutchCmd = joyInfo->levelup[cmd[CMD_CLUTCH].val];
@@ -759,9 +815,9 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				throttle = cmd[CMD_THROTTLE].min;
 			}
 			car->_accelCmd = fabs(cmd[CMD_THROTTLE].pow *
-						pow(fabs((throttle - cmd[CMD_THROTTLE].minVal) /
+						(cmd[CMD_THROTTLE].sens == 1.0 ? fabs((throttle - cmd[CMD_THROTTLE].minVal) / (cmd[CMD_THROTTLE].max - cmd[CMD_THROTTLE].min)) : fast_fast_pow(fabs((throttle - cmd[CMD_THROTTLE].minVal) /
 								(cmd[CMD_THROTTLE].max - cmd[CMD_THROTTLE].min)),
-							cmd[CMD_THROTTLE].sens));
+							cmd[CMD_THROTTLE].sens)));
 			break;
 		case GFCTRL_TYPE_MOUSE_AXIS:
 			ax0 = mouseInfo->ax[cmd[CMD_THROTTLE].val] - cmd[CMD_THROTTLE].deadZone;
@@ -771,7 +827,7 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 				ax0 = cmd[CMD_THROTTLE].min;
 			}
 			ax0 = ax0 * cmd[CMD_THROTTLE].pow;
-			car->_accelCmd =  pow(fabs(ax0), cmd[CMD_THROTTLE].sens) / (1.0 + cmd[CMD_THROTTLE].spdSens * car->_speed_x / 10.0);
+			car->_accelCmd =  (cmd[CMD_THROTTLE].sens == 1.0 ? fabs(ax0) : fast_fast_pow(fabs(ax0), cmd[CMD_THROTTLE].sens)) / (1.0 + cmd[CMD_THROTTLE].spdSens * car->_speed_x / 10.0);
 			if (isnan (car->_accelCmd)) {
 				car->_accelCmd = 0;
 			}
