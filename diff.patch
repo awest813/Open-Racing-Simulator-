@@ -1,0 +1,15 @@
+<<<<<<< SEARCH
+	    if ((otherCar->DynGC.vel.x > 10.0) &&
+		(fabs(dyaw) < 0.1396)) {
+		// BOLT: Defer expensive atan2 calculation
+		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
+=======
+	    if ((otherCar->DynGC.vel.x > 10.0) &&
+		(fabs(dyaw) < 0.1396)) {
+		if (!calculated_spdang) {
+		    spdang = atan2(car->DynGCg.vel.y, car->DynGCg.vel.x);
+		    calculated_spdang = true;
+		}
+		// BOLT: Defer expensive atan2 calculation
+		tdble tmpsdpang = spdang - atan2(y - otherCar->DynGC.pos.y, x - otherCar->DynGC.pos.x);
+>>>>>>> REPLACE
