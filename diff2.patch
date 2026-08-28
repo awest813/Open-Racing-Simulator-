@@ -1,0 +1,31 @@
+<<<<<<< SEARCH
+	if (relVelSqr > 100.0f) {
+		yaw = car->DynGCg.pos.az;
+		x = car->DynGCg.pos.x;
+		y = car->DynGCg.pos.y;
+		spdang = atan2(relVelY, relVelX);
+
+		for (i = 0; i < s->_ncars; i++) {
+=======
+	if (relVelSqr > 100.0f) {
+		yaw = car->DynGCg.pos.az;
+		x = car->DynGCg.pos.x;
+		y = car->DynGCg.pos.y;
+		bool calculated_spdang = false;
+		spdang = 0.0;
+
+		for (i = 0; i < s->_ncars; i++) {
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+			if ((otherCar->DynGC.vel.x > 10.0f) && (fabs(dyaw) < 0.1396f)) {
+				// BOLT: Defer expensive atan2 calculation
+				tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
+=======
+			if ((otherCar->DynGC.vel.x > 10.0f) && (fabs(dyaw) < 0.1396f)) {
+				if (!calculated_spdang) {
+					spdang = atan2(relVelY, relVelX);
+					calculated_spdang = true;
+				}
+				// BOLT: Defer expensive atan2 calculation
+				tmpsdpang = spdang - atan2(y - otherCar->DynGCg.pos.y, x - otherCar->DynGCg.pos.x);
+>>>>>>> REPLACE
