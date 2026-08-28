@@ -103,3 +103,4 @@ p.statusbar { font-size:16px; text-align:center; margin:0px; }
 .pollcentered { border-style:solid; border-width:1px; margin-top:3px; margin-bottom:5px; margin-right:8px; border-color:#a8a8a8;}
 .pollbigtext { font-family:Arial,Helvetica,sans-serif; font-size:12px; margin:2px; padding-top:0px; padding-bottom:0px; border-spacing:0px; padding-left:3px; padding-right:3px;}
 .pollsmalltext { font-family:Arial,Helvetica,sans-serif; font-size:10px; margin:1px; padding-top:0px; padding-bottom:0px; border-spacing:0px; padding-left:3px; padding-right:3px;}
+input[type="submit"], input[type="button"] { cursor: pointer; }
