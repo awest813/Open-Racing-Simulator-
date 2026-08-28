@@ -64,3 +64,6 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+## 2024-07-28 - CSS Cursor Styling for Submit Inputs
+**Learning:** Legacy template forms often lack hover state feedback on standard action buttons (like `<input type="submit">`), making them feel unresponsive and out of date with modern web interaction standards.
+**Action:** Always add a global CSS rule (e.g., `input[type="submit"] { cursor: pointer; }`) to ensure submit buttons change the cursor to a pointer on hover, instantly improving the perception of interactability without touching the DOM structure.
