@@ -11,8 +11,8 @@
 					<!-- BEGIN message_poll -->
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Poll:<br>
-							<select name="message_pollid" size="1" class="admincol0">
+							<label for="message_pollid">Poll:</label><br>
+							<select id="message_pollid" name="message_pollid" size="1" class="admincol0">
 								<option value="0">No Poll</option>
 							<!-- BEGIN message_poll_options -->
 								<option {PC_POLL_SELECTED} value="{PC_POLL_ID}">{PC_POLL_QUESTION}</option>
@@ -24,15 +24,15 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Subject:<br>
-							<input type="text" name="subject" class="admincol0" value="{PC_SUBJECT}"/>
+							<label for="subject">Subject:</label><br>
+							<input type="text" id="subject" name="subject" class="admincol0" value="{PC_SUBJECT}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Text:<br>
-							<textarea name="text" rows="10" class="admincol0">{PC_MESSAGE}</textarea>
+							<label for="text">Text:</label><br>
+							<textarea id="text" name="text" rows="10" class="admincol0">{PC_MESSAGE}</textarea>
 						</td>
 					</tr>
 
