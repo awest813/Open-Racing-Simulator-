@@ -13,46 +13,46 @@
 
 					<tr>
 						<td class="admincol11 filledlist">
-							Robot submission start:
+							<label for="race_robot_sub_start">Robot submission start:</label>
 						</td>
 						<td class="admincol21 filledlist">
-							<input type="text" name="race_robot_sub_start" size="20" maxlength="19" value="{PC_RACE_ROBOT_SUBMIT_START}"/>
+							<input type="text" id="race_robot_sub_start" name="race_robot_sub_start" size="20" maxlength="19" value="{PC_RACE_ROBOT_SUBMIT_START}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Robot submission end:
+							<label for="race_robot_sub_end">Robot submission end:</label>
 						</td>
 						<td class="admincol21 filledlist">
-							<input type="text" name="race_robot_sub_end" size="20" maxlength="19" value="{PC_RACE_ROBOT_SUBMIT_END}"/>
+							<input type="text" id="race_robot_sub_end" name="race_robot_sub_end" size="20" maxlength="19" value="{PC_RACE_ROBOT_SUBMIT_END}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Result submission start:
+							<label for="race_result_sub_start">Result submission start:</label>
 						</td>
 						<td class="admincol21 filledlist">
-							<input type="text" name="race_result_sub_start" size="20" maxlength="19" value="{PC_RACE_RESULT_SUBMIT_START}"/>
+							<input type="text" id="race_result_sub_start" name="race_result_sub_start" size="20" maxlength="19" value="{PC_RACE_RESULT_SUBMIT_START}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Result submission end:
+							<label for="race_result_sub_end">Result submission end:</label>
 						</td>
 						<td class="admincol21 filledlist">
-							<input type="text" name="race_result_sub_end" size="20" maxlength="19" value="{PC_RACE_RESULT_SUBMIT_END}"/>
+							<input type="text" id="race_result_sub_end" name="race_result_sub_end" size="20" maxlength="19" value="{PC_RACE_RESULT_SUBMIT_END}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Track:
+							<label for="race_track">Track:</label>
 						</td>
 						<td class="filledlist">
-							<select name="race_track" size="1">
+							<select id="race_track" name="race_track" size="1">
 							<!-- BEGIN row -->
 								<option {PC_RACE_TRACK_SEL} value="{PC_RACE_TRACK_ID}">{PC_RACE_TRACK_NAME}</option>
 							<!-- END row -->
@@ -62,10 +62,10 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							simulator version:
+							<label for="version">simulator version:</label>
 						</td>
 						<td class="filledlist">
-							<select name="version" size="1">
+							<select id="version" name="version" size="1">
 							<!-- BEGIN version -->
 								<option {PC_VERSION_SEL} value="{PC_VERSION_ID}">{PC_VERSION_NAME}</option>
 							<!-- END version -->
