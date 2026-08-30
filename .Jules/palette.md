@@ -64,3 +64,6 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+## 2024-05-14 - Improve accessibility of forum message forms
+**Learning:** Legacy PHP/ihtml form layouts often lack `<label>` associations for their input and textarea fields, reducing accessibility for screen readers and keyboard users.
+**Action:** Always add semantic `<label>` tags with matching `for` and `id` attributes to inputs, selects, and textareas to ensure they are accessible.
