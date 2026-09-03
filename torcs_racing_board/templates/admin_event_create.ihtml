@@ -13,64 +13,64 @@
 				<table class="text14" cellspacing="0">
 					<tr>
 						<td class="admincol1 filledlist">
-							Name:
+							<label for="event_name">Name:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="event_name" size="40" maxlength="40" value="{PC_EVENT_NAME}"/>
+							<input id="event_name" type="text" name="event_name" size="40" maxlength="40" value="{PC_EVENT_NAME}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Description:
+							<label for="event_description">Description:</label>
 						</td>
 						<td class="filledlist">
-							<textarea name="event_description" rows="6" class="admincol2">{PC_EVENT_DESCRIPTION}</textarea>
+							<textarea id="event_description" name="event_description" rows="6" class="admincol2">{PC_EVENT_DESCRIPTION}</textarea>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Sign-in start:
+							<label for="event_signin_start">Sign-in start:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="event_signin_start" size="20" maxlength="19" value="{PC_EVENT_SIGNIN_START}"/>
+							<input id="event_signin_start" type="text" name="event_signin_start" size="20" maxlength="19" value="{PC_EVENT_SIGNIN_START}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Sign-in end:
+							<label for="event_signin_end">Sign-in end:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="event_signin_end" size="20" maxlength="19" value="{PC_EVENT_SIGNIN_END}"/>
+							<input id="event_signin_end" type="text" name="event_signin_end" size="20" maxlength="19" value="{PC_EVENT_SIGNIN_END}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							Start date:
+							<label for="event_start">Start date:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="event_start" size="20" maxlength="19" value="{PC_EVENT_START}"/>
+							<input id="event_start" type="text" name="event_start" size="20" maxlength="19" value="{PC_EVENT_START}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist">
-							End date:
+							<label for="event_end">End date:</label>
 						</td>
 						<td class="admincol2 filledlist">
-							<input type="text" name="event_end" size="20" maxlength="19" value="{PC_EVENT_END}"/>
+							<input id="event_end" type="text" name="event_end" size="20" maxlength="19" value="{PC_EVENT_END}"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Cars:
+							<label for="event_cars">Cars:</label>
 						</td>
 						<td class="filledlist">
-							<select name="event_cars[]" size="6" multiple="multiple">
+							<select id="event_cars" name="event_cars[]" size="6" multiple="multiple">
 							<!-- BEGIN row -->
 								<option {PC_EVENT_CAR_SEL} value="{PC_EVENT_CAR_ID}">{PC_EVENT_CAR_NAME}</option>
 							<!-- END row -->
@@ -80,10 +80,10 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Max. Teams:
+							<label for="event_maxteams">Max. Teams:</label>
 						</td>
 						<td class="filledlist">
-							<select name="event_maxteams" size="1">
+							<select id="event_maxteams" name="event_maxteams" size="1">
 							<!-- BEGIN maxtrow -->
 								<option {PC_EVENT_MAXTEAM_SEL} value="{PC_EVENT_MAXTEAM_NB}">{PC_EVENT_MAXTEAM_NB}</option>
 							<!-- END maxtrow -->
@@ -93,10 +93,10 @@
 
 					<tr>
 						<td class="filledlist" align="left" valign="top">
-							Pointssystem:
+							<label for="event_pointsystem">Pointssystem:</label>
 						</td>
 						<td class="filledlist">
-							<select name="event_pointsystem" size="1">
+							<select id="event_pointsystem" name="event_pointsystem" size="1">
 							<!-- BEGIN pointsrow -->
 								<option {PC_EVENT_POINTSYSTEM_SEL} value="{PC_EVENT_POINTSYSTEM_NB}">{PC_EVENT_POINTSYSTEM_NAME}</option>
 							<!-- END pointsrow -->
@@ -106,10 +106,10 @@
 
 					<tr>
 						<td class="filledlist">
-							Rules (*.html):
+							<label for="event_rules">Rules (*.html):</label>
 						</td>
 						<td class="filledlist">
-							<input name="event_rules" type="file" size="60" maxlength="50000" accept="text/html"/>
+							<input id="event_rules" name="event_rules" type="file" size="60" maxlength="50000" accept="text/html"/>
 						</td>
 					</tr>
 				</table>
