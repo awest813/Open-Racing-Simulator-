@@ -71,3 +71,11 @@
 **Learning:** Mathematical magnitude of vectors using `sqrt()` followed by squaring the result is redundant and negatively impacts hot paths (like aerodynamics update functions in TORCS).
 **Action:** When evaluating velocities or vectors to get their magnitudes with `sqrt()`, if the squared value is also needed immediately (e.g. `airSpeed = sqrt(x*x + y*y)` and later `airSpeed2 = airSpeed * airSpeed`), compute the squared magnitude first, save it, and then apply `sqrt()` to it to avoid the redundant second squaring operation.
 
+
+## 2024-05-13 - Deferred Slip Angle (sa) Calculation
+**Learning:** In TORCS simuv3, the wheel slip angle (`sa`) was being unconditionally calculated via `atan2()` and `NORM_PI_PI()`, but the result is only needed under specific wheel states (when velocity is above threshold and suspension is not fully extended, `(wheel->state & SIM_SUSP_EXT) == 0`).
+**Action:** Defer expensive `atan2` and trigonometric normalization calls by initializing `sa = 0.0` and using a `bool sa_calculated` flag. Only calculate `sa` inside branches where `sin(sa)` or `wheel->sa = sa` is actually accessed, avoiding the overhead for fully extended or low-speed wheels.
+
+## 2025-06-15 - Defer expensive atan2 calculation in simuv3 aerodynamic updates
+**Learning:** In hot execution paths (like C++ aero/physics loops), unconditionally calculating expensive trigonometric functions like `atan2()` before evaluating fast early-exit conditions (such as velocity or bounds checks) causes performance bottlenecks.
+**Action:** Defer expensive math operations by moving them inside the conditional blocks where their results are explicitly used, especially when evaluating interactions with other objects in a loop.
