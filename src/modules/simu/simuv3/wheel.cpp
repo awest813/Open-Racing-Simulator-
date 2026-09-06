@@ -143,8 +143,7 @@ SimWheelUpdateForce(tCar *car, int index)
 	tdble Fn, Ft;
 	tdble waz;
 	tdble CosA, SinA;
-	tdble s, sa = 0.0, sx, sy; // slip vector
-	bool sa_calculated = false;
+	tdble s, sa, sx, sy; // slip vector
 	tdble stmp, F, Bx;
 	tdble mu;
 	tdble reaction_force = 0.0f;
@@ -187,12 +186,10 @@ SimWheelUpdateForce(tCar *car, int index)
 	// slip angle
 	if (v < 0.000001f) {
 		sa = 0.0f;
-		sa_calculated = true;
 	} else {
-		// BOLT: Delay expensive sa calculation (atan2, NORM_PI_PI) until actually needed
-		// sa = atan2(wheel->bodyVel.y, wheel->bodyVel.x) - waz;
-		// NORM_PI_PI(sa);
+		sa = atan2(wheel->bodyVel.y, wheel->bodyVel.x) - waz;
 	}
+	NORM_PI_PI(sa);
 
 	wrl = (wheel->spinVel + car->DynGC.vel.ay) * wheel->radius;
 	if ((wheel->state & SIM_SUSP_EXT) != 0) {
@@ -207,11 +204,6 @@ SimWheelUpdateForce(tCar *car, int index)
 		// nor do the wheels move. I'm not sure if that is the cause, but its actually the only visible candidate
 		// from simuv2 in 1.2.2 up to the current version...
 		//sx = (vt - wrl) / fabs(vt);
-		if (!sa_calculated) {
-			sa = atan2(wheel->bodyVel.y, wheel->bodyVel.x) - waz;
-			NORM_PI_PI(sa);
-			sa_calculated = true;
-		}
 		sy = sin(sa);
 	}
 
@@ -249,11 +241,6 @@ SimWheelUpdateForce(tCar *car, int index)
 	wheel->forces.x = Ft * CosA - Fn * SinA;
 	wheel->forces.y = Ft * SinA + Fn * CosA;
 	wheel->spinTq = Ft * wheel->radius;
-	if (!sa_calculated) {
-		sa = atan2(wheel->bodyVel.y, wheel->bodyVel.x) - waz;
-		NORM_PI_PI(sa);
-		sa_calculated = true;
-	}
 	wheel->sa = sa;
 	wheel->sx = sx;
 
