@@ -75,3 +75,7 @@
 ## 2024-05-13 - Deferred spdang (atan2) Calculation
 **Learning:** In TORCS `simuv3/aero.cpp`, the `spdang` angle was unconditionally calculated via `atan2(car->DynGCg.vel.y, car->DynGCg.vel.x)` before iterating through other cars to apply wake effects. This value is only needed when checking `otherCar` instances that meet specific speed/distance thresholds (`v > 10.0` and `dyaw < 0.1396`), leading to redundant, expensive calculations if no cars meet the threshold.
 **Action:** Defer expensive `atan2` angle calculation until the loop explicitly triggers by using `spdang = 0.0; bool spdang_calculated = false;`. Only conditionally calculate it when the inner bounds checks are met.
+
+## 2024-05-18 - Incorrect stb_image relative include paths
+**Learning:** Found C++ compilation errors (`fatal error: stb_image.h: No such file or directory`) in `src/libs/tgfclient/img.cpp` due to `stb_image` header files being improperly referenced using bare filenames instead of correct relative paths to the `thirdparty/stb` directory.
+**Action:** Always ensure any references to external headers like `stb_image.h` use the correct relative directory paths (e.g., `../thirdparty/stb/stb_image.h`) when moving or utilizing third-party libraries across the codebase.
