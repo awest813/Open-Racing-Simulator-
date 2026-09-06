@@ -66,7 +66,9 @@ GetMainMenuBackgroundPath()
             }
             checkedPaths += path;
 
-            if (std::filesystem::exists(path)) {
+            FILE* file = fopen(path, "r");
+            if (file) {
+                fclose(file);
                 cachedBackgroundPath = path;
                 return;
             }
@@ -75,7 +77,7 @@ GetMainMenuBackgroundPath()
         std::fprintf(stderr,
                      "Warning: Main menu splash image not found. Launch from the repository root or verify asset installation. Searched: %s\n",
                      checkedPaths.c_str());
-        cachedBackgroundPath.reset();
+        cachedBackgroundPath = "";
     });
 
     return cachedBackgroundPath;
