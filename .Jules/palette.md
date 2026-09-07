@@ -64,3 +64,6 @@
 **Learning:** The lost password form lacked the `required` attribute on its email input, meaning users would have to submit the form and wait for a server reload to see validation errors. This is a poor user experience.
 **Action:** When working on legacy forms (especially ones that accept emails), adding the HTML5 `required` attribute prevents form submission without a value and enables native browser validation tooltips.
 
+## 2024-06-25 - Improve Browser Password Manager Support in Legacy Forms
+**Learning:** Legacy forms often lack autocomplete attributes on login inputs, which causes modern password managers to struggle with saving or filling credentials correctly.
+**Action:** Enhance legacy `.ihtml` forms by adding the HTML5 `autocomplete="username"` and `autocomplete="current-password"` attributes to login `<input>` elements. This instantly improves browser password manager support without altering backend logic or adding CSS dependencies.
